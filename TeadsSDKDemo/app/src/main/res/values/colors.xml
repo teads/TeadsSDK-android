@@ -16,5 +16,6 @@
     <!--Used by PagerSlidingTabStrip-->
     <color name="background_tab_pressed">#1AFFFFFF</color>
 
-
+    <!-- ListView divider -->
+    <color name="divider">#999999</color>
 </resources>

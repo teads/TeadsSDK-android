@@ -7,7 +7,7 @@
 
     <tv.teads.sdk.publisher.TeadsObservableWebView
         android:layout_width="match_parent" android:layout_height="match_parent"
-        android:id="@+id/webViewDemoNativeVideo">
+        android:id="@+id/webViewNativeVideo">
 
     </tv.teads.sdk.publisher.TeadsObservableWebView>
 

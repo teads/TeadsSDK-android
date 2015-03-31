@@ -4,16 +4,14 @@
     android:id="@+id/scrollViewDemoNativeVideo">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
 
         <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:id="@+id/demoNativeScollViewFrameLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ad_framelayout"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,7 +19,7 @@
             android:text="@string/lorem_medium"
             android:id="@+id/textView8"
             android:textSize="@dimen/text_size"
-            android:layout_below="@+id/demoNativeScollViewFrameLayout" />
+            android:layout_below="@+id/ad_framelayout" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,6 +27,6 @@
             android:text="@string/lorem_medium"
             android:id="@+id/textView9"
             android:textSize="@dimen/text_size"
-            android:layout_below="@+id/demoNativeScollViewFrameLayout" />
+            android:layout_below="@+id/textView8" />
     </RelativeLayout>
 </ScrollView>

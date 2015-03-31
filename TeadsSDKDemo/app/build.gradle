@@ -17,6 +17,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}
+
+repositories{
+    maven {
+        url  "http://dl.bintray.com/teads/TeadsSDK-android"
+    }
 }
 
 dependencies {
@@ -25,4 +37,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.0.0'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.jakewharton:butterknife:6.1.0'
+
+    // Teads SDK
+    compile 'tv.teads.sdk:androidsdk:1.0.2'
 }

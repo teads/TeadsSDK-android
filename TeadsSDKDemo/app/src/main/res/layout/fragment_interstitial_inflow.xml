@@ -11,18 +11,18 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show / Load"
-            android:id="@+id/button"
+            android:text="Show"
+            android:id="@+id/load_show_button"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lorem_medium"
-            android:id="@+id/textView8"
+            android:text="log"
+            android:id="@+id/result"
             android:textSize="@dimen/text_size"
-            android:layout_below="@+id/button" />
+            android:layout_below="@+id/load_show_button" />
 
     </RelativeLayout>
 </ScrollView>

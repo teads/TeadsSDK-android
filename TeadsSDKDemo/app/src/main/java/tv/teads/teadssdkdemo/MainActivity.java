@@ -122,20 +122,28 @@ public class MainActivity extends ActionBarActivity {
                 transaction.replace(R.id.fragment_container, frag, ((Object) frag).getClass().getName());
                 transaction.addToBackStack(backStateName);
                 transaction.commit();
-                // Close drawer if needed
-                if(mDrawerLayout.isDrawerOpen(Gravity.START)){
-                    mDrawerLayout.closeDrawer(Gravity.START);
-                }
+                // Close drawer
+                mDrawerLayout.closeDrawer(Gravity.START);
             } else {
-                // custom effect if fragment is already instanciated
+                // custom effect if fragment is already instanciateddrawer
+                mDrawerLayout.closeDrawer(Gravity.START);
             }
         } catch(IllegalStateException exception){
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. " + exception.toString());
         }
     }
 
+    public DrawerLayout.DrawerListener getDrawerListener() {
+        return mDrawerListener;
+    }
 
-    // NavigationDrawer button listener
+    public void setDrawerListener(DrawerLayout.DrawerListener drawerListener) {
+        mDrawerListener = drawerListener;
+    }
+
+    /*----------------------------------------
+    * NavigationDrawer button listener
+    */
 
     @OnClick(R.id.inread_scrollview)
     public void inReadScrollView() {
