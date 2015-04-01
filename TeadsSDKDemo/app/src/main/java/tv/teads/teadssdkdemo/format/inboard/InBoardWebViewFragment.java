@@ -76,7 +76,10 @@ public class InBoardWebViewFragment extends Fragment implements TeadsNativeVideo
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mTeadsNativeVideo.clean();
+
+        if(mTeadsNativeVideo != null){
+            mTeadsNativeVideo.clean();
+        }
     }
 
 

@@ -96,7 +96,10 @@ public class InSwipeViewPagerFragment extends Fragment implements ViewPager.OnPa
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mTeadsNativeVideo.clean();
+
+        if(mTeadsNativeVideo != null){
+            mTeadsNativeVideo.clean();
+        }
     }
 
     /*----------------------------------------

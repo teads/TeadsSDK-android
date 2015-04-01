@@ -78,7 +78,10 @@ public class InFlowFragment extends Fragment implements TeadsInterstitialEventLi
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mTeadsInterstitial.clean();
+
+        if(mTeadsInterstitial != null){
+            mTeadsInterstitial.clean();
+        }
     }
 
     /*----------------------------------------

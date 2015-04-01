@@ -79,7 +79,10 @@ public class InBoardListViewFragment extends Fragment implements TeadsNativeVide
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mTeadsNativeVideo.clean();
+
+        if(mTeadsNativeVideo != null){
+            mTeadsNativeVideo.clean();
+        }
     }
 
 

@@ -72,7 +72,10 @@ public class InBoardScrollViewFragment extends Fragment implements TeadsNativeVi
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mTeadsNativeVideo.clean();
+
+        if(mTeadsNativeVideo != null){
+            mTeadsNativeVideo.clean();
+        }
     }
 
 

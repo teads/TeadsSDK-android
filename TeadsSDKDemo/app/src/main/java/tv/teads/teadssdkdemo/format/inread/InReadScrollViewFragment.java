@@ -72,7 +72,10 @@ public class InReadScrollViewFragment extends Fragment implements TeadsNativeVid
     @Override
     public void onDestroy(){
         super.onDestroy();
-        mTeadsNativeVideo.clean();
+
+        if(mTeadsNativeVideo != null){
+            mTeadsNativeVideo.clean();
+        }
     }
 
 
