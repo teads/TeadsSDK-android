@@ -93,8 +93,8 @@
     <orderEntry type="library" exported="" name="play-services-safetynet-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-location-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-appindexing-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="androidsdk-1.0.4" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="androidsdk-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-7.0.0" level="project" />

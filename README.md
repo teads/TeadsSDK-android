@@ -6,12 +6,12 @@ Teads allows you to integrate a single SDK into your app, and serve premium bran
 
 ## Download the Teads SDK Android library
 
-The Teads SDK is distributed as a gradle dependencies that you have to add to your gradle file. It includes everything you need to serve "outstream" video ads.
+The Teads SDK is distributed as a gradle dependencie that you have to add to your gradle file. It includes everything you need to serve "outstream" video ads.
 
 For complete Integration documentation, [see gradle integration](https://github.com/teads/TeadsSDK-android/wiki/Integration-gradle)
 
 **Short integration using gradle :**
-Add our Maven Repository and the dependencies : 
+Add our Maven Repository and the dependencie : 
 ```groovy
 android {
     ...
@@ -38,6 +38,3 @@ Integration instructions are available on the [wiki](https://github.com/teads/Te
 ## Changelog
 v1.0.2:
 - First version
-
-## Roadmap
-v1.1.0 : Ad Factory

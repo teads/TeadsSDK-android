@@ -39,5 +39,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
 
     // Teads SDK
-    compile 'tv.teads.sdk:androidsdk:1.0.2'
+    compile 'tv.teads.sdk:androidsdk:1.0.4'
 }
