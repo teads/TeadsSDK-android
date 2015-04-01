@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primaryDef">#FFFFFF</color>
+    <color name="primaryDarkDef">#66ABDB</color>
+    <color name="accent">#66ABDB</color>
+    <color name="colorPrimary">#66ABDB</color>
+
+
+    <color name="lightBackground">#eeeeee</color>
+
+    <color name="textTitle">#646464</color>
+    <color name="textBody">#535353</color>
+
+
+    <!--Used by PagerSlidingTabStrip-->
+    <color name="background_tab_pressed">#1AFFFFFF</color>
+
+    <!-- ListView divider -->
+    <color name="divider">#999999</color>
+</resources>

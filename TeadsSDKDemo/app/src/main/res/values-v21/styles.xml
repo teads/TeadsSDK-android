@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Teads" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/primaryDef</item>
+        <item name="colorPrimaryDark">@color/primaryDarkDef</item>
+        <item name="colorAccent">@color/primaryDef</item>
+        <item name="android:textColorPrimary">@color/accent</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+
+    </style>
+</resources>
