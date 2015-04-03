@@ -1,7 +1,6 @@
 package tv.teads.teadssdkdemo.format.inboard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +14,14 @@ import tv.teads.sdk.publisher.TeadsNativeVideo;
 import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InBoard format within a ListView
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardListViewFragment extends Fragment implements TeadsNativeVideoEventListener,
+public class InBoardListViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
         DrawerLayout.DrawerListener{
 
     /**
@@ -54,7 +54,7 @@ public class InBoardListViewFragment extends Fragment implements TeadsNativeVide
         mTeadsNativeVideo = new TeadsNativeVideo(
                 this.getActivity(),
                 mListView,
-                "27695",
+                this.getPid(),
                 TeadsNativeVideo.NativeVideoContainerType.inBoard,
                 this,
                 null);

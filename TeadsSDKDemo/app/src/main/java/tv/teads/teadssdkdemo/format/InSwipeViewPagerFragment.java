@@ -19,6 +19,7 @@ import tv.teads.sdk.publisher.TeadsNativeVideo;
 import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.EmptyFragment;
 import tv.teads.teadssdkdemo.utils.TabFragmentPagerAdapter;
 import tv.teads.teadssdkdemo.utils.external.PagerSlidingTabStrip;
@@ -28,7 +29,7 @@ import tv.teads.teadssdkdemo.utils.external.PagerSlidingTabStrip;
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InSwipeViewPagerFragment extends Fragment implements ViewPager.OnPageChangeListener,
+public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.OnPageChangeListener,
         TeadsNativeVideoEventListener,
         DrawerLayout.DrawerListener {
 
@@ -70,7 +71,7 @@ public class InSwipeViewPagerFragment extends Fragment implements ViewPager.OnPa
         mTeadsNativeVideo = new TeadsNativeVideo(
                 this.getActivity(),
                 mViewPager,
-                "27695",
+                this.getPid(),
                 TeadsNativeVideo.NativeVideoContainerType.inSwipe,
                 this,
                 mPagerSlidingTabStrip.getOnPageChangeListener(),
