@@ -128,7 +128,7 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
     */
 
     @Override
-    public void didFailLoading(TeadsError teadsError) {
+    public void nativeVideoDidFailLoading(TeadsError teadsError) {
         Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
     }
 
@@ -188,7 +188,7 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
     }
 
     @Override
-    public void nativeVideoDidClickBrowserClosed() {
+    public void nativeVideoDidClickBrowserClose() {
 
     }
 
@@ -203,12 +203,12 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
     }
 
     @Override
-    public void nativeVideoWillDismiss() {
+    public void nativeVideoWillDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoDidDismiss() {
+    public void nativeVideoDidDismissFullscreen() {
 
     }
 
