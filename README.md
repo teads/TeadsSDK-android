@@ -42,5 +42,6 @@ Integration instructions are available on the [wiki](https://github.com/teads/Te
 v1.0.8:
 - Correct some listeners
 - Minor improvements
+
 v1.0.5:
 - First version
