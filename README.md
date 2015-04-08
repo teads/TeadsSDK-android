@@ -28,7 +28,9 @@ repositories{
     }
 }
 dependencies {
-    compile 'tv.teads.sdk:androidsdk:1.0.5'
+    compile ('tv.teads.sdk:androidsdk:1.0.8@aar') {
+        transitive = true;
+    }
 }
 ```
 
@@ -37,5 +39,8 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+v1.0.8:
+- Correct some listeners
+- Minor improvements
 v1.0.5:
 - First version
