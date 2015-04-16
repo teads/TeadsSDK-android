@@ -1,7 +1,6 @@
 package tv.teads.teadssdkdemo.format.inboard;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,14 @@ import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InBoard format within a WebView
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardWebViewFragment extends Fragment implements TeadsNativeVideoEventListener,
+public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
@@ -52,7 +52,7 @@ public class InBoardWebViewFragment extends Fragment implements TeadsNativeVideo
         mTeadsNativeVideo = new TeadsNativeVideo(
                 this.getActivity(),
                 mTeadsWebView,
-                "27695",
+                this.getPid(),
                 TeadsNativeVideo.NativeVideoContainerType.inBoard,
                 this);
 
@@ -88,7 +88,7 @@ public class InBoardWebViewFragment extends Fragment implements TeadsNativeVideo
     */
 
     @Override
-    public void didFailLoading(TeadsError teadsError) {
+    public void nativeVideoDidFailLoading(TeadsError teadsError) {
         Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
     }
 
@@ -148,7 +148,7 @@ public class InBoardWebViewFragment extends Fragment implements TeadsNativeVideo
     }
 
     @Override
-    public void nativeVideoDidClickBrowserClosed() {
+    public void nativeVideoDidClickBrowserClose() {
 
     }
 
@@ -163,12 +163,12 @@ public class InBoardWebViewFragment extends Fragment implements TeadsNativeVideo
     }
 
     @Override
-    public void nativeVideoWillDismiss() {
+    public void nativeVideoWillDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoDidDismiss() {
+    public void nativeVideoDidDismissFullscreen() {
 
     }
 

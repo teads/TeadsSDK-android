@@ -1,7 +1,6 @@
 package tv.teads.teadssdkdemo.format;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,14 @@ import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsInterstitial;
 import tv.teads.sdk.publisher.TeadsInterstitialEventListener;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InFlow format (launch by developer)
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InFlowFragment extends Fragment implements TeadsInterstitialEventListener {
+public class InFlowFragment extends BaseFragment implements TeadsInterstitialEventListener {
 
     /**
      * Teads Interstitial
@@ -57,7 +57,7 @@ public class InFlowFragment extends Fragment implements TeadsInterstitialEventLi
         // Instanciate Teads Native Video in inRead format
         mTeadsInterstitial = new TeadsInterstitial(
                 this.getActivity(),
-                "27695",
+                this.getPid(),
                 this);
 
     }

@@ -1,6 +1,6 @@
 # TeadsSDK-android
 
-Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads from Teads SSP ad server. This iOS Demo App includes the Teads Android Library and is showing integration examples.
+Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads from Teads SSP ad server. This demo app includes the Teads Android Library and is showing integration examples.
 
 ## Run the sample app
 Clone this repository to your favorite folder, and open it with Android Studio. Once Android Studio and gradle build is finished, run the app.
@@ -28,7 +28,9 @@ repositories{
     }
 }
 dependencies {
-    compile 'tv.teads.sdk:androidsdk:1.0.5'
+    compile ('tv.teads.sdk:androidsdk:1.0.8@aar') {
+        transitive = true;
+    }
 }
 ```
 
@@ -37,5 +39,9 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+v1.0.8:
+- Correct some listeners
+- Minor improvements
+
 v1.0.5:
 - First version

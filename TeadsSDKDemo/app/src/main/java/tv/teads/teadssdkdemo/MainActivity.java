@@ -1,7 +1,11 @@
 package tv.teads.teadssdkdemo;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +18,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -32,6 +38,9 @@ import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
 public class MainActivity extends ActionBarActivity {
 
     public static final String LOG_TAG = "MainActivity";
+
+    public static final String SHAREDPREF_PID = "sp_pid";
+    public static final String SHAREDPREF_PID_DEFAULT = "27695";
 
     private Toolbar                     mToolbar;
     private ActionBarDrawerToggle       mDrawerToggle;
@@ -106,6 +115,18 @@ public class MainActivity extends ActionBarActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+    }
+
+    /**
+     * Return the pid, if not one is set, the default one
+     * @param context current context
+     * @return pid
+     */
+    public String getPid(Context context){
+        return PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getString(
+                    SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
     }
 
     private void changeFragment(Fragment frag){
@@ -185,6 +206,41 @@ public class MainActivity extends ActionBarActivity {
     @OnClick(R.id.inflow)
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
+
+    }
+
+
+    @OnClick(R.id.action_pid)
+    public void changePidDialog() {
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setText(getPid(this));
+
+        new AlertDialog.Builder(this)
+                .setTitle("Pid")
+                .setMessage("Change saved pid")
+                .setView(input)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String pidString = input.getText().toString();
+                        if (pidString == null || pidString.isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Setting default pid", Toast.LENGTH_SHORT).show();
+                            pidString = SHAREDPREF_PID_DEFAULT;
+                        }
+                        PreferenceManager
+                                .getDefaultSharedPreferences(MainActivity.this)
+                                .edit()
+                                .putString(
+                                        SHAREDPREF_PID,
+                                        pidString)
+                                .apply();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
 
     }
 
