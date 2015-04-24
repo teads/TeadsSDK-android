@@ -242,6 +242,11 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
 
     }
 
+    @Override
+    public void nativeVideoDidClean() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

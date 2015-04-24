@@ -202,6 +202,11 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
 
     }
 
+    @Override
+    public void nativeVideoDidClean() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

@@ -203,6 +203,11 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
 
     }
 
+    @Override
+    public void nativeVideoDidClean() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener
