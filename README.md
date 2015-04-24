@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.1.1@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.1.2@aar') {
         transitive = true;
     }
 }
@@ -40,7 +40,7 @@ Integration instructions are available on the [wiki](https://github.com/teads/Te
 
 ## Changelog
 
-v1.1.1:
+v1.1.2:
 - Improve VAST parsing
 - Implement new media files validation
 - Improve handling of clean functions
