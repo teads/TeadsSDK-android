@@ -220,6 +220,11 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
 
     }
 
+    @Override
+    public void nativeVideoDidClean() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

@@ -198,6 +198,11 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsNativ
 
     }
 
+    @Override
+    public void nativeVideoDidClean() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener
