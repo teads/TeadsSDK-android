@@ -17,4 +17,12 @@ public class BaseFragment extends Fragment {
         return ((MainActivity)getActivity()).getPid(this.getActivity());
     }
 
+    /**
+     * Return the webview url to display
+     * @return an url
+     */
+    public String getWebViewUrl(){
+        return ((MainActivity)getActivity()).getWebViewUrl(this.getActivity());
+    }
+
 }

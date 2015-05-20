@@ -40,16 +40,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "MainActivity";
 
     public static final String SHAREDPREF_PID = "sp_pid";
+    public static final String SHAREDPREF_WEBVIEWURL = "sp_wvurl";
     public static final String SHAREDPREF_PID_DEFAULT = "27695";
+    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
 
-    private Toolbar                     mToolbar;
-    private ActionBarDrawerToggle       mDrawerToggle;
     private DrawerLayout                mDrawerLayout;
-
-    /**
-     * Prevent fragment that the navigation drawer has been opened or closed
-     */
-    public DrawerLayout.DrawerListener  mDrawerListener;
+    private DrawerLayout.DrawerListener  mDrawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,20 +76,20 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,  R.string.drawer_open, R.string.drawer_close) {
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
 
-                if(mDrawerListener != null){
+                if (mDrawerListener != null) {
                     mDrawerListener.onDrawerClosed(mDrawerLayout);
                 }
 
@@ -104,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
 
-                if(mDrawerListener != null){
+                if (mDrawerListener != null) {
                     mDrawerListener.onDrawerOpened(mDrawerLayout);
                 }
 
@@ -113,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
     }
 
     /**
@@ -127,6 +123,18 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(context)
                 .getString(
                     SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
+    }
+
+    /**
+     * Return the webviw url, if not one is set, the default one
+     * @param context current context
+     * @return an url
+     */
+    public String getWebViewUrl(Context context){
+        return PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getString(
+                    SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
     }
 
     private void changeFragment(Fragment frag){
@@ -209,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
@@ -232,6 +239,40 @@ public class MainActivity extends AppCompatActivity {
                                 .edit()
                                 .putString(
                                         SHAREDPREF_PID,
+                                        pidString)
+                                .apply();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
+
+    }
+
+    @OnClick(R.id.action_webviewurl)
+    public void changeWebviewUrlDialog() {
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setText(getWebViewUrl(this));
+
+        new AlertDialog.Builder(this)
+                .setTitle("WebView Url")
+                .setMessage("Change WebView url")
+                .setView(input)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String pidString = input.getText().toString();
+                        if (pidString == null || pidString.isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Setting default webview url", Toast.LENGTH_SHORT).show();
+                            pidString = SHAREDPREF_WEBVIEW_DEFAULT;
+                        }
+                        PreferenceManager
+                                .getDefaultSharedPreferences(MainActivity.this)
+                                .edit()
+                                .putString(
+                                        SHAREDPREF_WEBVIEWURL,
                                         pidString)
                                 .apply();
                     }

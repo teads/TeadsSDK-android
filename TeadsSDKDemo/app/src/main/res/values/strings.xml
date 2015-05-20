@@ -9,6 +9,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_pid">Change pid</string>
+    <string name="action_webviewurl">Change WebView url</string>
 
 
     <string name="type_native">NATIVE VIDEO</string>
