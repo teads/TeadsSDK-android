@@ -25,8 +25,12 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tv.teads.sdk.adContent.AdContent;
+import tv.teads.sdk.publisher.TeadsAdFactory;
+import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.teadssdkdemo.format.InFlowFragment;
 import tv.teads.teadssdkdemo.format.InSwipeViewPagerFragment;
+import tv.teads.teadssdkdemo.format.inboard.InBoardAdFactoryScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardListViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardWebViewFragment;
@@ -40,16 +44,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "MainActivity";
 
     public static final String SHAREDPREF_PID = "sp_pid";
+    public static final String SHAREDPREF_WEBVIEWURL = "sp_wvurl";
     public static final String SHAREDPREF_PID_DEFAULT = "27695";
+    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
 
-    private Toolbar                     mToolbar;
-    private ActionBarDrawerToggle       mDrawerToggle;
     private DrawerLayout                mDrawerLayout;
-
-    /**
-     * Prevent fragment that the navigation drawer has been opened or closed
-     */
-    public DrawerLayout.DrawerListener  mDrawerListener;
+    private DrawerLayout.DrawerListener  mDrawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,20 +80,20 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,  R.string.drawer_open, R.string.drawer_close) {
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
 
-                if(mDrawerListener != null){
+                if (mDrawerListener != null) {
                     mDrawerListener.onDrawerClosed(mDrawerLayout);
                 }
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
 
-                if(mDrawerListener != null){
+                if (mDrawerListener != null) {
                     mDrawerListener.onDrawerOpened(mDrawerLayout);
                 }
 
@@ -113,8 +113,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        // Preload one Ad from AdFactory
+        TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
+        TeadsAdFactory.getInstance(this).loadAdContent(getPid(this), AdContent.PlacementAdType.PlacementAdTypeNativeVideo);
     }
 
     /**
@@ -127,6 +131,18 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(context)
                 .getString(
                     SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
+    }
+
+    /**
+     * Return the webviw url, if not one is set, the default one
+     * @param context current context
+     * @return an url
+     */
+    public String getWebViewUrl(Context context){
+        return PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getString(
+                    SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
     }
 
     private void changeFragment(Fragment frag){
@@ -176,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadListViewFragment());
 
     }
+
     @OnClick(R.id.inread_webview)
     public void inReadWebView() {
         changeFragment(new InReadWebViewFragment());
@@ -184,31 +201,33 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.inboard_scrollview)
     public void inBoardScrollView() {
         changeFragment(new InBoardScrollViewFragment());
-
     }
+
     @OnClick(R.id.inboard_listview)
     public void inBoardListView() {
         changeFragment(new InBoardListViewFragment());
-
     }
+
     @OnClick(R.id.inboard_webview)
     public void inBoardWebView() {
         changeFragment(new InBoardWebViewFragment());
-
     }
 
     @OnClick(R.id.inswipe_viewpager)
     public void inSwipeViewPager() {
         changeFragment(new InSwipeViewPagerFragment());
-
     }
 
     @OnClick(R.id.inflow)
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
-
     }
 
+    @OnClick(R.id.adfactory_inboard)
+    public void adFactoryInBoard() {
+        // Preload a NativeVideo from AdFactory whitout any listener.
+        changeFragment(new InBoardAdFactoryScrollViewFragment());
+    }
 
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
@@ -244,4 +263,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.action_webviewurl)
+    public void changeWebviewUrlDialog() {
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setText(getWebViewUrl(this));
+
+        new AlertDialog.Builder(this)
+                .setTitle("WebView Url")
+                .setMessage("Change WebView url")
+                .setView(input)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String pidString = input.getText().toString();
+                        if (pidString == null || pidString.isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Setting default webview url", Toast.LENGTH_SHORT).show();
+                            pidString = SHAREDPREF_WEBVIEW_DEFAULT;
+                        }
+                        PreferenceManager
+                                .getDefaultSharedPreferences(MainActivity.this)
+                                .edit()
+                                .putString(
+                                        SHAREDPREF_WEBVIEWURL,
+                                        pidString)
+                                .apply();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
+
+    }
 }

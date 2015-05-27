@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.1.3@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.2.4@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,10 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.2.4:
+- Implement AdFactory
+- Fixes and improvements
 
 v1.1.3:
 - Minor improvement and fixes

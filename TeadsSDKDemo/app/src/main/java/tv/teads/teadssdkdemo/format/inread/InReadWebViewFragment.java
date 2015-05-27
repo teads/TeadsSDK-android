@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsError;
+import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsNativeVideo;
 import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
@@ -45,9 +46,9 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
+        TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
         // Load url in the WebView
-        mTeadsWebView.loadUrl("http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barr" +
-                "iere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html");
+        mTeadsWebView.loadUrl(this.getWebViewUrl());
 
         // Instanciate Teads Native Video in inRead format
         mTeadsNativeVideo = new TeadsNativeVideo(

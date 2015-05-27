@@ -5,40 +5,42 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import tv.teads.sdk.adContent.AdContent;
+import tv.teads.sdk.publisher.TeadsAdFactory;
 import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsNativeVideo;
 import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
-import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InBoard format within a WebView
+ * InBoard format within a ScrollView
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
-        DrawerLayout.DrawerListener {
+public class InBoardAdFactoryScrollViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
+        DrawerLayout.DrawerListener, TeadsAdFactory.Listener {
 
     /**
      * Teads Native Video instance
      */
-    private TeadsNativeVideo       mTeadsNativeVideo;
+    private TeadsNativeVideo    mTeadsNativeVideo;
 
     /**
-     * Your WebView extending the TeadsObservableWebView class
+     * Your FrameLayout used to display video in
      */
-    private TeadsObservableWebView mTeadsWebView;
+    private FrameLayout         mFrameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inboard_webview, container, false);
-        mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewNativeVideo);
+        View rootView = inflater.inflate(R.layout.fragment_native_inboard_scrollview, container, false);
+        mFrameLayout = (FrameLayout) rootView.findViewById(R.id.ad_framelayout);
         return rootView;
     }
 
@@ -46,19 +48,23 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
     public void onViewCreated(View view, Bundle savedInstanceState){
 
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
-        // Load url in the WebView
-        mTeadsWebView.loadUrl(this.getWebViewUrl());
-
         // Instanciate Teads Native Video in inboard format
         mTeadsNativeVideo = new TeadsNativeVideo(
                 this.getActivity(),
-                mTeadsWebView,
+                mFrameLayout,
                 this.getPid(),
                 TeadsNativeVideo.NativeVideoContainerType.inBoard,
                 this);
 
-        // Load the Ad
-        mTeadsNativeVideo.load();
+        if(TeadsAdFactory.getInstance(getActivity()).isLoaded(getPid(), AdContent.PlacementAdType.PlacementAdTypeNativeVideo)){
+            // Load the Ad if loaded
+            mTeadsNativeVideo.loadFromAdFactory();
+        } else {
+            // Subscribe to listener
+            TeadsAdFactory.getInstance(getActivity()).setListener(this);
+            // Prevent null ad if already poped
+            TeadsAdFactory.getInstance(getActivity()).loadAdContent(getPid(), AdContent.PlacementAdType.PlacementAdTypeNativeVideo);
+        }
     }
 
     @Override
@@ -77,6 +83,8 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
     @Override
     public void onDestroy(){
         super.onDestroy();
+
+        TeadsAdFactory.getInstance(getActivity()).setListener(null);
 
         if(mTeadsNativeVideo != null){
             mTeadsNativeVideo.clean();
@@ -230,6 +238,38 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
 
     @Override
     public void onDrawerStateChanged(int newState) {
+
+    }
+
+
+    /*----------------------------------------
+    * implements TeadsAdFactory.Listener
+    */
+
+    @Override
+    public void adFactoryDidFailLoading(String s, TeadsError teadsError) {
+
+    }
+
+    @Override
+    public void adFactoryWillLoad(String s, AdContent.PlacementAdType placementAdType) {
+
+    }
+
+    @Override
+    public void adFactoryDidLoad(String s, AdContent.PlacementAdType placementAdType) {
+        if(s.equals(getPid()) && placementAdType == AdContent.PlacementAdType.PlacementAdTypeNativeVideo){
+            mTeadsNativeVideo.loadFromAdFactory();
+        }
+    }
+
+    @Override
+    public void adFactoryHasConsumed(String s, AdContent.PlacementAdType placementAdType) {
+
+    }
+
+    @Override
+    public void adFactoryDidExpire(String s, AdContent.PlacementAdType placementAdType) {
 
     }
 }
