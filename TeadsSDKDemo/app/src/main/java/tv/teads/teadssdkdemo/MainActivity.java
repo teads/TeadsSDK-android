@@ -25,8 +25,12 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tv.teads.sdk.adContent.AdContent;
+import tv.teads.sdk.publisher.TeadsAdFactory;
+import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.teadssdkdemo.format.InFlowFragment;
 import tv.teads.teadssdkdemo.format.InSwipeViewPagerFragment;
+import tv.teads.teadssdkdemo.format.inboard.InBoardAdFactoryScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardListViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardWebViewFragment;
@@ -111,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        // Preload one Ad from AdFactory
+        TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
+        TeadsAdFactory.getInstance(this).loadAdContent(getPid(this), AdContent.PlacementAdType.PlacementAdTypeNativeVideo);
     }
 
     /**
@@ -184,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadListViewFragment());
 
     }
+
     @OnClick(R.id.inread_webview)
     public void inReadWebView() {
         changeFragment(new InReadWebViewFragment());
@@ -192,29 +201,32 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.inboard_scrollview)
     public void inBoardScrollView() {
         changeFragment(new InBoardScrollViewFragment());
-
     }
+
     @OnClick(R.id.inboard_listview)
     public void inBoardListView() {
         changeFragment(new InBoardListViewFragment());
-
     }
+
     @OnClick(R.id.inboard_webview)
     public void inBoardWebView() {
         changeFragment(new InBoardWebViewFragment());
-
     }
 
     @OnClick(R.id.inswipe_viewpager)
     public void inSwipeViewPager() {
         changeFragment(new InSwipeViewPagerFragment());
-
     }
 
     @OnClick(R.id.inflow)
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
+    }
 
+    @OnClick(R.id.adfactory_inboard)
+    public void adFactoryInBoard() {
+        // Preload a NativeVideo from AdFactory whitout any listener.
+        changeFragment(new InBoardAdFactoryScrollViewFragment());
     }
 
     @OnClick(R.id.action_pid)
@@ -284,5 +296,4 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
 
     }
-
 }

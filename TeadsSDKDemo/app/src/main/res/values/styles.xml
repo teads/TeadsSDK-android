@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.Teads" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.Teads" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/primaryDef</item>
         <item name="colorPrimaryDark">@color/primaryDarkDef</item>

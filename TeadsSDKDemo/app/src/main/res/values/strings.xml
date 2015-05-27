@@ -19,6 +19,7 @@
     <string name="format_inboard">inBoard</string>
     <string name="format_inswipe">inSwipe</string>
     <string name="format_inflow">inFlow</string>
+    <string name="format_adfactory">AdFactory</string>
 
     <string name="container_scrollview">ScrollView</string>
     <string name="container_listview">ListView</string>
@@ -27,9 +28,7 @@
     <string name="container_inflow">inFlow demo</string>
     <string name="title_activity_main">MainActivity</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
