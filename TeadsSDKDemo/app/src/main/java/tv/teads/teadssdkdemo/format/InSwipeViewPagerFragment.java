@@ -129,7 +129,11 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
 
     @Override
     public void nativeVideoDidFailLoading(TeadsError teadsError) {
-        Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
+        } catch (IllegalStateException ignored){
+
+        }
     }
 
     @Override
