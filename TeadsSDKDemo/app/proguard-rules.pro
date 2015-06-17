@@ -15,3 +15,54 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Butter Knife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+
+# ============= Teads
+
+# For WebView JavascriptInterface
+-keepattributes JavascriptInterface
+-keep public class tv.teads.sdk.adContainer.layout.webview.** { *; }
+
+# Jackson
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+-keepnames class com.fasterxml.jackson.** { *; }
+-keep public class tv.teads.sdk.adServer.parser.json.** {
+    public protected *;
+    public void set*(***);
+    public *** get*();
+}
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keep class com.fasterxml.jackson.databind.ObjectMapper {
+    public <methods>;
+    protected <methods>;
+}
+-keep class com.fasterxml.jackson.databind.ObjectWriter {
+    public ** writeValueAsString(**);
+}
+
+# Okio
+-dontwarn okio.**
+
+# Enums
+-keepattributes InnerClasses
+-keep public enum  tv.teads.sdk.adContent.AdContent$** {
+    **[] $VALUES;
+    public *;
+}
+-keep public enum  tv.teads.sdk.publisher.TeadsLog$** {
+    **[] $VALUES;
+    public *;
+}

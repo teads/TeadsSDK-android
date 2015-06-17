@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.2.4@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.3.2@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,11 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+v1.3.2:
+- Fix for WebView inRead/inBoard scroll
+- External View to report ACTION_MOVE option
+- Replace RenderScript to use software solution
+- General fixes and improvments
 
 v1.2.4:
 - Implement AdFactory
