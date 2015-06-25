@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.3.2@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.3.5@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,12 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.3.5:
+- Add insertionParent config for WebView/inRead/InBoard
+- Fix for WebView inRead/inBoard scroll on lolipop
+
+
 v1.3.2:
 - Fix for WebView inRead/inBoard scroll
 - External View to report ACTION_MOVE option
