@@ -13,20 +13,15 @@ import android.view.ViewGroup;
  */
 public class MainFragment extends Fragment {
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
 

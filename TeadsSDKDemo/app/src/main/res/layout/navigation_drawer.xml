@@ -39,6 +39,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
+                android:id="@+id/inread_recyclerview"
+                android:text="@string/container_recyclerview"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_margin="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
                 android:id="@+id/inread_webview"
                 android:text="@string/container_webview"
                 style="?android:attr/borderlessButtonStyle"
@@ -63,6 +70,12 @@
             <Button
                 android:id="@+id/inboard_listview"
                 android:text="@string/container_listview"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/inboard_recyclerview"
+                android:text="@string/container_recyclerview"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

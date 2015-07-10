@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.3.5@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.4.2@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,11 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.4.2:
+- Implement RecyclerView Adapter (with LinearLayoutManager, GridLayoutManager is coming in next release)
+- Implement TeadsVideoView
+- Fixes
 
 v1.3.5:
 - Add insertionParent config for WebView/inRead/InBoard

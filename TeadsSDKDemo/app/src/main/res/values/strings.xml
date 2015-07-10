@@ -23,6 +23,7 @@
 
     <string name="container_scrollview">ScrollView</string>
     <string name="container_listview">ListView</string>
+    <string name="container_recyclerview">RecyclerView</string>
     <string name="container_webview">WebView</string>
     <string name="container_viewpager">ViewPager</string>
     <string name="container_inflow">inFlow demo</string>

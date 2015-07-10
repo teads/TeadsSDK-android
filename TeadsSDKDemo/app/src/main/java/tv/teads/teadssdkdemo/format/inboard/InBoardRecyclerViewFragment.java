@@ -1,64 +1,66 @@
-package tv.teads.teadssdkdemo.format.inread;
+package tv.teads.teadssdkdemo.format.inboard;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import tv.teads.sdk.publisher.TeadsConfiguration;
+import java.util.ArrayList;
+
 import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsNativeVideo;
 import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InRead format within a RecyclerView
+ * InBoard format within a RecyclerView
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadListViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
-        DrawerLayout.DrawerListener {
+public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
+        DrawerLayout.DrawerListener{
 
     /**
      * Teads Native Video instance
      */
-    private TeadsNativeVideo mTeadsNativeVideo;
+    private TeadsNativeVideo    mTeadsNativeVideo;
 
     /**
-     * The ListView used in the application
+     * The RecyclerView used in the application
      */
-    private ListView mListView;
+    private RecyclerView mRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inread_listview, container, false);
-        mListView = (ListView) rootView.findViewById(R.id.listView);
+        View rootView = inflater.inflate(R.layout.fragment_native_inboard_recyclerview, container, false);
+
+        // Retrieve recyclerView from layout
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-        // Set ListView basic adapter
-        setListViewAdapter(mListView);
+        // Set RecyclerView basic adapter
+        setRecyclerViewAdapter(mRecyclerView);
 
-        TeadsConfiguration teadsConfig = new TeadsConfiguration();
-        teadsConfig.adPosition = 12;
-
-        // Instanciate Teads Native Video in inRead format
+        // Instanciate Teads Native Video in inboard format
         mTeadsNativeVideo = new TeadsNativeVideo(
                 this.getActivity(),
-                mListView,
+                mRecyclerView,
                 this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inRead,
+                TeadsNativeVideo.NativeVideoContainerType.inBoard,
                 this,
-                teadsConfig);
+                null);
 
         // Load the Ad
         mTeadsNativeVideo.load();
@@ -80,26 +82,22 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     @Override
     public void onDestroy(){
         super.onDestroy();
+
         if(mTeadsNativeVideo != null){
             mTeadsNativeVideo.clean();
         }
     }
 
+    private void setRecyclerViewAdapter(RecyclerView recyclerView){
+        ArrayList<String> data = new ArrayList<>();
 
-    private void setListViewAdapter(ListView listView){
-        int size = 50;
-        String values[] = new String[size];
-
-        for (int i = 0; i < values.length; i++){
-            values[i] = "Teads " + i;
+        for (int i = 0; i < 50; i++) {
+            data.add("Teads " + i);
         }
 
-        // use your custom layout
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.list_row, R.id.listViewText, values);
-        listView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new SimpleRecyclerViewAdapter(data, mRecyclerView));
     }
-
 
     /*----------------------------------------
     * implements TeadsNativeVideoEventListener
@@ -253,6 +251,4 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     public void onDrawerStateChanged(int newState) {
 
     }
-
-
 }
