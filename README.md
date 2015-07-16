@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.4.2@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.4.3@aar') {
         transitive = true;
     }
 }
@@ -40,8 +40,12 @@ Integration instructions are available on the [wiki](https://github.com/teads/Te
 
 ## Changelog
 
+v1.4.3:
+- Implement GridLayoutManager for RecyclerView
+- Fixes
+
 v1.4.2:
-- Implement RecyclerView Adapter (with LinearLayoutManager, GridLayoutManager is coming in next release)
+- Implement RecyclerView Adapter with LinearLayoutManager
 - Implement TeadsVideoView
 - Fixes
 
