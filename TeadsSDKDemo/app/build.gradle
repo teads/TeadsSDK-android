@@ -8,8 +8,8 @@ android {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 11
-        versionName "1.4.3"
+        versionCode 12
+        versionName "1.5.4"
         archivesBaseName = "teads-sdkdemo-" + versionName
     }
     buildTypes {
