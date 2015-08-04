@@ -251,6 +251,11 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
 
     }
 
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

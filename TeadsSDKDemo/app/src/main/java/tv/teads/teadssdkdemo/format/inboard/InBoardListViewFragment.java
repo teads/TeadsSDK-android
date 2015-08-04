@@ -228,6 +228,11 @@ public class InBoardListViewFragment extends BaseFragment implements TeadsNative
 
     }
 
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

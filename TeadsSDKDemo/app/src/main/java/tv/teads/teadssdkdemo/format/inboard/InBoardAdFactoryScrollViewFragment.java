@@ -220,6 +220,11 @@ public class InBoardAdFactoryScrollViewFragment extends BaseFragment implements 
 
     }
 
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener
