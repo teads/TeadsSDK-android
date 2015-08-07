@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.5.4@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.5.7@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,12 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.5.7:
+- Prevent video from being played while the activity is in background
+- Enable TeadsNativeVideo reusing
+- ListView and RecyclerView animation fixe
+- Other general fixes
 
 v1.5.4:
 - Remove Google Play Services from sdk (but steel needed)
