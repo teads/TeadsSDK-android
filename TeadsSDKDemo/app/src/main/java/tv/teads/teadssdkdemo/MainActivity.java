@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +40,9 @@ import tv.teads.teadssdkdemo.format.inread.InReadListViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
+import tv.teads.teadssdkdemo.utils.BusProvider;
+import tv.teads.teadssdkdemo.utils.VideoViewSampleChooserFragment;
+import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         Window window = getWindow();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -176,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 // Close drawer
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             } else {
-                // custom effect if fragment is already instanciateddrawer
+                // custom effect if fragment is already instanciated
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             }
         } catch (IllegalStateException exception) {
@@ -187,6 +191,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDrawerListener(DrawerLayout.DrawerListener drawerListener) {
         mDrawerListener = drawerListener;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onPostFragmentChangeEvent(ChangeFragmentEvent event) {
+        changeFragment(event.mFragment);
     }
 
     /*----------------------------------------
@@ -244,6 +267,12 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.inflow)
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
+    }
+
+
+    @OnClick(R.id.videoview)
+    public void videoViewChooser() {
+        changeFragment(new VideoViewSampleChooserFragment());
     }
 
 

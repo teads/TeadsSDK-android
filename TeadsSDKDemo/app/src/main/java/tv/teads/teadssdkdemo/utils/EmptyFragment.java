@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import tv.teads.teadssdkdemo.R;
 
 /**
@@ -19,18 +19,18 @@ import tv.teads.teadssdkdemo.R;
  */
 public class EmptyFragment extends Fragment {
 
-    @InjectView(R.id.numberTextView)
+    @Bind(R.id.numberTextView)
     public TextView mTextView;
-    @InjectView(R.id.leftImageView)
+    @Bind(R.id.leftImageView)
     public ImageView mLeftImage;
-    @InjectView(R.id.rightImageView)
+    @Bind(R.id.rightImageView)
     public ImageView mRightImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_viewpager_blank, container, false);
-        ButterKnife.inject(this, rootView);
+        ButterKnife.bind(this, rootView);
 
         Bundle bundle = getArguments();
 
@@ -44,4 +44,11 @@ public class EmptyFragment extends Fragment {
 
         return rootView;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
 }

@@ -128,6 +128,11 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
 
     }
 
+    @Override
+    public void teadsInterstitialDidClean() {
+
+    }
+
 
     private void updateLogTextView(String text){
         mTextView.setText(mTextView.getText() + " \n" + text);
