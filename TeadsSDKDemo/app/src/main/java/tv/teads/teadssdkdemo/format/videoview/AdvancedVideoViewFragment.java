@@ -196,10 +196,8 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
         // Instantiate the custom adapter used to display VideoView in the ListView
         VideoViewCustomAdapter videoViewCustomAdapter = new VideoViewCustomAdapter(
                 getActivity(),
-                this.getPid(),
                 values,
                 sRepeatableAdPosition,
-                this,
                 this);
 
         listView.setAdapter(videoViewCustomAdapter);
