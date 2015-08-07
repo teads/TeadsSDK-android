@@ -95,7 +95,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
         }
 
         // use your custom layout
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_row, R.id.listViewText, values);
         listView.setAdapter(adapter);
     }
@@ -226,6 +226,11 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
 
     @Override
     public void nativeVideoDidClean() {
+
+    }
+
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
 
     }
 

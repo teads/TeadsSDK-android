@@ -207,6 +207,11 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsNativ
 
     }
 
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

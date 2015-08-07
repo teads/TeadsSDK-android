@@ -213,6 +213,11 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
 
     }
 
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

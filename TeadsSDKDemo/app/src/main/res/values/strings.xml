@@ -14,12 +14,15 @@
 
     <string name="type_native">NATIVE VIDEO</string>
     <string name="type_interstitial">INTERSTITIAL</string>
+    <string name="type_videoview">VIDEOVIEW</string>
 
     <string name="format_inread">inRead</string>
     <string name="format_inboard">inBoard</string>
     <string name="format_inswipe">inSwipe</string>
     <string name="format_inflow">inFlow</string>
     <string name="format_adfactory">AdFactory</string>
+    <string name="format_videoview_simple">Simple TeadsVideoView in ScrollView</string>
+    <string name="format_videoview_listview">Repeated TeadsVideoView in ListView</string>
 
     <string name="container_scrollview">ScrollView</string>
     <string name="container_listview">ListView</string>

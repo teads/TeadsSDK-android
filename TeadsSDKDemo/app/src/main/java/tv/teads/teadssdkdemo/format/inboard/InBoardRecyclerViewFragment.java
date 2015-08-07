@@ -227,6 +227,11 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsNa
 
     }
 
+    @Override
+    public void nativeVideoWebViewNoSlotAvailable() {
+
+    }
+
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener

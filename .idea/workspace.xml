@@ -2,18 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="138ba66c-5ffe-45d3-9948-f92352b5a570" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/fragment_native_inboard_recyclerview.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/fragment_native_inread_recyclerview.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/format/inboard/InBoardRecyclerViewFragment.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/utils/SimpleRecyclerViewAdapter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/fragment_native_inboard_recyclerview.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/fragment_native_inread_recyclerview.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/format/inread/InReadRecyclerViewFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/MainFragment.java" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/MainFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/navigation_drawer.xml" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/navigation_drawer.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/values/strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/MainActivity.java" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/.idea/misc.xml" afterPath="$PROJECT_DIR$/TeadsSDKDemo/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/MainFragment.java" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/MainFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/format/inread/InReadListViewFragment.java" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/java/tv/teads/teadssdkdemo/format/inread/InReadListViewFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/navigation_drawer.xml" afterPath="$PROJECT_DIR$/TeadsSDKDemo/app/src/main/res/layout/navigation_drawer.xml" />
     </list>
     <ignored path="TeadsAndroidSDKRelease.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,8 +50,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="828" />
+    <option name="width" value="1920" />
+    <option name="height" value="1008" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -77,12 +77,12 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane />
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -206,7 +206,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="828" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="1008" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -216,7 +216,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
