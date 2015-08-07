@@ -72,7 +72,6 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
         mTeadsVideoView.init(getActivity(), getPid(), this);
         mTeadsVideoView.load();
         mTeadsVideoView.setCollapsed();
-        mTeadsVideoView.requestLayout();
 
         // Register Scroll listener
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
@@ -97,6 +96,9 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity)getActivity()).setDrawerListener(this);
+        if(mTeadsVideoView != null && mTeadsVideoView.isLoaded()){
+            checkVisibility();
+        }
     }
 
     @Override
@@ -132,10 +134,11 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
                 mIsAnimating = false;
 
                 // Check visibility after expand finished
-                onScrollChanged();
+                checkVisibility();
 
-                // Displayed the controls (mute button, skip button, progressBar)
-                mTeadsVideoView.setControlVisibility(View.VISIBLE);
+                // Displayed the controls (mute button, skip button, progressBar), needed if you don't use TeadsVideoView
+                // own expand/collapse
+                // mTeadsVideoView.setControlVisibility(View.VISIBLE);
             }
 
             @Override
@@ -185,7 +188,6 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
             return;
         }
 
-        Log.d(LOG_TAG, "onScrollChanged 2");
         if (mTeadsVideoView.isVisible() && !mTeadsVideoView.isPlaying()) {
             mTeadsVideoView.requestResume();
             mTeadsVideoView.setVisibility(View.VISIBLE);
@@ -335,6 +337,7 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
 
     @Override
     public void nativeVideoDidCollapse() {
+        // sended when the format shoud close : on video finished
         if (mTeadsVideoView != null) {
             closeInRead();
         }
