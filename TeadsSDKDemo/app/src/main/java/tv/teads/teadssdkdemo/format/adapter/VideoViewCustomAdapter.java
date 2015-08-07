@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.R;
 
@@ -29,16 +28,6 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     public static final int TYPE_TEXTVIEW = 0;
 
     /**
-     * Activity instance
-     */
-    private Activity mActivity;
-
-    /**
-     * The given Teads PID to lad the Ad
-     */
-    private String mPid;
-
-    /**
      * LayoutInflater instance to inflate view in {@link #getView(int, View, ViewGroup)}
      */
     private LayoutInflater mInflater;
@@ -54,11 +43,6 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     private int inReadPosition;
 
     /**
-     * Teads NativeVideo listener to be passed to the created VideoView
-     */
-    private TeadsNativeVideoEventListener mTeadsListener;
-
-    /**
      * Listeenr to be notified each time a TeadsVideoView is inflated
      */
     private ExternalAdapterListener mExternalAdapterListener;
@@ -67,24 +51,17 @@ public class VideoViewCustomAdapter extends BaseAdapter {
      * Instantiate the custom adapter with required data
      *
      * @param activity activity to be used on VideoVIew
-     * @param pid pid to load the Ad
      * @param val datas
      * @param adPosition ad position
-     * @param teadsListener TeadsNativeVideoEvent listener
      * @param adapterListener external adapter to be notify on VideoView inflation
      */
     public VideoViewCustomAdapter(Activity activity,
-                                  String pid,
                                   String[] val,
                                   int adPosition,
-                                  TeadsNativeVideoEventListener teadsListener,
                                   ExternalAdapterListener adapterListener) {
-        mActivity = activity;
-        mPid = pid;
         inReadPosition = adPosition;
         mInflater = LayoutInflater.from(activity.getApplicationContext());
         mValues = val;
-        mTeadsListener = teadsListener;
         mExternalAdapterListener = adapterListener;
     }
 
@@ -161,11 +138,6 @@ public class VideoViewCustomAdapter extends BaseAdapter {
          */
         switch (type) {
             case TYPE_INREAD:
-                if (!holder.videoView.isLoaded()) {
-                    holder.videoView.init(mActivity, mPid, mTeadsListener);
-                    holder.videoView.requestLayout();
-                    holder.videoView.load();
-                }
                 mExternalAdapterListener.onVideoChanged(holder.videoView);
                 break;
             case TYPE_TEXTVIEW:

@@ -53,6 +53,11 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     private boolean mIsOpen;
     private boolean mIsFullscreen;
 
+    /**
+     * Prevent loading multiple time the Ad is case of fast scroll
+     */
+    private boolean mLoadCalled;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +82,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
         super.onDestroyView();
         if(mTeadsVideoView != null){
             // reset views and flags
-            mIsAnimating = mIsOpen = mIsFullscreen = false;
+            mIsAnimating = mIsOpen = mIsFullscreen = mLoadCalled = false;
             mTeadsVideoView.clean();
         }
     }
@@ -163,6 +168,13 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     public void onVideoChanged(TeadsVideoView layout) {
         Log.d(LOG_TAG, "onVideoChanged");
         mTeadsVideoView = layout;
+
+        if(!mTeadsVideoView.isLoaded() && !mLoadCalled){
+            mLoadCalled = true;
+            mTeadsVideoView.init(getActivity(), getPid(), this);
+            mTeadsVideoView.requestLayout();
+            mTeadsVideoView.load();
+        }
 
         if (!mIsOpen) {
             mTeadsVideoView.setCollapsed();
@@ -254,7 +266,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
     @Override
     public void nativeVideoDidFailLoading(TeadsError error) {
-
+        mLoadCalled = false;
     }
 
     @Override
@@ -265,6 +277,8 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     @Override
     public void nativeVideoDidLoad() {
         Log.d(LOG_TAG, "nativeVideoDidLoad");
+
+        mLoadCalled = false;
 
         if (mTeadsVideoView != null) {
 
@@ -376,6 +390,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
         if (mTeadsVideoView != null) {
             closeInRead();
         }
+        mLoadCalled = false;
     }
 
     @Override
