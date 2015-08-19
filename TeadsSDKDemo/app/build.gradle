@@ -8,8 +8,8 @@ android {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 15
-        versionName "1.5.7"
+        versionCode 16
+        versionName "1.5.8"
         archivesBaseName = "teads-sdkdemo-" + versionName
     }
     buildTypes {
@@ -46,7 +46,7 @@ dependencies {
     compile 'com.squareup:otto:1.3.8'
 
     // Teads SDK
-    compile ('tv.teads.sdk:androidsdk:1.5.7@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.5.8@aar') {
         transitive = true;
     }
 }
