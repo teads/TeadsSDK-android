@@ -12,11 +12,28 @@ android {
         versionName "1.5.8"
         archivesBaseName = "teads-sdkdemo-" + versionName
     }
+
+    Properties localProperties = new Properties()
+    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    signingConfigs {
+        releaseSigned {
+            storeFile file(localProperties.getProperty("RELEASE_STORE_FILE"))
+            storePassword localProperties.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias localProperties.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword localProperties.getProperty("RELEASE_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+        }
+        releaseSigned {
+            signingConfig signingConfigs.releaseSigned
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
