@@ -14,7 +14,7 @@ android {
     }
 
     Properties localProperties = new Properties()
-    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    localProperties.load(project.rootProject.file('signing.properties').newDataInputStream())
 
     signingConfigs {
         releaseSigned {
