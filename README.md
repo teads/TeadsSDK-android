@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.5.9@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.5.10@aar') {
         transitive = true;
     }
 }
@@ -40,7 +40,7 @@ Integration instructions are available on the [wiki](https://github.com/teads/Te
 
 ## Changelog
 
-v1.5.9:
+v1.5.10:
 - Fix issue with reusing TeadsNativeVideo on WebView
 
 v1.5.8:
