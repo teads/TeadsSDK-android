@@ -35,15 +35,11 @@ mkdir -p ~/.gradle && chmod g+s ~/.gradle
 chmod g+s .
 docker run --rm -i \
 	-v ~/.gradle:/root/.gradle \
-	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v `pwd`:/opt/workspace:rw -w /opt/workspace \
-	-e "KEY_FILE=${JENKINS_HOME}/${ANDROID_KEY_FILE}" \
-	-e "STORE_PASSWORD=${ANDROID_KEY_PASSWORD}" \
-	-e "KEY_ALIAS=${ANDROID_KEY_ALIAS}" \
-	-e "KEY_PASSWORD=${ANDROID_KEY_PASSWORD}" \
+	-v ${JENKINS_HOME}/${ANDROID_KEY_FILE}:/opt/workspace/${ANDROID_KEY_FILE} \
       ${DOCKER_REGISTRY}/android:24.3.4 \
       sh -c "cd TeadsSDKDemo && ./gradlew clean assembleRelease \
-      -Pandroid.injected.signing.store.file=${KEY_FILE} \
-      -Pandroid.injected.signing.store.password=${STORE_PASSWORD} \
-      -Pandroid.injected.signing.key.alias=${KEY_ALIAS} \
-      -Pandroid.injected.signing.key.password=${KEY_PASSWORD}"
+      -Pandroid.injected.signing.store.file=/opt/workspace/${ANDROID_KEY_FILE} \
+      -Pandroid.injected.signing.store.password=${ANDROID_KEY_PASSWORD} \
+      -Pandroid.injected.signing.key.alias=${ANDROID_KEY_ALIAS} \
+      -Pandroid.injected.signing.key.password=${ANDROID_KEY_PASSWORD}"
