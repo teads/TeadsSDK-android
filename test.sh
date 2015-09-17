@@ -37,10 +37,10 @@ docker run --rm -i \
 	-v ~/.gradle:/root/.gradle \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v `pwd`:/opt/workspace:rw -w /opt/workspace \
-	-e KEY_FILE="${JENKINS_HOME}/${ANDROID_KEY_FILE}" \
-	-e STORE_PASSWORD="${ANDROID_KEY_PASSWORD}" \
-	-e KEY_ALIAS="${ANDROID_KEY_ALIAS}" \
-	-e KEY_PASSWORD="${ANDROID_KEY_PASSWORD}" \
+	-e "KEY_FILE=${JENKINS_HOME}/${ANDROID_KEY_FILE}" \
+	-e "STORE_PASSWORD=${ANDROID_KEY_PASSWORD}" \
+	-e "KEY_ALIAS=${ANDROID_KEY_ALIAS}" \
+	-e "KEY_PASSWORD=${ANDROID_KEY_PASSWORD}" \
       ${DOCKER_REGISTRY}/android:24.3.4 \
       sh -c "cd TeadsSDKDemo && ./gradlew clean assembleRelease \
       -Pandroid.injected.signing.store.file=${KEY_FILE} \
