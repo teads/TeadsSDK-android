@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.5.12@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.6.1@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,10 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.6.1:
+- Drop support for RichHtml. v2.1 will add support for VPAID content
+- Minor Webview improvements
 
 v1.5.12:
 - Hotfixes 
