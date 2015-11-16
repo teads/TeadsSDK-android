@@ -41,7 +41,7 @@ Integration instructions are available on the [wiki](https://github.com/teads/Te
 ## Changelog
 
 v1.6.3:
-- New `TeadsConfiguration.preventWebViewAutoClean` to prevent WebView Ad to be auto cleanded by Teads SDK
+- New `TeadsConfiguration.preventWebViewAutoClean` to prevent WebView Ad to be auto cleaned by Teads SDK
 - Fixes
 
 v1.6.1:
