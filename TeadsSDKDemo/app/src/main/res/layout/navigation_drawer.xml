@@ -86,34 +86,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
-            <TextView
-                android:id="@+id/inswipe_parent"
-                android:text="@string/format_inswipe"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inswipe_viewpager"
-                android:text="@string/container_viewpager"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/iadfactory_parent"
-                android:text="@string/format_adfactory"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/adfactory_inboard"
-                android:text="@string/format_inboard"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
         <TextView
             android:id="@+id/interstitial"
             android:text="@string/type_interstitial"

@@ -26,12 +26,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tv.teads.sdk.adContent.AdContent;
-import tv.teads.sdk.publisher.TeadsAdFactory;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.teadssdkdemo.format.InFlowFragment;
-import tv.teads.teadssdkdemo.format.InSwipeViewPagerFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardAdFactoryScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardListViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inboard.InBoardScrollViewFragment;
@@ -132,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Preload one Ad from AdFactory
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
-        TeadsAdFactory.getInstance(this).loadAdContent(
-                getPid(this),
-                AdContent.PlacementAdType.PlacementAdTypeNativeVideo);
     }
 
     /**
@@ -258,12 +251,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.inswipe_viewpager)
-    public void inSwipeViewPager() {
-        changeFragment(new InSwipeViewPagerFragment());
-    }
-
-
     @OnClick(R.id.inflow)
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
@@ -276,11 +263,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.adfactory_inboard)
-    public void adFactoryInBoard() {
-        // Preload a NativeVideo from AdFactory whitout any listener.
-        changeFragment(new InBoardAdFactoryScrollViewFragment());
-    }
 
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
