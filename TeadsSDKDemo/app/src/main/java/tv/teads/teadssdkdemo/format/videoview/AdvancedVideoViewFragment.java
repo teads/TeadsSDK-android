@@ -263,17 +263,17 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     */
 
     @Override
-    public void nativeVideoDidFailLoading(TeadsError error) {
+    public void teadsVideoDidFailLoading(TeadsError error) {
         mLoadCalled = false;
     }
 
     @Override
-    public void nativeVideoWillLoad() {
+    public void teadsVideoWillLoad() {
 
     }
 
     @Override
-    public void nativeVideoDidLoad() {
+    public void teadsVideoDidLoad() {
         Log.d(LOG_TAG, "nativeVideoDidLoad");
 
         mLoadCalled = false;
@@ -287,104 +287,104 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     }
 
     @Override
-    public void nativeVideoWillStart() {
+    public void teadsVideoWillStart() {
 
     }
 
     @Override
-    public void nativeVideoDidStart() {
+    public void teadsVideoDidStart() {
 
     }
 
     @Override
-    public void nativeVideoWillStop() {
+    public void teadsVideoWillStop() {
 
     }
 
     @Override
-    public void nativeVideoDidStop() {
+    public void teadsVideoDidStop() {
 
     }
 
     @Override
-    public void nativeVideoDidResume() {
+    public void teadsVideoDidResume() {
 
     }
 
     @Override
-    public void nativeVideoDidPause() {
+    public void teadsVideoDidPause() {
 
     }
 
     @Override
-    public void nativeVideoDidMute() {
+    public void teadsVideoDidMute() {
 
     }
 
     @Override
-    public void nativeVideoDidUnmute() {
+    public void teadsVideoDidUnmute() {
 
     }
 
     @Override
-    public void nativeVideoDidOpenInternalBrowser() {
+    public void teadsVideoDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void nativeVideoDidClickBrowserClose() {
+    public void teadsVideoDidClickBrowserClose() {
 
     }
 
     @Override
-    public void nativeVideoWillTakerOverFullScreen() {
+    public void teadsVideoWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void nativeVideoDidTakeOverFullScreen() {
+    public void teadsVideoDidTakeOverFullScreen() {
         mIsFullscreen = true;
     }
 
     @Override
-    public void nativeVideoWillDismissFullscreen() {
+    public void teadsVideoWillDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoDidDismissFullscreen() {
+    public void teadsVideoDidDismissFullscreen() {
         mIsFullscreen = false;
     }
 
     @Override
-    public void nativeVideoSkipButtonTapped() {
+    public void teadsVideoSkipButtonTapped() {
         if (mTeadsVideoView != null) {
             closeInRead();
         }
     }
 
     @Override
-    public void nativeVideoSkipButtonDidShow() {
+    public void teadsVideoSkipButtonDidShow() {
 
     }
 
     @Override
-    public void nativeVideoWillExpand() {
+    public void teadsVideoWillExpand() {
 
     }
 
     @Override
-    public void nativeVideoDidExpand() {
+    public void teadsVideoDidExpand() {
 
     }
 
     @Override
-    public void nativeVideoWillCollapse() {
+    public void teadsVideoWillCollapse() {
 
     }
 
     @Override
-    public void nativeVideoDidCollapse() {
+    public void teadsVideoDidCollapse() {
         if (mTeadsVideoView != null) {
             closeInRead();
         }
@@ -392,12 +392,12 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     }
 
     @Override
-    public void nativeVideoDidClean() {
+    public void teadsVideoDidClean() {
 
     }
 
     @Override
-    public void nativeVideoWebViewNoSlotAvailable() {
+    public void teadsVideoWebViewNoSlotAvailable() {
 
     }
 

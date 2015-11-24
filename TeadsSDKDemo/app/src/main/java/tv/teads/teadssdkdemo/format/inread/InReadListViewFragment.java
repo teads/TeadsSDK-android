@@ -106,7 +106,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     */
 
     @Override
-    public void nativeVideoDidFailLoading(TeadsError teadsError) {
+    public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
         } catch (IllegalStateException ignored){
@@ -115,122 +115,122 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     }
 
     @Override
-    public void nativeVideoWillLoad() {
+    public void teadsVideoWillLoad() {
 
     }
 
     @Override
-    public void nativeVideoDidLoad() {
+    public void teadsVideoDidLoad() {
 
     }
 
     @Override
-    public void nativeVideoWillStart() {
+    public void teadsVideoWillStart() {
 
     }
 
     @Override
-    public void nativeVideoDidStart() {
+    public void teadsVideoDidStart() {
 
     }
 
     @Override
-    public void nativeVideoWillStop() {
+    public void teadsVideoWillStop() {
 
     }
 
     @Override
-    public void nativeVideoDidStop() {
+    public void teadsVideoDidStop() {
 
     }
 
     @Override
-    public void nativeVideoDidResume() {
+    public void teadsVideoDidResume() {
 
     }
 
     @Override
-    public void nativeVideoDidPause() {
+    public void teadsVideoDidPause() {
 
     }
 
     @Override
-    public void nativeVideoDidMute() {
+    public void teadsVideoDidMute() {
 
     }
 
     @Override
-    public void nativeVideoDidUnmute() {
+    public void teadsVideoDidUnmute() {
 
     }
 
     @Override
-    public void nativeVideoDidOpenInternalBrowser() {
+    public void teadsVideoDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void nativeVideoDidClickBrowserClose() {
+    public void teadsVideoDidClickBrowserClose() {
 
     }
 
     @Override
-    public void nativeVideoWillTakerOverFullScreen() {
+    public void teadsVideoWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void nativeVideoDidTakeOverFullScreen() {
+    public void teadsVideoDidTakeOverFullScreen() {
 
     }
 
     @Override
-    public void nativeVideoWillDismissFullscreen() {
+    public void teadsVideoWillDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoDidDismissFullscreen() {
+    public void teadsVideoDidDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoSkipButtonTapped() {
+    public void teadsVideoSkipButtonTapped() {
 
     }
 
     @Override
-    public void nativeVideoSkipButtonDidShow() {
+    public void teadsVideoSkipButtonDidShow() {
 
     }
 
     @Override
-    public void nativeVideoWillExpand() {
+    public void teadsVideoWillExpand() {
 
     }
 
     @Override
-    public void nativeVideoDidExpand() {
+    public void teadsVideoDidExpand() {
 
     }
 
     @Override
-    public void nativeVideoWillCollapse() {
+    public void teadsVideoWillCollapse() {
 
     }
 
     @Override
-    public void nativeVideoDidCollapse() {
+    public void teadsVideoDidCollapse() {
 
     }
 
     @Override
-    public void nativeVideoDidClean() {
+    public void teadsVideoDidClean() {
 
     }
 
     @Override
-    public void nativeVideoWebViewNoSlotAvailable() {
+    public void teadsVideoWebViewNoSlotAvailable() {
 
     }
 

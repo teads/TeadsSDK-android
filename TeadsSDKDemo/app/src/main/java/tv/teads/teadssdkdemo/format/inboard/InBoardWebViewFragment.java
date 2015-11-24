@@ -9,9 +9,10 @@ import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.sdk.publisher.TeadsNativeVideo;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
+import tv.teads.sdk.publisher.TeadsVideo;
+import tv.teads.sdk.publisher.TeadsVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -21,13 +22,13 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
+public class InBoardWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Native Video instance
+     * Teads Video instance
      */
-    private TeadsNativeVideo       mTeadsNativeVideo;
+    private TeadsVideo mTeadsVideo;
 
     /**
      * Your WebView extending the TeadsObservableWebView class
@@ -43,22 +44,22 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
         // Load url in the WebView
         mTeadsWebView.loadUrl(this.getWebViewUrl());
 
         // Instanciate Teads Native Video in inboard format
-        mTeadsNativeVideo = new TeadsNativeVideo(
-                this.getActivity(),
-                mTeadsWebView,
-                this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inBoard,
-                this);
+        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+                getActivity(),
+                getPid())
+                .viewGroup(mTeadsWebView)
+                .eventListener(this)
+                .build();
 
         // Load the Ad
-        mTeadsNativeVideo.load();
+        mTeadsVideo.load();
     }
 
     @Override
@@ -66,20 +67,22 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity)getActivity()).setDrawerListener(this);
+        mTeadsVideo.onResume();
     }
 
     @Override
     public void onPause(){
         super.onPause();
         ((MainActivity)getActivity()).setDrawerListener(null);
+        mTeadsVideo.onPause();
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
 
-        if(mTeadsNativeVideo != null){
-            mTeadsNativeVideo.clean();
+        if(mTeadsVideo != null){
+            mTeadsVideo.clean();
         }
     }
 
@@ -89,7 +92,7 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
     */
 
     @Override
-    public void nativeVideoDidFailLoading(TeadsError teadsError) {
+    public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
         } catch (IllegalStateException ignored){
@@ -98,122 +101,132 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
     }
 
     @Override
-    public void nativeVideoWillLoad() {
+    public void teadsVideoWillLoad() {
 
     }
 
     @Override
-    public void nativeVideoDidLoad() {
+    public void teadsVideoDidLoad() {
 
     }
 
     @Override
-    public void nativeVideoWillStart() {
+    public void teadsVideoWillStart() {
 
     }
 
     @Override
-    public void nativeVideoDidStart() {
+    public void teadsVideoDidStart() {
 
     }
 
     @Override
-    public void nativeVideoWillStop() {
+    public void teadsVideoWillStop() {
 
     }
 
     @Override
-    public void nativeVideoDidStop() {
+    public void teadsVideoDidStop() {
 
     }
 
     @Override
-    public void nativeVideoDidResume() {
+    public void teadsVideoDidResume() {
 
     }
 
     @Override
-    public void nativeVideoDidPause() {
+    public void teadsVideoDidPause() {
 
     }
 
     @Override
-    public void nativeVideoDidMute() {
+    public void teadsVideoDidMute() {
 
     }
 
     @Override
-    public void nativeVideoDidUnmute() {
+    public void teadsVideoDidUnmute() {
 
     }
 
     @Override
-    public void nativeVideoDidOpenInternalBrowser() {
+    public void teadsVideoDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void nativeVideoDidClickBrowserClose() {
+    public void teadsVideoDidClickBrowserClose() {
 
     }
 
     @Override
-    public void nativeVideoWillTakerOverFullScreen() {
+    public void teadsVideoWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void nativeVideoDidTakeOverFullScreen() {
+    public void teadsVideoDidTakeOverFullScreen() {
 
     }
 
     @Override
-    public void nativeVideoWillDismissFullscreen() {
+    public void teadsVideoWillDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoDidDismissFullscreen() {
+    public void teadsVideoDidDismissFullscreen() {
 
     }
 
     @Override
-    public void nativeVideoSkipButtonTapped() {
+    public void teadsVideoSkipButtonTapped() {
 
     }
 
     @Override
-    public void nativeVideoSkipButtonDidShow() {
+    public void teadsVideoSkipButtonDidShow() {
 
     }
 
     @Override
-    public void nativeVideoWillExpand() {
+    public void teadsVideoWillExpand() {
 
     }
 
     @Override
-    public void nativeVideoDidExpand() {
+    public void teadsVideoDidExpand() {
 
     }
 
     @Override
-    public void nativeVideoWillCollapse() {
+    public void teadsVideoWillCollapse() {
 
     }
 
     @Override
-    public void nativeVideoDidCollapse() {
+    public void teadsVideoDidCollapse() {
 
     }
 
     @Override
-    public void nativeVideoDidClean() {
+    public void teadsVideoDidClean() {
 
     }
 
     @Override
-    public void nativeVideoWebViewNoSlotAvailable() {
+    public void teadsVideoNoSlotAvailable() {
+
+    }
+
+    @Override
+    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
+
+    }
+
+    @Override
+    public void teadsVideoViewDetached() {
 
     }
 
@@ -229,16 +242,17 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsNativeV
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsNativeVideo.requestPause();
+        mTeadsVideo.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsNativeVideo.requestResume();
+        mTeadsVideo.requestResume();
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
 
     }
+
 }
