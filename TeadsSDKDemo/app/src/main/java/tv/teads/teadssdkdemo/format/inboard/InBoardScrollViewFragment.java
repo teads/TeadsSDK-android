@@ -8,30 +8,32 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsNativeVideo;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideo;
+import tv.teads.sdk.publisher.TeadsVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InBoard format within a ScrollView
- *
+ * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardScrollViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
-        DrawerLayout.DrawerListener{
+public class InBoardScrollViewFragment extends BaseFragment implements TeadsVideoEventListener,
+        DrawerLayout.DrawerListener {
 
     /**
      * Teads Native Video instance
      */
-    private TeadsNativeVideo    mTeadsNativeVideo;
+    private TeadsVideo mTeadsVideo;
 
     /**
      * Your FrameLayout used to display video in
      */
-    private FrameLayout         mFrameLayout;
+    private FrameLayout mFrameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,39 +44,42 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsNati
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         // Instanciate Teads Native Video in inboard format
-        mTeadsNativeVideo = new TeadsNativeVideo(
-                this.getActivity(),
-                mFrameLayout,
-                this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inBoard,
-                this);
+        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+                getActivity(),
+                getPid())
+                .viewGroup(mFrameLayout)
+                .containerType(TeadsContainerType.inBoard)
+                .eventListener(this)
+                .build();
 
         // Load the Ad
-        mTeadsNativeVideo.load();
+        mTeadsVideo.load();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity)getActivity()).setDrawerListener(this);
+        ((MainActivity) getActivity()).setDrawerListener(this);
+        mTeadsVideo.onResume();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setDrawerListener(null);
+        ((MainActivity) getActivity()).setDrawerListener(null);
+        mTeadsVideo.onPause();
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
 
-        if(mTeadsNativeVideo != null){
-            mTeadsNativeVideo.clean();
+        if (mTeadsVideo != null) {
+            mTeadsVideo.clean();
         }
     }
 
@@ -87,7 +92,7 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsNati
     public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        } catch (IllegalStateException ignored){
+        } catch (IllegalStateException ignored) {
 
         }
     }
@@ -208,7 +213,17 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsNati
     }
 
     @Override
-    public void teadsVideoWebViewNoSlotAvailable() {
+    public void teadsVideoNoSlotAvailable() {
+
+    }
+
+    @Override
+    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
+
+    }
+
+    @Override
+    public void teadsVideoViewDetached() {
 
     }
 
@@ -224,12 +239,12 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsNati
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsNativeVideo.requestPause();
+        mTeadsVideo.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsNativeVideo.requestResume();
+        mTeadsVideo.requestResume();
     }
 
     @Override

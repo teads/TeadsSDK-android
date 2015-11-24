@@ -7,16 +7,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import tv.teads.sdk.publisher.TeadsConfiguration;
-import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsLockableViewPager;
-import tv.teads.sdk.publisher.TeadsNativeVideo;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -26,81 +21,52 @@ import tv.teads.teadssdkdemo.utils.external.PagerSlidingTabStrip;
 
 /**
  * InSwipe format within a ViewPager
- *
+ * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
 public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.OnPageChangeListener,
-        TeadsNativeVideoEventListener,
         DrawerLayout.DrawerListener {
 
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
 
-    /**
-     * Teads Native Video instance
-     */
-    private TeadsNativeVideo        mTeadsNativeVideo;
 
     /**
      * The ViewPager used in the application
      */
     private TeadsLockableViewPager mViewPager;
 
-    /**
-     * Ad Position used for TeadsConfiguration and mPagerSlidingTabStrip
-     */
-    private int                    mAdPosition = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_native_inswipe, container, false);
-        mViewPager = (TeadsLockableViewPager)rootView.findViewById(R.id.viewpager);
+        mViewPager = (TeadsLockableViewPager) rootView.findViewById(R.id.viewpager);
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         // Set ViewPager data, tab and adapter
         initViewPager(view, createFragments());
 
-        // Init Teads Config to display Ad after the second fragment
-        TeadsConfiguration teadsConfig = new TeadsConfiguration();
-        teadsConfig.adPosition = mAdPosition;
-
-        // Instanciate Teads Native Video in inSwipe format
-        mTeadsNativeVideo = new TeadsNativeVideo(
-                this.getActivity(),
-                mViewPager,
-                this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inSwipe,
-                this,
-                mPagerSlidingTabStrip.getOnPageChangeListener(),
-                teadsConfig);
-
-        // Load the Ad
-        mTeadsNativeVideo.load();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity)getActivity()).setDrawerListener(this);
+        ((MainActivity) getActivity()).setDrawerListener(this);
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setDrawerListener(null);
+        ((MainActivity) getActivity()).setDrawerListener(null);
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-
-        if(mTeadsNativeVideo != null){
-            mTeadsNativeVideo.clean();
-        }
     }
 
     /*----------------------------------------
@@ -122,141 +88,6 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
 
     }
 
-
-    /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
-    */
-
-    @Override
-    public void teadsVideoDidFailLoading(TeadsError teadsError) {
-        try {
-            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        } catch (IllegalStateException ignored){
-
-        }
-    }
-
-    @Override
-    public void teadsVideoWillLoad() {
-
-    }
-
-    @Override
-    public void teadsVideoDidLoad() {
-
-    }
-
-    @Override
-    public void teadsVideoWillStart() {
-
-    }
-
-    @Override
-    public void teadsVideoDidStart() {
-
-    }
-
-    @Override
-    public void teadsVideoWillStop() {
-
-    }
-
-    @Override
-    public void teadsVideoDidStop() {
-
-    }
-
-    @Override
-    public void teadsVideoDidResume() {
-
-    }
-
-    @Override
-    public void teadsVideoDidPause() {
-
-    }
-
-    @Override
-    public void teadsVideoDidMute() {
-
-    }
-
-    @Override
-    public void teadsVideoDidUnmute() {
-
-    }
-
-    @Override
-    public void teadsVideoDidOpenInternalBrowser() {
-
-    }
-
-    @Override
-    public void teadsVideoDidClickBrowserClose() {
-
-    }
-
-    @Override
-    public void teadsVideoWillTakerOverFullScreen() {
-
-    }
-
-    @Override
-    public void teadsVideoDidTakeOverFullScreen() {
-
-    }
-
-    @Override
-    public void teadsVideoWillDismissFullscreen() {
-
-    }
-
-    @Override
-    public void teadsVideoDidDismissFullscreen() {
-
-    }
-
-    @Override
-    public void teadsVideoSkipButtonTapped() {
-
-    }
-
-    @Override
-    public void teadsVideoSkipButtonDidShow() {
-
-    }
-
-    @Override
-    public void teadsVideoWillExpand() {
-
-    }
-
-    @Override
-    public void teadsVideoDidExpand() {
-
-    }
-
-    @Override
-    public void teadsVideoWillCollapse() {
-
-    }
-
-    @Override
-    public void teadsVideoDidCollapse() {
-
-    }
-
-    @Override
-    public void teadsVideoDidClean() {
-
-    }
-
-    @Override
-    public void teadsVideoWebViewNoSlotAvailable() {
-
-    }
-
-
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener
     */
@@ -268,12 +99,12 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsNativeVideo.requestPause();
+
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsNativeVideo.requestResume();
+
     }
 
     @Override
@@ -286,7 +117,7 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
     * Private methods
     */
 
-    private void initViewPager(View view, List<Fragment> fragments){
+    private void initViewPager(View view, List<Fragment> fragments) {
         TabFragmentPagerAdapter pagerAdapter = new TabFragmentPagerAdapter(
                 new String[]{"1", "2", "3", "4"},
                 getChildFragmentManager(),
@@ -298,7 +129,6 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mPagerSlidingTabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.sliding_tabs);
-        mPagerSlidingTabStrip.setAdPosition(mAdPosition);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
 
         mPagerSlidingTabStrip.setBackgroundResource(R.color.primaryDef);
@@ -307,14 +137,14 @@ public class InSwipeViewPagerFragment extends BaseFragment implements ViewPager.
         mPagerSlidingTabStrip.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
             @Override
             public void onTabReselected(int position) {
-                if(mViewPager.isAdOn()){
+                if (mViewPager.isAdOn()) {
                     mViewPager.setCurrentItem(position);
                 }
             }
         });
     }
 
-    private List<Fragment> createFragments(){
+    private List<Fragment> createFragments() {
         List<Fragment> list = new ArrayList<Fragment>();
 
         Bundle bundle1 = new Bundle();

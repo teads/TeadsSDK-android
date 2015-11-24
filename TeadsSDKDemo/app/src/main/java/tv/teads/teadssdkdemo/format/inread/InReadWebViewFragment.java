@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.sdk.publisher.TeadsNativeVideo;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
+import tv.teads.sdk.publisher.TeadsVideo;
+import tv.teads.sdk.publisher.TeadsVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -21,13 +23,13 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
  *
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
+public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
      * Teads Native Video instance
      */
-    private TeadsNativeVideo mTeadsNativeVideo;
+    private TeadsVideo mTeadsVideo;
 
     /**
      * Your WebView extending the TeadsObservableWebView class
@@ -44,22 +46,23 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
         // Load url in the WebView
         mTeadsWebView.loadUrl(this.getWebViewUrl());
 
         // Instanciate Teads Native Video in inRead format
-        mTeadsNativeVideo = new TeadsNativeVideo(
-                this.getActivity(),
-                mTeadsWebView,
-                this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inRead,
-                this);
+        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+                getActivity(),
+                getPid())
+                .viewGroup(mTeadsWebView)
+                .containerType(TeadsContainerType.inRead)
+                .eventListener(this)
+                .build();
 
         // Load the Ad
-        mTeadsNativeVideo.load();
+        mTeadsVideo.load();
     }
 
     @Override
@@ -67,20 +70,22 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity)getActivity()).setDrawerListener(this);
+        mTeadsVideo.onResume();
     }
 
     @Override
     public void onPause(){
         super.onPause();
         ((MainActivity)getActivity()).setDrawerListener(null);
+        mTeadsVideo.onPause();
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
 
-        if(mTeadsNativeVideo != null){
-            mTeadsNativeVideo.clean();
+        if(mTeadsVideo != null){
+            mTeadsVideo.clean();
         }
     }
 
@@ -214,7 +219,17 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
     }
 
     @Override
-    public void teadsVideoWebViewNoSlotAvailable() {
+    public void teadsVideoNoSlotAvailable() {
+
+    }
+
+    @Override
+    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
+
+    }
+
+    @Override
+    public void teadsVideoViewDetached() {
 
     }
 
@@ -230,12 +245,12 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsNativeVi
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsNativeVideo.requestPause();
+        mTeadsVideo.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsNativeVideo.requestResume();
+        mTeadsVideo.requestResume();
     }
 
     @Override

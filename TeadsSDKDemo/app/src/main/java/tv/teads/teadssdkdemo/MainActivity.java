@@ -37,7 +37,6 @@ import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
 import tv.teads.teadssdkdemo.utils.BusProvider;
-import tv.teads.teadssdkdemo.utils.VideoViewSampleChooserFragment;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 
@@ -255,14 +254,6 @@ public class MainActivity extends AppCompatActivity {
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
     }
-
-
-    @OnClick(R.id.videoview)
-    public void videoViewChooser() {
-        changeFragment(new VideoViewSampleChooserFragment());
-    }
-
-
 
     @OnClick(R.id.action_pid)
     public void changePidDialog() {

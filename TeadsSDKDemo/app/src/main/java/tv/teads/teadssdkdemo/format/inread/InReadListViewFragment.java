@@ -2,6 +2,7 @@ package tv.teads.teadssdkdemo.format.inread;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,25 +11,27 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsConfiguration;
+import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsNativeVideo;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideo;
+import tv.teads.sdk.publisher.TeadsVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InRead format within a RecyclerView
- *
+ * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadListViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
+public class InReadListViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
      * Teads Native Video instance
      */
-    private TeadsNativeVideo mTeadsNativeVideo;
+    private TeadsVideo mTeadsVideo;
 
     /**
      * The ListView used in the application
@@ -44,7 +47,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         // Set ListView basic adapter
         setListViewAdapter(mListView);
 
@@ -52,45 +55,48 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
         teadsConfig.adPosition = 12;
 
         // Instanciate Teads Native Video in inRead format
-        mTeadsNativeVideo = new TeadsNativeVideo(
-                this.getActivity(),
-                mListView,
-                this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inRead,
-                this,
-                teadsConfig);
+        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+                getActivity(),
+                getPid())
+                .configuration(teadsConfig)
+                .viewGroup(mListView)
+                .eventListener(this)
+                .containerType(TeadsContainerType.inRead)
+                .build();
 
         // Load the Ad
-        mTeadsNativeVideo.load();
+        mTeadsVideo.load();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity)getActivity()).setDrawerListener(this);
+        ((MainActivity) getActivity()).setDrawerListener(this);
+        mTeadsVideo.onResume();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setDrawerListener(null);
+        ((MainActivity) getActivity()).setDrawerListener(null);
+        mTeadsVideo.onPause();
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(mTeadsNativeVideo != null){
-            mTeadsNativeVideo.clean();
+        if (mTeadsVideo != null) {
+            mTeadsVideo.clean();
         }
     }
 
 
-    private void setListViewAdapter(ListView listView){
+    private void setListViewAdapter(ListView listView) {
         int size = 50;
         String values[] = new String[size];
 
-        for (int i = 0; i < values.length; i++){
+        for (int i = 0; i < values.length; i++) {
             values[i] = "Teads " + i;
         }
 
@@ -108,8 +114,9 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     @Override
     public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
+            Log.e("fail",teadsError.toString());
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        } catch (IllegalStateException ignored){
+        } catch (IllegalStateException ignored) {
 
         }
     }
@@ -230,9 +237,20 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
     }
 
     @Override
-    public void teadsVideoWebViewNoSlotAvailable() {
+    public void teadsVideoNoSlotAvailable() {
 
     }
+
+    @Override
+    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
+
+    }
+
+    @Override
+    public void teadsVideoViewDetached() {
+
+    }
+
 
 
     /*----------------------------------------
@@ -246,12 +264,12 @@ public class InReadListViewFragment extends BaseFragment implements TeadsNativeV
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsNativeVideo.requestPause();
+        mTeadsVideo.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsNativeVideo.requestResume();
+        mTeadsVideo.requestResume();
     }
 
     @Override

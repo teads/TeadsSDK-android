@@ -12,9 +12,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import tv.teads.sdk.publisher.TeadsConfiguration;
+import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsNativeVideo;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideo;
+import tv.teads.sdk.publisher.TeadsVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter;
@@ -22,16 +24,16 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InRead format within a RecyclerView
- *
+ * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadRecyclerViewFragment extends BaseFragment implements TeadsNativeVideoEventListener,
+public class InReadRecyclerViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
      * Teads Native Video instance
      */
-    private TeadsNativeVideo mTeadsNativeVideo;
+    private TeadsVideo mTeadsVideo;
 
     /**
      * The RecyclerView used in the application
@@ -47,7 +49,7 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsNat
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         // Set RecyclerView basic adapter
         setRecyclerViewAdapter(mRecyclerView);
 
@@ -55,41 +57,44 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsNat
         teadsConfig.adPosition = 12;
 
         // Instanciate Teads Native Video in inRead format
-        mTeadsNativeVideo = new TeadsNativeVideo(
-                this.getActivity(),
-                mRecyclerView,
-                this.getPid(),
-                TeadsNativeVideo.NativeVideoContainerType.inRead,
-                this,
-                teadsConfig);
+        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+                getActivity(),
+                getPid())
+                .configuration(teadsConfig)
+                .viewGroup(mRecyclerView)
+                .eventListener(this)
+                .containerType(TeadsContainerType.inRead)
+                .build();
 
         // Load the Ad
-        mTeadsNativeVideo.load();
+        mTeadsVideo.load();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity)getActivity()).setDrawerListener(this);
+        ((MainActivity) getActivity()).setDrawerListener(this);
+        mTeadsVideo.onResume();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setDrawerListener(null);
+        ((MainActivity) getActivity()).setDrawerListener(null);
+        mTeadsVideo.onPause();
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(mTeadsNativeVideo != null){
-            mTeadsNativeVideo.clean();
+        if (mTeadsVideo != null) {
+            mTeadsVideo.clean();
         }
     }
 
 
-    private void setRecyclerViewAdapter(RecyclerView recyclerView){
+    private void setRecyclerViewAdapter(RecyclerView recyclerView) {
         ArrayList<String> data = new ArrayList<>();
 
         for (int i = 0; i < 50; i++) {
@@ -109,7 +114,7 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsNat
     public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        } catch (IllegalStateException ignored){
+        } catch (IllegalStateException ignored) {
 
         }
     }
@@ -230,10 +235,19 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsNat
     }
 
     @Override
-    public void teadsVideoWebViewNoSlotAvailable() {
+    public void teadsVideoNoSlotAvailable() {
 
     }
 
+    @Override
+    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
+
+    }
+
+    @Override
+    public void teadsVideoViewDetached() {
+
+    }
 
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener
@@ -246,12 +260,12 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsNat
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsNativeVideo.requestPause();
+        mTeadsVideo.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsNativeVideo.requestResume();
+        mTeadsVideo.requestResume();
     }
 
     @Override

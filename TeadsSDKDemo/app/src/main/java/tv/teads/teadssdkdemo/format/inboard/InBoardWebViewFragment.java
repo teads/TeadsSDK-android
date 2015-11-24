@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
@@ -55,6 +56,7 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsVideoEv
                 getActivity(),
                 getPid())
                 .viewGroup(mTeadsWebView)
+                .containerType(TeadsContainerType.inBoard)
                 .eventListener(this)
                 .build();
 
