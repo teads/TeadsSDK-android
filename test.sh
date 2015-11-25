@@ -35,6 +35,7 @@ mkdir -p ~/.gradle && chmod g+s ~/.gradle
 chmod g+s .
 docker pull ${DOCKER_REGISTRY}/android:24.3.4
 docker run --rm -i \
+	-e "BUILD_ID=${BUILD_ID}" \
 	-v ~/.gradle:/root/.gradle \
 	-v `pwd`:/opt/workspace:rw -w /opt/workspace \
 	-v ${JENKINS_HOME}/${ANDROID_KEY_FILE}:/opt/workspace/${ANDROID_KEY_FILE} \
