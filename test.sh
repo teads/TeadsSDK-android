@@ -33,6 +33,7 @@ mkdir -p ~/.gradle && chmod g+s ~/.gradle
 
 # Test and publish image locally
 chmod g+s .
+docker pull ${DOCKER_REGISTRY}/android:24.3.4
 docker run --rm -i \
 	-v ~/.gradle:/root/.gradle \
 	-v `pwd`:/opt/workspace:rw -w /opt/workspace \
