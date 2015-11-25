@@ -29,7 +29,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsVideoEv
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Native Video instance
+     * Teads Video instance
      */
     private TeadsVideo mTeadsVideo;
 
