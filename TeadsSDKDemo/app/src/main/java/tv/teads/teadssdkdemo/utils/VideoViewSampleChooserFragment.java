@@ -14,7 +14,7 @@ import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 /**
  * A chooser fragment to display the list of sample TeadsVideoView integration.
- *
+ * <p/>
  * Created by Hugo Gresse on 07/08/15.
  */
 public class VideoViewSampleChooserFragment extends BaseFragment {
@@ -41,7 +41,7 @@ public class VideoViewSampleChooserFragment extends BaseFragment {
 
     @OnClick(R.id.videoview_listview)
     public void onListViewVideoViewClick() {
-        //BusProvider.getInstance().post(new ChangeFragmentEvent(new AdvancedVideoViewFragment()));
+        BusProvider.getInstance().post(new ChangeFragmentEvent(new AdvancedVideoViewFragment()));
     }
 
 }
