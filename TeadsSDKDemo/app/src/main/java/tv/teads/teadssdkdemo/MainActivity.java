@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "MainActivity";
 
-    public static final String SHAREDPREF_PID = "sp_pid";
-    public static final String SHAREDPREF_WEBVIEWURL = "sp_wvurl";
-    public static final String SHAREDPREF_PID_DEFAULT = "27695";
+    public static final String SHAREDPREF_PID             = "sp_pid";
+    public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
+    public static final String SHAREDPREF_PID_DEFAULT     = "27695";
     public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
 
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout                mDrawerLayout;
     private DrawerLayout.DrawerListener mDrawerListener;
 
     @Override
@@ -263,13 +263,16 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
-        final EditText input = new EditText(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText input = (EditText) view.findViewById(R.id.pid_input);
         input.setText(getPid(this));
+        input.setLines(1);
+        input.setSingleLine(true);
 
         new AlertDialog.Builder(this)
                 .setTitle("Pid")
                 .setMessage("Change saved pid")
-                .setView(input)
+                .setView(view)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String pidString = input.getText().toString();
@@ -297,13 +300,14 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        final EditText input = new EditText(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText input = (EditText) view.findViewById(R.id.pid_input);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)
                 .setTitle("WebView Url")
                 .setMessage("Change WebView url")
-                .setView(input)
+                .setView(view)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String pidString = input.getText().toString();
