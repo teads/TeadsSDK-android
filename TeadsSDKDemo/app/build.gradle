@@ -7,7 +7,7 @@ android {
     String sufixBaseName = ""
 
     if(System.getenv("BUILD_ID") != null){
-        sufixBaseName = "-" + System.getenv("BUILD_ID")
+        sufixBaseName = "_b" + System.getenv("BUILD_ID")
     }
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
