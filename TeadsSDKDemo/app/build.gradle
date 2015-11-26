@@ -4,17 +4,23 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
+    String sufixBaseName = ""
+
+    if(System.getenv("BUILD_ID") != null){
+        sufixBaseName = "_b" + System.getenv("BUILD_ID")
+    }
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 22
-        versionName "2.0.0"
-        archivesBaseName = "teads-sdkdemo-" + versionName
+        versionCode 23
+        versionName "2.0.1"
+        archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
 
     Properties localProperties = new Properties()
     localProperties.load(project.rootProject.file('signing.properties').newDataInputStream())
+
 
     signingConfigs {
         releaseSigned {
