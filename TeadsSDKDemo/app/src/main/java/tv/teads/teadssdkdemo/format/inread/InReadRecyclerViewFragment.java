@@ -31,7 +31,7 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsVid
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Native Video instance
+     * Teads Video instance
      */
     private TeadsVideo mTeadsVideo;
 
@@ -56,7 +56,7 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsVid
         TeadsConfiguration teadsConfig = new TeadsConfiguration();
         teadsConfig.adPosition = 12;
 
-        // Instanciate Teads Native Video in inRead format
+        // Instanciate Teads Video in inRead format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())

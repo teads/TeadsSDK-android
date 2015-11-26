@@ -14,7 +14,7 @@ import tv.teads.teadssdkdemo.R;
 
 /**
  * Simple RecyclerView adapter
- *
+ * <p/>
  * Created by Hugo Gresse on 08/07/15.
  */
 public class SimpleRecyclerViewAdapter extends TeadsRecyclerViewAdapter<SimpleRecyclerViewAdapter.ViewHolderDemo> {

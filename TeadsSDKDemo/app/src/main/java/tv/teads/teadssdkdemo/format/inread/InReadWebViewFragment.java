@@ -20,14 +20,14 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InRead format within a WebView
- *
+ * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
 public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Native Video instance
+     * Teads Video instance
      */
     private TeadsVideo mTeadsVideo;
 
@@ -52,7 +52,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
         // Load url in the WebView
         mTeadsWebView.loadUrl(this.getWebViewUrl());
 
-        // Instanciate Teads Native Video in inRead format
+        // Instanciate Teads Video in inRead format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
@@ -66,25 +66,25 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity)getActivity()).setDrawerListener(this);
+        ((MainActivity) getActivity()).setDrawerListener(this);
         mTeadsVideo.onResume();
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setDrawerListener(null);
+        ((MainActivity) getActivity()).setDrawerListener(null);
         mTeadsVideo.onPause();
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
 
-        if(mTeadsVideo != null){
+        if (mTeadsVideo != null) {
             mTeadsVideo.clean();
         }
     }
@@ -98,7 +98,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
     public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        } catch (IllegalStateException ignored){
+        } catch (IllegalStateException ignored) {
 
         }
     }

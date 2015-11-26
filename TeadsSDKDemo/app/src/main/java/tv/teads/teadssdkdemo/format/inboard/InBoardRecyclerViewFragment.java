@@ -30,7 +30,7 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Native Video instance
+     * Teads Video instance
      */
     private TeadsVideo mTeadsVideo;
 
@@ -55,7 +55,7 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
         // Set RecyclerView basic adapter
         setRecyclerViewAdapter(mRecyclerView);
 
-        // Instanciate Teads Native Video in inboard format
+        // Instanciate Teads Video in inboard format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())

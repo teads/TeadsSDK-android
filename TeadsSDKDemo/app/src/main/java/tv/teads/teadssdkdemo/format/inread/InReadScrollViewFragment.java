@@ -26,7 +26,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsVideo
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Native Video instance
+     * Teads Video instance
      */
     private TeadsVideo mTeadsVideo;
 
@@ -46,7 +46,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsVideo
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        // Instanciate Teads Native Video in inRead format
+        // Instanciate Teads Video in inRead format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())

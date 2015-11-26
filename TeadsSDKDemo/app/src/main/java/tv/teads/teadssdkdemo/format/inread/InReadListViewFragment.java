@@ -54,7 +54,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsVideoEv
         TeadsConfiguration teadsConfig = new TeadsConfiguration();
         teadsConfig.adPosition = 12;
 
-        // Instanciate Teads Native Video in inRead format
+        // Instanciate Teads Video in inRead format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
@@ -114,7 +114,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsVideoEv
     @Override
     public void teadsVideoDidFailLoading(TeadsError teadsError) {
         try {
-            Log.e("fail",teadsError.toString());
+            Log.e("fail", teadsError.toString());
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
         } catch (IllegalStateException ignored) {
 
