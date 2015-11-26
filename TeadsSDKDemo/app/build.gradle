@@ -5,10 +5,10 @@ android {
     buildToolsVersion "23.0.1"
 
     String sufixBaseName = ""
-    try {
-        sufixBaseName = "-" + $System.env.BUILD_ID
-    } catch (Exception ignored){}
 
+    if(System.getenv("BUILD_ID") != null){
+        sufixBaseName = "-" + System.getenv("BUILD_ID")
+    }
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
