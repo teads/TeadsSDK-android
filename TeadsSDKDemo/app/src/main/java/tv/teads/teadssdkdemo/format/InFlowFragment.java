@@ -54,7 +54,7 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
             }
         });
 
-        // Instanciate Teads Native Video in inRead format
+        // Instanciate Teads Video in inRead format
         mTeadsInterstitial = new TeadsInterstitial.TeadsInterstitialBuilder(
                 this.getActivity(),
                 this.getPid())

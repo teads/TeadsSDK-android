@@ -210,7 +210,7 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
 
 
     /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
+    * implements TeadsVideoEventListener
     */
     @Override
     public void teadsVideoDidFailLoading(TeadsError teadsError) {

@@ -39,7 +39,7 @@ public class InBoardListViewFragment extends BaseFragment implements TeadsVideoE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inboard_listview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inboard_listview, container, false);
 
         // Retrieve ListView from layout
         mListView = (ListView) rootView.findViewById(R.id.listView);
@@ -105,7 +105,7 @@ public class InBoardListViewFragment extends BaseFragment implements TeadsVideoE
     }
 
     /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
+    * implements TeadsVideoEventListener
     */
 
     @Override

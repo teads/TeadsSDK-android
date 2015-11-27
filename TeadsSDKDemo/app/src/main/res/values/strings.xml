@@ -12,7 +12,7 @@
     <string name="action_webviewurl">Change WebView url</string>
 
 
-    <string name="type_native">NATIVE VIDEO</string>
+    <string name="type_video">VIDEO</string>
     <string name="type_interstitial">INTERSTITIAL</string>
     <string name="type_videoview">VIDEOVIEW</string>
 

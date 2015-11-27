@@ -39,8 +39,8 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inread_webview, container, false);
-        mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewNativeVideo);
+        View rootView = inflater.inflate(R.layout.fragment_inread_webview, container, false);
+        mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewVideo);
         return rootView;
     }
 
@@ -91,7 +91,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
 
 
     /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
+    * implements TeadsVideoEventListener
     */
 
     @Override

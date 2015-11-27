@@ -11,8 +11,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/nativevideo"
-            android:text="@string/type_native"
+            android:id="@+id/teads_video"
+            android:text="@string/type_video"
             style="@style/TextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -38,7 +38,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsVideo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inread_scrollview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inread_scrollview, container, false);
         mFrameLayout = (FrameLayout) rootView.findViewById(R.id.inread_framelayout);
         return rootView;
     }
@@ -85,7 +85,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsVideo
 
 
     /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
+    * implements TeadsVideoEventListener
     */
 
     @Override

@@ -42,7 +42,7 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inboard_recyclerview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inboard_recyclerview, container, false);
 
         // Retrieve recyclerView from layout
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
@@ -104,7 +104,7 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
     }
 
     /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
+    * implements TeadsVideoEventListener
     */
 
     @Override
