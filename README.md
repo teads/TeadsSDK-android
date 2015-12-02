@@ -28,7 +28,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.6.3@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.6.4@aar') {
         transitive = true;
     }
 }
@@ -39,6 +39,10 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.6.4:
+- Improve handle of new Play Services version
+- Improve backward compatibility check
 
 v1.6.3:
 - New `TeadsConfiguration.preventWebViewAutoClean` to prevent WebView Ad to be auto cleaned by Teads SDK
