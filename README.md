@@ -30,7 +30,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.6.4@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.6.5@aar') {
         transitive = true;
     }
 }
@@ -41,6 +41,9 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.6.5:
+- Fix an issue related to WebView clean
 
 v1.6.4:
 - Improve handle of new Play Services version
