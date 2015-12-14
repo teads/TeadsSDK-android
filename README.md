@@ -30,7 +30,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.6.5@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.6.6@aar') {
         transitive = true;
     }
 }
@@ -41,6 +41,9 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.6.6:
+- Fix an issue related to the tracking user agent 
 
 v1.6.5:
 - Fix an issue related to WebView clean
