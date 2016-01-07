@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.sdk.publisher.TeadsVideoView;
@@ -406,7 +405,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
     @Override
     public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
-        TeadsLog.d(LOG_TAG, "teadsVideoViewAttached");
+        Log.d(LOG_TAG, "teadsVideoViewAttached");
         mTeadsVideoView = teadsVideoView;
         mTeadsVideo.attachView(mTeadsVideoView);
 
