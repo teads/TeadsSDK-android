@@ -6,29 +6,17 @@ android {
 
     String sufixBaseName = ""
 
-    if(System.getenv("BUILD_ID") != null){
+    if (System.getenv("BUILD_ID") != null) {
         sufixBaseName = "_b" + System.getenv("BUILD_ID")
     }
+
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 28
-        versionName "2.0.6"
+        versionCode 29
+        versionName "2.0.7"
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
-    }
-
-    Properties localProperties = new Properties()
-    localProperties.load(project.rootProject.file('signing.properties').newDataInputStream())
-
-
-    signingConfigs {
-        releaseSigned {
-            storeFile file(localProperties.getProperty("RELEASE_STORE_FILE"))
-            storePassword localProperties.getProperty("RELEASE_STORE_PASSWORD")
-            keyAlias localProperties.getProperty("RELEASE_KEY_ALIAS")
-            keyPassword localProperties.getProperty("RELEASE_KEY_PASSWORD")
-        }
     }
 
     buildTypes {
@@ -37,8 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         releaseSigned {
-            signingConfig signingConfigs.releaseSigned
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -64,7 +51,7 @@ dependencies {
     compile 'com.squareup:otto:1.3.8'
 
     // Teads SDK
-    compile ('tv.teads.sdk:androidsdk:2.0.6:fullRelease@aar') {
+    compile ('tv.teads.sdk:androidsdk:2.0.7:fullRelease@aar') {
         transitive = true;
     }
 }
