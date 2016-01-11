@@ -30,7 +30,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:1.6.6@aar') {
+    compile ('tv.teads.sdk:androidsdk:1.6.7@aar') {
         transitive = true;
     }
 }
@@ -41,6 +41,9 @@ dependencies {
 Integration instructions are available on the [wiki](https://github.com/teads/TeadsSDK-android/wiki).
 
 ## Changelog
+
+v1.6.7:
+- Fix two issues related to db and progressBar
 
 v1.6.6:
 - Fix an issue related to the tracking user agent 
