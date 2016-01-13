@@ -25,7 +25,6 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
  * It manage visibility check, lock events, fragment lifecycle.
  * <p/>
  * <p/>
- * <p/>
  * Created by Hugo Gresse on 06/08/15.
  */
 public class ScrollViewVideoViewFragment extends BaseFragment implements
@@ -53,7 +52,6 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
     /**
      * Flag to manage Ad State
      */
-    private boolean mAdViewHaveToBeOpen;
     private boolean mIsAnimating;
 
     /**
@@ -67,8 +65,6 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
         View rootView = inflater.inflate(R.layout.fragment_videoview_scrollview, container, false);
         mScrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDemoVideoView);
         mTeadsVideoView = (TeadsVideoView) rootView.findViewById(R.id.videoview);
-
-        mAdViewHaveToBeOpen = false;
         mIsAnimating = false;
 
         return rootView;
@@ -128,40 +124,29 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
      * Open the VideoView with expand animation
      */
     private void openInRead() {
-        if (mTeadsVideoView == null) {
-            mAdViewHaveToBeOpen = true;
-            return;
-        }
 
         mTeadsVideoView.updateSize(mScrollView);
         mTeadsVideoView.setCollapsed();
 
+        mIsAnimating = true;
+        mTeadsVideoView.expand(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                Log.d(LOG_TAG, "onAnimationStart");
+            }
 
-        if (!mAdViewHaveToBeOpen) {
-            mIsAnimating = true;
-            mTeadsVideoView.expand(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    Log.d(LOG_TAG, "onAnimationStart");
-                }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.d(LOG_TAG, "onAnimationEnd");
+                mIsAnimating = false;
+                mTeadsVideo.adViewDidExpand();
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    Log.d(LOG_TAG, "onAnimationEnd");
-                    mIsAnimating = false;
-                    mTeadsVideo.adViewDidExpand();
-                }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        } else {
-            mAdViewHaveToBeOpen = false;
-            mTeadsVideoView.setVisibility(View.VISIBLE);
-            mTeadsVideo.adViewDidExpand();
-        }
+            }
+        });
 
 
     }
