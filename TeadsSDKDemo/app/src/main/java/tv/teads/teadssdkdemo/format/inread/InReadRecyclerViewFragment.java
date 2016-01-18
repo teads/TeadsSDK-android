@@ -16,7 +16,6 @@ import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
-import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter;
@@ -236,16 +235,6 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsVid
 
     @Override
     public void teadsVideoNoSlotAvailable() {
-
-    }
-
-    @Override
-    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
-
-    }
-
-    @Override
-    public void teadsVideoViewDetached() {
 
     }
 

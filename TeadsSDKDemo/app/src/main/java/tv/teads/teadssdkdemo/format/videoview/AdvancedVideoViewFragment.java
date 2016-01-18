@@ -31,7 +31,8 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 public class AdvancedVideoViewFragment extends BaseFragment implements
         TeadsVideoEventListener,
         AbsListView.OnScrollListener,
-        DrawerLayout.DrawerListener {
+        DrawerLayout.DrawerListener,
+        VideoViewCustomAdapter.TeadsViewAttachListener {
 
     public static final String LOG_TAG = "AdvancedVideoViewFrag";
 
@@ -403,32 +404,6 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
     }
 
-    @Override
-    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
-        Log.d(LOG_TAG, "teadsVideoViewAttached");
-        mTeadsVideoView = teadsVideoView;
-        mTeadsVideo.attachView(mTeadsVideoView);
-
-        if (!mIsOpen && !mIsAnimating) {
-            mTeadsVideoView.setCollapsed();
-        }
-
-        mTeadsVideo.teadsVideoViewAdded();
-        if (mTeadsVideoView.getRatio() == null) {
-            return;
-        }
-        mTeadsVideoView.updateSize(mListView);
-
-        if (mAdViewHaveToBeOpen) {
-            openInRead();
-        }
-    }
-
-    @Override
-    public void teadsVideoViewDetached() {
-
-    }
-
     /*----------------------------------------
     * implements DrawerLayout.DrawerListener
     */
@@ -454,5 +429,27 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
     @Override
     public void onDrawerStateChanged(int newState) {
+    }
+
+
+    @Override
+    public void onAttachTeadsVideoView(TeadsVideoView teadsVideoView) {
+        Log.d(LOG_TAG, "teadsVideoViewAttached");
+        mTeadsVideoView = teadsVideoView;
+        mTeadsVideo.attachView(mTeadsVideoView);
+
+        if (!mIsOpen && !mIsAnimating) {
+            mTeadsVideoView.setCollapsed();
+        }
+
+        mTeadsVideo.teadsVideoViewAdded();
+        if (mTeadsVideoView.getRatio() == null) {
+            return;
+        }
+        mTeadsVideoView.updateSize(mListView);
+
+        if (mAdViewHaveToBeOpen) {
+            openInRead();
+        }
     }
 }

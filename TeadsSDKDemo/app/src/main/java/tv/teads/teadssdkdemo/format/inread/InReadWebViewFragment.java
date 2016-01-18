@@ -13,7 +13,6 @@ import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
-import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -220,16 +219,6 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
 
     @Override
     public void teadsVideoNoSlotAvailable() {
-
-    }
-
-    @Override
-    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
-
-    }
-
-    @Override
-    public void teadsVideoViewDetached() {
 
     }
 

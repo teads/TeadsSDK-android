@@ -330,16 +330,6 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
 
     }
 
-    @Override
-    public void teadsVideoViewAttached(TeadsVideoView teadsVideoView) {
-
-    }
-
-    @Override
-    public void teadsVideoViewDetached() {
-
-    }
-
 
 
     /*----------------------------------------

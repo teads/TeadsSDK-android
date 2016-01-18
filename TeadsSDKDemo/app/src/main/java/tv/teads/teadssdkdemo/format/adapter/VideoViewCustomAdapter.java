@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.R;
 
@@ -34,11 +33,6 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     /**
-     * TeadsVideoEventListener to listen when view is attached
-     */
-    TeadsVideoEventListener mTeadsListener;
-
-    /**
      * Data displayed in the ListView
      */
     private String mValues[];
@@ -49,21 +43,26 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     private int inReadPosition;
 
     /**
+     * To listen when view is attached
+     */
+    private TeadsViewAttachListener mTeadsVideoViewAttachListener;
+
+    /**
      * Instantiate the custom adapter with required data
      *
-     * @param activity      activity to be used on VideoVIew
-     * @param val           datas
-     * @param adPosition    ad position
-     * @param teadsListener external adapter to be notify on VideoView is attached
+     * @param activity   activity to be used on VideoVIew
+     * @param val        datas
+     * @param adPosition ad position
+     * @param listener   external adapter to be notify on VideoView is attached
      */
     public VideoViewCustomAdapter(Activity activity,
                                   String[] val,
                                   int adPosition,
-                                  TeadsVideoEventListener teadsListener) {
+                                  TeadsViewAttachListener listener) {
         inReadPosition = adPosition;
         mInflater = LayoutInflater.from(activity.getApplicationContext());
         mValues = val;
-        mTeadsListener = teadsListener;
+        mTeadsVideoViewAttachListener = listener;
     }
 
     @Override
@@ -125,7 +124,7 @@ public class VideoViewCustomAdapter extends BaseAdapter {
                 case TYPE_INREAD:
                     convertView = mInflater.inflate(R.layout.list_row_videoview, null);
                     holder.videoView = (TeadsVideoView) convertView.findViewById(R.id.videoview);
-                    mTeadsListener.teadsVideoViewAttached(holder.videoView);
+                    mTeadsVideoViewAttachListener.onAttachTeadsVideoView(holder.videoView);
                     break;
             }
 
@@ -137,7 +136,7 @@ public class VideoViewCustomAdapter extends BaseAdapter {
 
             if (type == TYPE_INREAD) {
                 //Notify when the ad view is attached
-                mTeadsListener.teadsVideoViewAttached(holder.videoView);
+                mTeadsVideoViewAttachListener.onAttachTeadsVideoView(holder.videoView);
             }
         }
         return convertView;
@@ -149,6 +148,10 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     class ViewHolder {
         public TeadsVideoView videoView;
         public TextView       textView;
+    }
+
+    public interface TeadsViewAttachListener {
+        void onAttachTeadsVideoView(TeadsVideoView teadsVideoView);
     }
 
 
