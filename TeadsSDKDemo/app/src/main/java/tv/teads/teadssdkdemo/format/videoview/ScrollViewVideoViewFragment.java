@@ -96,7 +96,7 @@ public class ScrollViewVideoViewFragment extends BaseFragment implements
         if (mTeadsVideoView != null) {
             // reset views and flags
             mIsAnimating = false;
-            mTeadsVideoView.clean();
+            mTeadsVideoView.cleanView();
         }
         mApplicationVisibility.clear();
     }

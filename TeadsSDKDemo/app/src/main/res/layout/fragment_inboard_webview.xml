@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:teads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <tv.teads.sdk.publisher.InBoardAdView
+        android:id="@+id/teads_adview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        teads:autoload="true"
+        />
 
     <tv.teads.sdk.publisher.TeadsObservableWebView
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        android:id="@+id/webViewVideo">
+        android:id="@+id/webViewVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     </tv.teads.sdk.publisher.TeadsObservableWebView>
 
-</RelativeLayout>
+</LinearLayout>

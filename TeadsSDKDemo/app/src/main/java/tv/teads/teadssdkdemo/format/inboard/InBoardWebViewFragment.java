@@ -35,11 +35,21 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsVideoEv
      */
     private TeadsObservableWebView mTeadsWebView;
 
+    /**
+     * The inBoard ad view
+     */
+    private ViewGroup mInBoardAdView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inboard_webview, container, false);
+
         mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewVideo);
+
+        // Retrieve ad view
+        mInBoardAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
         return rootView;
     }
 
@@ -54,9 +64,9 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsVideoEv
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mTeadsWebView)
-                .containerType(TeadsContainerType.inBoard)
+                .viewGroup(mInBoardAdView)
                 .eventListener(this)
+                .containerType(TeadsContainerType.inBoardSticky)
                 .build();
 
         // Load the Ad

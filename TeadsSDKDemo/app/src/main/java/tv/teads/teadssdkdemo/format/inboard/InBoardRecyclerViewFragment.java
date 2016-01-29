@@ -38,6 +38,11 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
      */
     private RecyclerView mRecyclerView;
 
+    /**
+     * The inBoard ad view
+     */
+    private ViewGroup mInBoardAdView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +50,9 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
 
         // Retrieve recyclerView from layout
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+
+        // Retrieve ad view
+        mInBoardAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
 
         return rootView;
     }
@@ -58,9 +66,9 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mRecyclerView)
+                .viewGroup(mInBoardAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoard)
+                .containerType(TeadsContainerType.inBoardSticky)
                 .build();
 
         // Load the Ad

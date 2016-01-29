@@ -35,6 +35,11 @@ public class InBoardListViewFragment extends BaseFragment implements TeadsVideoE
      */
     private ListView mListView;
 
+    /**
+     * The inBoard ad view
+     */
+    private ViewGroup mInBoardAdView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,6 +47,10 @@ public class InBoardListViewFragment extends BaseFragment implements TeadsVideoE
 
         // Retrieve ListView from layout
         mListView = (ListView) rootView.findViewById(R.id.listView);
+
+        // Retrieve ad view
+        mInBoardAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
 
         return rootView;
     }
@@ -55,9 +64,9 @@ public class InBoardListViewFragment extends BaseFragment implements TeadsVideoE
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mListView)
+                .viewGroup(mInBoardAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoard)
+                .containerType(TeadsContainerType.inBoardSticky)
                 .build();
 
         // Load the Ad

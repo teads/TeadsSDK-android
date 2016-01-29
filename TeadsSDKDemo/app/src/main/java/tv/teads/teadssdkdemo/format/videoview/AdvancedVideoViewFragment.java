@@ -98,7 +98,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
         if (mTeadsVideoView != null) {
             // reset views and flags
             mIsAnimating = mAdViewHaveToBeOpen = mIsFullscreen = mIsOpen = false;
-            mTeadsVideoView.clean();
+            mTeadsVideoView.cleanView();
         }
     }
 

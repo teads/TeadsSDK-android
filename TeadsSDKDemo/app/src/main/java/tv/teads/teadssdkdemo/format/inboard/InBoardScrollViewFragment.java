@@ -34,11 +34,21 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsVide
      */
     private FrameLayout mFrameLayout;
 
+    /**
+     * The inBoard ad view
+     */
+    private ViewGroup mInBoardAdView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inboard_scrollview, container, false);
+
         mFrameLayout = (FrameLayout) rootView.findViewById(R.id.ad_framelayout);
+
+        // Retrieve ad view
+        mInBoardAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
         return rootView;
     }
 
@@ -49,9 +59,9 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsVide
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mFrameLayout)
-                .containerType(TeadsContainerType.inBoard)
+                .viewGroup(mInBoardAdView)
                 .eventListener(this)
+                .containerType(TeadsContainerType.inBoardSticky)
                 .build();
 
         // Load the Ad
