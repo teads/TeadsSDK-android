@@ -66,7 +66,7 @@ public class InBoardWebViewFragment extends BaseFragment implements TeadsVideoEv
                 getPid())
                 .viewGroup(mInBoardAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoardSticky)
+                .containerType(TeadsContainerType.inBoard)
                 .build();
 
         // Load the Ad

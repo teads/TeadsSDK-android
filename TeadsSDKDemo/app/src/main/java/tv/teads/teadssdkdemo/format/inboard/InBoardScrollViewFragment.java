@@ -61,7 +61,7 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsVide
                 getPid())
                 .viewGroup(mInBoardAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoardSticky)
+                .containerType(TeadsContainerType.inBoard)
                 .build();
 
         // Load the Ad

@@ -68,7 +68,7 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
                 getPid())
                 .viewGroup(mInBoardAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoardSticky)
+                .containerType(TeadsContainerType.inBoard)
                 .build();
 
         // Load the Ad
