@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <tv.teads.sdk.publisher.InBoardAdView
+    <tv.teads.sdk.publisher.InReadTopAdView
         android:id="@+id/teads_adview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

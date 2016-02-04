@@ -56,31 +56,31 @@
 
 
             <TextView
-                android:id="@+id/inboard_parent"
-                android:text="@string/format_inboard"
+                android:id="@+id/inreadtop_parent"
+                android:text="@string/format_inreadtop"
                 style="@style/TextSubTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/inboard_scrollview"
+                android:id="@+id/inreadtop_scrollview"
                 android:text="@string/container_scrollview"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/inboard_listview"
+                android:id="@+id/inreadtop_listview"
                 android:text="@string/container_listview"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/inboard_recyclerview"
+                android:id="@+id/inreadtop_recyclerview"
                 android:text="@string/container_recyclerview"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <Button
-                android:id="@+id/inboard_webview"
+                android:id="@+id/inreadtop_webview"
                 android:text="@string/container_webview"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"

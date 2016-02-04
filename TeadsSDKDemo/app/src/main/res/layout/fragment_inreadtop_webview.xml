@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:teads="http://schemas.android.com/apk/res-auto"
@@ -6,19 +7,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <tv.teads.sdk.publisher.InBoardAdView
+    <tv.teads.sdk.publisher.InReadTopAdView
         android:id="@+id/teads_adview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         teads:autoload="true"
         />
 
-    <ListView
-        android:id="@+id/listView"
+    <tv.teads.sdk.publisher.TeadsObservableWebView
+        android:id="@+id/webViewVideo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp">
+        android:layout_height="match_parent">
 
-    </ListView>
+    </tv.teads.sdk.publisher.TeadsObservableWebView>
+
 </LinearLayout>

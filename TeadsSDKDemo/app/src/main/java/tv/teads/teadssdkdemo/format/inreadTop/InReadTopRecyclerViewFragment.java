@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.inboard;
+package tv.teads.teadssdkdemo.format.inreadTop;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -21,11 +21,11 @@ import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InBoard format within a RecyclerView
+ * InReadTop format within a RecyclerView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopRecyclerViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
@@ -39,20 +39,20 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
     private RecyclerView mRecyclerView;
 
     /**
-     * The inBoard ad view
+     * The inReadTopAdView ad view
      */
-    private ViewGroup mInBoardAdView;
+    private ViewGroup mInReadTopAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inboard_recyclerview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inreadtop_recyclerview, container, false);
 
         // Retrieve recyclerView from layout
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
         // Retrieve ad view
-        mInBoardAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+        mInReadTopAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
 
         return rootView;
     }
@@ -62,13 +62,13 @@ public class InBoardRecyclerViewFragment extends BaseFragment implements TeadsVi
         // Set RecyclerView basic adapter
         setRecyclerViewAdapter(mRecyclerView);
 
-        // Instanciate Teads Video in inboard format
+        // Instanciate Teads Video in inReadTop format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mInBoardAdView)
+                .viewGroup(mInReadTopAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoard)
+                .containerType(TeadsContainerType.inReadTop)
                 .build();
 
         // Load the Ad

@@ -28,10 +28,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.teadssdkdemo.format.InFlowFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardListViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardRecyclerViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardWebViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadListViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
@@ -230,24 +230,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.inboard_scrollview)
-    public void inBoardScrollView() {
-        changeFragment(new InBoardScrollViewFragment());
+    @OnClick(R.id.inreadtop_scrollview)
+    public void inReadTopScrollView() {
+        changeFragment(new InReadTopScrollViewFragment());
     }
 
-    @OnClick(R.id.inboard_listview)
-    public void inBoardListView() {
-        changeFragment(new InBoardListViewFragment());
+    @OnClick(R.id.inreadtop_listview)
+    public void inReadTopListView() {
+        changeFragment(new InReadTopListViewFragment());
     }
 
-    @OnClick(R.id.inboard_recyclerview)
-    public void inBoardRecyclerView() {
-        changeFragment(new InBoardRecyclerViewFragment());
+    @OnClick(R.id.inreadtop_recyclerview)
+    public void inReadTopRecyclerView() {
+        changeFragment(new InReadTopRecyclerViewFragment());
     }
 
-    @OnClick(R.id.inboard_webview)
-    public void inBoardWebView() {
-        changeFragment(new InBoardWebViewFragment());
+    @OnClick(R.id.inreadtop_webview)
+    public void inReadTopWebView() {
+        changeFragment(new InReadTopWebViewFragment());
     }
 
     @OnClick(R.id.inflow)

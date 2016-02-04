@@ -1,11 +1,12 @@
-package tv.teads.teadssdkdemo.format.inboard;
+package tv.teads.teadssdkdemo.format.inreadTop;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
@@ -17,11 +18,11 @@ import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InBoard format within a ScrollView
+ * InReadTop format within a ListView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InBoardScrollViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopListViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
@@ -30,38 +31,42 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsVide
     private TeadsVideo mTeadsVideo;
 
     /**
-     * Your FrameLayout used to display video in
+     * The ListView used in the application
      */
-    private FrameLayout mFrameLayout;
+    private ListView mListView;
 
     /**
-     * The inBoard ad view
+     * The inReadTop ad view
      */
-    private ViewGroup mInBoardAdView;
+    private ViewGroup mInReadTopAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inboard_scrollview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inreadtop_listview, container, false);
 
-        mFrameLayout = (FrameLayout) rootView.findViewById(R.id.ad_framelayout);
+        // Retrieve ListView from layout
+        mListView = (ListView) rootView.findViewById(R.id.listView);
 
         // Retrieve ad view
-        mInBoardAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+        mInReadTopAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
 
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        // Set ListView basic adapter
+        setListViewAdapter(mListView);
 
-        // Instanciate Teads Video in inboard format
+        // Instanciate Teads Video in inReadTop format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mInBoardAdView)
+                .viewGroup(mInReadTopAdView)
                 .eventListener(this)
-                .containerType(TeadsContainerType.inBoard)
+                .containerType(TeadsContainerType.inReadTop)
                 .build();
 
         // Load the Ad
@@ -92,6 +97,20 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsVide
         }
     }
 
+
+    private void setListViewAdapter(ListView listView) {
+        int size = 50;
+        String values[] = new String[size];
+
+        for (int i = 0; i < values.length; i++) {
+            values[i] = "Teads " + i;
+        }
+
+        // use your custom layout
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_row, R.id.listViewText, values);
+        listView.setAdapter(adapter);
+    }
 
     /*----------------------------------------
     * implements TeadsVideoEventListener
@@ -245,6 +264,7 @@ public class InBoardScrollViewFragment extends BaseFragment implements TeadsVide
     public void onDrawerClosed(View drawerView) {
         mTeadsVideo.requestResume();
     }
+
 
     @Override
     public void onDrawerStateChanged(int newState) {
