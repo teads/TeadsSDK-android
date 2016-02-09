@@ -15,7 +15,7 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
  * InFlow format (launch by developer)
- *
+ * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
 public class InFlowFragment extends BaseFragment implements TeadsInterstitialEventListener {
@@ -23,17 +23,17 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
     /**
      * Teads Interstitial
      */
-    private TeadsInterstitial   mTeadsInterstitial;
+    private TeadsInterstitial mTeadsInterstitial;
 
     /**
      * Button to load or show the interstitial
      */
-    private Button              mLoadShowButton;
+    private Button mLoadShowButton;
 
     /**
      * Simple TextView to notify user of the Interstitial state
      */
-    private TextView            mTextView;
+    private TextView mTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +45,7 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         mLoadShowButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,16 +54,17 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
             }
         });
 
-        // Instanciate Teads Native Video in inRead format
-        mTeadsInterstitial = new TeadsInterstitial(
+        // Instanciate Teads Video in inRead format
+        mTeadsInterstitial = new TeadsInterstitial.TeadsInterstitialBuilder(
                 this.getActivity(),
-                this.getPid(),
-                this);
+                this.getPid())
+                .eventListener(this)
+                .build();
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         // Load the Ad
@@ -71,15 +72,15 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
 
-        if(mTeadsInterstitial != null){
+        if (mTeadsInterstitial != null) {
             mTeadsInterstitial.clean();
         }
     }
@@ -123,10 +124,6 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
         updateLogTextView("Interstitial did dismiss fullscreen");
     }
 
-    @Override
-    public void teadsInterstitialRewardUnlocked() {
-
-    }
 
     @Override
     public void teadsInterstitialDidClean() {
@@ -134,7 +131,7 @@ public class InFlowFragment extends BaseFragment implements TeadsInterstitialEve
     }
 
 
-    private void updateLogTextView(String text){
+    private void updateLogTextView(String text) {
         mTextView.setText(mTextView.getText() + " \n" + text);
     }
 }
