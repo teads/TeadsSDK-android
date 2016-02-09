@@ -24,7 +24,7 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     /**
      * ListView view types
      */
-    public static final int TYPE_INREAD = 1;
+    public static final int TYPE_INREAD   = 1;
     public static final int TYPE_TEXTVIEW = 0;
 
     /**
@@ -43,26 +43,26 @@ public class VideoViewCustomAdapter extends BaseAdapter {
     private int inReadPosition;
 
     /**
-     * Listeenr to be notified each time a TeadsVideoView is inflated
+     * To listen when view is attached
      */
-    private ExternalAdapterListener mExternalAdapterListener;
+    private TeadsViewAttachListener mTeadsVideoViewAttachListener;
 
     /**
      * Instantiate the custom adapter with required data
      *
-     * @param activity activity to be used on VideoVIew
-     * @param val datas
+     * @param activity   activity to be used on VideoVIew
+     * @param val        datas
      * @param adPosition ad position
-     * @param adapterListener external adapter to be notify on VideoView inflation
+     * @param listener   external adapter to be notify on VideoView is attached
      */
     public VideoViewCustomAdapter(Activity activity,
                                   String[] val,
                                   int adPosition,
-                                  ExternalAdapterListener adapterListener) {
+                                  TeadsViewAttachListener listener) {
         inReadPosition = adPosition;
         mInflater = LayoutInflater.from(activity.getApplicationContext());
         mValues = val;
-        mExternalAdapterListener = adapterListener;
+        mTeadsVideoViewAttachListener = listener;
     }
 
     @Override
@@ -110,6 +110,7 @@ public class VideoViewCustomAdapter extends BaseAdapter {
         ViewHolder holder;
         int type = getItemViewType(position);
 
+
         /**
          * Check if the given convertView already contains a View inside or if a new view should be inflated.
          */
@@ -123,6 +124,7 @@ public class VideoViewCustomAdapter extends BaseAdapter {
                 case TYPE_INREAD:
                     convertView = mInflater.inflate(R.layout.list_row_videoview, null);
                     holder.videoView = (TeadsVideoView) convertView.findViewById(R.id.videoview);
+                    mTeadsVideoViewAttachListener.onAttachTeadsVideoView(holder.videoView);
                     break;
             }
 
@@ -131,20 +133,12 @@ public class VideoViewCustomAdapter extends BaseAdapter {
             }
         } else {
             holder = (ViewHolder) convertView.getTag();
-        }
 
-        /**
-         * Special case for the VideoView to be correctly initialized if was not already loaded
-         */
-        switch (type) {
-            case TYPE_INREAD:
-                mExternalAdapterListener.onVideoChanged(holder.videoView);
-                break;
-            case TYPE_TEXTVIEW:
-                holder.textView.setText(mValues[position]);
-                break;
+            if (type == TYPE_INREAD) {
+                //Notify when the ad view is attached
+                mTeadsVideoViewAttachListener.onAttachTeadsVideoView(holder.videoView);
+            }
         }
-
         return convertView;
     }
 
@@ -153,15 +147,11 @@ public class VideoViewCustomAdapter extends BaseAdapter {
      */
     class ViewHolder {
         public TeadsVideoView videoView;
-        public TextView textView;
+        public TextView       textView;
     }
 
-
-    /**
-     * Listener to external object that need to be notify when a VideoView as been inflated
-     */
-    public interface ExternalAdapterListener {
-        void onVideoChanged(TeadsVideoView layout);
+    public interface TeadsViewAttachListener {
+        void onAttachTeadsVideoView(TeadsVideoView teadsVideoView);
     }
 
 

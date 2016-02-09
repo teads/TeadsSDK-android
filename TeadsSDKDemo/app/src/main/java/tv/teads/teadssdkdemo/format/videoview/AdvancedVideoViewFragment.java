@@ -10,8 +10,10 @@ import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsNativeVideoEventListener;
+import tv.teads.sdk.publisher.TeadsVideo;
+import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.sdk.publisher.TeadsVideoView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
@@ -21,16 +23,16 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 /**
  * Custom format base on {@link TeadsVideoView} that will display the ad every 20 items of the ListView.
  * This sample is supplied for a demostration of TeadsVideoView. It may contains cases that is not managed.
- *
- *
+ * <p/>
+ * <p/>
  * <p/>
  * Created by Hugo Gresse on 06/08/15.
  */
 public class AdvancedVideoViewFragment extends BaseFragment implements
-        TeadsNativeVideoEventListener,
-        VideoViewCustomAdapter.ExternalAdapterListener,
+        TeadsVideoEventListener,
         AbsListView.OnScrollListener,
-        DrawerLayout.DrawerListener {
+        DrawerLayout.DrawerListener,
+        VideoViewCustomAdapter.TeadsViewAttachListener {
 
     public static final String LOG_TAG = "AdvancedVideoViewFrag";
 
@@ -42,6 +44,11 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     private ListView mListView;
 
     /**
+     * Teads Video instance
+     */
+    private TeadsVideo mTeadsVideo;
+
+    /**
      * A VideoView displaying the ad as a part of ListView
      */
     private TeadsVideoView mTeadsVideoView;
@@ -50,19 +57,20 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
      * Flag to manage Ad State
      */
     private boolean mIsAnimating;
-    private boolean mIsOpen;
+    private boolean mAdViewHaveToBeOpen;
     private boolean mIsFullscreen;
-
-    /**
-     * Prevent loading multiple time the Ad is case of fast scroll
-     */
-    private boolean mLoadCalled;
+    private boolean mIsOpen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_native_inread_listview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inread_listview, container, false);
         mListView = (ListView) rootView.findViewById(R.id.listView);
+
+        mAdViewHaveToBeOpen = false;
+        mIsAnimating = false;
+        mIsOpen = false;
+
         return rootView;
     }
 
@@ -70,7 +78,14 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Attach scroll listener to know when we should play or pause the ad
+        // Init TeadsVideo and load the Ad
+        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(getActivity(), getPid())
+                .containerType(TeadsContainerType.custom)
+                .eventListener(this)
+                .build();
+        mTeadsVideo.load();
+
+        // Attach scroll listener to know when we should detach or attach the TeadsVideoView
         mListView.setOnScrollListener(this);
 
         // Set a very custom listview adapter
@@ -80,105 +95,106 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mTeadsVideoView != null){
+        if (mTeadsVideoView != null) {
             // reset views and flags
-            mIsAnimating = mIsOpen = mIsFullscreen = mLoadCalled = false;
-            mTeadsVideoView.clean();
+            mIsAnimating = mAdViewHaveToBeOpen = mIsFullscreen = mIsOpen = false;
+            mTeadsVideoView.cleanView();
         }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity)getActivity()).setDrawerListener(this);
+        ((MainActivity) getActivity()).setDrawerListener(this);
+
+        if (mTeadsVideo != null) {
+            //Notify TeadsVideo when the fragment will resume
+            mTeadsVideo.onResume();
+        }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).setDrawerListener(null);
+        ((MainActivity) getActivity()).setDrawerListener(null);
+        if (mTeadsVideo != null) {
+            //Notify TeadsVideo when the fragment will pause
+            mTeadsVideo.onPause();
+        }
     }
 
     /**
      * Open the VideoView with expand animation
      */
     private void openInRead() {
-        // Update inner videoView size
-        mTeadsVideoView.updateSize();
+        if (mTeadsVideoView == null) {
+            mAdViewHaveToBeOpen = true;
+            return;
+        }
 
-        // Reset the state to collapsed to prevent wrong height
+        //Update the TeadsVideoView to match the ViewGroup parent
+        mTeadsVideoView.updateSize(mListView);
         mTeadsVideoView.setCollapsed();
 
-        // Expand TeadsVideoView. It's not mandatory to use TeadsVideoView expand but it make think easier
-        // for you if you use it.
-        mTeadsVideoView.expand(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                Log.d(LOG_TAG, "onAnimationStart");
-                mIsAnimating = true;
-            }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Log.d(LOG_TAG, "onAnimationEnd");
-                mIsOpen = true;
-                mIsAnimating = false;
+        if (!mAdViewHaveToBeOpen) {
+            mIsAnimating = true;
+            mTeadsVideoView.expand(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    Log.d(LOG_TAG, "onAnimationStart");
+                }
 
-                // Displayed the controls (mute button, skip button, progressBar)
-                mTeadsVideoView.setControlVisibility(View.VISIBLE);
-            }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    Log.d(LOG_TAG, "onAnimationEnd");
+                    mIsAnimating = false;
+                    mIsOpen = true;
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
+                    //Prevent TeadsVideo that view did expand
+                    mTeadsVideo.adViewDidExpand();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        } else {
+            mAdViewHaveToBeOpen = false;
+            mTeadsVideoView.setVisibility(View.VISIBLE);
+            mTeadsVideo.adViewDidExpand();
+        }
+
+
     }
 
     /**
      * Close VideoView with collapse animation
      */
     private void closeInRead() {
-        // Collapse TeadsVideoView. It's not mandatory to use TeadsVideoView collapse but it make think easier
-        // for you if you use it.
+
+        mIsAnimating = true;
         mTeadsVideoView.collapse(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
-                mIsAnimating = true;
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mIsAnimating = mIsOpen = false;
-                // TeadsVideoView reset by himself once collapsed
+
+                mIsAnimating = false;
+                mIsOpen = false;
+                mTeadsVideo.adViewDidClose();
+
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+
+            }
         });
-    }
-
-    /**
-     * Called from the {@link VideoViewCustomAdapter}
-     *
-     * @param layout the new created VideoView
-     */
-    @Override
-    public void onVideoChanged(TeadsVideoView layout) {
-        Log.d(LOG_TAG, "onVideoChanged");
-        mTeadsVideoView = layout;
-
-        if(!mTeadsVideoView.isLoaded() && !mLoadCalled){
-            mLoadCalled = true;
-            mTeadsVideoView.init(getActivity(), getPid(), this);
-            mTeadsVideoView.requestLayout();
-            mTeadsVideoView.load();
-        }
-
-        if (!mIsOpen) {
-            mTeadsVideoView.setCollapsed();
-        }
     }
 
     /**
@@ -215,8 +231,6 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     /**
      * Called on ListView scroll. we have to check the video visibility by :
      * - check if the displayed items contains the VideoView (the VideoView is placed every 20 items)
-     * - if visible, requestResume if not already playing
-     * - if not visible, requestPlay
      *
      * @param view             the visible view
      * @param firstVisibleItem firstVisibleItem
@@ -225,7 +239,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mTeadsVideoView == null || mIsAnimating || mIsFullscreen || !mTeadsVideoView.isLoaded()) {
+        if (mTeadsVideo == null || mTeadsVideoView == null || mIsAnimating || mIsFullscreen) {
             return;
         }
 
@@ -244,160 +258,149 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
             isVisible = true;
         }
 
-        if (isVisible && !mTeadsVideoView.isVisible()) {
-            // Log.d(LOG_TAG, "not vis3");
-            isVisible = false;
+        if (!isVisible) {
+            mTeadsVideo.requestPause();
+            mTeadsVideo.detachView();
+        } else {
+            mTeadsVideo.requestResume();
         }
 
-        if (isVisible && !mTeadsVideoView.isPlaying()) {
-            mTeadsVideoView.requestResume();
-            mTeadsVideoView.setVisibility(View.VISIBLE);
-        } else if (!isVisible && mTeadsVideoView.isPlaying()) {
-            mTeadsVideoView.requestPause();
-        }
+        mTeadsVideo.containerDidMove();
     }
-    
-    
+
+
     /*----------------------------------------
-    * implements TeadsNativeVideoEventListener
+    * implements TeadsVideoEventListener
     */
 
     @Override
-    public void nativeVideoDidFailLoading(TeadsError error) {
-        mLoadCalled = false;
-    }
-
-    @Override
-    public void nativeVideoWillLoad() {
+    public void teadsVideoDidFailLoading(TeadsError teadsError) {
 
     }
 
     @Override
-    public void nativeVideoDidLoad() {
-        Log.d(LOG_TAG, "nativeVideoDidLoad");
+    public void teadsVideoWillLoad() {
 
-        mLoadCalled = false;
+    }
 
+    @Override
+    public void teadsVideoDidLoad() {
+
+    }
+
+    @Override
+    public void teadsVideoWillStart() {
+
+    }
+
+    @Override
+    public void teadsVideoDidStart() {
+
+    }
+
+    @Override
+    public void teadsVideoWillStop() {
+
+    }
+
+    @Override
+    public void teadsVideoDidStop() {
+
+    }
+
+    @Override
+    public void teadsVideoDidResume() {
+
+    }
+
+    @Override
+    public void teadsVideoDidPause() {
+
+    }
+
+    @Override
+    public void teadsVideoDidMute() {
+
+    }
+
+    @Override
+    public void teadsVideoDidUnmute() {
+
+    }
+
+    @Override
+    public void teadsVideoDidOpenInternalBrowser() {
+
+    }
+
+    @Override
+    public void teadsVideoDidClickBrowserClose() {
+
+    }
+
+    @Override
+    public void teadsVideoWillTakerOverFullScreen() {
+
+    }
+
+    @Override
+    public void teadsVideoDidTakeOverFullScreen() {
+
+    }
+
+    @Override
+    public void teadsVideoWillDismissFullscreen() {
+
+    }
+
+    @Override
+    public void teadsVideoDidDismissFullscreen() {
+
+    }
+
+    @Override
+    public void teadsVideoSkipButtonTapped() {
         if (mTeadsVideoView != null) {
-
-            if (!mIsOpen) {
-                openInRead();
-            }
+            closeInRead();
         }
-    }
-
-    @Override
-    public void nativeVideoWillStart() {
 
     }
 
     @Override
-    public void nativeVideoDidStart() {
+    public void teadsVideoSkipButtonDidShow() {
 
     }
 
     @Override
-    public void nativeVideoWillStop() {
+    public void teadsVideoWillExpand() {
+        //have to play animation
+        //In end of animation prevent animation finish
+        openInRead();
+    }
+
+    @Override
+    public void teadsVideoDidExpand() {
 
     }
 
     @Override
-    public void nativeVideoDidStop() {
-
+    public void teadsVideoWillCollapse() {
     }
 
     @Override
-    public void nativeVideoDidResume() {
-
-    }
-
-    @Override
-    public void nativeVideoDidPause() {
-
-    }
-
-    @Override
-    public void nativeVideoDidMute() {
-
-    }
-
-    @Override
-    public void nativeVideoDidUnmute() {
-
-    }
-
-    @Override
-    public void nativeVideoDidOpenInternalBrowser() {
-
-    }
-
-    @Override
-    public void nativeVideoDidClickBrowserClose() {
-
-    }
-
-    @Override
-    public void nativeVideoWillTakerOverFullScreen() {
-
-    }
-
-    @Override
-    public void nativeVideoDidTakeOverFullScreen() {
-        mIsFullscreen = true;
-    }
-
-    @Override
-    public void nativeVideoWillDismissFullscreen() {
-
-    }
-
-    @Override
-    public void nativeVideoDidDismissFullscreen() {
-        mIsFullscreen = false;
-    }
-
-    @Override
-    public void nativeVideoSkipButtonTapped() {
+    public void teadsVideoDidCollapse() {
         if (mTeadsVideoView != null) {
             closeInRead();
         }
     }
 
     @Override
-    public void nativeVideoSkipButtonDidShow() {
+    public void teadsVideoDidClean() {
 
     }
 
     @Override
-    public void nativeVideoWillExpand() {
-
-    }
-
-    @Override
-    public void nativeVideoDidExpand() {
-
-    }
-
-    @Override
-    public void nativeVideoWillCollapse() {
-
-    }
-
-    @Override
-    public void nativeVideoDidCollapse() {
-        if (mTeadsVideoView != null) {
-            closeInRead();
-        }
-        mLoadCalled = false;
-    }
-
-    @Override
-    public void nativeVideoDidClean() {
-
-    }
-
-    @Override
-    public void nativeVideoWebViewNoSlotAvailable() {
+    public void teadsVideoNoSlotAvailable() {
 
     }
 
@@ -412,21 +415,41 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        if(mTeadsVideoView != null){
-            mTeadsVideoView.requestPause();
+        if (mTeadsVideo != null) {
+            mTeadsVideo.requestPause();
         }
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        if(mTeadsVideoView != null){
-            mTeadsVideoView.requestResume();
+        if (mTeadsVideo != null) {
+            mTeadsVideo.requestResume();
         }
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
-
     }
 
+
+    @Override
+    public void onAttachTeadsVideoView(TeadsVideoView teadsVideoView) {
+        Log.d(LOG_TAG, "teadsVideoViewAttached");
+        mTeadsVideoView = teadsVideoView;
+        mTeadsVideo.attachView(mTeadsVideoView);
+
+        if (!mIsOpen && !mIsAnimating) {
+            mTeadsVideoView.setCollapsed();
+        }
+
+        mTeadsVideo.teadsVideoViewAdded();
+        if (mTeadsVideoView.getRatio() == null) {
+            return;
+        }
+        mTeadsVideoView.updateSize(mListView);
+
+        if (mAdViewHaveToBeOpen) {
+            openInRead();
+        }
+    }
 }

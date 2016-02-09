@@ -1,16 +1,15 @@
-package tv.teads.teadssdkdemo.format.inread;
+package tv.teads.teadssdkdemo.format.inreadTop;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
@@ -18,11 +17,11 @@ import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InRead format within a WebView
+ * InReadTop format within a ScrollView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
@@ -31,33 +30,38 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
     private TeadsVideo mTeadsVideo;
 
     /**
-     * Your WebView extending the TeadsObservableWebView class
+     * Your FrameLayout used to display video in
      */
-    private TeadsObservableWebView mTeadsWebView;
+    private FrameLayout mFrameLayout;
+
+    /**
+     * The inReadTop ad view
+     */
+    private ViewGroup mInReadTopAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inread_webview, container, false);
-        mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewVideo);
+        View rootView = inflater.inflate(R.layout.fragment_inreadtop_scrollview, container, false);
+
+        mFrameLayout = (FrameLayout) rootView.findViewById(R.id.ad_framelayout);
+
+        // Retrieve ad view
+        mInReadTopAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
         return rootView;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
-        // Load url in the WebView
-        mTeadsWebView.loadUrl(this.getWebViewUrl());
-
-        // Instanciate Teads Video in inRead format
+        // Instanciate Teads Video in inReadTop format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mTeadsWebView)
-                .containerType(TeadsContainerType.inRead)
+                .viewGroup(mInReadTopAdView)
                 .eventListener(this)
+                .containerType(TeadsContainerType.inReadTop)
                 .build();
 
         // Load the Ad
@@ -246,5 +250,4 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
     public void onDrawerStateChanged(int newState) {
 
     }
-
 }
