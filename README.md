@@ -23,7 +23,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:2.0.22:fullRelease@aar') {
+    compile ('tv.teads.sdk:androidsdk:2.0.23:fullRelease@aar') {
         transitive = true;
     }
 }
