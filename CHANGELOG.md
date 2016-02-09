@@ -1,10 +1,24 @@
 # Changelog
 
 v2.0.22:
+- new ad design and behaviors
 - Whole new version of SDK that brings breaking changes. Read [Migration guide from SDK v1.6 to v2](http://mobile.teads.tv/sdk/documentation/android/migration-guide-from-v1-6-x)
 
 ----------
 ### Old version (SDK v1.x)
+
+v1.6.7:
+- Fix two issues related to db and progressBar
+
+v1.6.6:
+- Fix an issue related to the tracking user agent 
+
+v1.6.5:
+- Fix an issue related to WebView clean
+
+v1.6.4:
+- Improve handle of new Play Services version
+- Improve backward compatibility check
 
 v1.6.3:
 - New `TeadsConfiguration.preventWebViewAutoClean` to prevent WebView Ad to be auto cleaned by Teads SDK
