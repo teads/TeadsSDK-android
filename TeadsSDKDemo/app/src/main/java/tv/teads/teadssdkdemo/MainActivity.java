@@ -26,16 +26,12 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tv.teads.sdk.adContent.AdContent;
-import tv.teads.sdk.publisher.TeadsAdFactory;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.teadssdkdemo.format.InFlowFragment;
-import tv.teads.teadssdkdemo.format.InSwipeViewPagerFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardAdFactoryScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardListViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardRecyclerViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inboard.InBoardWebViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadListViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
@@ -49,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "MainActivity";
 
-    public static final String SHAREDPREF_PID = "sp_pid";
-    public static final String SHAREDPREF_WEBVIEWURL = "sp_wvurl";
-    public static final String SHAREDPREF_PID_DEFAULT = "27695";
+    public static final String SHAREDPREF_PID             = "sp_pid";
+    public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
+    public static final String SHAREDPREF_PID_DEFAULT     = "27695";
     public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
 
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout                mDrawerLayout;
     private DrawerLayout.DrawerListener mDrawerListener;
 
     @Override
@@ -132,9 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Preload one Ad from AdFactory
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
-        TeadsAdFactory.getInstance(this).loadAdContent(
-                getPid(this),
-                AdContent.PlacementAdType.PlacementAdTypeNativeVideo);
     }
 
     /**
@@ -237,61 +230,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.inboard_scrollview)
-    public void inBoardScrollView() {
-        changeFragment(new InBoardScrollViewFragment());
+    @OnClick(R.id.inreadtop_scrollview)
+    public void inReadTopScrollView() {
+        changeFragment(new InReadTopScrollViewFragment());
     }
 
-    @OnClick(R.id.inboard_listview)
-    public void inBoardListView() {
-        changeFragment(new InBoardListViewFragment());
+    @OnClick(R.id.inreadtop_listview)
+    public void inReadTopListView() {
+        changeFragment(new InReadTopListViewFragment());
     }
 
-    @OnClick(R.id.inboard_recyclerview)
-    public void inBoardRecyclerView() {
-        changeFragment(new InBoardRecyclerViewFragment());
+    @OnClick(R.id.inreadtop_recyclerview)
+    public void inReadTopRecyclerView() {
+        changeFragment(new InReadTopRecyclerViewFragment());
     }
 
-    @OnClick(R.id.inboard_webview)
-    public void inBoardWebView() {
-        changeFragment(new InBoardWebViewFragment());
+    @OnClick(R.id.inreadtop_webview)
+    public void inReadTopWebView() {
+        changeFragment(new InReadTopWebViewFragment());
     }
-
-
-    @OnClick(R.id.inswipe_viewpager)
-    public void inSwipeViewPager() {
-        changeFragment(new InSwipeViewPagerFragment());
-    }
-
 
     @OnClick(R.id.inflow)
     public void inFlowBasic() {
         changeFragment(new InFlowFragment());
     }
 
-
     @OnClick(R.id.videoview)
     public void videoViewChooser() {
         changeFragment(new VideoViewSampleChooserFragment());
     }
 
-
-    @OnClick(R.id.adfactory_inboard)
-    public void adFactoryInBoard() {
-        // Preload a NativeVideo from AdFactory whitout any listener.
-        changeFragment(new InBoardAdFactoryScrollViewFragment());
-    }
-
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
-        final EditText input = new EditText(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText input = (EditText) view.findViewById(R.id.pid_input);
         input.setText(getPid(this));
+        input.setLines(1);
+        input.setSingleLine(true);
 
         new AlertDialog.Builder(this)
                 .setTitle("Pid")
                 .setMessage("Change saved pid")
-                .setView(input)
+                .setView(view)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String pidString = input.getText().toString();
@@ -319,13 +300,14 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        final EditText input = new EditText(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText input = (EditText) view.findViewById(R.id.pid_input);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)
                 .setTitle("WebView Url")
                 .setMessage("Change WebView url")
-                .setView(input)
+                .setView(view)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String pidString = input.getText().toString();

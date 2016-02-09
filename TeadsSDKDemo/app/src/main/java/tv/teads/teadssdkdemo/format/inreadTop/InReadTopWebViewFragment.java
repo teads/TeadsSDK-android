@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.inread;
+package tv.teads.teadssdkdemo.format.inreadTop;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -18,11 +18,11 @@ import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InRead format within a WebView
+ * InReadTop format within a WebView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
@@ -35,14 +35,23 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
      */
     private TeadsObservableWebView mTeadsWebView;
 
+    /**
+     * The inReadTop ad view
+     */
+    private ViewGroup mInReadTopAdView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inread_webview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_inreadtop_webview, container, false);
+
         mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewVideo);
+
+        // Retrieve ad view
+        mInReadTopAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
         return rootView;
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -51,13 +60,13 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
         // Load url in the WebView
         mTeadsWebView.loadUrl(this.getWebViewUrl());
 
-        // Instanciate Teads Video in inRead format
+        // Instanciate Teads Video in inReadTop format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mTeadsWebView)
-                .containerType(TeadsContainerType.inRead)
+                .viewGroup(mInReadTopAdView)
                 .eventListener(this)
+                .containerType(TeadsContainerType.inReadTop)
                 .build();
 
         // Load the Ad

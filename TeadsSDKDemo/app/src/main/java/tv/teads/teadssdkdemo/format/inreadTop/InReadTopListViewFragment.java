@@ -1,16 +1,16 @@
-package tv.teads.teadssdkdemo.format.inread;
+package tv.teads.teadssdkdemo.format.inreadTop;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsError;
-import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
@@ -18,11 +18,11 @@ import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 
 /**
- * InRead format within a WebView
+ * InReadTop format within a ListView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopListViewFragment extends BaseFragment implements TeadsVideoEventListener,
         DrawerLayout.DrawerListener {
 
     /**
@@ -31,33 +31,42 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
     private TeadsVideo mTeadsVideo;
 
     /**
-     * Your WebView extending the TeadsObservableWebView class
+     * The ListView used in the application
      */
-    private TeadsObservableWebView mTeadsWebView;
+    private ListView mListView;
+
+    /**
+     * The inReadTop ad view
+     */
+    private ViewGroup mInReadTopAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inread_webview, container, false);
-        mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewVideo);
+        View rootView = inflater.inflate(R.layout.fragment_inreadtop_listview, container, false);
+
+        // Retrieve ListView from layout
+        mListView = (ListView) rootView.findViewById(R.id.listView);
+
+        // Retrieve ad view
+        mInReadTopAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
+
+
         return rootView;
     }
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        // Set ListView basic adapter
+        setListViewAdapter(mListView);
 
-        TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
-        // Load url in the WebView
-        mTeadsWebView.loadUrl(this.getWebViewUrl());
-
-        // Instanciate Teads Video in inRead format
+        // Instanciate Teads Video in inReadTop format
         mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
                 getActivity(),
                 getPid())
-                .viewGroup(mTeadsWebView)
-                .containerType(TeadsContainerType.inRead)
+                .viewGroup(mInReadTopAdView)
                 .eventListener(this)
+                .containerType(TeadsContainerType.inReadTop)
                 .build();
 
         // Load the Ad
@@ -88,6 +97,20 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
         }
     }
 
+
+    private void setListViewAdapter(ListView listView) {
+        int size = 50;
+        String values[] = new String[size];
+
+        for (int i = 0; i < values.length; i++) {
+            values[i] = "Teads " + i;
+        }
+
+        // use your custom layout
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_row, R.id.listViewText, values);
+        listView.setAdapter(adapter);
+    }
 
     /*----------------------------------------
     * implements TeadsVideoEventListener
@@ -242,9 +265,9 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsVideoEve
         mTeadsVideo.requestResume();
     }
 
+
     @Override
     public void onDrawerStateChanged(int newState) {
 
     }
-
 }

@@ -16,9 +16,10 @@
             android:textSize="@dimen/text_size" />
 
         <tv.teads.sdk.publisher.TeadsVideoView
+            android:id="@+id/videoview"
+            android:height="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/videoview"
             android:layout_below="@+id/textView8"/>
 
         <TextView

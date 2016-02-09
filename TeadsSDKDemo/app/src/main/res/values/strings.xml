@@ -12,12 +12,12 @@
     <string name="action_webviewurl">Change WebView url</string>
 
 
-    <string name="type_native">NATIVE VIDEO</string>
+    <string name="type_video">VIDEO</string>
     <string name="type_interstitial">INTERSTITIAL</string>
     <string name="type_videoview">VIDEOVIEW</string>
 
     <string name="format_inread">inRead</string>
-    <string name="format_inboard">inBoard</string>
+    <string name="format_inreadtop">inRead Top</string>
     <string name="format_inswipe">inSwipe</string>
     <string name="format_inflow">inFlow</string>
     <string name="format_adfactory">AdFactory</string>
