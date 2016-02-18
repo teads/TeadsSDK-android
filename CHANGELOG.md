@@ -4,7 +4,7 @@ v2.0.24:
 - RecyclerView fix 
 - minor bug fix and improvements
 
-v2.0.22:
+v2.0.23:
 - new ad design and behaviors
 - Whole new version of SDK that brings breaking changes. Read [Migration guide from SDK v1.6 to v2](http://mobile.teads.tv/sdk/documentation/android/migration-guide-from-v1-6-x)
 
