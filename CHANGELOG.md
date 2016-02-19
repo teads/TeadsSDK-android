@@ -1,6 +1,6 @@
 # Changelog
 
-v2.0.24:
+v2.0.25
 - RecyclerView fix 
 - minor bug fix and improvements
 
