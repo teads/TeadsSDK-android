@@ -1,6 +1,10 @@
 # Changelog
 
-v2.0.25
+v2.0.27:
+- change ExoPlayer dependency to prevent conflict
+- minor fix
+
+v2.0.25:
 - RecyclerView fix 
 - minor bug fix and improvements
 
