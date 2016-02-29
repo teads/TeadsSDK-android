@@ -1,4 +1,6 @@
 # Changelog
+v2.0.28:
+- Webview fix
 
 v2.0.27:
 - change ExoPlayer dependency to prevent conflict
