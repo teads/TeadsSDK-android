@@ -1,5 +1,9 @@
 # Changelog
-v2.0.28:
+v2.0.29:
+- improve landscape behavior
+- minor bug fix
+
+2.0.28:
 - Webview fix
 
 v2.0.27:
