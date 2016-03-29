@@ -1,5 +1,5 @@
 # Changelog
-v2.0.29:
+v2.0.30:
 - allow new load() after a no slot on WebViews
 - allow option to disable Chrome custom tabs via `teadsConfiguration.disableChromeCustomTab`
 - minor bug fix
