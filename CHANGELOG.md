@@ -1,4 +1,9 @@
 # Changelog
+v2.0.30:
+- allow new load() after a no slot on WebViews
+- allow option to disable Chrome custom tabs via `teadsConfiguration.disableChromeCustomTab`
+- minor bug fix
+
 v2.0.29:
 - improve landscape behavior
 - minor bug fix
