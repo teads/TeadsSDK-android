@@ -1,5 +1,5 @@
 # Changelog
-v2.0.31:
+v2.0.32:
 - improve memory management
 - fix issues when cleaning `TeadsVideo` with null views
 
