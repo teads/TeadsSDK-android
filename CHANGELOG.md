@@ -1,4 +1,8 @@
 # Changelog
+v2.0.32:
+- improve memory management
+- fix issues when cleaning `TeadsVideo` with null views
+
 v2.0.30:
 - allow new load() after a no slot on WebViews
 - allow option to disable Chrome custom tabs via `teadsConfiguration.disableChromeCustomTab`
