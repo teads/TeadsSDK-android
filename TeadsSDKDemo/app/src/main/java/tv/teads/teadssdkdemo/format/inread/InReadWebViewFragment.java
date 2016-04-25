@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.sdk.publisher.TeadsError;
+import tv.teads.utils.TeadsError;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.sdk.publisher.TeadsVideo;
