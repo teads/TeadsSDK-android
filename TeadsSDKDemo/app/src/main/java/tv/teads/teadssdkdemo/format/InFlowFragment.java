@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsInterstitial;
 import tv.teads.sdk.publisher.TeadsInterstitialEventListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.utils.TeadsError;
 
 /**
  * InFlow format (launch by developer)

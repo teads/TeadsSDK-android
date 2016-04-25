@@ -9,12 +9,12 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.sdk.publisher.TeadsError;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.utils.TeadsError;
 
 /**
  * InRead format within a ScrollView

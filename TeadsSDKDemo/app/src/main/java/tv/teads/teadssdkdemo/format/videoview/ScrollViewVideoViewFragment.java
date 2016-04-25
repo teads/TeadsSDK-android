@@ -11,7 +11,7 @@ import android.view.animation.Animation;
 import android.widget.ScrollView;
 
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.sdk.publisher.TeadsError;
+import tv.teads.utils.TeadsError;
 import tv.teads.sdk.publisher.TeadsVideo;
 import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.sdk.publisher.TeadsVideoView;

@@ -1,4 +1,10 @@
 # Changelog
+
+v2.1.0:
+- internal dependency change
+- use OkHttp 3.2.0
+- minor bug fix
+
 v2.0.32:
 - improve memory management
 - fix issues when cleaning `TeadsVideo` with null views
