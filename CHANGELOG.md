@@ -1,5 +1,10 @@
 # Changelog
 
+v2.1.1:
+- new behaviors on video touch
+- add support for setting maximum height
+- minor bug fix
+
 v2.1.0:
 - internal dependency change
 - use OkHttp 3.2.0
