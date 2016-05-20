@@ -1,6 +1,6 @@
 # Changelog
 
-v2.1.1:
+v2.1.2:
 - new behaviors on video touch
 - add support for setting maximum height
 - minor bug fix
