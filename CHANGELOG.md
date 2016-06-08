@@ -1,5 +1,9 @@
 # Changelog
 
+v2.1.3:
+- fix video not resuming sometimes
+- minor bug fix
+
 v2.1.2:
 - new behaviors on video touch
 - add support for setting maximum height
