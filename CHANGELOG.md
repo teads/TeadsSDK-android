@@ -1,5 +1,9 @@
 # Changelog
 
+v2.1.4:
+- fix memory leaks
+- minor bug fix 
+
 v2.1.3:
 - fix video not resuming sometimes
 - minor bug fix
