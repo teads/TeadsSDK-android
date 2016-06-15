@@ -9,26 +9,26 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import tv.teads.sdk.publisher.TeadsAd;
+import tv.teads.sdk.publisher.TeadsAdListener;
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.utils.TeadsError;
-import tv.teads.sdk.publisher.TeadsVideo;
-import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.utils.TeadsError;
 
 /**
  * InReadTop format within a ListView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadTopListViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopListViewFragment extends BaseFragment implements TeadsAdListener,
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Video instance
+     * Teads Ad instance
      */
-    private TeadsVideo mTeadsVideo;
+    private TeadsAd mTeadsAd;
 
     /**
      * The ListView used in the application
@@ -60,8 +60,8 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsVide
         // Set ListView basic adapter
         setListViewAdapter(mListView);
 
-        // Instanciate Teads Video in inReadTop format
-        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+        // Instanciate Teads Ad in inReadTop format
+        mTeadsAd = new TeadsAd.TeadsAdBuilder(
                 getActivity(),
                 getPid())
                 .viewGroup(mInReadTopAdView)
@@ -70,7 +70,7 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsVide
                 .build();
 
         // Load the Ad
-        mTeadsVideo.load();
+        mTeadsAd.load();
     }
 
     @Override
@@ -78,22 +78,22 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsVide
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity) getActivity()).setDrawerListener(this);
-        mTeadsVideo.onResume();
+        mTeadsAd.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         ((MainActivity) getActivity()).setDrawerListener(null);
-        mTeadsVideo.onPause();
+        mTeadsAd.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (mTeadsVideo != null) {
-            mTeadsVideo.clean();
+        if (mTeadsAd != null) {
+            mTeadsAd.clean();
         }
     }
 
@@ -107,17 +107,17 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsVide
         }
 
         // use your custom layout
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_row, R.id.listViewText, values);
         listView.setAdapter(adapter);
     }
 
     /*----------------------------------------
-    * implements TeadsVideoEventListener
+    * implements TeadsAdEventListener
     */
 
     @Override
-    public void teadsVideoDidFailLoading(TeadsError teadsError) {
+    public void teadsAdDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
         } catch (IllegalStateException ignored) {
@@ -126,122 +126,122 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsVide
     }
 
     @Override
-    public void teadsVideoWillLoad() {
+    public void teadsAdWillLoad() {
 
     }
 
     @Override
-    public void teadsVideoDidLoad() {
+    public void teadsAdDidLoad() {
 
     }
 
     @Override
-    public void teadsVideoWillStart() {
+    public void teadsAdWillStart() {
 
     }
 
     @Override
-    public void teadsVideoDidStart() {
+    public void teadsAdDidStart() {
 
     }
 
     @Override
-    public void teadsVideoWillStop() {
+    public void teadsAdWillStop() {
 
     }
 
     @Override
-    public void teadsVideoDidStop() {
+    public void teadsAdDidStop() {
 
     }
 
     @Override
-    public void teadsVideoDidResume() {
+    public void teadsAdDidResume() {
 
     }
 
     @Override
-    public void teadsVideoDidPause() {
+    public void teadsAdDidPause() {
 
     }
 
     @Override
-    public void teadsVideoDidMute() {
+    public void teadsAdDidMute() {
 
     }
 
     @Override
-    public void teadsVideoDidUnmute() {
+    public void teadsAdDidUnmute() {
 
     }
 
     @Override
-    public void teadsVideoDidOpenInternalBrowser() {
+    public void teadsAdDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void teadsVideoDidClickBrowserClose() {
+    public void teadsAdDidClickBrowserClose() {
 
     }
 
     @Override
-    public void teadsVideoWillTakerOverFullScreen() {
+    public void teadsAdWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoDidTakeOverFullScreen() {
+    public void teadsAdDidTakeOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoWillDismissFullscreen() {
+    public void teadsAdWillDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoDidDismissFullscreen() {
+    public void teadsAdDidDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonTapped() {
+    public void teadsAdSkipButtonTapped() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonDidShow() {
+    public void teadsAdSkipButtonDidShow() {
 
     }
 
     @Override
-    public void teadsVideoWillExpand() {
+    public void teadsAdWillExpand() {
 
     }
 
     @Override
-    public void teadsVideoDidExpand() {
+    public void teadsAdDidExpand() {
 
     }
 
     @Override
-    public void teadsVideoWillCollapse() {
+    public void teadsAdWillCollapse() {
 
     }
 
     @Override
-    public void teadsVideoDidCollapse() {
+    public void teadsAdDidCollapse() {
 
     }
 
     @Override
-    public void teadsVideoDidClean() {
+    public void teadsAdDidClean() {
 
     }
 
     @Override
-    public void teadsVideoNoSlotAvailable() {
+    public void teadsAdNoSlotAvailable() {
 
     }
 
@@ -257,12 +257,12 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsVide
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsVideo.requestPause();
+        mTeadsAd.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsVideo.requestResume();
+        mTeadsAd.requestResume();
     }
 
 

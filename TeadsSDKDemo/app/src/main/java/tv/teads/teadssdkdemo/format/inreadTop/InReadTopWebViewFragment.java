@@ -7,28 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import tv.teads.sdk.publisher.TeadsAd;
+import tv.teads.sdk.publisher.TeadsAdListener;
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.utils.TeadsError;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
-import tv.teads.sdk.publisher.TeadsVideo;
-import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.utils.TeadsError;
 
 /**
  * InReadTop format within a WebView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdListener,
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Video instance
+     * Teads Ad instance
      */
-    private TeadsVideo mTeadsVideo;
+    private TeadsAd mTeadsAd;
 
     /**
      * Your WebView extending the TeadsObservableWebView class
@@ -60,8 +60,8 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideo
         // Load url in the WebView
         mTeadsWebView.loadUrl(this.getWebViewUrl());
 
-        // Instanciate Teads Video in inReadTop format
-        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+        // Instanciate Teads Ad in inReadTop format
+        mTeadsAd = new TeadsAd.TeadsAdBuilder(
                 getActivity(),
                 getPid())
                 .viewGroup(mInReadTopAdView)
@@ -70,7 +70,7 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideo
                 .build();
 
         // Load the Ad
-        mTeadsVideo.load();
+        mTeadsAd.load();
     }
 
     @Override
@@ -78,32 +78,32 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideo
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity) getActivity()).setDrawerListener(this);
-        mTeadsVideo.onResume();
+        mTeadsAd.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         ((MainActivity) getActivity()).setDrawerListener(null);
-        mTeadsVideo.onPause();
+        mTeadsAd.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (mTeadsVideo != null) {
-            mTeadsVideo.clean();
+        if (mTeadsAd != null) {
+            mTeadsAd.clean();
         }
     }
 
 
     /*----------------------------------------
-    * implements TeadsVideoEventListener
+    * implements TeadsAdListener
     */
 
     @Override
-    public void teadsVideoDidFailLoading(TeadsError teadsError) {
+    public void teadsAdDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
         } catch (IllegalStateException ignored) {
@@ -112,122 +112,122 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideo
     }
 
     @Override
-    public void teadsVideoWillLoad() {
+    public void teadsAdWillLoad() {
 
     }
 
     @Override
-    public void teadsVideoDidLoad() {
+    public void teadsAdDidLoad() {
 
     }
 
     @Override
-    public void teadsVideoWillStart() {
+    public void teadsAdWillStart() {
 
     }
 
     @Override
-    public void teadsVideoDidStart() {
+    public void teadsAdDidStart() {
 
     }
 
     @Override
-    public void teadsVideoWillStop() {
+    public void teadsAdWillStop() {
 
     }
 
     @Override
-    public void teadsVideoDidStop() {
+    public void teadsAdDidStop() {
 
     }
 
     @Override
-    public void teadsVideoDidResume() {
+    public void teadsAdDidResume() {
 
     }
 
     @Override
-    public void teadsVideoDidPause() {
+    public void teadsAdDidPause() {
 
     }
 
     @Override
-    public void teadsVideoDidMute() {
+    public void teadsAdDidMute() {
 
     }
 
     @Override
-    public void teadsVideoDidUnmute() {
+    public void teadsAdDidUnmute() {
 
     }
 
     @Override
-    public void teadsVideoDidOpenInternalBrowser() {
+    public void teadsAdDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void teadsVideoDidClickBrowserClose() {
+    public void teadsAdDidClickBrowserClose() {
 
     }
 
     @Override
-    public void teadsVideoWillTakerOverFullScreen() {
+    public void teadsAdWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoDidTakeOverFullScreen() {
+    public void teadsAdDidTakeOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoWillDismissFullscreen() {
+    public void teadsAdWillDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoDidDismissFullscreen() {
+    public void teadsAdDidDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonTapped() {
+    public void teadsAdSkipButtonTapped() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonDidShow() {
+    public void teadsAdSkipButtonDidShow() {
 
     }
 
     @Override
-    public void teadsVideoWillExpand() {
+    public void teadsAdWillExpand() {
 
     }
 
     @Override
-    public void teadsVideoDidExpand() {
+    public void teadsAdDidExpand() {
 
     }
 
     @Override
-    public void teadsVideoWillCollapse() {
+    public void teadsAdWillCollapse() {
 
     }
 
     @Override
-    public void teadsVideoDidCollapse() {
+    public void teadsAdDidCollapse() {
 
     }
 
     @Override
-    public void teadsVideoDidClean() {
+    public void teadsAdDidClean() {
 
     }
 
     @Override
-    public void teadsVideoNoSlotAvailable() {
+    public void teadsAdNoSlotAvailable() {
 
     }
 
@@ -243,12 +243,12 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsVideo
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsVideo.requestPause();
+        mTeadsAd.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsVideo.requestResume();
+        mTeadsAd.requestResume();
     }
 
     @Override

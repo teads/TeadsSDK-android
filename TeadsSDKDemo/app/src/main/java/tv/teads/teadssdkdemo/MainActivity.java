@@ -27,17 +27,16 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.teadssdkdemo.format.InFlowFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadListViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
+import tv.teads.teadssdkdemo.utils.AdViewSampleChooserFragment;
 import tv.teads.teadssdkdemo.utils.BusProvider;
-import tv.teads.teadssdkdemo.utils.VideoViewSampleChooserFragment;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 
@@ -250,14 +249,9 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadTopWebViewFragment());
     }
 
-    @OnClick(R.id.inflow)
-    public void inFlowBasic() {
-        changeFragment(new InFlowFragment());
-    }
-
-    @OnClick(R.id.videoview)
+    @OnClick(R.id.adview)
     public void videoViewChooser() {
-        changeFragment(new VideoViewSampleChooserFragment());
+        changeFragment(new AdViewSampleChooserFragment());
     }
 
     @OnClick(R.id.action_pid)
