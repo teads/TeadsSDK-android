@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
     public static final String SHAREDPREF_ENDSCREEN_MODE  = "sp_endscreen";
     public static final String SHAREDPREF_PID_DEFAULT     = "27695";
-    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
+    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "https://fr.m.wikipedia.org/wiki/Mer_Noire";
 
     private DrawerLayout                mDrawerLayout;
     private DrawerLayout.DrawerListener mDrawerListener;
