@@ -10,6 +10,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_pid">Change pid</string>
     <string name="action_webviewurl">Change WebView url</string>
+    <string name="action_endscreen_mode">Change Endscreen mode</string>
 
 
     <string name="type_video">VIDEO</string>
@@ -52,5 +53,7 @@
         elementum at elementum eu, pulvinar vel orci. Aliquam id magna eleifend, posuere nisi sit
         amet, euismod purus. Quisque fermentum et erat vitae condimentum.
     </string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
 
 </resources>

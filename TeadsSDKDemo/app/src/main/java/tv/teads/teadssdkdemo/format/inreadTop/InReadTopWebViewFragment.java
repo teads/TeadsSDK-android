@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsAd;
 import tv.teads.sdk.publisher.TeadsAdListener;
+import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsLog;
 import tv.teads.sdk.publisher.TeadsObservableWebView;
@@ -60,6 +61,9 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdLis
         // Load url in the WebView
         mTeadsWebView.loadUrl(this.getWebViewUrl());
 
+        TeadsConfiguration teadsConfig = new TeadsConfiguration();
+        teadsConfig.endScreenMode = getEndScreenMode();
+
         // Instanciate Teads Ad in inReadTop format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
                 getActivity(),
@@ -67,6 +71,7 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdLis
                 .viewGroup(mInReadTopAdView)
                 .eventListener(this)
                 .containerType(TeadsContainerType.inReadTop)
+                .configuration(teadsConfig)
                 .build();
 
         // Load the Ad

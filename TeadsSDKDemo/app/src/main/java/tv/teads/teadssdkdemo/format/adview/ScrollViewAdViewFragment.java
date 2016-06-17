@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 
 import tv.teads.sdk.publisher.TeadsAd;
 import tv.teads.sdk.publisher.TeadsAdListener;
+import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsView;
 import tv.teads.teadssdkdemo.MainActivity;
@@ -74,10 +75,14 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        TeadsConfiguration teadsConfig = new TeadsConfiguration();
+        teadsConfig.endScreenMode = getEndScreenMode();
+
         // Init TeadsAd and load the Ad
         mTeadsAd = new TeadsAd.TeadsAdBuilder(getActivity(), getPid())
                 .containerType(TeadsContainerType.custom)
                 .eventListener(this)
+                .configuration(teadsConfig)
                 .build();
         mTeadsAd.load();
 

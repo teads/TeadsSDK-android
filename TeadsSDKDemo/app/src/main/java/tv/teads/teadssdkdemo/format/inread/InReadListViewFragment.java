@@ -52,6 +52,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsAdListe
 
         TeadsConfiguration teadsConfig = new TeadsConfiguration();
         teadsConfig.adPosition = 12;
+        teadsConfig.endScreenMode = getEndScreenMode();
 
         // Instanciate Teads Ad in inRead format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsAd;
 import tv.teads.sdk.publisher.TeadsAdListener;
+import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
@@ -60,6 +61,9 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsAdLi
         // Set ListView basic adapter
         setListViewAdapter(mListView);
 
+        TeadsConfiguration teadsConfig = new TeadsConfiguration();
+        teadsConfig.endScreenMode = getEndScreenMode();
+
         // Instanciate Teads Ad in inReadTop format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
                 getActivity(),
@@ -67,6 +71,7 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsAdLi
                 .viewGroup(mInReadTopAdView)
                 .eventListener(this)
                 .containerType(TeadsContainerType.inReadTop)
+                .configuration(teadsConfig)
                 .build();
 
         // Load the Ad

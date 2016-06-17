@@ -13,17 +13,20 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.otto.Subscribe;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.sdk.publisher.TeadsLog;
@@ -40,17 +43,21 @@ import tv.teads.teadssdkdemo.utils.BusProvider;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String LOG_TAG = "MainActivity";
 
     public static final String SHAREDPREF_PID             = "sp_pid";
     public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
+    public static final String SHAREDPREF_ENDSCREEN_MODE  = "sp_endscreen";
     public static final String SHAREDPREF_PID_DEFAULT     = "27695";
     public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
 
     private DrawerLayout                mDrawerLayout;
     private DrawerLayout.DrawerListener mDrawerListener;
+
+    @Bind(R.id.action_endscreen_mode)
+    protected SwitchCompat mEndScreenModeSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Preload one Ad from AdFactory
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
+        mEndScreenModeSwitch.setChecked(isEndScreenLightMode(this));
+        mEndScreenModeSwitch.setOnCheckedChangeListener(this);
     }
 
     /**
@@ -143,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Return the webviw url, if not one is set, the default one
+     * Return the Webview url, if not one is set, the default one
      *
      * @param context current context
      * @return an url
@@ -153,6 +162,20 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(context)
                 .getString(
                         SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
+    }
+
+    /**
+     * Return the end screen mode
+     *
+     * @param context current context
+     * @return true if the end screen is in {@link tv.teads.sdk.publisher.TeadsConfiguration#LIGHT_MODE},
+     * false if the end screen is in {@link tv.teads.sdk.publisher.TeadsConfiguration#DARK_MODE}
+     */
+    public boolean isEndScreenLightMode(Context context) {
+        return PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getBoolean(
+                        SHAREDPREF_ENDSCREEN_MODE, false);
     }
 
     private void changeFragment(Fragment frag) {
@@ -324,5 +347,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).show();
 
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        PreferenceManager
+                .getDefaultSharedPreferences(MainActivity.this)
+                .edit()
+                .putBoolean(
+                        SHAREDPREF_ENDSCREEN_MODE,
+                        isChecked)
+                .apply();
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import tv.teads.sdk.publisher.TeadsAd;
 import tv.teads.sdk.publisher.TeadsAdListener;
+import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
@@ -45,6 +46,9 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsAdLis
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        TeadsConfiguration teadsConfig = new TeadsConfiguration();
+        teadsConfig.endScreenMode = getEndScreenMode();
+
         // Instanciate Teads Video in inRead format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
                 getActivity(),
@@ -52,6 +56,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsAdLis
                 .viewGroup(mFrameLayout)
                 .containerType(TeadsContainerType.inRead)
                 .eventListener(this)
+                .configuration(teadsConfig)
                 .build();
 
         // Load the Ad

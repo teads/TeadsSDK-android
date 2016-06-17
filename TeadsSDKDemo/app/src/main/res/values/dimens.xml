@@ -37,6 +37,7 @@
     <dimen name="button_inset_horizontal_material">@dimen/control_inset_material</dimen>
     <!-- Default inner padding within buttons -->
     <dimen name="button_padding_vertical_material">@dimen/control_padding_material</dimen>
+    <dimen name="button_margin_material">8dp</dimen>
     <dimen name="button_padding_horizontal_material">8dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:

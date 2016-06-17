@@ -14,13 +14,13 @@ import tv.teads.teadssdkdemo.R;
 
 /**
  * AN empty fragment used for ViewPager demo
- *
+ * <p/>
  * Created by Hugo Gresse on 31/03/15.
  */
 public class EmptyFragment extends Fragment {
 
     @Bind(R.id.numberTextView)
-    public TextView mTextView;
+    public TextView  mTextView;
     @Bind(R.id.leftImageView)
     public ImageView mLeftImage;
     @Bind(R.id.rightImageView)
@@ -36,7 +36,7 @@ public class EmptyFragment extends Fragment {
 
         mTextView.setText(String.valueOf(bundle.getInt("number")));
 
-        if(bundle.getBoolean("isLeft")){
+        if (bundle.getBoolean("isLeft")) {
             mLeftImage.setVisibility(View.GONE);
         } else {
             mRightImage.setVisibility(View.GONE);
