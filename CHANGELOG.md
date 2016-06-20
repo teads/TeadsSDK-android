@@ -1,5 +1,14 @@
 # Changelog
 
+
+v2.2.4
+- minor bug fix 
+
+v2.2.3
+- new engage format
+- implement light an dark mode on endscreen
+- minor bug fix 
+
 v2.1.4:
 - fix memory leaks
 - minor bug fix 
