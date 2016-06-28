@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.otto.Subscribe;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,6 +42,7 @@ import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
 import tv.teads.teadssdkdemo.utils.AdViewSampleChooserFragment;
 import tv.teads.teadssdkdemo.utils.BusProvider;
+import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 
@@ -197,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             } else {
                 // custom effect if fragment is already instanciated
                 mDrawerLayout.closeDrawer(GravityCompat.START);
+                EventBus.getDefault().post(new ReloadEvent());
+
             }
         } catch (IllegalStateException exception) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. " +

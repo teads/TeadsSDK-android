@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import tv.teads.sdk.publisher.TeadsAd;
 import tv.teads.sdk.publisher.TeadsAdListener;
 import tv.teads.sdk.publisher.TeadsConfiguration;
@@ -16,6 +18,7 @@ import tv.teads.sdk.publisher.TeadsObservableWebView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.utils.TeadsError;
 
 /**
@@ -102,6 +105,13 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdLis
         }
     }
 
+    @Subscribe
+    public void onEvent(ReloadEvent event) {
+        if (mTeadsAd != null) {
+            mTeadsAd.reset();
+            mTeadsAd.load();
+        }
+    }
 
     /*----------------------------------------
     * implements TeadsAdListener
