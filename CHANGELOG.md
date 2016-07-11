@@ -1,6 +1,10 @@
 # Changelog
 
 
+v2.2.6
+- memory leak fix
+- minor bug fix
+
 v2.2.5
 - add close button on engage format
 - minor bug fix 
