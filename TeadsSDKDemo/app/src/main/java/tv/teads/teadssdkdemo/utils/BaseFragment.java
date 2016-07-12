@@ -8,6 +8,7 @@ import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.teadssdkdemo.MainActivity;
 
 /**
+ *
  * Created by Hugo Gresse on 03/04/15.
  */
 public abstract class BaseFragment extends Fragment {

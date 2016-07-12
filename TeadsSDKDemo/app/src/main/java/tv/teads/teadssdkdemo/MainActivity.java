@@ -17,16 +17,12 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.squareup.otto.Subscribe;
-
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,7 +37,6 @@ import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
 import tv.teads.teadssdkdemo.utils.AdViewSampleChooserFragment;
-import tv.teads.teadssdkdemo.utils.BusProvider;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
@@ -68,22 +63,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Window window = getWindow();
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.primaryDarkDef));
-
-        } else if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setNavigationBarTintEnabled(false);
-            tintManager.setTintColor(getResources().getColor(R.color.primaryDef));
-        }
-
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             MainFragment fragment = new MainFragment();
@@ -92,6 +71,13 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.accent, null));
+        } else {
+            //noinspection deprecation
+            toolbar.setTitleTextColor(getResources().getColor(R.color.accent));
+        }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         setSupportActionBar(toolbar);
@@ -132,10 +118,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         };
 
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        // Preload one Ad from AdFactory
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
         mEndScreenModeSwitch.setChecked(isEndScreenLightMode(this));
         mEndScreenModeSwitch.setOnCheckedChangeListener(this);
@@ -217,14 +202,14 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void onResume() {
         super.onResume();
 
-        BusProvider.getInstance().register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        BusProvider.getInstance().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe
@@ -286,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public void changePidDialog() {
         // Set an EditText view to get user input
         View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText input = (EditText) view.findViewById(R.id.pid_input);
+        final EditText input = (EditText) view.findViewById(R.id.pidEditText);
         input.setText(getPid(this));
         input.setLines(1);
         input.setSingleLine(true);
@@ -322,8 +307,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText input = (EditText) view.findViewById(R.id.pid_input);
+        View view = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
+        final EditText input = (EditText) view.findViewById(R.id.webViewEditText);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)

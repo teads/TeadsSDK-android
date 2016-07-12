@@ -25,7 +25,7 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.utils.TeadsError;
 
 /**
- * Simple sample which display a {@link TeadsAdView} between thow TextView in a ScrollView.
+ * Simple sample which display a {@link TeadsView} between thow TextView in a ScrollView.
  * It manage visibility check, lock events, fragment lifecycle.
  * <p/>
  * <p/>
@@ -51,7 +51,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     /**
      * A TeadsView displaying the ad
      */
-    private TeadsView mTeadsAdView;
+    private TeadsView mTeadsView;
 
     /**
      * Flag to manage Ad State
@@ -68,7 +68,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_adview_scrollview, container, false);
         mScrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDemoAdView);
-        mTeadsAdView = (TeadsView) rootView.findViewById(R.id.adview);
+        mTeadsView = (TeadsView) rootView.findViewById(R.id.adview);
         mIsAnimating = false;
 
         return rootView;
@@ -89,10 +89,9 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
                 .build();
         mTeadsAd.load();
 
-        mTeadsAd.attachView(mTeadsAdView);
+        mTeadsAd.attachView(mTeadsView);
         mTeadsAd.teadsVideoViewAdded();
-        mTeadsAdView.setCollapsed();
-        mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
+        mTeadsView.setCollapsed();
 
         // Register an application visibility that will receive lock/unlock broadcast event
         mApplicationVisibility = new ApplicationVisibility(getActivity(), this);
@@ -101,10 +100,10 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mTeadsAdView != null) {
+        if (mTeadsView != null) {
             // reset views and flags
             mIsAnimating = false;
-            mTeadsAdView.cleanView();
+            mTeadsView.cleanView();
         }
         mApplicationVisibility.clear();
     }
@@ -112,6 +111,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(this);
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity) getActivity()).setDrawerListener(this);
         if (mTeadsAd != null) {
@@ -122,6 +122,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     @Override
     public void onPause() {
         super.onPause();
+        mScrollView.getViewTreeObserver().removeOnScrollChangedListener(this);
         ((MainActivity) getActivity()).setDrawerListener(null);
         if (mTeadsAd != null) {
             mTeadsAd.onPause();
@@ -133,11 +134,11 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
      */
     private void openInRead() {
 
-        mTeadsAdView.updateSize(mScrollView);
-        mTeadsAdView.setCollapsed();
+        mTeadsView.updateSize(mScrollView);
+        mTeadsView.setCollapsed();
 
         mIsAnimating = true;
-        mTeadsAdView.expand(new Animation.AnimationListener() {
+        mTeadsView.expand(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
                 Log.d(LOG_TAG, "onAnimationStart");
@@ -165,7 +166,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     private void closeInRead() {
 
         mIsAnimating = true;
-        mTeadsAdView.collapse(new Animation.AnimationListener() {
+        mTeadsView.collapse(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
             }
@@ -187,8 +188,8 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
 
 
     @Subscribe
-    public void onEvent(ReloadEvent event) {
-        if (mTeadsAd != null) {
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
             mTeadsAd.reset();
             mTeadsAd.load();
         }
@@ -203,8 +204,9 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
      */
     @Override
     public void onScrollChanged() {
-        if (!mIsAnimating)
+        if (!mIsAnimating && mTeadsView != null && mTeadsAd != null){
             mTeadsAd.containerDidMove();
+        }
     }
 
 
@@ -298,7 +300,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
 
     @Override
     public void teadsAdSkipButtonTapped() {
-        if (mTeadsAdView != null) {
+        if (mTeadsView != null) {
             closeInRead();
         }
     }
@@ -329,7 +331,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
     public void teadsAdDidCollapse() {
         //have to play collapse animation
         //In end of animation prevent animation finish
-        if (mTeadsAdView != null) {
+        if (mTeadsView != null) {
             closeInRead();
         }
     }

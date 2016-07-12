@@ -113,6 +113,7 @@
         <TextView
             android:id="@+id/action_pid"
             style="@style/TextSubTitle"
+            android:background="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/action_pid"/>
@@ -120,6 +121,7 @@
         <TextView
             android:id="@+id/action_webviewurl"
             style="@style/TextSubTitle"
+            android:background="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/action_webviewurl"/>

@@ -119,8 +119,8 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     }
 
     @Subscribe
-    public void onEvent(ReloadEvent event) {
-        if (mTeadsAd != null) {
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
             mTeadsAd.reset();
             mTeadsAd.load();
         }

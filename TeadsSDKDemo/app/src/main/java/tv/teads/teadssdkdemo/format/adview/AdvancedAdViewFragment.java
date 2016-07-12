@@ -145,7 +145,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         mTeadsView.updateSize(mListView);
         mTeadsView.setCollapsed();
 
-
         if (!mAdViewHaveToBeOpen) {
             mIsAnimating = true;
             mTeadsView.expand(new Animation.AnimationListener() {
@@ -174,8 +173,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
             mTeadsView.setVisibility(View.VISIBLE);
             mTeadsAd.adViewDidExpand();
         }
-
-
     }
 
     /**
@@ -228,8 +225,8 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     }
 
     @Subscribe
-    public void onEvent(ReloadEvent event) {
-        if (mTeadsAd != null) {
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
             mTeadsAd.reset();
             mTeadsAd.load();
         }
@@ -379,7 +376,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         if (mTeadsView != null) {
             closeInRead();
         }
-
     }
 
     @Override

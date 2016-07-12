@@ -97,8 +97,8 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsAdListen
     }
 
     @Subscribe
-    public void onEvent(ReloadEvent event) {
-        if (mTeadsAd != null) {
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
             mTeadsAd.reset();
             mTeadsAd.load();
         }

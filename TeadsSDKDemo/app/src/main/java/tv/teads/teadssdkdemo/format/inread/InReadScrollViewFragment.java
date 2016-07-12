@@ -91,8 +91,8 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsAdLis
     }
 
     @Subscribe
-    public void onEvent(ReloadEvent event) {
-        if (mTeadsAd != null) {
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
             mTeadsAd.reset();
             mTeadsAd.load();
         }
