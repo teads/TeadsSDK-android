@@ -137,6 +137,11 @@ public class AdViewCustomAdapter extends BaseAdapter {
                 mTeadsAdViewAttachListener.onAttachTeadsAdView(holder.adView);
             }
         }
+
+        if(type == TYPE_TEXTVIEW){
+            holder.textView.setText(mValues[position]);
+        }
+
         return convertView;
     }
 
