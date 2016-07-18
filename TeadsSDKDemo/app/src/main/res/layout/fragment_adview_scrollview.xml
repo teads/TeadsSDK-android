@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent" android:layout_height="match_parent"
-            android:id="@+id/scrollViewDemoVideoView">
+            android:id="@+id/scrollViewDemoAdView">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
             android:id="@+id/textView8"
             android:textSize="@dimen/text_size" />
 
-        <tv.teads.sdk.publisher.TeadsVideoView
-            android:id="@+id/videoview"
+        <tv.teads.sdk.publisher.TeadsView
+            android:id="@+id/adview"
             android:height="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,6 +28,6 @@
             android:text="@string/lorem_medium"
             android:id="@+id/textView9"
             android:textSize="@dimen/text_size"
-            android:layout_below="@+id/videoview" />
+            android:layout_below="@+id/adview" />
     </RelativeLayout>
 </ScrollView>

@@ -1,142 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/primaryDef"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primaryDef">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/teads_video"
-            android:text="@string/type_video"
             style="@style/TextTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/type_video"/>
 
-
-            <TextView
-                android:id="@+id/inread_parent"
-                android:text="@string/format_inread"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inread_scrollview"
-                android:text="@string/container_scrollview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_marginTop="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inread_listview"
-                android:text="@string/container_listview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_margin="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inread_recyclerview"
-                android:text="@string/container_recyclerview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_margin="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inread_webview"
-                android:text="@string/container_webview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_margin="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-
-            <TextView
-                android:id="@+id/inreadtop_parent"
-                android:text="@string/format_inreadtop"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inreadtop_scrollview"
-                android:text="@string/container_scrollview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inreadtop_listview"
-                android:text="@string/container_listview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inreadtop_recyclerview"
-                android:text="@string/container_recyclerview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/inreadtop_webview"
-                android:text="@string/container_webview"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/interstitial"
-            android:text="@string/type_interstitial"
-            style="@style/TextTitle"
+            android:id="@+id/inread_parent"
+            style="@style/TextSubTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/inflow_parent"
-                android:text="@string/format_inflow"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/format_inread"/>
 
-            <Button
-                android:id="@+id/inflow"
-                android:text="@string/container_inflow"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/inread_scrollview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/container_scrollview"/>
 
+        <Button
+            android:id="@+id/inread_listview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="@string/container_listview"/>
+
+        <Button
+            android:id="@+id/inread_recyclerview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="@string/container_recyclerview"/>
+
+        <Button
+            android:id="@+id/inread_webview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="@string/container_webview"/>
+
+
+        <TextView
+            android:id="@+id/inreadtop_parent"
+            style="@style/TextSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/format_inreadtop"/>
+
+        <Button
+            android:id="@+id/inreadtop_scrollview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/container_scrollview"/>
+
+        <Button
+            android:id="@+id/inreadtop_listview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/container_listview"/>
+
+        <Button
+            android:id="@+id/inreadtop_recyclerview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/container_recyclerview"/>
+
+        <Button
+            android:id="@+id/inreadtop_webview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/container_webview"/>
 
 
         <Button
-            android:id="@+id/videoview"
-            android:text="@string/type_videoview"
+            android:id="@+id/adview"
             style="@style/TextTitle"
-            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/type_videoview"/>
 
 
         <TextView
             android:id="@+id/settings"
-            android:text="@string/action_settings"
             style="@style/TextTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/action_settings"/>
+
+        <TextView
+            android:id="@+id/action_pid"
+            style="@style/TextSubTitle"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action_pid"/>
+
+        <TextView
+            android:id="@+id/action_webviewurl"
+            style="@style/TextSubTitle"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action_webviewurl"/>
+
+        <TextView
+            style="@style/TextSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action_endscreen_mode"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/button_margin_material"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/action_pid"
-                android:text="@string/action_pid"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/button_margin_material"
+                android:layout_marginRight="@dimen/button_margin_material"
+                android:text="@string/dark"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/action_endscreen_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/action_webviewurl"
-                android:text="@string/action_webviewurl"
-                style="@style/TextSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin_material"
+                android:layout_marginStart="@dimen/button_margin_material"
+                android:text="@string/light"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>

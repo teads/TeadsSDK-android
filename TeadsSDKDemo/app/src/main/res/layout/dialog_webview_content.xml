@@ -4,12 +4,12 @@
              android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/pidEditText"
+        android:id="@+id/webViewEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:inputType="number">
+        android:inputType="textUri">
     </EditText>
 
 </FrameLayout>

@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.videoview;
+package tv.teads.teadssdkdemo.format.adview;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -10,31 +10,35 @@ import android.view.animation.Animation;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import tv.teads.sdk.publisher.TeadsAd;
+import tv.teads.sdk.publisher.TeadsAdListener;
+import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.utils.TeadsError;
-import tv.teads.sdk.publisher.TeadsVideo;
-import tv.teads.sdk.publisher.TeadsVideoEventListener;
-import tv.teads.sdk.publisher.TeadsVideoView;
+import tv.teads.sdk.publisher.TeadsView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
-import tv.teads.teadssdkdemo.format.adapter.VideoViewCustomAdapter;
+import tv.teads.teadssdkdemo.format.adapter.AdViewCustomAdapter;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.teadssdkdemo.utils.ReloadEvent;
+import tv.teads.utils.TeadsError;
 
 /**
- * Custom format base on {@link TeadsVideoView} that will display the ad every 20 items of the ListView.
- * This sample is supplied for a demostration of TeadsVideoView. It may contains cases that is not managed.
+ * Custom format base on {@link TeadsView} that will display the ad every 20 items of the ListView.
+ * This sample is supplied for a demostration of TeadsAdView. It may contains cases that is not managed.
  * <p/>
  * <p/>
  * <p/>
  * Created by Hugo Gresse on 06/08/15.
  */
-public class AdvancedVideoViewFragment extends BaseFragment implements
-        TeadsVideoEventListener,
+public class AdvancedAdViewFragment extends BaseFragment implements
+        TeadsAdListener,
         AbsListView.OnScrollListener,
         DrawerLayout.DrawerListener,
-        VideoViewCustomAdapter.TeadsViewAttachListener {
+        AdViewCustomAdapter.TeadsViewAttachListener {
 
-    public static final String LOG_TAG = "AdvancedVideoViewFrag";
+    public static final String LOG_TAG = "AdvancedAdViewFragment";
 
     private static final int sRepeatableAdPosition = 20;
 
@@ -44,14 +48,14 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     private ListView mListView;
 
     /**
-     * Teads Video instance
+     * Teads Ad instance
      */
-    private TeadsVideo mTeadsVideo;
+    private TeadsAd mTeadsAd;
 
     /**
-     * A VideoView displaying the ad as a part of ListView
+     * A View displaying the ad as a part of ListView
      */
-    private TeadsVideoView mTeadsVideoView;
+    private TeadsView mTeadsView;
 
     /**
      * Flag to manage Ad State
@@ -78,14 +82,18 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Init TeadsVideo and load the Ad
-        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(getActivity(), getPid())
+        TeadsConfiguration teadsConfig = new TeadsConfiguration();
+        teadsConfig.endScreenMode = getEndScreenMode();
+
+        // Init TeadsAd and load the Ad
+        mTeadsAd = new TeadsAd.TeadsAdBuilder(getActivity(), getPid())
                 .containerType(TeadsContainerType.custom)
                 .eventListener(this)
+                .configuration(teadsConfig)
                 .build();
-        mTeadsVideo.load();
+        mTeadsAd.load();
 
-        // Attach scroll listener to know when we should detach or attach the TeadsVideoView
+        // Attach scroll listener to know when we should detach or attach the TeadsAdView
         mListView.setOnScrollListener(this);
 
         // Set a very custom listview adapter
@@ -95,10 +103,10 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mTeadsVideoView != null) {
+        if (mTeadsView != null) {
             // reset views and flags
             mIsAnimating = mAdViewHaveToBeOpen = mIsFullscreen = mIsOpen = false;
-            mTeadsVideoView.cleanView();
+            mTeadsView.cleanView();
         }
     }
 
@@ -108,9 +116,9 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity) getActivity()).setDrawerListener(this);
 
-        if (mTeadsVideo != null) {
-            //Notify TeadsVideo when the fragment will resume
-            mTeadsVideo.onResume();
+        if (mTeadsAd != null) {
+            //Notify TeadsAd when the fragment will resume
+            mTeadsAd.onResume();
         }
     }
 
@@ -118,29 +126,28 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     public void onPause() {
         super.onPause();
         ((MainActivity) getActivity()).setDrawerListener(null);
-        if (mTeadsVideo != null) {
-            //Notify TeadsVideo when the fragment will pause
-            mTeadsVideo.onPause();
+        if (mTeadsAd != null) {
+            //Notify TeadsAd when the fragment will pause
+            mTeadsAd.onPause();
         }
     }
 
     /**
-     * Open the VideoView with expand animation
+     * Open the TeadsView with expand animation
      */
     private void openInRead() {
-        if (mTeadsVideoView == null) {
+        if (mTeadsView == null) {
             mAdViewHaveToBeOpen = true;
             return;
         }
 
-        //Update the TeadsVideoView to match the ViewGroup parent
-        mTeadsVideoView.updateSize(mListView);
-        mTeadsVideoView.setCollapsed();
-
+        //Update the TeadsAdView to match the ViewGroup parent
+        mTeadsView.updateSize(mListView);
+        mTeadsView.setCollapsed();
 
         if (!mAdViewHaveToBeOpen) {
             mIsAnimating = true;
-            mTeadsVideoView.expand(new Animation.AnimationListener() {
+            mTeadsView.expand(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
                     Log.d(LOG_TAG, "onAnimationStart");
@@ -152,8 +159,8 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
                     mIsAnimating = false;
                     mIsOpen = true;
 
-                    //Prevent TeadsVideo that view did expand
-                    mTeadsVideo.adViewDidExpand();
+                    //Prevent TeadsAd that view did expand
+                    mTeadsAd.adViewDidExpand();
                 }
 
                 @Override
@@ -163,20 +170,18 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
             });
         } else {
             mAdViewHaveToBeOpen = false;
-            mTeadsVideoView.setVisibility(View.VISIBLE);
-            mTeadsVideo.adViewDidExpand();
+            mTeadsView.setVisibility(View.VISIBLE);
+            mTeadsAd.adViewDidExpand();
         }
-
-
     }
 
     /**
-     * Close VideoView with collapse animation
+     * Close TeadsView with collapse animation
      */
     private void closeInRead() {
 
         mIsAnimating = true;
-        mTeadsVideoView.collapse(new Animation.AnimationListener() {
+        mTeadsView.collapse(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
             }
@@ -186,7 +191,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
                 mIsAnimating = false;
                 mIsOpen = false;
-                mTeadsVideo.adViewDidClose();
+                mTeadsAd.adViewDidClose();
 
             }
 
@@ -209,14 +214,22 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
             values[i] = "Teads " + i;
         }
 
-        // Instantiate the custom adapter used to display VideoView in the ListView
-        VideoViewCustomAdapter videoViewCustomAdapter = new VideoViewCustomAdapter(
+        // Instantiate the custom adapter used to display TeadsView in the ListView
+        AdViewCustomAdapter adViewCustomAdapter = new AdViewCustomAdapter(
                 getActivity(),
                 values,
                 sRepeatableAdPosition,
                 this);
 
-        listView.setAdapter(videoViewCustomAdapter);
+        listView.setAdapter(adViewCustomAdapter);
+    }
+
+    @Subscribe
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
+            mTeadsAd.reset();
+            mTeadsAd.load();
+        }
     }
 
     /*----------------------------------------
@@ -229,8 +242,8 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
     }
 
     /**
-     * Called on ListView scroll. we have to check the video visibility by :
-     * - check if the displayed items contains the VideoView (the VideoView is placed every 20 items)
+     * Called on ListView scroll. we have to check the ad visibility by :
+     * - check if the displayed items contains the AdView (the AdView is placed every 20 items)
      *
      * @param view             the visible view
      * @param firstVisibleItem firstVisibleItem
@@ -239,7 +252,7 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mTeadsVideo == null || mTeadsVideoView == null || mIsAnimating || mIsFullscreen) {
+        if (mTeadsAd == null || mTeadsView == null || mIsAnimating || mIsFullscreen) {
             return;
         }
 
@@ -259,148 +272,147 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
         }
 
         if (!isVisible) {
-            mTeadsVideo.requestPause();
-            mTeadsVideo.detachView();
+            mTeadsAd.requestPause();
+            mTeadsAd.detachView();
         } else {
-            mTeadsVideo.requestResume();
+            mTeadsAd.requestResume();
         }
 
-        mTeadsVideo.containerDidMove();
+        mTeadsAd.containerDidMove();
     }
 
 
     /*----------------------------------------
-    * implements TeadsVideoEventListener
+    * implements TeadsAdEventListener
     */
 
     @Override
-    public void teadsVideoDidFailLoading(TeadsError teadsError) {
+    public void teadsAdDidFailLoading(TeadsError teadsError) {
 
     }
 
     @Override
-    public void teadsVideoWillLoad() {
+    public void teadsAdWillLoad() {
 
     }
 
     @Override
-    public void teadsVideoDidLoad() {
+    public void teadsAdDidLoad() {
 
     }
 
     @Override
-    public void teadsVideoWillStart() {
+    public void teadsAdWillStart() {
 
     }
 
     @Override
-    public void teadsVideoDidStart() {
+    public void teadsAdDidStart() {
 
     }
 
     @Override
-    public void teadsVideoWillStop() {
+    public void teadsAdWillStop() {
 
     }
 
     @Override
-    public void teadsVideoDidStop() {
+    public void teadsAdDidStop() {
 
     }
 
     @Override
-    public void teadsVideoDidResume() {
+    public void teadsAdDidResume() {
 
     }
 
     @Override
-    public void teadsVideoDidPause() {
+    public void teadsAdDidPause() {
 
     }
 
     @Override
-    public void teadsVideoDidMute() {
+    public void teadsAdDidMute() {
 
     }
 
     @Override
-    public void teadsVideoDidUnmute() {
+    public void teadsAdDidUnmute() {
 
     }
 
     @Override
-    public void teadsVideoDidOpenInternalBrowser() {
+    public void teadsAdDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void teadsVideoDidClickBrowserClose() {
+    public void teadsAdDidClickBrowserClose() {
 
     }
 
     @Override
-    public void teadsVideoWillTakerOverFullScreen() {
+    public void teadsAdWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoDidTakeOverFullScreen() {
+    public void teadsAdDidTakeOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoWillDismissFullscreen() {
+    public void teadsAdWillDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoDidDismissFullscreen() {
+    public void teadsAdDidDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonTapped() {
-        if (mTeadsVideoView != null) {
+    public void teadsAdSkipButtonTapped() {
+        if (mTeadsView != null) {
             closeInRead();
         }
+    }
+
+    @Override
+    public void teadsAdSkipButtonDidShow() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonDidShow() {
-
-    }
-
-    @Override
-    public void teadsVideoWillExpand() {
+    public void teadsAdWillExpand() {
         //have to play animation
         //In end of animation prevent animation finish
         openInRead();
     }
 
     @Override
-    public void teadsVideoDidExpand() {
+    public void teadsAdDidExpand() {
 
     }
 
     @Override
-    public void teadsVideoWillCollapse() {
+    public void teadsAdWillCollapse() {
     }
 
     @Override
-    public void teadsVideoDidCollapse() {
-        if (mTeadsVideoView != null) {
+    public void teadsAdDidCollapse() {
+        if (mTeadsView != null) {
             closeInRead();
         }
     }
 
     @Override
-    public void teadsVideoDidClean() {
+    public void teadsAdDidClean() {
 
     }
 
     @Override
-    public void teadsVideoNoSlotAvailable() {
+    public void teadsAdNoSlotAvailable() {
 
     }
 
@@ -415,15 +427,15 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        if (mTeadsVideo != null) {
-            mTeadsVideo.requestPause();
+        if (mTeadsAd != null) {
+            mTeadsAd.requestPause();
         }
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        if (mTeadsVideo != null) {
-            mTeadsVideo.requestResume();
+        if (mTeadsAd != null) {
+            mTeadsAd.requestResume();
         }
     }
 
@@ -433,20 +445,20 @@ public class AdvancedVideoViewFragment extends BaseFragment implements
 
 
     @Override
-    public void onAttachTeadsVideoView(TeadsVideoView teadsVideoView) {
-        Log.d(LOG_TAG, "teadsVideoViewAttached");
-        mTeadsVideoView = teadsVideoView;
-        mTeadsVideo.attachView(mTeadsVideoView);
+    public void onAttachTeadsAdView(TeadsView teadsAdView) {
+        Log.d(LOG_TAG, "teadsAdViewAttached");
+        mTeadsView = teadsAdView;
+        mTeadsAd.attachView(mTeadsView);
 
         if (!mIsOpen && !mIsAnimating) {
-            mTeadsVideoView.setCollapsed();
+            mTeadsView.setCollapsed();
         }
 
-        mTeadsVideo.teadsVideoViewAdded();
-        if (mTeadsVideoView.getRatio() == null) {
+        mTeadsAd.teadsVideoViewAdded();
+        if (mTeadsView.getRatio() == null) {
             return;
         }
-        mTeadsVideoView.updateSize(mListView);
+        mTeadsView.updateSize(mListView);
 
         if (mAdViewHaveToBeOpen) {
             openInRead();

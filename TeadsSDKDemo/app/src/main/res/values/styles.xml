@@ -1,21 +1,24 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.Teads" parent="Theme.AppCompat.Light.NoActionBar">
-
+    <style name="ThemeTeads" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryDef</item>
         <item name="colorPrimaryDark">@color/primaryDarkDef</item>
-        <item name="colorAccent">@color/primaryDef</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:textColorPrimary">@color/accent</item>
-
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-
-        <item name="drawerArrowStyle">@style/Theme.Teads.DrawerArrowStyle</item>
-
+        <item name="drawerArrowStyle">@style/ThemeTeads.DrawerArrowStyle</item>
     </style>
 
-    <style name="Theme.Teads.DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat"/>
+
+    <style name="ThemeTeads.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeTeads.DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/colorPrimary</item>
     </style>
@@ -35,6 +38,7 @@
         <item name="android:padding">@dimen/button_padding_vertical_material</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_material</item>
     </style>
 
 

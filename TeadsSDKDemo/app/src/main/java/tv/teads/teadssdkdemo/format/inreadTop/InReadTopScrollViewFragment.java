@@ -5,34 +5,32 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.Subscribe;
+
+import tv.teads.sdk.publisher.TeadsAd;
+import tv.teads.sdk.publisher.TeadsAdListener;
+import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.utils.TeadsError;
-import tv.teads.sdk.publisher.TeadsVideo;
-import tv.teads.sdk.publisher.TeadsVideoEventListener;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
+import tv.teads.teadssdkdemo.utils.ReloadEvent;
+import tv.teads.utils.TeadsError;
 
 /**
  * InReadTop format within a ScrollView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVideoEventListener,
+public class InReadTopScrollViewFragment extends BaseFragment implements TeadsAdListener,
         DrawerLayout.DrawerListener {
 
     /**
-     * Teads Video instance
+     * Teads Ad instance
      */
-    private TeadsVideo mTeadsVideo;
-
-    /**
-     * Your FrameLayout used to display video in
-     */
-    private FrameLayout mFrameLayout;
+    private TeadsAd mTeadsAd;
 
     /**
      * The inReadTop ad view
@@ -44,8 +42,6 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVi
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inreadtop_scrollview, container, false);
 
-        mFrameLayout = (FrameLayout) rootView.findViewById(R.id.ad_framelayout);
-
         // Retrieve ad view
         mInReadTopAdView = (ViewGroup) rootView.findViewById(R.id.teads_adview);
 
@@ -55,17 +51,21 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        TeadsConfiguration teadsConfig = new TeadsConfiguration();
+        teadsConfig.endScreenMode = getEndScreenMode();
+
         // Instanciate Teads Video in inReadTop format
-        mTeadsVideo = new TeadsVideo.TeadsVideoBuilder(
+        mTeadsAd = new TeadsAd.TeadsAdBuilder(
                 getActivity(),
                 getPid())
                 .viewGroup(mInReadTopAdView)
                 .eventListener(this)
                 .containerType(TeadsContainerType.inReadTop)
+                .configuration(teadsConfig)
                 .build();
 
         // Load the Ad
-        mTeadsVideo.load();
+        mTeadsAd.load();
     }
 
     @Override
@@ -73,32 +73,39 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVi
         super.onResume();
         // Attach listener to MainActivity to be notified when drawer is opened
         ((MainActivity) getActivity()).setDrawerListener(this);
-        mTeadsVideo.onResume();
+        mTeadsAd.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         ((MainActivity) getActivity()).setDrawerListener(null);
-        mTeadsVideo.onPause();
+        mTeadsAd.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (mTeadsVideo != null) {
-            mTeadsVideo.clean();
+        if (mTeadsAd != null) {
+            mTeadsAd.clean();
         }
     }
 
+    @Subscribe
+    public void onReloadEvent(ReloadEvent event) {
+        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
+            mTeadsAd.reset();
+            mTeadsAd.load();
+        }
+    }
 
     /*----------------------------------------
-    * implements TeadsVideoEventListener
+    * implements TeadsAdEventListener
     */
 
     @Override
-    public void teadsVideoDidFailLoading(TeadsError teadsError) {
+    public void teadsAdDidFailLoading(TeadsError teadsError) {
         try {
             Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
         } catch (IllegalStateException ignored) {
@@ -107,122 +114,122 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVi
     }
 
     @Override
-    public void teadsVideoWillLoad() {
+    public void teadsAdWillLoad() {
 
     }
 
     @Override
-    public void teadsVideoDidLoad() {
+    public void teadsAdDidLoad() {
 
     }
 
     @Override
-    public void teadsVideoWillStart() {
+    public void teadsAdWillStart() {
 
     }
 
     @Override
-    public void teadsVideoDidStart() {
+    public void teadsAdDidStart() {
 
     }
 
     @Override
-    public void teadsVideoWillStop() {
+    public void teadsAdWillStop() {
 
     }
 
     @Override
-    public void teadsVideoDidStop() {
+    public void teadsAdDidStop() {
 
     }
 
     @Override
-    public void teadsVideoDidResume() {
+    public void teadsAdDidResume() {
 
     }
 
     @Override
-    public void teadsVideoDidPause() {
+    public void teadsAdDidPause() {
 
     }
 
     @Override
-    public void teadsVideoDidMute() {
+    public void teadsAdDidMute() {
 
     }
 
     @Override
-    public void teadsVideoDidUnmute() {
+    public void teadsAdDidUnmute() {
 
     }
 
     @Override
-    public void teadsVideoDidOpenInternalBrowser() {
+    public void teadsAdDidOpenInternalBrowser() {
 
     }
 
     @Override
-    public void teadsVideoDidClickBrowserClose() {
+    public void teadsAdDidClickBrowserClose() {
 
     }
 
     @Override
-    public void teadsVideoWillTakerOverFullScreen() {
+    public void teadsAdWillTakerOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoDidTakeOverFullScreen() {
+    public void teadsAdDidTakeOverFullScreen() {
 
     }
 
     @Override
-    public void teadsVideoWillDismissFullscreen() {
+    public void teadsAdWillDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoDidDismissFullscreen() {
+    public void teadsAdDidDismissFullscreen() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonTapped() {
+    public void teadsAdSkipButtonTapped() {
 
     }
 
     @Override
-    public void teadsVideoSkipButtonDidShow() {
+    public void teadsAdSkipButtonDidShow() {
 
     }
 
     @Override
-    public void teadsVideoWillExpand() {
+    public void teadsAdWillExpand() {
 
     }
 
     @Override
-    public void teadsVideoDidExpand() {
+    public void teadsAdDidExpand() {
 
     }
 
     @Override
-    public void teadsVideoWillCollapse() {
+    public void teadsAdWillCollapse() {
 
     }
 
     @Override
-    public void teadsVideoDidCollapse() {
+    public void teadsAdDidCollapse() {
 
     }
 
     @Override
-    public void teadsVideoDidClean() {
+    public void teadsAdDidClean() {
 
     }
 
     @Override
-    public void teadsVideoNoSlotAvailable() {
+    public void teadsAdNoSlotAvailable() {
 
     }
 
@@ -238,12 +245,12 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsVi
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        mTeadsVideo.requestPause();
+        mTeadsAd.requestPause();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        mTeadsVideo.requestResume();
+        mTeadsAd.requestResume();
     }
 
     @Override

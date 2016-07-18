@@ -13,67 +13,55 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.squareup.otto.Subscribe;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.teadssdkdemo.format.InFlowFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadListViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
-import tv.teads.teadssdkdemo.utils.BusProvider;
-import tv.teads.teadssdkdemo.utils.VideoViewSampleChooserFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
+import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
+import tv.teads.teadssdkdemo.utils.AdViewSampleChooserFragment;
+import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String LOG_TAG = "MainActivity";
 
     public static final String SHAREDPREF_PID             = "sp_pid";
     public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
+    public static final String SHAREDPREF_ENDSCREEN_MODE  = "sp_endscreen";
     public static final String SHAREDPREF_PID_DEFAULT     = "54934";
-    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://mobile.lemonde.fr/planete/article/2015/01/24/la-grande-barriere-de-corail-bientot-debarrassee-des-dechets-de-dragage_4562880_3244.html";
+    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "https://fr.m.wikipedia.org/wiki/Mer_Noire";
 
     private DrawerLayout                mDrawerLayout;
     private DrawerLayout.DrawerListener mDrawerListener;
+
+    @Bind(R.id.action_endscreen_mode)
+    protected SwitchCompat mEndScreenModeSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        Window window = getWindow();
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.primaryDarkDef));
-
-        } else if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setNavigationBarTintEnabled(false);
-            tintManager.setTintColor(getResources().getColor(R.color.primaryDef));
-        }
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -83,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.accent, null));
+        } else {
+            //noinspection deprecation
+            toolbar.setTitleTextColor(getResources().getColor(R.color.accent));
+        }
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         setSupportActionBar(toolbar);
@@ -123,11 +118,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        // Preload one Ad from AdFactory
         TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
+        mEndScreenModeSwitch.setChecked(isEndScreenLightMode(this));
+        mEndScreenModeSwitch.setOnCheckedChangeListener(this);
     }
 
     /**
@@ -144,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Return the webviw url, if not one is set, the default one
+     * Return the Webview url, if not one is set, the default one
      *
      * @param context current context
      * @return an url
@@ -154,6 +150,20 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(context)
                 .getString(
                         SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
+    }
+
+    /**
+     * Return the end screen mode
+     *
+     * @param context current context
+     * @return true if the end screen is in {@link tv.teads.sdk.publisher.TeadsConfiguration#LIGHT_MODE},
+     * false if the end screen is in {@link tv.teads.sdk.publisher.TeadsConfiguration#DARK_MODE}
+     */
+    public boolean isEndScreenLightMode(Context context) {
+        return PreferenceManager
+                .getDefaultSharedPreferences(context)
+                .getBoolean(
+                        SHAREDPREF_ENDSCREEN_MODE, false);
     }
 
     private void changeFragment(Fragment frag) {
@@ -175,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 // custom effect if fragment is already instanciated
                 mDrawerLayout.closeDrawer(GravityCompat.START);
+                EventBus.getDefault().post(new ReloadEvent());
+
             }
         } catch (IllegalStateException exception) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. " +
@@ -190,14 +202,14 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        BusProvider.getInstance().register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
 
-        BusProvider.getInstance().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe
@@ -250,21 +262,16 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadTopWebViewFragment());
     }
 
-    @OnClick(R.id.inflow)
-    public void inFlowBasic() {
-        changeFragment(new InFlowFragment());
-    }
-
-    @OnClick(R.id.videoview)
+    @OnClick(R.id.adview)
     public void videoViewChooser() {
-        changeFragment(new VideoViewSampleChooserFragment());
+        changeFragment(new AdViewSampleChooserFragment());
     }
 
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
         View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText input = (EditText) view.findViewById(R.id.pid_input);
+        final EditText input = (EditText) view.findViewById(R.id.pidEditText);
         input.setText(getPid(this));
         input.setLines(1);
         input.setSingleLine(true);
@@ -300,8 +307,8 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText input = (EditText) view.findViewById(R.id.pid_input);
+        View view = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
+        final EditText input = (EditText) view.findViewById(R.id.webViewEditText);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)
@@ -330,5 +337,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).show();
 
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        PreferenceManager
+                .getDefaultSharedPreferences(MainActivity.this)
+                .edit()
+                .putBoolean(
+                        SHAREDPREF_ENDSCREEN_MODE,
+                        isChecked)
+                .apply();
     }
 }
