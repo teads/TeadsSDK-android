@@ -1,6 +1,11 @@
 # Changelog
 
 
+v2.2.7
+- webview reuse enchancement
+- minor improvements
+- minor bug fix
+
 v2.2.6
 - memory leak fix
 - minor bug fix
