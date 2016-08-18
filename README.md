@@ -1,6 +1,6 @@
-# TeadsSDK-android
+# TeadsSDK-android         [![Build Status](https://jenkins.teadstesting.tv/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teadstesting.tv/job/TeadsSDK-android_master)  [ ![Version](https://api.bintray.com/packages/teads/TeadsSDK-android/AndroidSDK/images/download.svg) ](https://bintray.com/teads/TeadsSDK-android/AndroidSDK/_latestVersion)
 
-[![Build Status](https://jenkins.teads.net/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teads.net/view/Mobile/job/TeadsSDK-Android_master/)
+
 
 Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads from Teads SSP ad server. This demo app includes the Teads Android Library and is showing integration examples.
 
