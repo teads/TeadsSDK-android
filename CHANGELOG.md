@@ -1,5 +1,7 @@
 # Changelog
 
+v2.2.8
+- minor bug fix
 
 v2.2.7
 - webview reuse enchancement
