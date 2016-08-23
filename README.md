@@ -1,4 +1,4 @@
-# TeadsSDK-android         [![Build Status](https://jenkins.teadstesting.tv/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teadstesting.tv/job/TeadsSDK-android_master)  [ ![Version](https://api.bintray.com/packages/teads/TeadsSDK-android/AndroidSDK/images/download.svg) ](https://bintray.com/teads/TeadsSDK-android/AndroidSDK/_latestVersion)
+# TeadsSDK-android         [![Build Status](https://jenkins.teadstesting.tv/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teadstesting.tv/job/TeadsSDK-android_master)  
 
 
 
