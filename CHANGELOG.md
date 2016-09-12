@@ -1,9 +1,9 @@
 # Changelog
 
-v2.2.9
+v2.2.10
 - brand logo
 - new endscreen
-- minor bug fix
+- bug fix
 
 v2.2.8
 - minor bug fix
