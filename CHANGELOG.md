@@ -1,5 +1,9 @@
 # Changelog
 
+v2.2.11
+- funnel improvement
+- bug fix
+
 v2.2.10
 - brand logo
 - new endscreen
