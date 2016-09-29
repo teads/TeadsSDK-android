@@ -1,6 +1,6 @@
 # Changelog
 
-v2.2.12
+v2.2.13
 - improve tracking reliability
 - bug fix
 
