@@ -50,7 +50,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     // Teads SDK
-    compile('tv.teads.sdk:androidsdk:2.2.13:fullRelease@aar') {
+    compile('tv.teads.sdk:androidsdk:2.2.14:fullRelease@aar') {
         transitive = true;
     }
 }

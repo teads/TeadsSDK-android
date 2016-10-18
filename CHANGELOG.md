@@ -1,5 +1,11 @@
 # Changelog
 
+v2.2.14
+- Add the possibility to disable application visibility receiver in
+  TeadsConfiguration
+- leak memory fix on webview container
+- bug fix
+
 v2.2.13
 - improve tracking reliability
 - bug fix
