@@ -41,7 +41,9 @@ docker run --rm -i \
 	-v `pwd`:/opt/workspace:rw -w /opt/workspace \
 	-v ${JENKINS_HOME}/${ANDROID_KEY_FILE}:/opt/workspace/${ANDROID_KEY_FILE} \
       ${DOCKER_REGISTRY}/android:24.4.1 \
-      sh -c "cd TeadsSDKDemo && ./gradlew clean assembleRelease \
+      sh -c "find ~/.gradle -type f -name \"*.lock\" -exec rm {} \; &&\
+      find . -type f -name \"*.lock\" -exec rm {} \; &&\
+      cd TeadsSDKDemo && ./gradlew clean assembleRelease \
       -Pandroid.injected.signing.store.file=/opt/workspace/${ANDROID_KEY_FILE} \
       -Pandroid.injected.signing.store.password=${ANDROID_KEY_PASSWORD} \
       -Pandroid.injected.signing.key.alias=${ANDROID_KEY_ALIAS} \
