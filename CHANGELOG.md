@@ -1,5 +1,8 @@
 # Changelog
 
+v2.2.15
+- fix an issue with the complete tracking
+
 v2.2.14
 - Add the possibility to disable application visibility receiver in
   TeadsConfiguration
