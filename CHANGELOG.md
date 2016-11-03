@@ -1,6 +1,10 @@
 # Changelog
 
 v2.2.16
+- support vpaid creatives
+- fix memory leak
+
+v2.2.16
 - support java 8 language features
 - fix memory leak
 
