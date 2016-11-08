@@ -1,5 +1,10 @@
 # Changelog
 
+v2.3.6
+- support vpaid creatives
+- remove TeadsVideo object 
+- minor bug fix
+
 v2.2.16
 - support java 8 language features
 - fix memory leak
