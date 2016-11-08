@@ -2,7 +2,7 @@
 
 v2.3.6
 - support vpaid creatives
-- remove TeadsVideo object 
+- remove deprecated TeadsVideo object, you should now use TeadsAd 
 - minor bug fix
 
 v2.2.16
