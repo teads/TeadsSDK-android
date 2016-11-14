@@ -1,5 +1,9 @@
 # Changelog
 
+v2.3.7
+- add behavior on equalizer click 
+- minor bug fix
+
 v2.3.6
 - support vpaid creatives
 - remove deprecated TeadsVideo object, you should now use TeadsAd 
