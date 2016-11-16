@@ -1,5 +1,9 @@
 # Changelog
 
+v2.3.9
+- better play services management
+- minor bug fix
+
 v2.3.7
 - add behavior on equalizer click 
 - minor bug fix
