@@ -1,5 +1,8 @@
 # Changelog
 
+v2.3.11
+- minor bug fix
+
 v2.3.10
 - minor bug fix and improvement
 
