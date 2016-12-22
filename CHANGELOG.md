@@ -1,5 +1,8 @@
 # Changelog
 
+v2.3.12
+- remove `android.permission.ACCESS_WIFI_STATE`
+
 v2.3.11
 - minor bug fix
 
