@@ -2,13 +2,14 @@ package tv.teads.teadssdkdemo.format.adview;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.AbsListView;
-import android.widget.ListView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -25,16 +26,13 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.utils.TeadsError;
 
 /**
- * Custom format base on {@link TeadsView} that will display the ad every 20 items of the ListView.
- * This sample is supplied for a demostration of TeadsAdView. It may contains cases that is not managed.
- * <p/>
- * <p/>
+ * Custom format base on {@link TeadsView} that will display the ad every 20 items of the RecyclerView.
+ * This sample is supplied for a demostration of TeadsAdView. It may contains cases that are not managed.
  * <p/>
  * Created by Hugo Gresse on 06/08/15.
  */
 public class AdvancedAdViewFragment extends BaseFragment implements
         TeadsAdListener,
-        AbsListView.OnScrollListener,
         DrawerLayout.DrawerListener,
         AdViewCustomAdapter.TeadsViewAttachListener {
 
@@ -43,9 +41,14 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     private static final int sRepeatableAdPosition = 20;
 
     /**
-     * ListView used as the root layout in this fragment
+     * RecyclerView used as the root layout in this fragment
      */
-    private ListView mListView;
+    private RecyclerView mRecyclerView;
+
+    /**
+     * LayoutManager for the RecyclerView
+     */
+    private LinearLayoutManager mLayoutManager;
 
     /**
      * Teads Ad instance
@@ -53,7 +56,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     private TeadsAd mTeadsAd;
 
     /**
-     * A View displaying the ad as a part of ListView
+     * A View displaying the ad as a part of a RecyclerView
      */
     private TeadsView mTeadsView;
 
@@ -68,8 +71,8 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inread_listview, container, false);
-        mListView = (ListView) rootView.findViewById(R.id.listView);
+        View rootView = inflater.inflate(R.layout.fragment_inread_recyclerview, container, false);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
         mAdViewHaveToBeOpen = false;
         mIsAnimating = false;
@@ -93,11 +96,8 @@ public class AdvancedAdViewFragment extends BaseFragment implements
                 .build();
         mTeadsAd.load();
 
-        // Attach scroll listener to know when we should detach or attach the TeadsAdView
-        mListView.setOnScrollListener(this);
-
-        // Set a very custom listview adapter
-        setListViewAdapter(mListView);
+        // Set a very custom recyclerView adapter
+        setRecyclerViewAdapter(mRecyclerView);
     }
 
     @Override
@@ -142,7 +142,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         }
 
         //Update the TeadsAdView to match the ViewGroup parent
-        mTeadsView.updateSize(mListView);
+        //mTeadsView.updateSize(mRecyclerView);
         mTeadsView.setCollapsed();
 
         if (!mAdViewHaveToBeOpen) {
@@ -203,25 +203,63 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     }
 
     /**
-     * Create sample data for the ListView and attach the custom adapter to it with the correct Ad position.
+     * Create sample data for the RecyclerView and attach the custom adapter to it with the correct ad position.
      *
-     * @param listView the LsitView to be indlated
+     * @param recyclerView the RecyclerView to be inflated
      */
-    private void setListViewAdapter(ListView listView) {
+    private void setRecyclerViewAdapter(RecyclerView recyclerView) {
         String values[] = new String[200];
 
         for (int i = 0; i < values.length; i++) {
             values[i] = "Teads " + i;
         }
 
-        // Instantiate the custom adapter used to display TeadsView in the ListView
+        // Instantiate the custom adapter used to display TeadsView in the RecyclerView
         AdViewCustomAdapter adViewCustomAdapter = new AdViewCustomAdapter(
-                getActivity(),
                 values,
                 sRepeatableAdPosition,
                 this);
 
-        listView.setAdapter(adViewCustomAdapter);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(adViewCustomAdapter);
+
+        recyclerView.addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (mTeadsAd == null || mIsAnimating) {
+                    return;
+                }
+
+                boolean isVisible = false;
+                int visibleItemCount = (mLayoutManager).findLastVisibleItemPosition() - (mLayoutManager).findFirstVisibleItemPosition() + 1;
+                int firstVisibleItem = (mLayoutManager).findFirstVisibleItemPosition();
+
+                if ((visibleItemCount) >= sRepeatableAdPosition || firstVisibleItem % sRepeatableAdPosition == 0) {
+                    // Log.d(LOG_TAG, "vis1");
+                    isVisible = true;
+                }
+
+                if (!isVisible &&
+                        (firstVisibleItem % sRepeatableAdPosition) > ((firstVisibleItem + visibleItemCount) % sRepeatableAdPosition)
+                        && (firstVisibleItem + visibleItemCount) % sRepeatableAdPosition != 0
+                        && visibleItemCount > 1) {
+                    // Log.d(LOG_TAG, "vis2");
+                    isVisible = true;
+                }
+
+                if (!isVisible) {
+                    mTeadsAd.requestPause();
+                    mTeadsAd.detachView();
+                } else {
+                    mTeadsAd.requestResume();
+                }
+
+                mTeadsAd.containerDidMove();
+
+            }
+        });
     }
 
     @Subscribe
@@ -231,56 +269,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
             mTeadsAd.load();
         }
     }
-
-    /*----------------------------------------
-    * implements AbsListView.OnScrollListener
-    */
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-    }
-
-    /**
-     * Called on ListView scroll. we have to check the ad visibility by :
-     * - check if the displayed items contains the AdView (the AdView is placed every 20 items)
-     *
-     * @param view             the visible view
-     * @param firstVisibleItem firstVisibleItem
-     * @param visibleItemCount number of item displayed
-     * @param totalItemCount   total listview items
-     */
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mTeadsAd == null || mTeadsView == null || mIsAnimating || mIsFullscreen) {
-            return;
-        }
-
-        boolean isVisible = false;
-
-        if ((visibleItemCount) >= sRepeatableAdPosition || firstVisibleItem % sRepeatableAdPosition == 0) {
-            // Log.d(LOG_TAG, "vis1");
-            isVisible = true;
-        }
-
-        if (!isVisible &&
-                (firstVisibleItem % sRepeatableAdPosition) > ((firstVisibleItem + visibleItemCount) % sRepeatableAdPosition)
-                && (firstVisibleItem + visibleItemCount) % 20 != 0
-                && visibleItemCount > 1) {
-            // Log.d(LOG_TAG, "vis2");
-            isVisible = true;
-        }
-
-        if (!isVisible) {
-            mTeadsAd.requestPause();
-            mTeadsAd.detachView();
-        } else {
-            mTeadsAd.requestResume();
-        }
-
-        mTeadsAd.containerDidMove();
-    }
-
 
     /*----------------------------------------
     * implements TeadsAdEventListener
@@ -455,10 +443,12 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         }
 
         mTeadsAd.teadsVideoViewAdded();
+
         if (mTeadsView.getRatio() == null) {
             return;
         }
-        mTeadsView.updateSize(mListView);
+
+        mTeadsView.updateSize(mRecyclerView);
 
         if (mAdViewHaveToBeOpen) {
             openInRead();
