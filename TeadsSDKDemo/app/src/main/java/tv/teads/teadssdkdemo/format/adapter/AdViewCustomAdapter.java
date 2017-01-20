@@ -90,7 +90,7 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
     /**
      * The ViewHolder used to recycle views
      */
-    class ViewHolder extends RecyclerView.ViewHolder {
+    abstract class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(View itemView) {
             super(itemView);
         }
