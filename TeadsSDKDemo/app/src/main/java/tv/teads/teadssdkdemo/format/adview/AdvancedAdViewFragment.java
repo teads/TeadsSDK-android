@@ -1,6 +1,7 @@
 package tv.teads.teadssdkdemo.format.adview;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
 
     public static final String LOG_TAG = "AdvancedAdViewFragment";
 
-    private static final int sRepeatableAdPosition = 20;
+    private static final int sRepeatableAdPosition = 6;
 
     /**
      * RecyclerView used as the root layout in this fragment
@@ -58,6 +59,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     /**
      * A View displaying the ad as a part of a RecyclerView
      */
+    @Nullable
     private TeadsView mTeadsView;
 
     /**
@@ -67,6 +69,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     private boolean mAdViewHaveToBeOpen;
     private boolean mIsFullscreen;
     private boolean mIsOpen;
+    private Float   mVideoRatio;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,6 +98,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
                 .configuration(teadsConfig)
                 .build();
         mTeadsAd.load();
+        mTeadsAd.onSlotAvailability(1);
 
         // Set a very custom recyclerView adapter
         setRecyclerViewAdapter(mRecyclerView);
@@ -158,7 +162,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
                     Log.d(LOG_TAG, "onAnimationEnd");
                     mIsAnimating = false;
                     mIsOpen = true;
-
                     //Prevent TeadsAd that view did expand
                     mTeadsAd.adViewDidExpand();
                 }
@@ -179,7 +182,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
      * Close TeadsView with collapse animation
      */
     private void closeInRead() {
-
+        mVideoRatio = null;
         mIsAnimating = true;
         mTeadsView.collapse(new Animation.AnimationListener() {
             @Override
@@ -257,7 +260,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
                 }
 
                 mTeadsAd.containerDidMove();
-
             }
         });
     }
@@ -265,6 +267,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     @Subscribe
     public void onReloadEvent(ReloadEvent event) {
         if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
+            mVideoRatio = null;
             mTeadsAd.reset();
             mTeadsAd.load();
         }
@@ -296,7 +299,9 @@ public class AdvancedAdViewFragment extends BaseFragment implements
 
     @Override
     public void teadsAdDidStart() {
-
+        if(mTeadsView != null){
+            mVideoRatio = mTeadsView.getRatio();
+        }
     }
 
     @Override
@@ -432,26 +437,39 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     }
 
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onAttachTeadsAdView(TeadsView teadsAdView) {
-        Log.d(LOG_TAG, "teadsAdViewAttached");
+        String log =  "teadsAdViewAttached";
         mTeadsView = teadsAdView;
         mTeadsAd.attachView(mTeadsView);
 
         if (!mIsOpen && !mIsAnimating) {
+            log += " setCollapsed";
             mTeadsView.setCollapsed();
         }
 
         mTeadsAd.teadsVideoViewAdded();
 
         if (mTeadsView.getRatio() == null) {
-            return;
+            if(mVideoRatio != null) {
+                log += " setRatio";
+                mTeadsView.setRatio(mVideoRatio);
+            } else {
+                log += " return null ratio";
+                Log.d(LOG_TAG, log);
+                return;
+            }
         }
 
+        mTeadsAd.onSlotAvailability(1);
         mTeadsView.updateSize(mRecyclerView);
 
         if (mAdViewHaveToBeOpen) {
+            log += " openInRead";
             openInRead();
         }
+
+        Log.d(LOG_TAG, log);
     }
 }
