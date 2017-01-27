@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <tv.teads.sdk.publisher.TeadsView
+    <tv.teads.teadssdkdemo.format.adview.CustomTeadsView
         android:id="@+id/adview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

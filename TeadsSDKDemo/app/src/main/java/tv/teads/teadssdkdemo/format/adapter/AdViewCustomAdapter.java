@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import tv.teads.sdk.publisher.TeadsView;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.format.adview.CustomTeadsView;
 
 /**
  * A RecyclerView adapter that display the same {@link TeadsView} each X items.
@@ -90,7 +91,7 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
     /**
      * The ViewHolder used to recycle views
      */
-    class ViewHolder extends RecyclerView.ViewHolder {
+    abstract class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(View itemView) {
             super(itemView);
         }
@@ -122,19 +123,30 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
     /**
      * The ViewHolder to display ads
      */
-    private class AdViewHolder extends ViewHolder{
-        private TeadsView mAdView;
+    private class AdViewHolder extends ViewHolder implements CustomTeadsView.Listener {
+        private CustomTeadsView mAdView;
 
         AdViewHolder(View itemView) {
             super(itemView);
 
-            mAdView = (TeadsView) itemView.findViewById(R.id.adview);
+            mAdView = (CustomTeadsView) itemView.findViewById(R.id.adview);
+            mAdView.setListener(this);
         }
 
         @Override
         public void setData(Object object) {
             super.setData(object);
+        }
+
+        @Override
+        public void onAttachToWindow() {
             mTeadsAdViewAttachListener.onAttachTeadsAdView(mAdView);
+
+        }
+
+        @Override
+        public void onDetachedFromWindow() {
+
         }
     }
 
