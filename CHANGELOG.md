@@ -1,5 +1,8 @@
 # Changelog
 
+v2.3.14
+- improve impression and start tracking
+
 v2.3.13
 - support NestedScrollView
 
