@@ -1,5 +1,8 @@
 # Changelog
 
+v2.3.15
+- minor bug fix
+
 v2.3.14
 - improve impression and start tracking
 
