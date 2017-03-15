@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 25
+    buildToolsVersion "24.0.3"
 
     String sufixBaseName = ""
 
@@ -13,9 +13,9 @@ android {
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 81
-        versionName "2.3.15"
+        targetSdkVersion 25
+        versionCode 82
+        versionName "2.3.16"
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
     buildTypes {
@@ -39,17 +39,17 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:cardview-v7:24.0.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.google.android.gms:play-services-basement:9.6.1'
-    compile 'com.google.android.gms:play-services-location:9.6.1'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:cardview-v7:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.google.android.gms:play-services-basement:10.2.0'
+    compile 'com.google.android.gms:play-services-location:10.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
 
     // Teads SDK
-    compile('tv.teads.sdk:androidsdk:2.3.15:fullRelease@aar') {
+    compile('tv.teads.sdk:androidsdk:2.3.16:fullRelease@aar') {
         transitive = true;
     }
 }
