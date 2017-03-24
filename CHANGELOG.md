@@ -1,5 +1,5 @@
 # Changelog
-v2.4.0
+v2.4.1
 - Support display VPAID
 
 v2.3.17
