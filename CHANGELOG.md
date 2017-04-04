@@ -1,4 +1,7 @@
 # Changelog
+v2.4.2
+- minor improvement and bug fix
+
 v2.4.1
 - Support display VPAID
 
