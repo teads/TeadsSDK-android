@@ -39,7 +39,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
 
     public static final String LOG_TAG = "AdvancedAdViewFragment";
 
-    private static final int sRepeatableAdPosition = 6;
+    private static final int sRepeatableAdPosition = 15;
 
     /**
      * RecyclerView used as the root layout in this fragment
@@ -366,9 +366,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
 
     @Override
     public void teadsAdSkipButtonTapped() {
-        if (mTeadsView != null) {
-            closeInRead();
-        }
     }
 
     @Override
