@@ -173,6 +173,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         } else {
             mAdViewHaveToBeOpen = false;
             mTeadsView.setVisibility(View.VISIBLE);
+            mIsOpen = true;
             mTeadsAd.adViewDidExpand();
         }
     }
@@ -274,7 +275,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
 
     @Override
     public void teadsAdDidStart() {
-        if(mTeadsView != null){
+        if (mTeadsView != null) {
             mVideoRatio = mTeadsView.getRatio();
         }
     }
@@ -412,7 +413,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onAttachTeadsAdView(TeadsView teadsAdView) {
-        String log =  "teadsAdViewAttached";
+        String log = "teadsAdViewAttached";
         mTeadsView = teadsAdView;
         mTeadsAd.attachView(mTeadsView);
 
@@ -424,7 +425,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         mTeadsAd.teadsVideoViewAdded();
 
         if (mTeadsView.getRatio() == null) {
-            if(mVideoRatio != null) {
+            if (mVideoRatio != null) {
                 log += " setRatio";
                 mTeadsView.setRatio(mVideoRatio);
             } else {
