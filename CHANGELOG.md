@@ -1,4 +1,7 @@
 # Changelog
+v2.4.5
+- improves memory management  
+
 v2.4.4
 - minor improvement and bug fix
 
