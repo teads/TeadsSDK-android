@@ -1,5 +1,5 @@
 # Changelog
-v2.4.5
+v2.4.6
 - improves memory management  
 
 v2.4.4
