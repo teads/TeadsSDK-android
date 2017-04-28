@@ -67,7 +67,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
      */
     private boolean mIsAnimating;
     private boolean mAdViewHaveToBeOpen;
-    private boolean mIsFullscreen;
     private boolean mIsOpen;
     private Float   mVideoRatio;
 
@@ -109,7 +108,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         super.onDestroyView();
         if (mTeadsView != null) {
             // reset views and flags
-            mIsAnimating = mAdViewHaveToBeOpen = mIsFullscreen = mIsOpen = false;
+            mIsAnimating = mAdViewHaveToBeOpen = mIsOpen = false;
             mTeadsView.cleanView();
         }
     }
@@ -146,7 +145,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         }
 
         //Update the TeadsAdView to match the ViewGroup parent
-        //mTeadsView.updateSize(mRecyclerView);
+        mTeadsView.updateSize(mRecyclerView);
         mTeadsView.setCollapsed();
 
         if (!mAdViewHaveToBeOpen) {
@@ -174,6 +173,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         } else {
             mAdViewHaveToBeOpen = false;
             mTeadsView.setVisibility(View.VISIBLE);
+            mIsOpen = true;
             mTeadsAd.adViewDidExpand();
         }
     }
@@ -235,30 +235,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
                     return;
                 }
 
-                boolean isVisible = false;
-                int visibleItemCount = (mLayoutManager).findLastVisibleItemPosition() - (mLayoutManager).findFirstVisibleItemPosition() + 1;
-                int firstVisibleItem = (mLayoutManager).findFirstVisibleItemPosition();
-
-                if ((visibleItemCount) >= sRepeatableAdPosition || firstVisibleItem % sRepeatableAdPosition == 0) {
-                    // Log.d(LOG_TAG, "vis1");
-                    isVisible = true;
-                }
-
-                if (!isVisible &&
-                        (firstVisibleItem % sRepeatableAdPosition) > ((firstVisibleItem + visibleItemCount) % sRepeatableAdPosition)
-                        && (firstVisibleItem + visibleItemCount) % sRepeatableAdPosition != 0
-                        && visibleItemCount > 1) {
-                    // Log.d(LOG_TAG, "vis2");
-                    isVisible = true;
-                }
-
-                if (!isVisible) {
-                    mTeadsAd.requestPause();
-                    mTeadsAd.detachView();
-                } else {
-                    mTeadsAd.requestResume();
-                }
-
                 mTeadsAd.containerDidMove();
             }
         });
@@ -299,7 +275,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
 
     @Override
     public void teadsAdDidStart() {
-        if(mTeadsView != null){
+        if (mTeadsView != null) {
             mVideoRatio = mTeadsView.getRatio();
         }
     }
@@ -437,7 +413,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onAttachTeadsAdView(TeadsView teadsAdView) {
-        String log =  "teadsAdViewAttached";
+        String log = "teadsAdViewAttached";
         mTeadsView = teadsAdView;
         mTeadsAd.attachView(mTeadsView);
 
@@ -449,7 +425,7 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         mTeadsAd.teadsVideoViewAdded();
 
         if (mTeadsView.getRatio() == null) {
-            if(mVideoRatio != null) {
+            if (mVideoRatio != null) {
                 log += " setRatio";
                 mTeadsView.setRatio(mVideoRatio);
             } else {
