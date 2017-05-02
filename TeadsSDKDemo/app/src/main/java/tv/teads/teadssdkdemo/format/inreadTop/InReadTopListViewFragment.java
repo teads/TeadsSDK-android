@@ -97,12 +97,14 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsAdLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
+
         if (mTeadsAd != null) {
             mTeadsAd.clean();
         }
     }
+
 
     private void setListViewAdapter(ListView listView) {
         int size = 50;

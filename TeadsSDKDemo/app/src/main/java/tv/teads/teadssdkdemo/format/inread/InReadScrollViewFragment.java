@@ -82,8 +82,8 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsAdLis
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
 
         if (mTeadsAd != null) {
             mTeadsAd.clean();
