@@ -99,9 +99,8 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onStop() {
+        super.onStop();
         if (mTeadsAd != null) {
             mTeadsAd.clean();
         }

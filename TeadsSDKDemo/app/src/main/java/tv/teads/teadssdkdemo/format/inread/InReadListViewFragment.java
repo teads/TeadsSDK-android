@@ -87,8 +87,8 @@ public class InReadListViewFragment extends BaseFragment implements TeadsAdListe
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         if (mTeadsAd != null) {
             mTeadsAd.clean();
         }
