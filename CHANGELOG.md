@@ -1,4 +1,8 @@
 # Changelog
+v2.4.9
+- No need to pass Activity at TeadsAd object anymore, a context is enough 
+- bug fix and memory improvement
+
 v2.4.6
 - improves memory management  
 
