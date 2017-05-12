@@ -56,7 +56,7 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsAd
 
         // Instanciate Teads Video in inReadTop format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .viewGroup(mInReadTopAdView)
                 .eventListener(this)

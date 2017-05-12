@@ -69,7 +69,7 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdLis
 
         // Instanciate Teads Ad in inReadTop format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .viewGroup(mInReadTopAdView)
                 .eventListener(this)
