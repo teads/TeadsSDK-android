@@ -1,4 +1,8 @@
 # Changelog
+v2.4.11
+- Remove WRITE_EXTERNAL_STORAGE permission
+- bug fix
+
 v2.4.10
 - Support x-javascript MIME type for VPAID creative
 - bug fix
