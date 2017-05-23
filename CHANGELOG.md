@@ -1,4 +1,16 @@
 # Changelog
+v2.4.11
+- Remove WRITE_EXTERNAL_STORAGE permission
+- bug fix
+
+v2.4.10
+- Support x-javascript MIME type for VPAID creative
+- bug fix
+
+v2.4.9
+- No need to pass Activity at TeadsAd object anymore, a context is enough 
+- bug fix and memory improvement
+
 v2.4.6
 - improves memory management  
 

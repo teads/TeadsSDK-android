@@ -14,8 +14,8 @@ android {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 90
-        versionName "2.4.6"
+        versionCode 93
+        versionName "2.4.11"
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
     buildTypes {
@@ -49,7 +49,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     // Teads SDK
-    compile('tv.teads.sdk:androidsdk:2.4.6:fullRelease@aar') {
+    compile('tv.teads.sdk:androidsdk:2.4.11:fullRelease@aar') {
         transitive = true;
     }
 }

@@ -59,7 +59,7 @@ public class InReadListViewFragment extends BaseFragment implements TeadsAdListe
 
         // Instanciate Teads Ad in inRead format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .configuration(teadsConfig)
                 .viewGroup(mListView)

@@ -60,7 +60,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsAdListen
 
         // Instanciate Teads Ad in inRead format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .viewGroup(mTeadsWebView)
                 .containerType(TeadsContainerType.inRead)

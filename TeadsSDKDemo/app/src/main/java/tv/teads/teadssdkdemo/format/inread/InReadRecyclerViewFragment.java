@@ -61,7 +61,7 @@ public class InReadRecyclerViewFragment extends BaseFragment implements TeadsAdL
 
         // Instanciate Teads Ad in inRead format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .configuration(teadsConfig)
                 .viewGroup(mRecyclerView)

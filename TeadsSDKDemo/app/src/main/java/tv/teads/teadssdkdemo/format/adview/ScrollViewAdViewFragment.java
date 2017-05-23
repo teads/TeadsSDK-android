@@ -82,7 +82,7 @@ public class ScrollViewAdViewFragment extends BaseFragment implements
         teadsConfig.endScreenMode = getEndScreenMode();
 
         // Init TeadsAd and load the Ad
-        mTeadsAd = new TeadsAd.TeadsAdBuilder(getActivity(), getPid())
+        mTeadsAd = new TeadsAd.TeadsAdBuilder(getActivity().getApplicationContext(), getPid())
                 .containerType(TeadsContainerType.custom)
                 .eventListener(this)
                 .configuration(teadsConfig)

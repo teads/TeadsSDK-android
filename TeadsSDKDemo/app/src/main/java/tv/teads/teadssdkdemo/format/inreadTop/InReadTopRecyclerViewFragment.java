@@ -71,7 +71,7 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
 
         // Instanciate Teads Video in inReadTop format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .viewGroup(mInReadTopAdView)
                 .eventListener(this)

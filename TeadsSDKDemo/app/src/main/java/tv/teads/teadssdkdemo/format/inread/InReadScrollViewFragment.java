@@ -54,7 +54,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsAdLis
 
         // Instanciate Teads Video in inRead format
         mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity(),
+                getActivity().getApplicationContext(),
                 getPid())
                 .viewGroup(mFrameLayout)
                 .containerType(TeadsContainerType.inRead)
