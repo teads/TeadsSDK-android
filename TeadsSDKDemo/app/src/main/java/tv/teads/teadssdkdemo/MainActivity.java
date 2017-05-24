@@ -167,22 +167,32 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     private void changeFragment(Fragment frag) {
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container).getClass() == frag.getClass()) {
-            closeDrawerAndReloadAd();
-            return;
-        }
 
         String backStateName = ((Object) frag).getClass().getName();
 
         try {
             FragmentManager manager = getSupportFragmentManager();
-            //fragment not in back stack, create it.
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_container, frag, ((Object) frag).getClass().getName());
-            transaction.addToBackStack(backStateName);
-            transaction.commit();
-            // Close drawer
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+            boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+
+            if (!fragmentPopped && manager.findFragmentByTag(backStateName) == null) {
+                //fragment not in back stack, create it.
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.fragment_container, frag, ((Object) frag).getClass().getName());
+                transaction.addToBackStack(backStateName);
+                transaction.commit();
+                // Close drawer
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else if (!fragmentPopped && manager.findFragmentByTag(backStateName) != null) {
+                Log.d(LOG_TAG, " fragment not popped but finded: " + backStateName);
+
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                Log.d(LOG_TAG, " nothing to do : " + backStateName + " fragmentPopped: " + fragmentPopped);
+                // custom effect if fragment is already instanciated
+
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+
         } catch (IllegalStateException exception) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. " +
                     exception.toString());
