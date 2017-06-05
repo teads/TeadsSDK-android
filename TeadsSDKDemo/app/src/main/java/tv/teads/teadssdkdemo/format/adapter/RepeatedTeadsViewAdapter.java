@@ -15,7 +15,7 @@ import tv.teads.teadssdkdemo.format.adview.CustomTeadsView;
  * <p/>
  * Created by Hugo Gresse on 09/06/15.
  */
-public class AdvancedTeadsViewAdapter extends RecyclerView.Adapter<AdvancedTeadsViewAdapter.ViewHolder> {
+public class RepeatedTeadsViewAdapter extends RecyclerView.Adapter<RepeatedTeadsViewAdapter.ViewHolder> {
 
     /**
      * View types
@@ -45,7 +45,7 @@ public class AdvancedTeadsViewAdapter extends RecyclerView.Adapter<AdvancedTeads
      * @param adPosition ad position
      * @param listener   external adapter to be notify on TeadsView is attached
      */
-    public AdvancedTeadsViewAdapter(String[] val,
+    public RepeatedTeadsViewAdapter(String[] val,
                                     int adPosition,
                                     TeadsViewAttachListener listener) {
         inReadPosition = adPosition;

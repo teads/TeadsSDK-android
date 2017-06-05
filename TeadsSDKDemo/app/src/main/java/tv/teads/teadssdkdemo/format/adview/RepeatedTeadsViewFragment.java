@@ -21,7 +21,7 @@ import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
-import tv.teads.teadssdkdemo.format.adapter.AdvancedTeadsViewAdapter;
+import tv.teads.teadssdkdemo.format.adapter.RepeatedTeadsViewAdapter;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.utils.TeadsError;
@@ -32,10 +32,10 @@ import tv.teads.utils.TeadsError;
  * <p/>
  * Created by Hugo Gresse on 06/08/15.
  */
-public class AdvancedTeadsViewFragment extends BaseFragment implements
+public class RepeatedTeadsViewFragment extends BaseFragment implements
         TeadsAdListener,
         DrawerLayout.DrawerListener,
-        AdvancedTeadsViewAdapter.TeadsViewAttachListener {
+        RepeatedTeadsViewAdapter.TeadsViewAttachListener {
 
     public static final String LOG_TAG = "AdvancedAdViewFragment";
 
@@ -218,7 +218,7 @@ public class AdvancedTeadsViewFragment extends BaseFragment implements
         }
 
         // Instantiate the custom adapter used to display TeadsView in the RecyclerView
-        AdvancedTeadsViewAdapter advancedTeadsViewAdapter = new AdvancedTeadsViewAdapter(
+        RepeatedTeadsViewAdapter advancedTeadsViewAdapter = new RepeatedTeadsViewAdapter(
                 values,
                 sRepeatableAdPosition,
                 this);
