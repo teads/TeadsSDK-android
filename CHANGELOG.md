@@ -1,4 +1,10 @@
 # Changelog
+
+v2.4.12
+- improves memory management
+- improve faulty VPAID creatives management
+- bug fix
+
 v2.4.11
 - Remove WRITE_EXTERNAL_STORAGE permission
 - bug fix
