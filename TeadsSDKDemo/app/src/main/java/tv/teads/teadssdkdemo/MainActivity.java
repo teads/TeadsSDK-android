@@ -36,7 +36,7 @@ import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
-import tv.teads.teadssdkdemo.utils.AdViewSampleChooserFragment;
+import tv.teads.teadssdkdemo.utils.CustomSampleChooserFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     @OnClick(R.id.adview)
     public void videoViewChooser() {
-        changeFragment(new AdViewSampleChooserFragment());
+        changeFragment(new CustomSampleChooserFragment());
     }
 
     @OnClick(R.id.action_pid)

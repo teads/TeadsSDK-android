@@ -20,8 +20,15 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/videoview_listview"
-        android:text="@string/format_videoview_listview"
+        android:id="@+id/videoview_recyclerview"
+        android:text="@string/format_videoview_recyclerview"
+        style="?android:attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/videoview_repeatedrecyclerview"
+        android:text="@string/format_videoview_repeatedrecyclerview"
         style="?android:attr/buttonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

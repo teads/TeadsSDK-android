@@ -14,8 +14,8 @@ android {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 93
-        versionName "2.4.11"
+        versionCode 94
+        versionName "2.4.12"
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
     buildTypes {
@@ -37,19 +37,22 @@ repositories {
     }
 }
 
+ext {
+    supportLibraryVersion = '25.3.1'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:cardview-v7:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
     compile 'com.google.android.gms:play-services-basement:10.2.0'
     compile 'com.google.android.gms:play-services-location:10.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
 
     // Teads SDK
-    compile('tv.teads.sdk:androidsdk:2.4.11:fullRelease@aar') {
+    compile('tv.teads.sdk:androidsdk:2.4.12:fullRelease@aar') {
         transitive = true;
     }
 }

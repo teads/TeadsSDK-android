@@ -21,35 +21,27 @@ import tv.teads.sdk.publisher.TeadsContainerType;
 import tv.teads.sdk.publisher.TeadsView;
 import tv.teads.teadssdkdemo.MainActivity;
 import tv.teads.teadssdkdemo.R;
-import tv.teads.teadssdkdemo.format.adapter.AdViewCustomAdapter;
+import tv.teads.teadssdkdemo.format.adapter.CustomRecyclerViewAdapter;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.utils.TeadsError;
 
 /**
- * Custom format base on {@link TeadsView} that will display the ad every 20 items of the RecyclerView.
- * This sample is supplied for a demostration of TeadsAdView. It may contains cases that are not managed.
+ * Display Teads ads using TeadsView (custom integration) in a RecyclerView at the 15 elements
  * <p/>
- * Created by Hugo Gresse on 06/08/15.
+ * Created by Hugo Gresse on 05/06/17.
  */
-public class AdvancedAdViewFragment extends BaseFragment implements
+public class CustomRecyclerViewFragment extends BaseFragment implements
         TeadsAdListener,
         DrawerLayout.DrawerListener,
-        AdViewCustomAdapter.TeadsViewAttachListener {
+        CustomRecyclerViewAdapter.TeadsViewAttachListener {
 
     public static final String LOG_TAG = "AdvancedAdViewFragment";
-
-    private static final int sRepeatableAdPosition = 15;
 
     /**
      * RecyclerView used as the root layout in this fragment
      */
     private RecyclerView mRecyclerView;
-
-    /**
-     * LayoutManager for the RecyclerView
-     */
-    private LinearLayoutManager mLayoutManager;
 
     /**
      * Teads Ad instance
@@ -153,12 +145,10 @@ public class AdvancedAdViewFragment extends BaseFragment implements
             mTeadsView.expand(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    Log.d(LOG_TAG, "onAnimationStart");
                 }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    Log.d(LOG_TAG, "onAnimationEnd");
                     mIsAnimating = false;
                     mIsOpen = true;
                     //Prevent TeadsAd that view did expand
@@ -218,14 +208,14 @@ public class AdvancedAdViewFragment extends BaseFragment implements
         }
 
         // Instantiate the custom adapter used to display TeadsView in the RecyclerView
-        AdViewCustomAdapter adViewCustomAdapter = new AdViewCustomAdapter(
+        CustomRecyclerViewAdapter adViewCustomAdapter = new CustomRecyclerViewAdapter(
                 values,
-                sRepeatableAdPosition,
+                15,
                 this);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
-        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adViewCustomAdapter);
 
         recyclerView.addOnScrollListener(new OnScrollListener() {
@@ -435,7 +425,6 @@ public class AdvancedAdViewFragment extends BaseFragment implements
             }
         }
 
-        mTeadsAd.onSlotAvailability(1);
         mTeadsView.updateSize(mRecyclerView);
 
         if (mAdViewHaveToBeOpen) {
