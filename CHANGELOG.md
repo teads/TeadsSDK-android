@@ -1,8 +1,8 @@
 # Changelog
 
 v2.4.12
-- improves memory management
-- improve faulty VPAID creatives management
+- improve memory management
+- improve faulty VPAID creative management
 - bug fix
 
 v2.4.11

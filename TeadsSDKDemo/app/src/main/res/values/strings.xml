@@ -20,7 +20,8 @@
     <string name="format_inreadtop">inRead Top</string>
     <string name="format_adfactory">AdFactory</string>
     <string name="format_videoview_simple">Simple TeadsView in ScrollView</string>
-    <string name="format_videoview_listview">Repeated TeadsView in RecyclerView</string>
+    <string name="format_videoview_recyclerview">TeadsView in RecyclerView</string>
+    <string name="format_videoview_repeatedrecyclerview">Repeated TeadsView in RecyclerView</string>
 
     <string name="container_scrollview">ScrollView</string>
     <string name="container_listview">ListView</string>

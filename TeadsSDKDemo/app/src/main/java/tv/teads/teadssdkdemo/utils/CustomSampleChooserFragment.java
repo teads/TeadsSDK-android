@@ -11,7 +11,8 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.teadssdkdemo.R;
-import tv.teads.teadssdkdemo.format.adview.AdvancedAdViewFragment;
+import tv.teads.teadssdkdemo.format.adview.RepeatedTeadsViewFragment;
+import tv.teads.teadssdkdemo.format.adview.CustomRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.adview.ScrollViewAdViewFragment;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
@@ -20,7 +21,7 @@ import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
  * <p/>
  * Created by Hugo Gresse on 07/08/15.
  */
-public class AdViewSampleChooserFragment extends BaseFragment {
+public class CustomSampleChooserFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,9 +42,13 @@ public class AdViewSampleChooserFragment extends BaseFragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new ScrollViewAdViewFragment()));
     }
 
-    @OnClick(R.id.videoview_listview)
-    public void onListViewVideoViewClick() {
-        EventBus.getDefault().post(new ChangeFragmentEvent(new AdvancedAdViewFragment()));
+    @OnClick(R.id.videoview_recyclerview)
+    public void onRecyclerViewClick() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new CustomRecyclerViewFragment()));
+    }
+    @OnClick(R.id.videoview_repeatedrecyclerview)
+    public void onRepeatedRecyclerViewClick() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new RepeatedTeadsViewFragment()));
     }
 
     @Subscribe

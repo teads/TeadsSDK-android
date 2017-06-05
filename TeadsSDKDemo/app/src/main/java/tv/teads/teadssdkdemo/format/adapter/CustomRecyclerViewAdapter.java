@@ -11,11 +11,11 @@ import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.format.adview.CustomTeadsView;
 
 /**
- * A RecyclerView adapter that display the same {@link TeadsView} each X items.
+ * A RecyclerView adapter with additional attachToWindow listener.
  * <p/>
- * Created by Hugo Gresse on 09/06/15.
+ * Created by Hugo Gresse on 05/06/17.
  */
-public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapter.ViewHolder> {
+public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.ViewHolder> {
 
     /**
      * View types
@@ -45,9 +45,9 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
      * @param adPosition ad position
      * @param listener   external adapter to be notify on TeadsView is attached
      */
-    public AdViewCustomAdapter(String[] val,
-                               int adPosition,
-                               TeadsViewAttachListener listener) {
+    public CustomRecyclerViewAdapter(String[] val,
+                                     int adPosition,
+                                     TeadsViewAttachListener listener) {
         inReadPosition = adPosition;
         mValues = val;
         mTeadsAdViewAttachListener = listener;
@@ -74,7 +74,7 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (position > inReadPosition) {
-            holder.setData(mValues[position -1]);
+            holder.setData(mValues[position - 1]);
         } else {
             holder.setData(mValues[position]);
         }
@@ -82,7 +82,7 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
 
     @Override
     public int getItemViewType(final int position) {
-        if (position % inReadPosition == 0 && position != 0) {
+        if (position == inReadPosition) {
             return TYPE_INREAD;
         }
         return TYPE_TEXTVIEW;
@@ -96,7 +96,7 @@ public class AdViewCustomAdapter extends RecyclerView.Adapter<AdViewCustomAdapte
             super(itemView);
         }
 
-        public void setData(Object object){
+        public void setData(Object object) {
 
         }
     }
