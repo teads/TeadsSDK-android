@@ -1,5 +1,10 @@
 # Changelog
 
+v2.4.13
+- improve stability
+- improve bad VAST management
+- improve deeplink management
+
 v2.4.12
 - improve memory management
 - improve faulty VPAID creative management
