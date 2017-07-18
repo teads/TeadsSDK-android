@@ -1,5 +1,8 @@
 # Changelog
 
+v2.4.14
+- use ExoPlayer 2
+
 v2.4.13
 - improve stability
 - improve bad VAST management
