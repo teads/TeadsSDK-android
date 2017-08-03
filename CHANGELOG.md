@@ -1,5 +1,10 @@
 # Changelog
 
+v2.5.1
+- minSdkVersion = 15 (ICE_CREAM_SANDWICH_MR1 4.0.3)
+- optimize OkHttp cancel method (FD)
+- improve tracking metrics
+
 v2.4.14
 - use ExoPlayer 2
 
