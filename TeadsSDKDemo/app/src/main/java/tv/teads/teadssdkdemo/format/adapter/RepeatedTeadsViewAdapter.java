@@ -6,153 +6,79 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import tv.teads.sdk.publisher.TeadsView;
+import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.teadssdkdemo.R;
-import tv.teads.teadssdkdemo.format.adview.CustomTeadsView;
 
 /**
- * A RecyclerView adapter that display the same {@link TeadsView} each X items.
+ * A RecyclerView adapter that display the same {@link TeadsAdView} each X items.
  * <p/>
  * Created by Hugo Gresse on 09/06/15.
  */
-public class RepeatedTeadsViewAdapter extends RecyclerView.Adapter<RepeatedTeadsViewAdapter.ViewHolder> {
+public class RepeatedTeadsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    /**
-     * View types
-     */
-    private static final int TYPE_INREAD   = 1;
-    private static final int TYPE_TEXTVIEW = 0;
+    private static final int TYPE_TEADS = 0;
+    private static final int TYPE_TEXT  = 1;
+    private int mPid;
 
-    /**
-     * Data displayed in the RecyclerView
-     */
-    private String mValues[];
 
-    /**
-     * Each inReadPosition, the Ad will be repeated/displayed
-     */
-    private int inReadPosition;
+    public RepeatedTeadsViewAdapter(int pid) {
+        mPid = pid;
+    }
 
-    /**
-     * To listen when view is attached
-     */
-    private TeadsViewAttachListener mTeadsAdViewAttachListener;
+    @Override
+    public int getItemViewType(int position) {
+        return (position + 1) % 9 == 0 ? TYPE_TEADS : TYPE_TEXT;
+    }
 
-    /**
-     * Instantiate the custom adapter with required data
-     *
-     * @param val        datas
-     * @param adPosition ad position
-     * @param listener   external adapter to be notify on TeadsView is attached
-     */
-    public RepeatedTeadsViewAdapter(String[] val,
-                                    int adPosition,
-                                    TeadsViewAttachListener listener) {
-        inReadPosition = adPosition;
-        mValues = val;
-        mTeadsAdViewAttachListener = listener;
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_TEADS:
+                TeadsAdView teadsAdView = new TeadsAdView(parent.getContext());
+                teadsAdView.setPid(mPid);
+                teadsAdView.debug();
+                return new ViewHolderTeadsAd(teadsAdView);
+            case TYPE_TEXT:
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
+                return new ViewHolderDemo(v);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (holder.getItemViewType()) {
+            case TYPE_TEADS:
+                ViewHolderTeadsAd vh = (ViewHolderTeadsAd) holder;
+                vh.adView.load();
+                break;
+            case TYPE_TEXT:
+                ((ViewHolderDemo) holder).textView.setText("test");
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mValues.length + 1;
+        return 50;
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
-        switch (viewType) {
-            default:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
-                return new TextViewHolder(v);
-            case TYPE_INREAD:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row_adview, parent, false);
-                return new AdViewHolder(v);
+    private class ViewHolderTeadsAd extends RecyclerView.ViewHolder {
+        private TeadsAdView adView;
+
+        private ViewHolderTeadsAd(View view) {
+            super(view);
+            adView = (TeadsAdView) view;
         }
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position > inReadPosition) {
-            holder.setData(mValues[position -1]);
-        } else {
-            holder.setData(mValues[position]);
+    private class ViewHolderDemo extends RecyclerView.ViewHolder {
+        private TextView textView;
+
+        private ViewHolderDemo(View view) {
+            super(view);
+            textView = view.findViewById(R.id.listViewText);
         }
     }
-
-    @Override
-    public int getItemViewType(final int position) {
-        if (position % inReadPosition == 0 && position != 0) {
-            return TYPE_INREAD;
-        }
-        return TYPE_TEXTVIEW;
-    }
-
-    /**
-     * The ViewHolder used to recycle views
-     */
-    abstract class ViewHolder extends RecyclerView.ViewHolder {
-        ViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        public void setData(Object object){
-
-        }
-    }
-
-    /**
-     * The ViewHolder for TextView
-     */
-    private class TextViewHolder extends ViewHolder {
-        private TextView mTextView;
-
-        TextViewHolder(View itemView) {
-            super(itemView);
-
-            mTextView = (TextView) itemView.findViewById(R.id.listViewText);
-        }
-
-        @Override
-        public void setData(Object object) {
-            super.setData(object);
-            mTextView.setText(object.toString());
-        }
-    }
-
-    /**
-     * The ViewHolder to display ads
-     */
-    private class AdViewHolder extends ViewHolder implements CustomTeadsView.Listener {
-        private CustomTeadsView mAdView;
-
-        AdViewHolder(View itemView) {
-            super(itemView);
-
-            mAdView = (CustomTeadsView) itemView.findViewById(R.id.adview);
-            mAdView.setListener(this);
-        }
-
-        @Override
-        public void setData(Object object) {
-            super.setData(object);
-        }
-
-        @Override
-        public void onAttachToWindow() {
-            mTeadsAdViewAttachListener.onAttachTeadsAdView(mAdView);
-
-        }
-
-        @Override
-        public void onDetachedFromWindow() {
-
-        }
-    }
-
-    public interface TeadsViewAttachListener {
-        void onAttachTeadsAdView(TeadsView teadsAdView);
-    }
-
-
 }
