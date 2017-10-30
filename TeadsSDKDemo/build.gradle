@@ -16,4 +16,19 @@ allprojects {
     repositories {
         jcenter()
     }
+
+    ext {
+        // Libraries
+        groupId = "tv.teads.sdk.android"
+        libraryVersionCode = 1
+        libraryVersion = "4.0.0"
+
+        //Global configurations
+        projectBuildToolsVersion = '26.0.1'
+        projectSdkVersion = 26
+        libraryMinSdkVersion = 16
+        libraryTargetSdkVersion = 26 // To allow other app to be compatible until 24
+        // Dependencies versions
+        supportLibVersion = '26.1.0'
+    }
 }
