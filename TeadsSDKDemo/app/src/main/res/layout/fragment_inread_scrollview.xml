@@ -3,30 +3,28 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/scrollViewDemoVideo">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lorem_medium"
-            android:id="@+id/textView8"
             android:textSize="@dimen/text_size" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/inread_framelayout"
-            android:layout_below="@+id/textView8"/>
+        <tv.teads.sdk.android.TeadsAdView
+            android:id="@+id/teads_ad_view"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lorem_medium"
-            android:id="@+id/textView9"
-            android:textSize="@dimen/text_size"
-            android:layout_below="@+id/inread_framelayout" />
-    </RelativeLayout>
+            android:textSize="@dimen/text_size"/>
+    </LinearLayout>
 </ScrollView>

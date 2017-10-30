@@ -4,11 +4,10 @@ import android.support.v4.app.Fragment;
 
 import org.greenrobot.eventbus.EventBus;
 
-import tv.teads.sdk.publisher.TeadsConfiguration;
 import tv.teads.teadssdkdemo.MainActivity;
 
 /**
- *
+ * The base fragment
  * Created by Hugo Gresse on 03/04/15.
  */
 public abstract class BaseFragment extends Fragment {
@@ -18,7 +17,7 @@ public abstract class BaseFragment extends Fragment {
      *
      * @return the pid
      */
-    public String getPid() {
+    public int getPid() {
         return ((MainActivity) getActivity()).getPid(this.getActivity());
     }
 
@@ -29,20 +28,6 @@ public abstract class BaseFragment extends Fragment {
      */
     public String getWebViewUrl() {
         return ((MainActivity) getActivity()).getWebViewUrl(this.getActivity());
-    }
-
-    /**
-     * Return the end screen mode
-     *
-     * @return {@link tv.teads.sdk.publisher.TeadsConfiguration#DARK_MODE} or
-     * {@link tv.teads.sdk.publisher.TeadsConfiguration#LIGHT_MODE}
-     */
-    public int getEndScreenMode() {
-        if (((MainActivity) getActivity()).isEndScreenLightMode(this.getActivity())) {
-            return TeadsConfiguration.LIGHT_MODE;
-        }
-
-        return TeadsConfiguration.DARK_MODE;
     }
 
     @Override
