@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     public static final String SHAREDPREF_PID             = "sp_pid";
     public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
     public static final String SHAREDPREF_ENDSCREEN_MODE  = "sp_endscreen";
-    public static final String SHAREDPREF_PID_DEFAULT     = "54934";
+    public static final String SHAREDPREF_PID_DEFAULT     = "84242";
     public static final String SHAREDPREF_WEBVIEW_DEFAULT = "https://fr.m.wikipedia.org/wiki/Mer_Noire";
 
     private DrawerLayout                mDrawerLayout;
