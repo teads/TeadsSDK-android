@@ -21,7 +21,7 @@ allprojects {
         // Libraries
         groupId = "tv.teads.sdk.android"
         libraryVersionCode = 1
-        libraryVersion = "4.0.0"
+        libraryVersion = "4.0.3"
 
         //Global configurations
         projectBuildToolsVersion = '26.0.1'

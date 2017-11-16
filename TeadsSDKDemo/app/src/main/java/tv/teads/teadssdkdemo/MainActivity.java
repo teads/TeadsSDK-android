@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String SHAREDPREF_PID             = "sp_pid";
     public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
-    public static final int    SHAREDPREF_PID_DEFAULT     = 54934;
+    public static final int    SHAREDPREF_PID_DEFAULT     = 84242;
     public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://www.who.int/about/en/";
 
     private DrawerLayout                mDrawerLayout;
