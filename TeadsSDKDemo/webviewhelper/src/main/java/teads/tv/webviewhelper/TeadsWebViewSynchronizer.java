@@ -172,6 +172,12 @@ public class TeadsWebViewSynchronizer implements WebViewHelper.Listener,
         mWebviewHelper.closeSlot();
     }
 
+    @Override
+    public void onError(TeadsAd teadsAd, String s) {
+        Log.w(TAG, "TeadsAd playback failed, reason: " + s);
+
+    }
+
     /*//////////////////////////////////////////////////////////////////////////////////////////////
     *
     * Webview Scroll listener
