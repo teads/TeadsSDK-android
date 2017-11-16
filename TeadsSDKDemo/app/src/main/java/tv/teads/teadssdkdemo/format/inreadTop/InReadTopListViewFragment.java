@@ -114,4 +114,9 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsAdLi
     public void closeAd(TeadsAd teadsAd, boolean b) {
 
     }
+
+    @Override
+    public void onError(TeadsAd teadsAd, String s) {
+        Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+    }
 }

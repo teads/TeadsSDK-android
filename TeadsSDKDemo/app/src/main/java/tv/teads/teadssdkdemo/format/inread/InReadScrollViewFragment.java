@@ -83,4 +83,9 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsAdLis
     public void closeAd(TeadsAd teadsAd, boolean b) {
 
     }
+
+    @Override
+    public void onError(TeadsAd teadsAd, String s) {
+        Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+    }
 }
