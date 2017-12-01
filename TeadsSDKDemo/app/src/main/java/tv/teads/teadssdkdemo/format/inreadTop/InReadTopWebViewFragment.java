@@ -10,10 +10,9 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 
 import tv.teads.sdk.android.AdResponse;
-import tv.teads.sdk.android.PublicInterface;
 import tv.teads.sdk.android.TeadsAd;
-import tv.teads.sdk.android.TeadsAdListener;
 import tv.teads.sdk.android.TeadsAdView;
+import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
@@ -23,7 +22,7 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdListener {
+public class InReadTopWebViewFragment extends BaseFragment implements TeadsListener {
 
     /**
      * Your WebView extending the TeadsObservableWebView class
@@ -55,7 +54,6 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdLis
 
         // Instanciate Teads Ad in inReadTop format
         mAdView.setPid(getPid());
-        mAdView.debug();
         mAdView.load();
     }
 
@@ -71,7 +69,7 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsAdLis
     @Subscribe
     @SuppressWarnings("unused")
     public void onReloadEvent(ReloadEvent event) {
-        if (mAdView != null && mAdView.getState() == PublicInterface.IDLE) {
+        if (mAdView != null) {
             mAdView.load();
         }
     }

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-import tv.teads.sdk.android.PublicInterface;
 import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.teadssdkdemo.R;
 
@@ -61,7 +60,6 @@ public class ListViewAdapter extends BaseAdapter {
                     if (mAdView == null) {
                         view = mAdView = new TeadsAdView(mContext);
                         mAdView.setPid(mPid);
-                        mAdView.debug();
                         mAdView.load();
                     } else {
                         view = mAdView;
@@ -81,7 +79,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public void reloadAd() {
-        if (mAdView != null && mAdView.getState() == PublicInterface.IDLE) {
+        if (mAdView != null) {
             mAdView.load();
         }
     }

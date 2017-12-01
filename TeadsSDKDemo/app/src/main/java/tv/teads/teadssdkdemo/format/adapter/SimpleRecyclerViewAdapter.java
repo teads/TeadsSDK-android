@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import tv.teads.sdk.android.PublicInterface;
 import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.teadssdkdemo.R;
 
@@ -45,7 +44,6 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             case TYPE_TEADS:
                 mAdView = new TeadsAdView(parent.getContext());
                 mAdView.setPid(mPid);
-                mAdView.debug();
                 return new ViewHolderTeadsAd(mAdView);
             case TYPE_TEXT:
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
@@ -76,7 +74,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public void reloadAd() {
-        if (mAdView != null && mAdView.getState() == PublicInterface.IDLE) {
+        if (mAdView != null) {
             mAdView.load();
         }
     }

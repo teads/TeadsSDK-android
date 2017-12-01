@@ -14,8 +14,8 @@ import android.widget.FrameLayout;
 
 import tv.teads.sdk.android.AdResponse;
 import tv.teads.sdk.android.TeadsAd;
-import tv.teads.sdk.android.TeadsAdListener;
 import tv.teads.sdk.android.TeadsAdView;
+import tv.teads.sdk.android.TeadsListener;
 import tv.teads.sdk.android.engine.ui.view.ObservableAdView;
 
 /**
@@ -25,9 +25,9 @@ import tv.teads.sdk.android.engine.ui.view.ObservableAdView;
  */
 
 public class TeadsWebViewSynchronizer implements WebViewHelper.Listener,
-                                                   TeadsAdListener,
-                                                         ObservableWebView.OnScrollListener,
-                                                         ObservableAdView.ActionMoveListener {
+                                                   TeadsListener,
+                                                   ObservableWebView.OnScrollListener,
+                                                   ObservableAdView.ActionMoveListener {
 
     private static final String TAG = TeadsWebViewSynchronizer.class.getSimpleName();
 
@@ -54,7 +54,7 @@ public class TeadsWebViewSynchronizer implements WebViewHelper.Listener,
         mWebview = webView;
         mWebview.setOnScrollListener(this);
         mWebviewHelper = new WebViewHelper.Builder(webView, this, selector)
-                                 .build();
+                           .build();
 
     }
 
@@ -86,9 +86,11 @@ public class TeadsWebViewSynchronizer implements WebViewHelper.Listener,
                 }
 
                 webViewParent.removeViewAt(webviewPosition);
-                mWebview.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                mWebview.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+                                                                                                             .LayoutParams.MATCH_PARENT));
                 mContainer.addView(mWebview);
-                mTeadsAdView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                mTeadsAdView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                          ViewGroup.LayoutParams.WRAP_CONTENT));
                 mContainer.addView(mTeadsAdView);
 
                 webViewParent.addView(mContainer);

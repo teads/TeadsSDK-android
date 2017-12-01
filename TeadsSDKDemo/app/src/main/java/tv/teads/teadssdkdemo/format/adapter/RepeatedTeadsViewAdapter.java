@@ -36,7 +36,6 @@ public class RepeatedTeadsViewAdapter extends RecyclerView.Adapter<RecyclerView.
             case TYPE_TEADS:
                 TeadsAdView teadsAdView = new TeadsAdView(parent.getContext());
                 teadsAdView.setPid(mPid);
-                teadsAdView.debug();
                 return new ViewHolderTeadsAd(teadsAdView);
             case TYPE_TEXT:
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
