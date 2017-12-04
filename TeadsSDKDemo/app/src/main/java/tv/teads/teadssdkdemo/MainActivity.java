@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         // Set an EditText view to get user input
         View           view  = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
         final EditText input = view.findViewById(R.id.pidEditText);
-        input.setText(getPid(this));
+        input.setText(Integer.toString(getPid(this)));
         input.setLines(1);
         input.setSingleLine(true);
 
