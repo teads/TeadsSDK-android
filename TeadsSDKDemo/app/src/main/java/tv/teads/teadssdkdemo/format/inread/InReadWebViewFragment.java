@@ -97,7 +97,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, int i) {
+    public void displayAd(TeadsAd teadsAd, float i) {
 
     }
 

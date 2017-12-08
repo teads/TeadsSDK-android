@@ -104,7 +104,7 @@ public class InReadTopListViewFragment extends BaseFragment implements TeadsList
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, int i) {
+    public void displayAd(TeadsAd teadsAd, float i) {
 
     }
 

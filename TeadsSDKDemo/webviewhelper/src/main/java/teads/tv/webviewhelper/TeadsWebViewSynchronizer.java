@@ -165,8 +165,8 @@ public class TeadsWebViewSynchronizer implements WebViewHelper.Listener,
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, int optimalHeight) {
-        mWebviewHelper.openSlot();
+    public void displayAd(TeadsAd teadsAd, float v) {
+
     }
 
     @Override

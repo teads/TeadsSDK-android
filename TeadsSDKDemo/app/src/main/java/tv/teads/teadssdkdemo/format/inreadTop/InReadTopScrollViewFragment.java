@@ -76,7 +76,7 @@ public class InReadTopScrollViewFragment extends BaseFragment implements TeadsLi
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, int i) {
+    public void displayAd(TeadsAd teadsAd, float i) {
 
     }
 

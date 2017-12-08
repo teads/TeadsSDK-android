@@ -102,7 +102,7 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, int i) {
+    public void displayAd(TeadsAd teadsAd, float i) {
 
     }
 

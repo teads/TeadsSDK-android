@@ -86,7 +86,7 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsListe
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, int i) {
+    public void displayAd(TeadsAd teadsAd, float i) {
 
     }
 
