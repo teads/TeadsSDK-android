@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -49,6 +50,8 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsListe
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        //to avoir redirect on chrome
+        mWebView.setWebViewClient(new WebViewClient());
         // Load url in the WebView
         mWebView.loadUrl(this.getWebViewUrl());
 
