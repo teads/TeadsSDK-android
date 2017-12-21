@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     String sufixBaseName = ""
 
@@ -14,8 +14,8 @@ android {
         applicationId "tv.teads.teadssdkdemo"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 101
-        versionName "2.5.4"
+        versionCode 102
+        versionName "2.5.5"
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
     buildTypes {
@@ -52,7 +52,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     // Teads SDK
-    compile('tv.teads.sdk:androidsdk:2.5.4:fullRelease@aar') {
+    compile('tv.teads.sdk:androidsdk:2.5.5:fullRelease@aar') {
         transitive = true
     }
 }
