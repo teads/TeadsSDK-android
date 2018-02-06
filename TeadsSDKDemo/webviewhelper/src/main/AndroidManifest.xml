@@ -2,7 +2,7 @@
   ~ Copyright (c) Teads 2017.
   -->
 
-<manifest package="teads.tv.webviewhelper"
+<manifest package="tv.teads.webviewhelper"
 
           xmlns:android="http://schemas.android.com/apk/res/android"
     >

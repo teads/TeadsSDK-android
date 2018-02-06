@@ -2,7 +2,7 @@
  * Copyright (c) Teads 2017.
  */
 
-package teads.tv.webviewhelper;
+package tv.teads.webviewhelper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

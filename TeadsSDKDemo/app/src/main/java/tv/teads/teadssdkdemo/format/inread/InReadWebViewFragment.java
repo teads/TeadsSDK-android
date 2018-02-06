@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import teads.tv.webviewhelper.ObservableWebView;
-import teads.tv.webviewhelper.TeadsWebViewSynchronizer;
+import tv.teads.webviewhelper.ObservableWebView;
+import tv.teads.webviewhelper.TeadsWebViewSynchronizer;
 import tv.teads.sdk.android.AdResponse;
 import tv.teads.sdk.android.TeadsAd;
 import tv.teads.sdk.android.TeadsAdView;

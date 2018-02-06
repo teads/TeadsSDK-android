@@ -2,7 +2,7 @@
  * Copyright (c) Teads 2017.
  */
 
-package teads.tv.webviewhelper;
+package tv.teads.webviewhelper;
 
 import android.support.annotation.NonNull;
 import android.webkit.JavascriptInterface;
