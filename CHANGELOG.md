@@ -1,4 +1,12 @@
 # Changelog
+v2.5.6
+- bug fix and improvements
+
+v2.5.5
+- bug fix and improvements
+
+v2.5.4
+- bug fix and improvements
 
 v2.5.3
 - bug fix and improvements
