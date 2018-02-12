@@ -32,8 +32,8 @@ public class WebViewHelper implements JSInterface.Listener {
                                                          "'offsetHeight':%s," +
                                                          "'ratioVideo':%s" +
                                                          "});";
-    private final static String OPEN_SLOT_JS   = "javascript:window.utils.showPlaceholder('%d');";
-    private final static String CLOSE_SLOT_JS  = "javascript:window.utils.hidePlaceholder('%d');";
+    private final static String OPEN_SLOT_JS   = "javascript:window.utils.showPlaceholder();";
+    private final static String CLOSE_SLOT_JS  = "javascript:window.utils.hidePlaceholder();";
 
     private WebView mWebView;
 
@@ -147,7 +147,7 @@ public class WebViewHelper implements JSInterface.Listener {
             @Override
             public void run() {
                 try {
-                    mWebView.loadUrl(String.format(OPEN_SLOT_JS, 0));
+                    mWebView.loadUrl(OPEN_SLOT_JS);
                 } catch (Exception e) {
                     Log.e(TAG, "Unable to open slot, the WebView may have been deallocated.. " +
                                        "Message: " + e.getMessage());
@@ -165,7 +165,7 @@ public class WebViewHelper implements JSInterface.Listener {
             @Override
             public void run() {
                 try {
-                    mWebView.loadUrl(String.format(CLOSE_SLOT_JS, 0));
+                    mWebView.loadUrl(CLOSE_SLOT_JS);
                 } catch (Exception e) {
                     Log.e(TAG, "Unable to close slot, the WebView may have been deallocated.. " +
                                        "Message: " + e.getMessage());

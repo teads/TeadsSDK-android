@@ -5,10 +5,9 @@
  * @copyright Teads <http://www.teads.tv>
  */
 
-(function() {
-
+(function () {
   var verticalSpacer = 10;
-  var showHideTimerDuration = 100; 
+  var showHideTimerDuration = 100;
   var intervalCheckPosition = 500;
   var opened = false;
   var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight;
@@ -45,7 +44,7 @@
    *****************************************/
 
   // Check if WebViewController JS Bridge is present, set handler, and say JS Ready for WebViewController
-  var sendJsLibReady = function() {
+  var sendJsLibReady = function () {
     platformType = getPlatformType();
     if (platformType === IOS_OS) {
       setBridgeHandler(window.webkit.messageHandlers);
@@ -56,7 +55,7 @@
   };
 
   // find a slot on the document with selector and set placeholder (closed)
-  var insertPlaceholder = function(selector) {
+  var insertPlaceholder = function (selector) {
     var insertionSlot = findSlot(selector);
 
     if (insertionSlot) {
@@ -68,7 +67,7 @@
     }
   };
 
-  var updatePlaceholder = function(data) {
+  var updatePlaceholder = function (data) {
     heightSup = data.offsetHeight;
     ratio = data.ratioVideo;
     maxHeight = data.maxHeight;
@@ -77,60 +76,45 @@
 
     if (opened) {
       // if already opened when updating size, update placeholder to !
-      showPlaceholder(0)
+      showPlaceholder();
     }
   };
 
   // remove placeholder from document
-  var removePlaceholder = function() {
-    tryOrLog(function() {
+  var removePlaceholder = function () {
+    tryOrLog(function () {
       if (teadsContainer && teadsContainer.parentNode) {
         teadsContainer.parentNode.removeChild(teadsContainer);
       }
-    }, 'removePlaceholder')
+    }, 'removePlaceholder');
   };
 
   // open placeholder with transition
-  var showPlaceholder = function(duration) {
-    tryOrLog(function() {
+  var showPlaceholder = function () {
+    tryOrLog(function () {
       opened = true;
-      // set transition on teadsContainer
-      teadsContainer.style.transition = transitionType.replace('[DURATION]', duration);
-      // need to wait a little for css transition activation...thanks web mobile :)
-      setTimeout(function() {
-        // set height to active transition
-        teadsContainer.style.height = finalSize.height + "px";
-        // send status on native side
-        bridge.callHandler(command.trigger.startShow);
-        // start interval position check, if position change, informe native side
-        intervalPosition = setInterval(checkPosition, intervalCheckPosition);
-      }, showHideTimerDuration);
-    }, 'showPlaceholder')
+      // set height to active transition
+      teadsContainer.style.height = finalSize.height + "px";
+      // send status on native side
+      bridge.callHandler(command.trigger.startShow);
+    }, 'showPlaceholder');
   };
 
   // close placeholder with transition
-  var hidePlaceholder = function(duration) {
-    tryOrLog(function() {
+  var hidePlaceholder = function () {
+    tryOrLog(function () {
       opened = false;
-      // set transition on teadsContainer
-      teadsContainer.style.transition = transitionType.replace('[DURATION]', duration);
+      // set height to active transition
+      teadsContainer.style.height = "0.1px";
+      // send status on native side
 
-      // need to wait a little for css transition activation...thanks web mobile :)
-      setTimeout(function() {
-        // set height to active transition
-        teadsContainer.style.height = "0.1px";
-        // send status on native side
-
-        bridge.callHandler(command.trigger.startHide);
-        clearInterval(intervalPosition);
-        intervalPosition = null;
-      }, showHideTimerDuration);
-    }, 'hidePlaceholder')
+      bridge.callHandler(command.trigger.startHide);
+    }, 'hidePlaceholder');
   };
 
   // send placeholder's coordinate to WebViewController for player positioning
-  var sendTargetGeometry = function() {
-    tryOrLog(function() {
+  var sendTargetGeometry = function () {
+    tryOrLog(function () {
       if (teadsContainer) {
         offset = getPageOffset(teadsContainer);
 
@@ -149,30 +133,30 @@
           "bottom": parseInt(offset.y + finalSize.height),
           "right": parseInt(leftMargin + finalSize.width),
           "ratio": parseFloat(window.devicePixelRatio)
-        }
+        };
 
         bridge.callHandler(command.trigger.position, json);
       }
-    }, 'sendTargetGeometry')
+    }, 'sendTargetGeometry');
   };
 
   /**************************
    *     Internal method    *
    **************************/
 
-  var getPlatformType = function() {
-    return tryOrLog(function() {
+  var getPlatformType = function () {
+    return tryOrLog(function () {
       if (/android/i.test(navigator.userAgent.toLowerCase())) {
         return ANDROID_OS;
       } else if (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase())) {
         return IOS_OS;
-      } else return UNKNOWN_OS;
-    }, 'getPlatformType')
+      } else { return UNKNOWN_OS; }
+    }, 'getPlatformType');
   };
 
   // register handler on the WebViewController JS Bridge
-  var setBridgeHandler = function(wvBridge) {
-    tryOrLog(function() {
+  var setBridgeHandler = function (wvBridge) {
+    tryOrLog(function () {
       bridge = wvBridge;
       window.utils = {
         insertPlaceholder: insertPlaceholder,
@@ -183,8 +167,8 @@
         sendTargetGeometry: sendTargetGeometry
       };
 
-      bridge.callHandler = function(fct, params) {
-        var platformType = getPlatformType()
+      bridge.callHandler = function (fct, params) {
+        platformType = getPlatformType();
         if (this[fct]) {
           if (typeof params === 'object') {
             if (platformType === IOS_OS) {
@@ -211,8 +195,8 @@
   };
 
   // set placeholder size, create it, and put it before "element" on document, then send coordinates to WebViewController
-  var setPlaceholderDiv = function(element) {
-    tryOrLog(function() {
+  var setPlaceholderDiv = function (element) {
+    tryOrLog(function () {
       var parent = element.parentNode;
 
       teadsContainer = createTeadsContainer();
@@ -222,8 +206,8 @@
   };
 
   // create and return a setted div
-  var createTeadsContainer = function() {
-    return tryOrLog(function() {
+  var createTeadsContainer = function () {
+    return tryOrLog(function () {
       var container = document.createElement("center");
       container.style.margin = verticalSpacer + "px auto " + verticalSpacer + "px auto";
       container.style.padding = "0";
@@ -235,8 +219,8 @@
   };
 
   // get element position on document (coordinate)
-  var getPageOffset = function(element) {
-    return tryOrLog(function() {
+  var getPageOffset = function (element) {
+    return tryOrLog(function () {
       var box = element.getBoundingClientRect();
       var scrollCoord = getDocumentScroll();
 
@@ -251,8 +235,8 @@
   };
 
   // get the scroll of window
-  var getDocumentScroll = function() {
-    return tryOrLog(function() {
+  var getDocumentScroll = function () {
+    return tryOrLog(function () {
       return {
         x: window.pageXOffset,
         y: window.pageYOffset
@@ -261,42 +245,39 @@
   };
 
   // find a slot in document with a CSS selector given by WebViewController (or automatic if no selector provided)
-  var findSlot = function(selector) {
-    return tryOrLog(function() {
+  var findSlot = function (selector) {
+    return tryOrLog(function () {
 
       var items = document.querySelectorAll(selector);
 
       if (items.length) {
         return items[0]
       }
-
       return null;
-
     }, 'findSlot')
   };
 
-
-  var checkPosition = function() {
-    tryOrLog(function() {
+  var checkPosition = function () {
+    tryOrLog(function () {
       if (JSON.stringify(offset) !== JSON.stringify(getPageOffset(teadsContainer))) {
         sendTargetGeometry();
       }
     }, 'checkPosition')
   };
 
-  var tryOrLog = function(cbk, fctName) {
-      try {
-        return cbk()
-      } catch (e) {
-        if (bridge && bridge.callHandler) {
-          if (window.TeadsSDK || window.webkit.messageHandlers) {
-            bridge.callHandler(command.trigger.error, fctName + ": " + e)
-          }
-        } else {
-          console.error(fctName, e)
+  var tryOrLog = function (cbk, fctName) {
+    try {
+      return cbk()
+    } catch (e) {
+      if (bridge && bridge.callHandler) {
+        if (window.TeadsSDK || window.webkit.messageHandlers) {
+          bridge.callHandler(command.trigger.error, fctName + ": " + e)
         }
+      } else {
+        console.error(fctName, e)
       }
     }
-    // START !
+  }
+  // START !
   sendJsLibReady();
 })();
