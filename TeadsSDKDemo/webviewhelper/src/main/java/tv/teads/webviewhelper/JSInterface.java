@@ -26,6 +26,7 @@ class JSInterface {
      * Callback invoked by teads Teads js bootstrap when lib is injected and ready for
      * processing.
      */
+    @SuppressWarnings("unused")
     @JavascriptInterface
     public void onTeadsJsLibReady() {
         mListener.onJsReady();
@@ -40,35 +41,42 @@ class JSInterface {
      * @param right      pixel value (web)
      * @param pixelRatio corresponding to screen ratio
      */
+    @SuppressWarnings("unused")
     @JavascriptInterface
     public void onSlotUpdated(int top, int left,
-                            int bottom, int right,
-                            float pixelRatio) {
+                              int bottom, int right,
+                              float pixelRatio) {
         mListener.onSlotUpdated(top, left, bottom, right, pixelRatio);
     }
 
+    @SuppressWarnings("unused")
     @JavascriptInterface
     public void onSlotStartShow() {
         mListener.onSlotStartShow();
     }
 
+    @SuppressWarnings("unused")
     @JavascriptInterface
     public void onSlotStartHide() {
         mListener.onSlotStartHide();
     }
 
+    @SuppressWarnings("unused")
     @JavascriptInterface
     public void handleError(String error) {
         mListener.handleError(error);
     }
 
+    /**
+     * Javascript interface listener, provide method to synchronize the ad with the slot
+     */
     interface Listener {
 
         void onJsReady();
 
         void onSlotUpdated(int top, int left,
-                         int bottom, int right,
-                         float pixelRatio);
+                           int bottom, int right,
+                           float pixelRatio);
 
         void onSlotStartShow();
 

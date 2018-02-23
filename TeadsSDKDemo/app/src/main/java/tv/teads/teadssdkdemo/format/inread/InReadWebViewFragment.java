@@ -28,7 +28,7 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsListener {
+public class InReadWebViewFragment extends BaseFragment {
 
     boolean mIsTeadsJSReady = false;
 
@@ -84,33 +84,6 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
             mAdView.load();
         }
     }
-
-    /*//////////////////////////////////////////////////////////////////////////////////////////////////
-    * implements TeadsAdListener
-    *//////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void onAdResponse(TeadsAd teadsAd, AdResponse adResponse) {
-        if (!adResponse.isSuccessful()) {
-            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void displayAd(TeadsAd teadsAd, float i) {
-
-    }
-
-    @Override
-    public void closeAd(TeadsAd teadsAd, boolean b) {
-
-    }
-
-    @Override
-    public void onError(TeadsAd teadsAd, String s) {
-        Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
-    }
-
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * WebViewClient

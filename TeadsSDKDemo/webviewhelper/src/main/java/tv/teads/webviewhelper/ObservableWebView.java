@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.webkit.WebView;
 
 /**
- * his WebView dispatch scroll event to the saved listener.
+ * This WebView dispatch scroll event to the register listener.
  * <p>
  * Created by Benjamin Volland on 13/09/2017.
  */
@@ -36,10 +36,6 @@ public class ObservableWebView extends WebView {
         if (mOnScrollListener != null) {
             mOnScrollListener.onScroll(l, t);
         }
-    }
-
-    public OnScrollListener getOnScrollListener() {
-        return mOnScrollListener;
     }
 
     public void setOnScrollListener(final OnScrollListener onScrollListener) {
