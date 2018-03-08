@@ -43,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHAREDPREF_PID             = "sp_pid";
     public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
     public static final int    SHAREDPREF_PID_DEFAULT     = 84242;
-    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://www.who.int/about/en/";
+    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://sample.teads.net/demo/sdk/demo.html";
 
     private DrawerLayout                mDrawerLayout;
-    private DrawerLayout.DrawerListener mDrawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,20 +88,12 @@ public class MainActivity extends AppCompatActivity {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
 
-                if (mDrawerListener != null) {
-                    mDrawerListener.onDrawerClosed(mDrawerLayout);
-                }
-
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-
-                if (mDrawerListener != null) {
-                    mDrawerListener.onDrawerOpened(mDrawerLayout);
-                }
 
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }

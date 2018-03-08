@@ -3,25 +3,22 @@ package tv.teads.teadssdkdemo.format.inread;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import tv.teads.webviewhelper.ObservableWebView;
-import tv.teads.webviewhelper.TeadsWebViewSynchronizer;
-import tv.teads.sdk.android.AdResponse;
-import tv.teads.sdk.android.TeadsAd;
 import tv.teads.sdk.android.TeadsAdView;
-import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
+import tv.teads.webviewhelper.ObservableWebView;
+import tv.teads.webviewhelper.TeadsWebViewSynchronizer;
 
 /**
  * InRead format within a WebView
@@ -29,8 +26,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
  * Created by Hugo Gresse on 30/03/15.
  */
 public class InReadWebViewFragment extends BaseFragment {
-
-    boolean mIsTeadsJSReady = false;
 
     /**
      * An observable webview to listen the scroll event in the goal to move the ad following the webview scroll
@@ -40,7 +35,7 @@ public class InReadWebViewFragment extends BaseFragment {
     private TeadsAdView mAdView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inread_webview, container, false);
         mWebview = rootView.findViewById(R.id.webview);
@@ -50,13 +45,13 @@ public class InReadWebViewFragment extends BaseFragment {
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public void onViewCreated(View rootView, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View rootView, Bundle savedInstanceState) {
 
         mWebview = rootView.findViewById(R.id.webview);
 
 
         mAdView = new TeadsAdView(getContext());
-        TeadsWebViewSynchronizer mWebviewHelperSynch = new TeadsWebViewSynchronizer(mWebview, mAdView, ".module");
+        TeadsWebViewSynchronizer mWebviewHelperSynch = new TeadsWebViewSynchronizer(mWebview, mAdView, "h2");
 
         mAdView.setPid(getPid());
 
@@ -104,9 +99,6 @@ public class InReadWebViewFragment extends BaseFragment {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            if (mIsTeadsJSReady) {
-                return;
-            }
             webviewHelperSynch.injectJS();
 
             super.onPageFinished(view, url);

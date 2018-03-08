@@ -131,8 +131,13 @@ public class TeadsWebViewSynchronizer implements WebViewHelper.Listener,
             injectTeadsAdView();
         }
 
+        int width = right - left;
+
         mInitialY = top;
         mTeadsAdView.setTranslationY(mInitialY - mWebview.getScrollY());
+
+        ((ViewGroup.MarginLayoutParams)mTeadsAdView.getLayoutParams()).leftMargin = left;
+        mTeadsAdView.getLayoutParams().width = width;
     }
 
     @Override
