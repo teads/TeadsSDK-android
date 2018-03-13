@@ -24,11 +24,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tv.teads.teadssdkdemo.format.inread.InReadListViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopListViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
@@ -186,11 +184,6 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadScrollViewFragment());
     }
 
-    @OnClick(R.id.inread_listview)
-    public void inReadListView() {
-        changeFragment(new InReadListViewFragment());
-    }
-
     @OnClick(R.id.inread_recyclerview)
     public void inReadRecyclerView() {
         changeFragment(new InReadRecyclerViewFragment());
@@ -201,15 +194,9 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadWebViewFragment());
     }
 
-
     @OnClick(R.id.inreadtop_scrollview)
     public void inReadTopScrollView() {
         changeFragment(new InReadTopScrollViewFragment());
-    }
-
-    @OnClick(R.id.inreadtop_listview)
-    public void inReadTopListView() {
-        changeFragment(new InReadTopListViewFragment());
     }
 
     @OnClick(R.id.inreadtop_recyclerview)

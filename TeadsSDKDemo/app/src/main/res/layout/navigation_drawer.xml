@@ -34,14 +34,6 @@
             android:text="@string/container_scrollview"/>
 
         <Button
-            android:id="@+id/inread_listview"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:text="@string/container_listview"/>
-
-        <Button
             android:id="@+id/inread_recyclerview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
@@ -71,13 +63,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/container_scrollview"/>
-
-        <Button
-            android:id="@+id/inreadtop_listview"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/container_listview"/>
 
         <Button
             android:id="@+id/inreadtop_recyclerview"
