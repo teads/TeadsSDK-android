@@ -33,7 +33,7 @@ class JSInterface {
     }
 
     /**
-     * Called when the HTML placeholder has been inserted into DOM
+     * Called when the HTML placeholder has been inserted into the DOM
      *
      * @param top        pixel value (web)
      * @param left       pixel value (web)
@@ -52,13 +52,13 @@ class JSInterface {
     @SuppressWarnings("unused")
     @JavascriptInterface
     public void onSlotStartShow() {
-        mListener.onSlotStartShow();
+
     }
 
     @SuppressWarnings("unused")
     @JavascriptInterface
     public void onSlotStartHide() {
-        mListener.onSlotStartHide();
+
     }
 
     @SuppressWarnings("unused")
@@ -77,10 +77,6 @@ class JSInterface {
         void onSlotUpdated(int top, int left,
                            int bottom, int right,
                            float pixelRatio);
-
-        void onSlotStartShow();
-
-        void onSlotStartHide();
 
         void handleError(String error);
     }

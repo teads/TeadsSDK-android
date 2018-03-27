@@ -15,7 +15,7 @@ public abstract class TimeoutCountdownTimer extends CountDownTimer {
 
     private boolean mIsTimeout;
 
-    public TimeoutCountdownTimer(int timeoutDuration) {
+    TimeoutCountdownTimer(int timeoutDuration) {
         super(timeoutDuration, timeoutDuration);
         mIsTimeout = false;
     }
@@ -30,7 +30,7 @@ public abstract class TimeoutCountdownTimer extends CountDownTimer {
         this.onTimeout();
     }
 
-    public boolean isTimeout() {
+    boolean isTimeout() {
         return mIsTimeout;
     }
 
