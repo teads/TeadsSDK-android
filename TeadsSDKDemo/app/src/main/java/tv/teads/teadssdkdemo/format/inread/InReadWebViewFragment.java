@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,24 +14,29 @@ import android.webkit.WebViewClient;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import tv.teads.sdk.android.AdResponse;
+import tv.teads.sdk.android.TeadsAd;
 import tv.teads.sdk.android.TeadsAdView;
+import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.webviewhelper.ObservableWebView;
-import tv.teads.webviewhelper.TeadsWebViewSynchronizer;
+import tv.teads.webviewhelper.SyncWebViewTeadsAdView;
 
 /**
  * InRead format within a WebView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment {
+public class InReadWebViewFragment extends BaseFragment implements TeadsListener, SyncWebViewTeadsAdView.Listener {
 
     /**
      * An observable webview to listen the scroll event in the goal to move the ad following the webview scroll
      */
     private ObservableWebView mWebview;
+
+    private SyncWebViewTeadsAdView mWebviewHelperSynch;
 
     private TeadsAdView mAdView;
 
@@ -51,9 +57,15 @@ public class InReadWebViewFragment extends BaseFragment {
 
 
         mAdView = new TeadsAdView(getContext());
-        TeadsWebViewSynchronizer mWebviewHelperSynch = new TeadsWebViewSynchronizer(mWebview, mAdView, "h2");
+
+        /*
+        For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
+        You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
+         */
+        mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView,this, "h2");
 
         mAdView.setPid(getPid());
+        mAdView.setListener(this);
 
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.setWebViewClient(new CustomWebviewClient(mWebviewHelperSynch));
@@ -75,6 +87,39 @@ public class InReadWebViewFragment extends BaseFragment {
     @Subscribe
     @SuppressWarnings("unused")
     public void onReloadEvent(ReloadEvent event) {
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * Ad view listener
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void onAdResponse(TeadsAd teadsAd, AdResponse adResponse) {
+        mWebviewHelperSynch.updateSlot(adResponse.getMediaRatio());
+    }
+
+    @Override
+    public void displayAd(TeadsAd teadsAd, float v) {
+        mWebviewHelperSynch.displayAd();
+    }
+
+    @Override
+    public void closeAd(TeadsAd teadsAd, boolean b) {
+        mWebviewHelperSynch.closeAd();
+    }
+
+    @Override
+    public void onError(TeadsAd teadsAd, String s) {
+        Log.w(InReadWebViewFragment.class.getSimpleName(), "TeadsAd playback failed, reason: " + s);
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * WebView helper listener
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void onHelperReady() {
+        //The helper is ready we can now load the ad
         if (mAdView != null) {
             mAdView.load();
         }
@@ -86,9 +131,9 @@ public class InReadWebViewFragment extends BaseFragment {
 
     private class CustomWebviewClient extends WebViewClient {
 
-        private TeadsWebViewSynchronizer webviewHelperSynch;
+        private SyncWebViewTeadsAdView webviewHelperSynch;
 
-        private CustomWebviewClient(TeadsWebViewSynchronizer webviewHelperSynch) {
+        private CustomWebviewClient(SyncWebViewTeadsAdView webviewHelperSynch) {
             this.webviewHelperSynch = webviewHelperSynch;
         }
 
