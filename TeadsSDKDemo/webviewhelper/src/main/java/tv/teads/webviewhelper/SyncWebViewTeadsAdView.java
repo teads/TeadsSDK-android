@@ -147,8 +147,10 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         mInitialY = top;
         mAdView.setTranslationY(mInitialY - mWebview.getScrollY());
 
-        ((ViewGroup.MarginLayoutParams) mAdView.getLayoutParams()).leftMargin = left;
-        mAdView.getLayoutParams().width = width;
+        if (mAdView.getLayoutParams() != null && mAdView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ((ViewGroup.MarginLayoutParams) mAdView.getLayoutParams()).leftMargin = left;
+            mAdView.getLayoutParams().width = width;
+        }
     }
 
     @Override
