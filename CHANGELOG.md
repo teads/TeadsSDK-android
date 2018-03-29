@@ -1,4 +1,8 @@
 # Changelog
+
+v2.5.8
+- Remove event service to prevent issue on Android 8.x
+
 v2.5.7
 - Disable tracking recovery by default to prevent issue on Android 8.x
 
