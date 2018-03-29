@@ -1,4 +1,4 @@
-# TeadsSDK-android         [![Build Status](https://jenkins.teadstesting.tv/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teadstesting.tv/job/TeadsSDK-android_master)  
+# TeadsSDK-android
 
 
 
