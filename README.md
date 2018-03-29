@@ -1,4 +1,4 @@
-# TeadsSDK-android         [![Build Status](https://jenkins.teadstesting.tv/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teadstesting.tv/job/TeadsSDK-android_master)  
+# TeadsSDK-android
 
 
 
@@ -23,7 +23,7 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:2.5.8:fullRelease@aar') {
+    compile ('tv.teads.sdk:androidsdk:2.5.9:fullRelease@aar') {
         transitive = true;
     }
 }
