@@ -17,7 +17,7 @@
     <string name="type_videoview">TEADSVIEW</string>
 
     <string name="format_inread">inRead</string>
-    <string name="format_inreadtop">inRead Top</string>
+    <string name="format_custom_ad">Custom Ad</string>
     <string name="format_adfactory">AdFactory</string>
     <string name="format_videoview_simple">Simple TeadsView in ScrollView</string>
     <string name="format_videoview_recyclerview">TeadsView in RecyclerView</string>

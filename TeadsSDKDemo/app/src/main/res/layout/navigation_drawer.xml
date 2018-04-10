@@ -51,28 +51,28 @@
 
 
         <TextView
-            android:id="@+id/inreadtop_parent"
+            android:id="@+id/custom_parent"
             style="@style/TextSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/format_inreadtop"/>
+            android:text="@string/format_custom_ad"/>
 
         <Button
-            android:id="@+id/inreadtop_scrollview"
+            android:id="@+id/custom_scrollview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/container_scrollview"/>
 
         <Button
-            android:id="@+id/inreadtop_recyclerview"
+            android:id="@+id/custom_recyclerview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/container_recyclerview"/>
 
         <Button
-            android:id="@+id/inreadtop_webview"
+            android:id="@+id/custom_webview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

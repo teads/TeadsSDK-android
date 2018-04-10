@@ -14,9 +14,9 @@ import android.webkit.WebViewClient;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import tv.teads.sdk.android.AdResponse;
+import tv.teads.sdk.android.AdFailedReason;
+import tv.teads.sdk.android.InReadAdView;
 import tv.teads.sdk.android.TeadsAd;
-import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -38,7 +38,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
 
     private SyncWebViewTeadsAdView mWebviewHelperSynch;
 
-    private TeadsAdView mAdView;
+    private InReadAdView mAdView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -56,13 +56,13 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
         mWebview = rootView.findViewById(R.id.webview);
 
 
-        mAdView = new TeadsAdView(getContext());
+        mAdView = new InReadAdView(getContext());
 
         /*
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView,this, "h2");
+        mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView, this, "h2");
 
         mAdView.setPid(getPid());
         mAdView.setListener(this);
@@ -94,12 +94,13 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void onAdResponse(TeadsAd teadsAd, AdResponse adResponse) {
-        mWebviewHelperSynch.updateSlot(adResponse.getMediaRatio());
+    public void onAdFailedToLoad(TeadsAd teadsAd, AdFailedReason adFailedReason) {
+
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, float v) {
+    public void onAdLoaded(TeadsAd teadsAd, float adRatio) {
+        mWebviewHelperSynch.updateSlot(adRatio);
         mWebviewHelperSynch.displayAd();
     }
 
@@ -111,6 +112,11 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
     @Override
     public void onError(TeadsAd teadsAd, String s) {
         Log.w(InReadWebViewFragment.class.getSimpleName(), "TeadsAd playback failed, reason: " + s);
+    }
+
+    @Override
+    public void onAdDisplayed(TeadsAd teadsAd) {
+
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,7 @@
 package tv.teads.teadssdkdemo.format.inread;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,9 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import tv.teads.sdk.android.AdResponse;
+import tv.teads.sdk.android.AdFailedReason;
+import tv.teads.sdk.android.InReadAdView;
 import tv.teads.sdk.android.TeadsAd;
-import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -26,10 +27,10 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsListe
     /**
      * Teads Ad view
      */
-    private TeadsAdView mAdView;
+    private InReadAdView mAdView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inread_scrollview, container, false);
         mAdView = rootView.findViewById(R.id.teads_ad_view);
@@ -37,7 +38,7 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsListe
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
         // Instanciate Teads Ad in inReadTop format
         mAdView.setPid(getPid());
@@ -66,14 +67,12 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsListe
     *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void onAdResponse(TeadsAd teadsAd, AdResponse adResponse) {
-        if (!adResponse.isSuccessful()) {
-            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        }
+    public void onAdFailedToLoad(TeadsAd teadsAd, AdFailedReason adFailedReason) {
+        Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, float i) {
+    public void onAdLoaded(TeadsAd teadsAd, float v) {
 
     }
 
@@ -85,5 +84,10 @@ public class InReadScrollViewFragment extends BaseFragment implements TeadsListe
     @Override
     public void onError(TeadsAd teadsAd, String s) {
         Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAdDisplayed(TeadsAd teadsAd) {
+
     }
 }

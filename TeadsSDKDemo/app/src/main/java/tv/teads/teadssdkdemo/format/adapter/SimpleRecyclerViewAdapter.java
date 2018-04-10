@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import tv.teads.sdk.android.TeadsAdView;
+import tv.teads.sdk.android.InReadAdView;
 import tv.teads.teadssdkdemo.R;
 
 /**
@@ -25,7 +25,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     private List<String> mDataset;
 
-    private TeadsAdView mAdView;
+    private InReadAdView mAdView;
 
     public SimpleRecyclerViewAdapter(List<String> dataset, int pid, int adPosition) {
         mPid = pid;
@@ -42,7 +42,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_TEADS:
-                mAdView = new TeadsAdView(parent.getContext());
+                mAdView = new InReadAdView(parent.getContext());
                 mAdView.setPid(mPid);
                 return new ViewHolderTeadsAd(mAdView);
             case TYPE_TEXT:
@@ -80,11 +80,11 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     private class ViewHolderTeadsAd extends RecyclerView.ViewHolder {
-        private TeadsAdView adView;
+        private InReadAdView adView;
 
         private ViewHolderTeadsAd(View view) {
             super(view);
-            adView = (TeadsAdView) view;
+            adView = (InReadAdView) view;
         }
     }
 

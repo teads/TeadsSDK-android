@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import tv.teads.sdk.android.TeadsAdView;
+import tv.teads.sdk.android.CustomAdView;
 import tv.teads.sdk.android.engine.ui.view.ObservableAdView;
 
 /**
@@ -33,7 +33,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
     @Nullable
     private FrameLayout mContainer;
 
-    private TeadsAdView mAdView;
+    private CustomAdView mAdView;
 
     private WebViewHelper mWebviewHelper;
 
@@ -51,7 +51,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
      * @param listener The listener
      * @param selector The selector where we want insert the ad view
      */
-    public SyncWebViewTeadsAdView(ObservableWebView webView, TeadsAdView adView, Listener listener, String selector) {
+    public SyncWebViewTeadsAdView(ObservableWebView webView, CustomAdView adView, Listener listener, String selector) {
         mAdView = adView;
         mListener = listener;
         mAdView.setMoveListener(this);

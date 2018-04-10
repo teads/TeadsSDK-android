@@ -27,9 +27,9 @@ import butterknife.OnClick;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopRecyclerViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inreadTop.InReadTopWebViewFragment;
+import tv.teads.teadssdkdemo.format.custom.CustomAdRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.custom.CustomAdScrollViewFragment;
+import tv.teads.teadssdkdemo.format.custom.CustomAdWebViewFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
@@ -194,19 +194,19 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new InReadWebViewFragment());
     }
 
-    @OnClick(R.id.inreadtop_scrollview)
+    @OnClick(R.id.custom_scrollview)
     public void inReadTopScrollView() {
-        changeFragment(new InReadTopScrollViewFragment());
+        changeFragment(new CustomAdScrollViewFragment());
     }
 
-    @OnClick(R.id.inreadtop_recyclerview)
+    @OnClick(R.id.custom_recyclerview)
     public void inReadTopRecyclerView() {
-        changeFragment(new InReadTopRecyclerViewFragment());
+        changeFragment(new CustomAdRecyclerViewFragment());
     }
 
-    @OnClick(R.id.inreadtop_webview)
+    @OnClick(R.id.custom_webview)
     public void inReadTopWebView() {
-        changeFragment(new InReadTopWebViewFragment());
+        changeFragment(new CustomAdWebViewFragment());
     }
 
     @OnClick(R.id.action_pid)

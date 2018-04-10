@@ -1,6 +1,7 @@
-package tv.teads.teadssdkdemo.format.inreadTop;
+package tv.teads.teadssdkdemo.format.custom;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +13,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-import tv.teads.sdk.android.AdResponse;
+import tv.teads.sdk.android.AdFailedReason;
+import tv.teads.sdk.android.CustomAdView;
 import tv.teads.sdk.android.TeadsAd;
-import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter;
@@ -22,11 +23,11 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 
 /**
- * InReadTop format within a RecyclerView
+ * Custom ad format within a RecyclerView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadTopRecyclerViewFragment extends BaseFragment implements TeadsListener {
+public class CustomAdRecyclerViewFragment extends BaseFragment implements TeadsListener {
 
     /**
      * The RecyclerView used in the application
@@ -34,14 +35,14 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     private RecyclerView mRecyclerView;
 
     /**
-     * The inReadTop ad view
+     * The custom ad view
      */
-    private TeadsAdView mAdView;
+    private CustomAdView mAdView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inreadtop_recyclerview, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_custom_ad_recyclerview, container, false);
 
         // Retrieve recyclerView from layout
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
@@ -53,11 +54,11 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Set RecyclerView basic adapter
         setRecyclerViewAdapter(mRecyclerView);
 
-        // Instanciate Teads Ad in inReadTop format
+        // Instanciate Teads Ad in custom format
         mAdView.setPid(getPid());
         mAdView.load();
     }
@@ -93,16 +94,13 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
     * implements TeadsAdListener
     *//////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
-    public void onAdResponse(TeadsAd teadsAd, AdResponse adResponse) {
-        if (!adResponse.isSuccessful()) {
-            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        }
+    public void onAdFailedToLoad(TeadsAd teadsAd, AdFailedReason adFailedReason) {
+        Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, float i) {
+    public void onAdLoaded(TeadsAd teadsAd, float v) {
 
     }
 
@@ -114,5 +112,10 @@ public class InReadTopRecyclerViewFragment extends BaseFragment implements Teads
     @Override
     public void onError(TeadsAd teadsAd, String s) {
         Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAdDisplayed(TeadsAd teadsAd) {
+
     }
 }

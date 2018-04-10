@@ -1,46 +1,38 @@
-package tv.teads.teadssdkdemo.format.inreadTop;
+package tv.teads.teadssdkdemo.format.custom;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import tv.teads.sdk.android.AdResponse;
+import tv.teads.sdk.android.AdFailedReason;
+import tv.teads.sdk.android.CustomAdView;
 import tv.teads.sdk.android.TeadsAd;
-import tv.teads.sdk.android.TeadsAdView;
 import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 
 /**
- * InReadTop format within a WebView
+ * Custom ad format within a ScrollView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadTopWebViewFragment extends BaseFragment implements TeadsListener {
+public class CustomAdScrollViewFragment extends BaseFragment implements TeadsListener {
 
     /**
-     * Your WebView extending the TeadsObservableWebView class
+     * The Custom ad view
      */
-    private WebView mWebView;
-
-    /**
-     * The inReadTop ad view
-     */
-    private TeadsAdView mAdView;
+    private CustomAdView mAdView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_inreadtop_webview, container, false);
-
-        mWebView = rootView.findViewById(R.id.webViewVideo);
+        View rootView = inflater.inflate(R.layout.fragment_custom_ad_scrollview, container, false);
 
         // Retrieve ad view
         mAdView = rootView.findViewById(R.id.teads_ad_view);
@@ -49,13 +41,9 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsListe
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        //to avoir redirect on chrome
-        mWebView.setWebViewClient(new WebViewClient());
-        // Load url in the WebView
-        mWebView.loadUrl(this.getWebViewUrl());
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
-        // Instanciate Teads Ad in inReadTop format
+        // Instanciate Teads Ad in custom ad format
         mAdView.setPid(getPid());
         mAdView.load();
     }
@@ -82,14 +70,12 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsListe
     *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void onAdResponse(TeadsAd teadsAd, AdResponse adResponse) {
-        if (!adResponse.isSuccessful()) {
-            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        }
+    public void onAdFailedToLoad(TeadsAd teadsAd, AdFailedReason adFailedReason) {
+        Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void displayAd(TeadsAd teadsAd, float i) {
+    public void onAdLoaded(TeadsAd teadsAd, float v) {
 
     }
 
@@ -101,5 +87,10 @@ public class InReadTopWebViewFragment extends BaseFragment implements TeadsListe
     @Override
     public void onError(TeadsAd teadsAd, String s) {
         Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAdDisplayed(TeadsAd teadsAd) {
+
     }
 }

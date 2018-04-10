@@ -38,8 +38,6 @@
         <item name="android:padding">@dimen/button_padding_vertical_material</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">@dimen/button_margin_material</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_subtitle</item>
     </style>
-
-
 </resources>

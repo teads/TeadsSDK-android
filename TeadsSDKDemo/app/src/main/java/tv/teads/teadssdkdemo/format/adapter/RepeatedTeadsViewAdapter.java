@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import tv.teads.sdk.android.TeadsAdView;
+import tv.teads.sdk.android.InReadAdView;
 import tv.teads.teadssdkdemo.R;
 
 /**
- * A RecyclerView adapter that display the same {@link TeadsAdView} each X items.
+ * A RecyclerView adapter that display the same {@link InReadAdView} each X items.
  * <p/>
  * Created by Hugo Gresse on 09/06/15.
  */
@@ -34,7 +34,7 @@ public class RepeatedTeadsViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_TEADS:
-                TeadsAdView teadsAdView = new TeadsAdView(parent.getContext());
+                InReadAdView teadsAdView = new InReadAdView(parent.getContext());
                 teadsAdView.setPid(mPid);
                 return new ViewHolderTeadsAd(teadsAdView);
             case TYPE_TEXT:
@@ -64,11 +64,11 @@ public class RepeatedTeadsViewAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     private class ViewHolderTeadsAd extends RecyclerView.ViewHolder {
-        private TeadsAdView adView;
+        private InReadAdView adView;
 
         private ViewHolderTeadsAd(View view) {
             super(view);
-            adView = (TeadsAdView) view;
+            adView = (InReadAdView) view;
         }
     }
 
