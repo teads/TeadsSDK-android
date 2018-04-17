@@ -22,8 +22,8 @@ import tv.teads.sdk.android.engine.ui.view.ObservableAdView;
  */
 
 public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
-                                                 ObservableWebView.OnScrollListener,
-                                                 ObservableAdView.ActionMoveListener {
+        ObservableWebView.OnScrollListener,
+        ObservableAdView.ActionMoveListener {
 
     private static final String TAG = SyncWebViewTeadsAdView.class.getSimpleName();
 
@@ -58,7 +58,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         mWebview = webView;
         mWebview.setOnScrollListener(this);
         mWebviewHelper = new WebViewHelper.Builder(webView, this, selector)
-                           .build();
+                .build();
 
     }
 
@@ -85,7 +85,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
                 mContainer = new FrameLayout(mWebview.getContext());
                 mContainer.setLayoutParams(new ViewGroup.LayoutParams(mWebview.getLayoutParams()));
                 int webviewPosition = 0;
-                int childCount      = webViewParent.getChildCount();
+                int childCount = webViewParent.getChildCount();
                 for (int i = 0; i < childCount; i++) {
                     if (webViewParent.getChildAt(i).equals(mWebview)) {
                         webviewPosition = i;
@@ -94,10 +94,15 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
 
                 webViewParent.removeViewAt(webviewPosition);
                 mWebview.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
-                                                                                                             .LayoutParams.MATCH_PARENT));
+                        .LayoutParams.MATCH_PARENT));
                 mContainer.addView(mWebview);
                 mAdView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                     ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                if (mAdView.getParent() != null && mAdView.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) mAdView.getParent()).removeView(mAdView);
+                }
+
                 mContainer.addView(mAdView);
 
                 webViewParent.addView(mContainer);
@@ -118,9 +123,9 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
 
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
-    *
-    * WebviewHelper listener methods
-    *
+     *
+     * WebviewHelper listener methods
+     *
      *//////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -179,10 +184,10 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
-    *
-    * Webview Scroll listener
-    *
-    *//////////////////////////////////////////////////////////////////////////////////////////////
+     *
+     * Webview Scroll listener
+     *
+     *//////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onScroll(int l, int t) {
@@ -192,10 +197,10 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
-    *
-    * AdView Move listener
-    *
-    *//////////////////////////////////////////////////////////////////////////////////////////////
+     *
+     * AdView Move listener
+     *
+     *//////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onActionMove(int moveX, int moveY) {

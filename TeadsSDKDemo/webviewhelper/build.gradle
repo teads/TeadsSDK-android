@@ -6,7 +6,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion projectSdkVersion
-    buildToolsVersion projectBuildToolsVersion
 
     resourcePrefix "teads_"
 
@@ -38,9 +37,9 @@ repositories {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
     // Teads SDK
-    compile("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
+    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
         transitive = true
     }
 }
