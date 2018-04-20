@@ -165,7 +165,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
 
     public void updateSlot(final Float ratio) {
         if (ratio != null) {
-            mWebviewHelper.updateSlot(ratio, 40);
+            mWebviewHelper.updateSlot(ratio, 0);
         }
     }
 

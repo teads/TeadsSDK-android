@@ -29,9 +29,9 @@ class WebViewHelper implements JSInterface.Listener {
 
     private final static String INSERT_SLOT_JS = "javascript:window.utils.insertPlaceholder(%s);";
     private final static String UPDATE_SLOT_JS = "javascript:window.utils.updatePlaceholder({" +
-                                                   "'offsetHeight':%s," +
-                                                   "'ratioVideo':%s" +
-                                                   "});";
+            "'offsetHeight':%s," +
+            "'ratioVideo':%s" +
+            "});";
     private final static String OPEN_SLOT_JS   = "javascript:window.utils.showPlaceholder();";
     private final static String CLOSE_SLOT_JS  = "javascript:window.utils.hidePlaceholder();";
 
@@ -78,19 +78,19 @@ class WebViewHelper implements JSInterface.Listener {
         if (mWebView != null && context != null) {
             try {
                 InputStream inputStream = context.getAssets().open("bootstrap.js");
-                byte[]      buffer      = new byte[inputStream.available()];
+                byte[] buffer = new byte[inputStream.available()];
                 //noinspection ResultOfMethodCallIgnored
                 inputStream.read(buffer);
                 inputStream.close();
                 String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
                 mWebView.loadUrl("javascript:(function() {" +
-                                   "var scriptElement = document.getElementById('teadsbootstrap');" +
-                                   " if(scriptElement) scriptElement.remove();" +
-                                   " var script = document.createElement('script');" +
-                                   "script.innerHTML = window.atob('" + encoded + "');" +
-                                   "script.setAttribute('id', 'teadsbootstrap');" +
-                                   "script.setAttribute('type', 'text/javascript');" +
-                                   " document.body.appendChild(script);})()");
+                        "var scriptElement = document.getElementById('teadsbootstrap');" +
+                        " if(scriptElement) scriptElement.remove();" +
+                        " var script = document.createElement('script');" +
+                        "script.innerHTML = window.atob('" + encoded + "');" +
+                        "script.setAttribute('id', 'teadsbootstrap');" +
+                        "script.setAttribute('type', 'text/javascript');" +
+                        " document.body.appendChild(script);})()");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -102,21 +102,9 @@ class WebViewHelper implements JSInterface.Listener {
      * If a {@link #mSelector} is specified, the bootstrap will use it
      */
     void insertSlot() {
-        mMainThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                String command = String.format(INSERT_SLOT_JS, TextUtils.isEmpty(mSelector) ? "" : "'" + mSelector +
-                                                                                                     "'");
-
-                try {
-                    mWebView.loadUrl(command);
-                } catch (Exception e) {
-                    Log.e(TAG, "Unable to insertPlaceholder, the WebView may have been deallocated. " +
-                                 "Message: " + e.getMessage());
-                }
-            }
-        });
+        String command = String.format(INSERT_SLOT_JS, TextUtils.isEmpty(mSelector) ? "" : "'" + mSelector +
+                "'");
+        mMainThreadHandler.post(new LoadJSRunnable(mWebView, command));
         mRequestSlotTimeout.start();
     }
 
@@ -127,52 +115,21 @@ class WebViewHelper implements JSInterface.Listener {
      * @param offset the offset
      */
     void updateSlot(final float ratio, final int offset) {
-        mMainThreadHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mWebView.loadUrl(String.format(UPDATE_SLOT_JS, offset, ratio));
-                } catch (Exception ignored) {
-                    Log.e(TAG, "Unable to updatePlaceholder, the WebView may have been deallocated.");
-                }
-            }
-        });
+        mMainThreadHandler.post(new LoadJSRunnable(mWebView, String.format(UPDATE_SLOT_JS, offset, ratio)));
     }
 
     /**
      * Call the js in the main thread to open the slot
      */
     void openSlot() {
-        mMainThreadHandler.post(new Runnable() {
-            @SuppressLint("DefaultLocale")
-            @Override
-            public void run() {
-                try {
-                    mWebView.loadUrl(OPEN_SLOT_JS);
-                } catch (Exception e) {
-                    Log.e(TAG, "Unable to open slot, the WebView may have been deallocated.. " +
-                                 "Message: " + e.getMessage());
-                }
-            }
-        });
+        mMainThreadHandler.post(new LoadJSRunnable(mWebView, OPEN_SLOT_JS));
     }
 
     /**
      * Call the js in the main thread to close the slot
      */
     void closeSlot() {
-        mMainThreadHandler.post(new Runnable() {
-            @SuppressLint("DefaultLocale")
-            @Override
-            public void run() {
-                try {
-                    mWebView.loadUrl(CLOSE_SLOT_JS);
-                } catch (Exception e) {
-                    Log.e(TAG, "Unable to close slot, the WebView may have been deallocated.. " +
-                                 "Message: " + e.getMessage());
-                }
-            }
-        });
+        mMainThreadHandler.post(new LoadJSRunnable(mWebView, CLOSE_SLOT_JS));
     }
 
     /**
@@ -184,10 +141,10 @@ class WebViewHelper implements JSInterface.Listener {
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
-    *
-    *   Implements JS Interface
-    *
-    *///////////////////////////////////////////////////////////////////////////////////////////////
+     *
+     *   Implements JS Interface
+     *
+     *///////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void onJsReady() {
@@ -224,10 +181,10 @@ class WebViewHelper implements JSInterface.Listener {
 
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
-    *
-    *   Builder
-    *
-    *///////////////////////////////////////////////////////////////////////////////////////////////
+     *
+     *   Builder
+     *
+     *///////////////////////////////////////////////////////////////////////////////////////////////
 
     static class Builder {
 
@@ -260,10 +217,10 @@ class WebViewHelper implements JSInterface.Listener {
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
-    *
-    *   Listener
-    *
-    *///////////////////////////////////////////////////////////////////////////////////////////////
+     *
+     *   Listener
+     *
+     *///////////////////////////////////////////////////////////////////////////////////////////////
 
     public interface Listener {
 
