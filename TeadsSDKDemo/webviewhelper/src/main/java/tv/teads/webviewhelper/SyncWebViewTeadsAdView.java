@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Teads 2017.
+ * Copyright (c) Teads 2018.
  */
 
 package tv.teads.webviewhelper;
@@ -82,6 +82,10 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
             @Override
             public void run() {
                 ViewGroup webViewParent = (ViewGroup) mWebview.getParent();
+                if (webViewParent == null) {
+                    //The webview doesn't have a parent we can't add the ad
+                    return;
+                }
                 mContainer = new FrameLayout(mWebview.getContext());
                 mContainer.setLayoutParams(new ViewGroup.LayoutParams(mWebview.getLayoutParams()));
                 int webviewPosition = 0;
@@ -97,7 +101,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
                         .LayoutParams.MATCH_PARENT));
                 mContainer.addView(mWebview);
                 mAdView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                                                                     ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 if (mAdView.getParent() != null && mAdView.getParent() instanceof ViewGroup) {
                     ((ViewGroup) mAdView.getParent()).removeView(mAdView);
@@ -165,7 +169,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
 
     public void updateSlot(final Float ratio) {
         if (ratio != null) {
-            mWebviewHelper.updateSlot(ratio, 40);
+            mWebviewHelper.updateSlot(ratio, 0);
         }
     }
 
