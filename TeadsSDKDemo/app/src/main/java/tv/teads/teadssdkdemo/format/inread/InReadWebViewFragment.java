@@ -4,19 +4,18 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import tv.teads.sdk.android.AdFailedReason;
 import tv.teads.sdk.android.InReadAdView;
-import tv.teads.sdk.android.TeadsAd;
 import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -29,7 +28,7 @@ import tv.teads.webviewhelper.SyncWebViewTeadsAdView;
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsListener, SyncWebViewTeadsAdView.Listener {
+public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTeadsAdView.Listener {
 
     /**
      * An observable webview to listen the scroll event in the goal to move the ad following the webview scroll
@@ -65,7 +64,7 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
         mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView, this, "h2");
 
         mAdView.setPid(getPid());
-        mAdView.setListener(this);
+        mAdView.setListener(mTeadsListener);
 
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.setWebViewClient(new CustomWebviewClient(mWebviewHelperSynch));
@@ -93,31 +92,29 @@ public class InReadWebViewFragment extends BaseFragment implements TeadsListener
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public void onAdFailedToLoad(TeadsAd teadsAd, AdFailedReason adFailedReason) {
+    private TeadsListener mTeadsListener = new TeadsListener(){
 
-    }
+        @Override
+        public void onAdFailedToLoad(AdFailedReason adFailedReason) {
+            Toast.makeText(InReadWebViewFragment.this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
+        }
 
-    @Override
-    public void onAdLoaded(TeadsAd teadsAd, float adRatio) {
-        mWebviewHelperSynch.updateSlot(adRatio);
-        mWebviewHelperSynch.displayAd();
-    }
+        @Override
+        public void onError(String s) {
+            Toast.makeText(InReadWebViewFragment.this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+        }
 
-    @Override
-    public void closeAd(TeadsAd teadsAd, boolean b) {
-        mWebviewHelperSynch.closeAd();
-    }
+        @Override
+        public void onAdLoaded(float adRatio) {
+            mWebviewHelperSynch.updateSlot(adRatio);
+            mWebviewHelperSynch.displayAd();
+        }
 
-    @Override
-    public void onError(TeadsAd teadsAd, String s) {
-        Log.w(InReadWebViewFragment.class.getSimpleName(), "TeadsAd playback failed, reason: " + s);
-    }
-
-    @Override
-    public void onAdDisplayed(TeadsAd teadsAd) {
-
-    }
+        @Override
+        public void closeAd() {
+            mWebviewHelperSynch.closeAd();
+        }
+    };
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * WebView helper listener

@@ -31,7 +31,6 @@ public class InReadRecyclerViewFragment extends BaseFragment {
 
     private SimpleRecyclerViewAdapter mAdapter;
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,7 +38,6 @@ public class InReadRecyclerViewFragment extends BaseFragment {
 
         // Retrieve recyclerView from layout
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
-
 
         return rootView;
     }

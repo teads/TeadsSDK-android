@@ -13,7 +13,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import tv.teads.sdk.android.AdFailedReason;
 import tv.teads.sdk.android.CustomAdView;
-import tv.teads.sdk.android.TeadsAd;
 import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
@@ -24,7 +23,7 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class CustomAdWebViewFragment extends BaseFragment implements TeadsListener {
+public class CustomAdWebViewFragment extends BaseFragment {
 
     /**
      * Your WebView extending the TeadsObservableWebView class
@@ -58,6 +57,7 @@ public class CustomAdWebViewFragment extends BaseFragment implements TeadsListen
 
         // Instanciate Teads Ad in custom ad format
         mAdView.setPid(getPid());
+        mAdView.setListener(mTeadsListener);
         mAdView.load();
     }
 
@@ -78,32 +78,16 @@ public class CustomAdWebViewFragment extends BaseFragment implements TeadsListen
         }
     }
 
-    /*//////////////////////////////////////////////////////////////////////////////////////////////////
-    * implements TeadsAdListener
-    *//////////////////////////////////////////////////////////////////////////////////////////////////
+    private TeadsListener mTeadsListener = new TeadsListener(){
 
-    @Override
-    public void onAdFailedToLoad(TeadsAd teadsAd, AdFailedReason adFailedReason) {
-        Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-    }
+        @Override
+        public void onAdFailedToLoad(AdFailedReason adFailedReason) {
+            Toast.makeText(CustomAdWebViewFragment.this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
+        }
 
-    @Override
-    public void onAdLoaded(TeadsAd teadsAd, float v) {
-
-    }
-
-    @Override
-    public void closeAd(TeadsAd teadsAd, boolean b) {
-
-    }
-
-    @Override
-    public void onError(TeadsAd teadsAd, String s) {
-        Toast.makeText(this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAdDisplayed(TeadsAd teadsAd) {
-
-    }
+        @Override
+        public void onError(String s) {
+            Toast.makeText(CustomAdWebViewFragment.this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+        }
+    };
 }
