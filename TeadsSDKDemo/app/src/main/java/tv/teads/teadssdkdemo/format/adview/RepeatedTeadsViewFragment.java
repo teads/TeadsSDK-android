@@ -358,7 +358,7 @@ public class RepeatedTeadsViewFragment extends BaseFragment implements
 
     @Override
     public void teadsAdDidExpand() {
-
+        mTeadsAd.containerDidMove();
     }
 
     @Override
