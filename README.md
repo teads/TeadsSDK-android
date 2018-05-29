@@ -1,4 +1,4 @@
-# TeadsSDK-android         [![Build Status](https://jenkins.teadstesting.tv/buildStatus/icon?job=TeadsSDK-android_master)](https://jenkins.teadstesting.tv/job/TeadsSDK-android_master)  
+# TeadsSDK-android [![Build Status](https://www.bitrise.io/app/c68b27f1354db48c/status.svg?token=FJ6FWRpYzi4cx8dN7yWa5Q&branch=master)](https://www.bitrise.io/app/c68b27f1354db48c)
 
 
 
@@ -23,15 +23,15 @@ repositories{
     }
 }
 dependencies {
-    compile ('tv.teads.sdk:androidsdk:2.5.6:fullRelease@aar') {
-        transitive = true;
+    implementation("tv.teads.sdk.android:sdk:4.0.34@aar") {
+        transitive = true
     }
 }
 ```
 
 
 ## Integration Documentation
-Integration instructions are available on [Teads SDK Documentation](http://mobile.teads.tv/sdk/documentation/).
+Integration instructions are available on [Teads SDK Documentation](http://mobile.teads.tv/sdk/documentation/beta).
 
 ## Changelog
 
