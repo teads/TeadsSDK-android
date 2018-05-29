@@ -11,13 +11,11 @@ android {
 
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
-
         minSdkVersion libraryMinSdkVersion
         targetSdkVersion libraryTargetSdkVersion
         versionCode libraryVersionCode
         versionName libraryVersion
         buildToolsVersion projectBuildToolsVersion
-
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
     buildTypes {
@@ -49,7 +47,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'org.greenrobot:eventbus:3.0.0'
     // Teads SDK
-    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
+    implementation("tv.teads.sdk.android:sdk:4.0.34@aar") {
         transitive = true
     }
     implementation project(':webviewhelper')
