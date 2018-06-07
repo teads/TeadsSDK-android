@@ -101,7 +101,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
                         .LayoutParams.MATCH_PARENT));
                 mContainer.addView(mWebview);
                 mAdView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                     ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 if (mAdView.getParent() != null && mAdView.getParent() instanceof ViewGroup) {
                     ((ViewGroup) mAdView.getParent()).removeView(mAdView);
@@ -125,6 +125,12 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         mWebviewHelper.reset();
     }
 
+    /**
+     * Should be called when the rotation change
+     */
+    public void onConfigurationChanged() {
+        mWebviewHelper.askSlotPosition();
+    }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
      *
@@ -156,9 +162,11 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         mInitialY = top;
         mAdView.setTranslationY(mInitialY - mWebview.getScrollY());
 
-        if (mAdView.getLayoutParams() != null && mAdView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+        if (mWebview != null
+                && mAdView.getLayoutParams() != null
+                && mAdView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ((ViewGroup.MarginLayoutParams) mAdView.getLayoutParams()).leftMargin = left;
-            mAdView.getLayoutParams().width = width;
+            ((ViewGroup.MarginLayoutParams) mAdView.getLayoutParams()).rightMargin = mWebview.getWidth() - width - left;
         }
     }
 

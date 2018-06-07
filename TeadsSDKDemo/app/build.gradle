@@ -47,7 +47,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'org.greenrobot:eventbus:3.0.0'
     // Teads SDK
-    implementation("tv.teads.sdk.android:sdk:4.0.34@aar") {
+    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
         transitive = true
     }
     implementation project(':webviewhelper')

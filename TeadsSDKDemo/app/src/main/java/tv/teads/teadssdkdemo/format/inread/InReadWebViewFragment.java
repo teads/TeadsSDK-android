@@ -1,6 +1,7 @@
 package tv.teads.teadssdkdemo.format.inread;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -83,6 +84,14 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (mWebviewHelperSynch != null) {
+            mWebviewHelperSynch.onConfigurationChanged();
+        }
+    }
+
     @Subscribe
     @SuppressWarnings("unused")
     public void onReloadEvent(ReloadEvent event) {
@@ -92,7 +101,7 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private TeadsListener mTeadsListener = new TeadsListener(){
+    private TeadsListener mTeadsListener = new TeadsListener() {
 
         @Override
         public void onAdFailedToLoad(AdFailedReason adFailedReason) {
