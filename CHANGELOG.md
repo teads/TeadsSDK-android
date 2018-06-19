@@ -1,6 +1,6 @@
 # Changelog
 
-v4.0.36 BETA
+v4.0.37 BETA
 - major API change. The SDK is now view based. The view can be added to your layout or inside a ViewHolder very easily **without** having to call unecessary method such as `onResume`. A migration guide will be published before final release.
 - improve VPAID support
 - new logic behind the hood to reduce SDK update count
@@ -8,6 +8,7 @@ v4.0.36 BETA
 - new ad format supported, more on that soon.
 - 4.0.34 allow us to disable the SDK usage remotely
 - 4.0.36 bug fixes
+- 4.0.37 initial support for AdMob and Mopub + bug fixes
 
 ----------
 ### Old version (SDK v2.x)
