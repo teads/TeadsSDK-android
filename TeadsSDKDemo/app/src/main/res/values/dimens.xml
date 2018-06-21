@@ -26,7 +26,7 @@
     <!-- Default insets (outer padding) around controls -->
     <dimen name="control_inset_material">4dp</dimen>
     <!-- Default inner padding within controls -->
-    <dimen name="control_padding_material">4dp</dimen>
+    <dimen name="control_padding_material">5dp</dimen>
     <!-- Default rounded corner for controls -->
     <dimen name="control_corner_material">2dp</dimen>
     <!-- Elevation when button is pressed -->
@@ -44,5 +44,7 @@
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
+
+    <dimen name="button_margin_subtitle">6dp</dimen>
 
 </resources>

@@ -41,7 +41,7 @@
         <!-- The navigation drawer -->
         <include
             android:layout_width="240dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             layout="@layout/navigation_drawer"
             android:layout_gravity="start|top" />
 

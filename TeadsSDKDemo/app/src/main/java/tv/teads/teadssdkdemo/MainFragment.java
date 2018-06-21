@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 
 /**
  * Empty fragment helping opening the navigation drawer
- *
+ * <p>
  * Created by Hugo Gresse on 30/03/15.
  */
 public class MainFragment extends Fragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 

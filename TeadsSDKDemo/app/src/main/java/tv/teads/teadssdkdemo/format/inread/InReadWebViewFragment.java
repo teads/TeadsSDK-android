@@ -1,266 +1,164 @@
 package tv.teads.teadssdkdemo.format.inread;
 
+import android.annotation.SuppressLint;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import tv.teads.sdk.publisher.TeadsAd;
-import tv.teads.sdk.publisher.TeadsAdListener;
-import tv.teads.sdk.publisher.TeadsConfiguration;
-import tv.teads.sdk.publisher.TeadsContainerType;
-import tv.teads.sdk.publisher.TeadsLog;
-import tv.teads.sdk.publisher.TeadsObservableWebView;
-import tv.teads.teadssdkdemo.MainActivity;
+import tv.teads.sdk.android.AdFailedReason;
+import tv.teads.sdk.android.InReadAdView;
+import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
-import tv.teads.utils.TeadsError;
+import tv.teads.webviewhelper.ObservableWebView;
+import tv.teads.webviewhelper.SyncWebViewTeadsAdView;
 
 /**
  * InRead format within a WebView
  * <p/>
  * Created by Hugo Gresse on 30/03/15.
  */
-public class InReadWebViewFragment extends BaseFragment implements TeadsAdListener,
-        DrawerLayout.DrawerListener {
+public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTeadsAdView.Listener {
 
     /**
-     * Teads Ad instance
+     * An observable webview to listen the scroll event in the goal to move the ad following the webview scroll
      */
-    private TeadsAd mTeadsAd;
+    private ObservableWebView mWebview;
 
-    /**
-     * Your WebView extending the TeadsObservableWebView class
-     */
-    private TeadsObservableWebView mTeadsWebView;
+    private SyncWebViewTeadsAdView mWebviewHelperSynch;
+
+    private InReadAdView mAdView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inread_webview, container, false);
-        mTeadsWebView = (TeadsObservableWebView) rootView.findViewById(R.id.webViewVideo);
+        mWebview = rootView.findViewById(R.id.webview);
         return rootView;
     }
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View rootView, Bundle savedInstanceState) {
 
-        TeadsLog.setLogLevel(TeadsLog.LogLevel.verbose);
-        // Load url in the WebView
-        mTeadsWebView.loadUrl(this.getWebViewUrl());
+        mWebview = rootView.findViewById(R.id.webview);
 
-        TeadsConfiguration teadsConfig = new TeadsConfiguration();
-        teadsConfig.endScreenMode = getEndScreenMode();
 
-        // Instanciate Teads Ad in inRead format
-        mTeadsAd = new TeadsAd.TeadsAdBuilder(
-                getActivity().getApplicationContext(),
-                getPid())
-                .viewGroup(mTeadsWebView)
-                .containerType(TeadsContainerType.inRead)
-                .eventListener(this)
-                .configuration(teadsConfig)
-                .build();
+        mAdView = new InReadAdView(getContext());
 
-        // Load the Ad
-        mTeadsAd.load();
-    }
+        /*
+        For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
+        You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
+         */
+        mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView, this, "h2");
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Attach listener to MainActivity to be notified when drawer is opened
-        ((MainActivity) getActivity()).setDrawerListener(this);
-        mTeadsAd.onResume();
-    }
+        mAdView.setPid(getPid());
+        mAdView.setListener(mTeadsListener);
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        ((MainActivity) getActivity()).setDrawerListener(null);
-        mTeadsAd.onPause();
+        mWebview.getSettings().setJavaScriptEnabled(true);
+        mWebview.setWebViewClient(new CustomWebviewClient(mWebviewHelperSynch));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+        mWebview.loadUrl(this.getWebViewUrl());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (mTeadsAd != null) {
-            mTeadsAd.clean();
+        if (mAdView != null) {
+            mAdView.clean();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (mWebviewHelperSynch != null) {
+            mWebviewHelperSynch.onConfigurationChanged();
         }
     }
 
     @Subscribe
+    @SuppressWarnings("unused")
     public void onReloadEvent(ReloadEvent event) {
-        if (mTeadsAd != null && !mTeadsAd.isLoaded()) {
-            mTeadsAd.reset();
-            mTeadsAd.load();
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * Ad view listener
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private TeadsListener mTeadsListener = new TeadsListener() {
+
+        @Override
+        public void onAdFailedToLoad(AdFailedReason adFailedReason) {
+            Toast.makeText(InReadWebViewFragment.this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(String s) {
+            Toast.makeText(InReadWebViewFragment.this.getActivity(), getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onAdLoaded(float adRatio) {
+            mWebviewHelperSynch.updateSlot(adRatio);
+            mWebviewHelperSynch.displayAd();
+        }
+
+        @Override
+        public void closeAd() {
+            mWebviewHelperSynch.closeAd();
+        }
+    };
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * WebView helper listener
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void onHelperReady() {
+        //The helper is ready we can now load the ad
+        if (mAdView != null) {
+            mAdView.load();
         }
     }
 
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * WebViewClient
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*----------------------------------------
-    * implements TeadsAdEventListener
-    */
+    private class CustomWebviewClient extends WebViewClient {
 
-    @Override
-    public void teadsAdDidFailLoading(TeadsError teadsError) {
-        try {
-            Toast.makeText(this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();
-        } catch (IllegalStateException ignored) {
+        private SyncWebViewTeadsAdView webviewHelperSynch;
 
+        private CustomWebviewClient(SyncWebViewTeadsAdView webviewHelperSynch) {
+            this.webviewHelperSynch = webviewHelperSynch;
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            webviewHelperSynch.injectJS();
+
+            super.onPageFinished(view, url);
         }
     }
-
-    @Override
-    public void teadsAdWillLoad() {
-
-    }
-
-    @Override
-    public void teadsAdDidLoad() {
-
-    }
-
-    @Override
-    public void teadsAdWillStart() {
-
-    }
-
-    @Override
-    public void teadsAdDidStart() {
-
-    }
-
-    @Override
-    public void teadsAdWillStop() {
-
-    }
-
-    @Override
-    public void teadsAdDidStop() {
-
-    }
-
-    @Override
-    public void teadsAdDidResume() {
-
-    }
-
-    @Override
-    public void teadsAdDidPause() {
-
-    }
-
-    @Override
-    public void teadsAdDidMute() {
-
-    }
-
-    @Override
-    public void teadsAdDidUnmute() {
-
-    }
-
-    @Override
-    public void teadsAdDidOpenInternalBrowser() {
-
-    }
-
-    @Override
-    public void teadsAdDidClickBrowserClose() {
-
-    }
-
-    @Override
-    public void teadsAdWillTakerOverFullScreen() {
-
-    }
-
-    @Override
-    public void teadsAdDidTakeOverFullScreen() {
-
-    }
-
-    @Override
-    public void teadsAdWillDismissFullscreen() {
-
-    }
-
-    @Override
-    public void teadsAdDidDismissFullscreen() {
-
-    }
-
-    @Override
-    public void teadsAdSkipButtonTapped() {
-
-    }
-
-    @Override
-    public void teadsAdSkipButtonDidShow() {
-
-    }
-
-    @Override
-    public void teadsAdWillExpand() {
-
-    }
-
-    @Override
-    public void teadsAdDidExpand() {
-
-    }
-
-    @Override
-    public void teadsAdWillCollapse() {
-
-    }
-
-    @Override
-    public void teadsAdDidCollapse() {
-
-    }
-
-    @Override
-    public void teadsAdDidClean() {
-
-    }
-
-    @Override
-    public void teadsAdNoSlotAvailable() {
-
-    }
-
-
-    /*----------------------------------------
-    * implements DrawerLayout.DrawerListener
-    */
-
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-    }
-
-    @Override
-    public void onDrawerOpened(View drawerView) {
-        mTeadsAd.requestPause();
-    }
-
-    @Override
-    public void onDrawerClosed(View drawerView) {
-        mTeadsAd.requestResume();
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
-    }
-
 }

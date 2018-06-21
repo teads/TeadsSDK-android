@@ -5,19 +5,19 @@
     <string name="drawer_close">Close drawer menu</string>
 
     <string name="didfail">Teads Ad Format failed</string>
+    <string name="didfail_playback">Teads Ad playback failed</string>
 
 
     <string name="action_settings">Settings</string>
     <string name="action_pid">Change pid</string>
     <string name="action_webviewurl">Change WebView url</string>
-    <string name="action_endscreen_mode">Change Endscreen mode</string>
 
 
     <string name="type_video">VIDEO</string>
     <string name="type_videoview">TEADSVIEW</string>
 
     <string name="format_inread">inRead</string>
-    <string name="format_inreadtop">inRead Top</string>
+    <string name="format_custom_ad">Custom Ad</string>
     <string name="format_adfactory">AdFactory</string>
     <string name="format_videoview_simple">Simple TeadsView in ScrollView</string>
     <string name="format_videoview_recyclerview">TeadsView in RecyclerView</string>

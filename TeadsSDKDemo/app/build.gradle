@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion projectSdkVersion
 
     String sufixBaseName = ""
 
@@ -12,19 +11,16 @@ android {
 
     defaultConfig {
         applicationId "tv.teads.teadssdkdemo"
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 108
-        versionName "2.5.11"
+        minSdkVersion libraryMinSdkVersion
+        targetSdkVersion libraryTargetSdkVersion
+        versionCode libraryVersionCode
+        versionName libraryVersion
+        buildToolsVersion projectBuildToolsVersion
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        releaseSigned {
-            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -35,24 +31,24 @@ repositories {
     maven {
         url "http://dl.bintray.com/teads/TeadsSDK-android"
     }
-}
-
-ext {
-    supportLibraryVersion = '25.3.1'
+    maven {
+        url "https://maven.google.com"
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$supportLibraryVersion"
-    compile "com.android.support:design:$supportLibraryVersion"
-    compile 'com.google.android.gms:play-services-basement:10.2.0'
-    compile 'com.google.android.gms:play-services-location:10.2.0'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:cardview-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'org.greenrobot:eventbus:3.0.0'
     // Teads SDK
-    compile('tv.teads.sdk:androidsdk:2.5.11:fullRelease@aar') {
+    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
         transitive = true
     }
+    implementation project(':webviewhelper')
 }
