@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+/*
+ * Copyright (c) Teads 2018.
+ */
+
+>>>>>>> origin/update_to_sdk_V4
 package tv.teads.webviewhelper;
 
 import android.util.Log;

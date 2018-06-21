@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Teads 2017.
+ * Copyright (c) Teads 2018.
  */
 
 package tv.teads.webviewhelper;
@@ -82,6 +82,10 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
             @Override
             public void run() {
                 ViewGroup webViewParent = (ViewGroup) mWebview.getParent();
+                if (webViewParent == null) {
+                    //The webview doesn't have a parent we can't add the ad
+                    return;
+                }
                 mContainer = new FrameLayout(mWebview.getContext());
                 mContainer.setLayoutParams(new ViewGroup.LayoutParams(mWebview.getLayoutParams()));
                 int webviewPosition = 0;
@@ -121,6 +125,12 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         mWebviewHelper.reset();
     }
 
+    /**
+     * Should be called when the rotation change
+     */
+    public void onConfigurationChanged() {
+        mWebviewHelper.askSlotPosition();
+    }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
      *
@@ -152,9 +162,11 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         mInitialY = top;
         mAdView.setTranslationY(mInitialY - mWebview.getScrollY());
 
-        if (mAdView.getLayoutParams() != null && mAdView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+        if (mWebview != null
+                && mAdView.getLayoutParams() != null
+                && mAdView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ((ViewGroup.MarginLayoutParams) mAdView.getLayoutParams()).leftMargin = left;
-            mAdView.getLayoutParams().width = width;
+            ((ViewGroup.MarginLayoutParams) mAdView.getLayoutParams()).rightMargin = mWebview.getWidth() - width - left;
         }
     }
 

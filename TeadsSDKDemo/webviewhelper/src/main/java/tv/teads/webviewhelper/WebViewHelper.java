@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Teads 2017.
+ * Copyright (c) Teads 2018.
  */
 
 package tv.teads.webviewhelper;
@@ -27,13 +27,14 @@ class WebViewHelper implements JSInterface.Listener {
 
     private static final String TAG = WebViewHelper.class.getSimpleName();
 
-    private final static String INSERT_SLOT_JS = "javascript:window.utils.insertPlaceholder(%s);";
-    private final static String UPDATE_SLOT_JS = "javascript:window.utils.updatePlaceholder({" +
+    private final static String INSERT_SLOT_JS     = "javascript:window.utils.insertPlaceholder(%s);";
+    private final static String UPDATE_SLOT_JS     = "javascript:window.utils.updatePlaceholder({" +
             "'offsetHeight':%s," +
             "'ratioVideo':%s" +
             "});";
-    private final static String OPEN_SLOT_JS   = "javascript:window.utils.showPlaceholder();";
-    private final static String CLOSE_SLOT_JS  = "javascript:window.utils.hidePlaceholder();";
+    private final static String OPEN_SLOT_JS       = "javascript:window.utils.showPlaceholder();";
+    private final static String CLOSE_SLOT_JS      = "javascript:window.utils.hidePlaceholder();";
+    private final static String UPDATE_POSITION_JS = "javascript:window.utils.sendTargetGeometry();";
 
     private WebView mWebView;
 
@@ -138,6 +139,13 @@ class WebViewHelper implements JSInterface.Listener {
      */
     void reset() {
         mRequestSlotTimeout.cancel();
+    }
+
+    /**
+     * Notify the js to sent us the slot position, as answer it should call {@link #onSlotUpdated(int, int, int, int, float)}
+     */
+    void askSlotPosition() {
+        mMainThreadHandler.postDelayed(new LoadJSRunnable(mWebView, UPDATE_POSITION_JS), 200);
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////

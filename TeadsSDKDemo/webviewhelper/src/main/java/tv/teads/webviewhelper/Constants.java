@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Teads 2017.
+ * Copyright (c) Teads 2018.
  */
 
 package tv.teads.webviewhelper;
