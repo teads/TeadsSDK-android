@@ -1,10 +1,13 @@
 # Changelog
 
+v2.5.12
+- Bug fixes on custom integration
+
 v2.5.11
-- Improvements and bug fixs
+- Improvements and bug fixes
  
 v2.5.10
-- Improvements and bug fixs
+- Improvements and bug fixes
 
 v2.5.9
 - Add support for brandsafety. If you have news content in your app, you should use `teadsConfiguration.pageUrl = "https://news.com/myArticle";` where the url is you equivalent http url of your article. More information [here](https://mobile.teads.tv/sdk/documentation/android/integration/inread/scrollview#brand-safety). 
