@@ -11,7 +11,7 @@
 - 4.0.37 initial support for AdMob and Mopub + bug fixes
 - 4.0.39 improve memory management & other minor improvement
 - 4.0.40 minor improvement
-- 4.0.42 improve intern stability and delivery
+- 4.0.43 improve intern stability and delivery
 
 ----------
 ### Old version (SDK v2.x)
