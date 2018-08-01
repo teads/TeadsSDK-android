@@ -113,7 +113,7 @@
     <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: tv.teads.exoplayer:exoplayer-core-r2.4.3" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-compat-27.1.1" level="project" />
-    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:sdk-4.0.42" level="project" />
+    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:sdk-4.0.43" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.13.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: tv.teads.visdroid:library-1.4" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:viewmodel-1.1.0" level="project" />
@@ -123,13 +123,13 @@
     <orderEntry type="library" name="Gradle: com.android.support:support-core-utils-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-v4-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-fragment-27.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:network-4.0.43" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:runtime-1.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:network-4.0.42" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.greenrobot:eventbus:3.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.2@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:livedata-core-1.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:logger-4.0.42" level="project" />
+    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:logger-4.0.43" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.1.0" level="project" />
   </component>
