@@ -65,7 +65,7 @@ public class CustomAdScrollViewFragment extends BaseFragment {
         }
     }
 
-    private TeadsListener mTeadsListener = new TeadsListener(){
+    private final TeadsListener mTeadsListener = new TeadsListener(){
         @Override
         public void onAdFailedToLoad(AdFailedReason adFailedReason) {
             Toast.makeText(CustomAdScrollViewFragment.this.getActivity(), getString(R.string.didfail), Toast.LENGTH_SHORT).show();

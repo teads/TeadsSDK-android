@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -95,13 +94,14 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
     @Subscribe
     @SuppressWarnings("unused")
     public void onReloadEvent(ReloadEvent event) {
+        // Not used
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private TeadsListener mTeadsListener = new TeadsListener() {
+    private final TeadsListener mTeadsListener = new TeadsListener() {
 
         @Override
         public void onAdFailedToLoad(AdFailedReason adFailedReason) {
@@ -143,15 +143,10 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
 
     private class CustomWebviewClient extends WebViewClient {
 
-        private SyncWebViewTeadsAdView webviewHelperSynch;
+        private final SyncWebViewTeadsAdView webviewHelperSynch;
 
         private CustomWebviewClient(SyncWebViewTeadsAdView webviewHelperSynch) {
             this.webviewHelperSynch = webviewHelperSynch;
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return super.shouldOverrideUrlLoading(view, request);
         }
 
         @Override

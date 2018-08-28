@@ -78,6 +78,14 @@
             android:layout_height="wrap_content"
             android:text="@string/container_webview"/>
 
+        <Button
+            android:id="@+id/exampleButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/example"/>
+
         <TextView
             android:id="@+id/settings"
             style="@style/TextTitle"

@@ -91,7 +91,7 @@ public class CustomAdRecyclerViewFragment extends BaseFragment {
         }
     }
 
-    private TeadsListener mTeadsListener = new TeadsListener(){
+    private final TeadsListener mTeadsListener = new TeadsListener(){
 
         @Override
         public void onAdFailedToLoad(AdFailedReason adFailedReason) {

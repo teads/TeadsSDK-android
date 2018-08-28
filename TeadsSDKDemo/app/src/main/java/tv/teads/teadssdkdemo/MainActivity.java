@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tv.teads.teadssdkdemo.format.example.ExampleFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
@@ -36,12 +38,12 @@ import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String LOG_TAG = "MainActivity";
+    private static final String LOG_TAG = "MainActivity";
 
-    public static final String SHAREDPREF_PID             = "sp_pid";
-    public static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
-    public static final int    SHAREDPREF_PID_DEFAULT     = 84242;
-    public static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://sample.teads.net/demo/sdk/demo.html";
+    private static final String SHAREDPREF_PID             = "sp_pid";
+    private static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
+    private static final int    SHAREDPREF_PID_DEFAULT     = 84242;
+    private static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://sample.teads.net/demo/sdk/demo.html";
 
     private DrawerLayout                mDrawerLayout;
 
@@ -209,11 +211,17 @@ public class MainActivity extends AppCompatActivity {
         changeFragment(new CustomAdWebViewFragment());
     }
 
+    @OnClick(R.id.exampleButton)
+    public void example() {
+        changeFragment(new ExampleFragment());
+    }
+
+    @SuppressLint("SetTextI18n")
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
-        View           view  = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText input = view.findViewById(R.id.pidEditText);
+        @SuppressLint("InflateParams") View view  = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText                      input = view.findViewById(R.id.pidEditText);
         input.setText(Integer.toString(getPid(this)));
         input.setLines(1);
         input.setSingleLine(true);
@@ -252,8 +260,8 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        View           view  = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
-        final EditText input = view.findViewById(R.id.webViewEditText);
+        @SuppressLint("InflateParams") View view  = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
+        final EditText                      input = view.findViewById(R.id.webViewEditText);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)

@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo.format.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,10 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     private static final int TYPE_TEADS = 0;
     private static final int TYPE_TEXT  = 1;
-    private int mPid;
-    private int mAdPosition;
+    private final int mPid;
+    private final int mAdPosition;
 
-    private List<String> mDataset;
+    private final List<String> mDataset;
 
     private InReadAdView mAdView;
 
@@ -38,23 +39,23 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         return position == mAdPosition ? TYPE_TEADS : TYPE_TEXT;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_TEADS:
                 mAdView = new InReadAdView(parent.getContext());
                 mAdView.setPid(mPid);
                 return new ViewHolderTeadsAd(mAdView);
             case TYPE_TEXT:
+            default:
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
                 return new ViewHolderDemo(v);
-            default:
-                return null;
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case TYPE_TEADS:
                 ViewHolderTeadsAd vh = (ViewHolderTeadsAd) holder;
@@ -62,8 +63,8 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 break;
             case TYPE_TEXT:
                 ((ViewHolderDemo) holder).textView.setText(mDataset.get(position > mAdPosition && mAdPosition > 0 ?
-                                                                          position - 1 :
-                                                                          position));
+                                                                                position - 1 :
+                                                                                position));
                 break;
         }
     }
@@ -80,7 +81,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     private class ViewHolderTeadsAd extends RecyclerView.ViewHolder {
-        private InReadAdView adView;
+        private final InReadAdView adView;
 
         private ViewHolderTeadsAd(View view) {
             super(view);
@@ -89,7 +90,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     private class ViewHolderDemo extends RecyclerView.ViewHolder {
-        private TextView textView;
+        private final TextView textView;
 
         private ViewHolderDemo(View view) {
             super(view);

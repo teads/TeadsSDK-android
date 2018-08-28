@@ -17,8 +17,10 @@ public abstract class BaseFragment extends Fragment {
      *
      * @return the pid
      */
-    public int getPid() {
-        return ((MainActivity) getActivity()).getPid(this.getActivity());
+    protected int getPid() {
+        MainActivity activity = (MainActivity) getActivity();
+        if(activity == null) return 0;
+        return activity.getPid(this.getActivity());
     }
 
     /**
@@ -27,7 +29,9 @@ public abstract class BaseFragment extends Fragment {
      * @return an url
      */
     public String getWebViewUrl() {
-        return ((MainActivity) getActivity()).getWebViewUrl(this.getActivity());
+        MainActivity activity = (MainActivity) getActivity();
+        if(activity == null) return "";
+        return activity.getWebViewUrl(this.getActivity());
     }
 
     @Override

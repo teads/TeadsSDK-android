@@ -28,6 +28,7 @@
     <string name="container_recyclerview">RecyclerView</string>
     <string name="container_webview">WebView</string>
     <string name="container_viewpager">ViewPager</string>
+    <string name="example">Additional sample</string>
     <string name="title_activity_main">MainActivity</string>
 
 
@@ -56,5 +57,6 @@
     </string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
+    <string name="programmatically_example">Programmatically example</string>
 
 </resources>
