@@ -13,6 +13,7 @@
 - 4.0.40 minor improvement
 - 4.0.43 improve intern stability and delivery
 - 4.0.44 reduce memory usage on new instance, improve internal mechanism and third party compatibility
+- 4.0.45 improvements and bug fixes
 
 ----------
 ### Old version (SDK v2.x)
