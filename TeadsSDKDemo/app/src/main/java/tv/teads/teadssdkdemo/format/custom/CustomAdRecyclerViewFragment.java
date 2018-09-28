@@ -80,7 +80,7 @@ public class CustomAdRecyclerViewFragment extends BaseFragment {
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new SimpleRecyclerViewAdapter(data, getPid(), -1));
+        recyclerView.setAdapter(new SimpleRecyclerViewAdapter(getActivity(), data, getPid(), -1));
     }
 
     @Subscribe

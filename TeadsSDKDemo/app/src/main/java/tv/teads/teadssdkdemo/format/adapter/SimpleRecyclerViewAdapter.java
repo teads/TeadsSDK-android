@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo.format.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,10 +29,14 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     private InReadAdView mAdView;
 
-    public SimpleRecyclerViewAdapter(List<String> dataset, int pid, int adPosition) {
+    public SimpleRecyclerViewAdapter(Context context, List<String> dataset, int pid, int adPosition) {
         mPid = pid;
         mAdPosition = adPosition;
         mDataset = dataset;
+        mAdView = new InReadAdView(context);
+        mAdView.setPid(mPid);
+        mAdView.enableDebug();
+        mAdView.load();
     }
 
     @Override
@@ -44,8 +49,6 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_TEADS:
-                mAdView = new InReadAdView(parent.getContext());
-                mAdView.setPid(mPid);
                 return new ViewHolderTeadsAd(mAdView);
             case TYPE_TEXT:
             default:
@@ -58,8 +61,7 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case TYPE_TEADS:
-                ViewHolderTeadsAd vh = (ViewHolderTeadsAd) holder;
-                vh.adView.load();
+                // loading is already done before hand
                 break;
             case TYPE_TEXT:
                 ((ViewHolderDemo) holder).textView.setText(mDataset.get(position > mAdPosition && mAdPosition > 0 ?

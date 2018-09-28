@@ -58,7 +58,7 @@ public class InReadRecyclerViewFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new SimpleRecyclerViewAdapter(data, getPid(), 10);
+        mAdapter = new SimpleRecyclerViewAdapter(getContext(), data, getPid(), 10);
         recyclerView.setAdapter(mAdapter);
     }
 

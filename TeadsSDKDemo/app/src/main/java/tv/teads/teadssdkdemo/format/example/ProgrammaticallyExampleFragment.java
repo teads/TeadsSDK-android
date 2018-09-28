@@ -41,6 +41,7 @@ public class ProgrammaticallyExampleFragment extends BaseFragment {
         FrameLayout container = view.findViewById(R.id.teadsContainer);
 
         mAdView = new CustomAdView(getContext());
+        mAdView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT));
 
         // Instanciate Teads Ad in inReadTop format
         mAdView.setPid(getPid());
