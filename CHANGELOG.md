@@ -15,6 +15,7 @@
 - 4.0.44 reduce memory usage on new instance, improve internal mechanism and third party compatibility
 - 4.0.45 improvements and bug fixes
 - 4.0.46 improvements
+- 4.0.47 add user consent feature in AdSettings
 
 ----------
 ### Old version (SDK v2.x)
