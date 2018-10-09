@@ -29,7 +29,7 @@ dependencies {
 
 
 ## Integration Documentation
-Integration instructions are available on [Teads SDK Documentation](http://mobile.teads.tv/sdk/documentation/beta).
+Integration instructions are available on [Teads SDK Documentation](https://mobile.teads.tv/sdk/documentation/v4).
 
 ## Changelog
 
