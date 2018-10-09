@@ -34,14 +34,6 @@
             android:text="@string/container_scrollview"/>
 
         <Button
-            android:id="@+id/inread_listview"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:text="@string/container_listview"/>
-
-        <Button
             android:id="@+id/inread_recyclerview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
@@ -59,49 +51,40 @@
 
 
         <TextView
-            android:id="@+id/inreadtop_parent"
+            android:id="@+id/custom_parent"
             style="@style/TextSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/format_inreadtop"/>
+            android:text="@string/format_custom_ad"/>
 
         <Button
-            android:id="@+id/inreadtop_scrollview"
+            android:id="@+id/custom_scrollview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/container_scrollview"/>
 
         <Button
-            android:id="@+id/inreadtop_listview"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/container_listview"/>
-
-        <Button
-            android:id="@+id/inreadtop_recyclerview"
+            android:id="@+id/custom_recyclerview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/container_recyclerview"/>
 
         <Button
-            android:id="@+id/inreadtop_webview"
+            android:id="@+id/custom_webview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/container_webview"/>
 
-
         <Button
-            android:id="@+id/adview"
-            style="@style/TextTitle"
+            android:id="@+id/exampleButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/type_videoview"/>
-
+            android:text="@string/example"/>
 
         <TextView
             android:id="@+id/settings"
@@ -113,53 +96,18 @@
         <TextView
             android:id="@+id/action_pid"
             style="@style/TextSubTitle"
-            android:background="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:text="@string/action_pid"/>
 
         <TextView
             android:id="@+id/action_webviewurl"
             style="@style/TextSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/action_webviewurl"/>
-
-        <TextView
-            style="@style/TextSubTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_endscreen_mode"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/button_margin_material"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/button_margin_material"
-                android:layout_marginRight="@dimen/button_margin_material"
-                android:text="@string/dark"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/action_endscreen_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/button_margin_material"
-                android:layout_marginStart="@dimen/button_margin_material"
-                android:text="@string/light"/>
-
-        </LinearLayout>
-
 
     </LinearLayout>
 

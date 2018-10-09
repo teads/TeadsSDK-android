@@ -1,5 +1,7 @@
 package tv.teads.teadssdkdemo.format.adapter;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import tv.teads.sdk.adContainer.adapter.TeadsNotify;
-import tv.teads.sdk.publisher.TeadsRecyclerViewAdapter;
+import tv.teads.sdk.android.InReadAdView;
 import tv.teads.teadssdkdemo.R;
 
 /**
@@ -17,79 +18,85 @@ import tv.teads.teadssdkdemo.R;
  * <p/>
  * Created by Hugo Gresse on 08/07/15.
  */
-public class SimpleRecyclerViewAdapter extends TeadsRecyclerViewAdapter<SimpleRecyclerViewAdapter.ViewHolderDemo> {
+public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> mDataset;
-    private RecyclerView mRecyclerView;
+    private static final int TYPE_TEADS = 0;
+    private static final int TYPE_TEXT  = 1;
+    private final int mPid;
+    private final int mAdPosition;
 
-    public SimpleRecyclerViewAdapter(List<String> dataset, RecyclerView recyclerView) {
+    private final List<String> mDataset;
+
+    private InReadAdView mAdView;
+
+    public SimpleRecyclerViewAdapter(Context context, List<String> dataset, int pid, int adPosition) {
+        mPid = pid;
+        mAdPosition = adPosition;
         mDataset = dataset;
-        mRecyclerView = recyclerView;
+        mAdView = new InReadAdView(context);
+        mAdView.setPid(mPid);
+        mAdView.enableDebug();
+        mAdView.load();
     }
 
     @Override
-    public ViewHolderDemo teadsOnCreateViewHolder(ViewGroup viewGroup, int position) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, viewGroup, false);
-        return new ViewHolderDemo(v);
+    public int getItemViewType(int position) {
+        return position == mAdPosition ? TYPE_TEADS : TYPE_TEXT;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_TEADS:
+                return new ViewHolderTeadsAd(mAdView);
+            case TYPE_TEXT:
+            default:
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
+                return new ViewHolderDemo(v);
+        }
     }
 
     @Override
-    public void teadsOnBindViewHolder(ViewHolderDemo viewHolderDemo, int position) {
-        final String name = mDataset.get(position);
-
-        viewHolderDemo.textView.setText(name);
-        viewHolderDemo.textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(name);
-            }
-        });
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        switch (holder.getItemViewType()) {
+            case TYPE_TEADS:
+                // loading is already done before hand
+                break;
+            case TYPE_TEXT:
+                ((ViewHolderDemo) holder).textView.setText(mDataset.get(position > mAdPosition && mAdPosition > 0 ?
+                                                                                position - 1 :
+                                                                                position));
+                break;
+        }
     }
 
     @Override
-    public int teadsGetItemCount() {
-        return mDataset.size();
+    public int getItemCount() {
+        return mDataset.size() + (mAdPosition >= 0 ? 1 : 0);
     }
 
-    public void remove(String name) {
-        int index = mDataset.indexOf(name);
-        mDataset.remove(mDataset.indexOf(name));
-        ((TeadsNotify) mRecyclerView.getAdapter()).teadsNotifyItemRemoved(index);
+    public void reloadAd() {
+        if (mAdView != null) {
+            mAdView.load();
+        }
     }
 
-    /**
-     * This is the base RecyclerView Adapter methods that TeadsRecyclerViewAdapter is replacing
-     */
-//    @Override
-//    public ViewHolderDemo onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
-//        return new ViewHolderDemo(v);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(ViewHolderDemo holder, int position) {
-//        final String name = mDataset.get(position);
-//
-//        holder.textView.setText(name);
-//        holder.textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                remove(name);
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return mDataset.size();
-//    }
+    private class ViewHolderTeadsAd extends RecyclerView.ViewHolder {
+        private final InReadAdView adView;
 
-    public class ViewHolderDemo extends RecyclerView.ViewHolder {
-        public TextView textView;
-
-        public ViewHolderDemo(View view) {
+        private ViewHolderTeadsAd(View view) {
             super(view);
-            textView = (TextView) view.findViewById(R.id.listViewText);
+            adView = (InReadAdView) view;
+        }
+    }
+
+    private class ViewHolderDemo extends RecyclerView.ViewHolder {
+        private final TextView textView;
+
+        private ViewHolderDemo(View view) {
+            super(view);
+            textView = view.findViewById(R.id.listViewText);
         }
     }
 }

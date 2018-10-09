@@ -12,7 +12,7 @@ import android.support.v4.app.Fragment;
 public class ChangeFragmentEvent {
 
     @NonNull
-    public Fragment mFragment;
+    public final Fragment mFragment;
 
     public ChangeFragmentEvent(@NonNull Fragment fragment) {
         mFragment = fragment;
