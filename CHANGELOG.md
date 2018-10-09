@@ -6,3 +6,7 @@
 - New logic behind the hood to reduce SDK update count
 - Official mediation adapter for AdMob and MoPub
 - GDPR compliant
+
+-------
+
+[v2 Changelog here](https://github.com/teads/TeadsSDK-android/blob/v2.5.12/CHANGELOG.md)
