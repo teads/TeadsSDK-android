@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
@@ -15,18 +15,18 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
     }
 
     ext {
         // Libraries
         groupId = "tv.teads.sdk.android"
-        libraryVersionCode = 47
-        libraryVersion = "4.0.47"
+        libraryVersionCode = 48
+        libraryVersion = "4.1.0"
 
         //Global configurations
-        projectBuildToolsVersion = '27.0.3'
+        projectBuildToolsVersion = '28.0.2'
         projectSdkVersion = 26
         libraryMinSdkVersion = 16
         libraryTargetSdkVersion = 26 // To allow other app to be compatible until 24
