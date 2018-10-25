@@ -58,5 +58,6 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="programmatically_example">Programmatically example</string>
+    <string name="admob">AdMob Mediation</string>
 
 </resources>

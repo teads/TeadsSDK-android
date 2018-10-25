@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.teadssdkdemo.R;
+import tv.teads.teadssdkdemo.format.mediation.AdMobBannerFragment;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
@@ -32,6 +33,11 @@ public class ExampleFragment extends BaseFragment {
     @OnClick(R.id.programmaticallyExampleButton)
     public void programmaticalyExample() {
         EventBus.getDefault().post(new ChangeFragmentEvent(new ProgrammaticallyExampleFragment()));
+    }
+
+    @OnClick(R.id.admobButton)
+    public void adMobExample() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new AdMobBannerFragment()));
     }
 
     @Subscribe
