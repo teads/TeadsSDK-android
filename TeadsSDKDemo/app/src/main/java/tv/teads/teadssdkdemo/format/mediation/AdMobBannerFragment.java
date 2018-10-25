@@ -27,7 +27,7 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent;
  */
 public class AdMobBannerFragment extends BaseFragment {
 
-    // This is is should be replaced by your own AdMob application and ad block ids
+    // FIXME This ids should be replaced by your own AdMob application and ad block ids
     public static final String ADMOB_TEADS_APP_ID = "ca-app-pub-3570580224725271~3869556230";
     public static final String ADMOB_TEADS_BANNER_ID = "ca-app-pub-3570580224725271/1481793511";
 
@@ -66,18 +66,18 @@ public class AdMobBannerFragment extends BaseFragment {
 
             @Override
             public void onAdOpened() {
-                // Nothing to do
+                // Nothing to do for Teads
             }
 
             @Override
             public void onAdLeftApplication() {
-                // Nothing to do
+                // Nothing to do for Teads
             }
 
             @Override
 
             public void onAdClosed() {
-                // Nothing to do
+                // Nothing to do for Teads
             }
         });
 
@@ -86,7 +86,7 @@ public class AdMobBannerFragment extends BaseFragment {
                                               // Needed by european regulation
                                               // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
                                               .userConsent("1", "0001")
-                                              // The article url if you are a news publisher
+                                              // The article url if you are a news publisher to increase your earnings
                                               .pageUrl("https://page.com/article1/")
                                               .build();
         AdRequest adRequest = new AdRequest.Builder()
