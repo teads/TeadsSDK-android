@@ -46,13 +46,13 @@ public class AdMobBannerFragment extends BaseFragment {
         // 1. Init AdMob (could be done in your Application class)
         MobileAds.initialize(getContext(), ADMOB_TEADS_APP_ID);
 
-        // 2.Create AdMob viewa nd add it to hierarchy
+        // 2. Create AdMob view and add it to hierarchy
         AdView adView = new AdView(view.getContext());
         adView.setAdUnitId(ADMOB_TEADS_BANNER_ID);
         adView.setAdSize(AdSize.MEDIUM_RECTANGLE);
         mBannerAdFrame.addView(adView);
 
-        // 3. Attach listener (will include Teads callbacks)
+        // 3. Attach listener (will include Teads events)
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -81,7 +81,7 @@ public class AdMobBannerFragment extends BaseFragment {
             }
         });
 
-        // 4. Load a new ad (this will call AdMob that will and Teads afterward)
+        // 4. Load a new ad (this will call AdMob and Teads afterward)
         TeadsAdNetworkExtras extras = new TeadsAdNetworkExtras.Builder()
                                               // Needed by european regulation
                                               // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
