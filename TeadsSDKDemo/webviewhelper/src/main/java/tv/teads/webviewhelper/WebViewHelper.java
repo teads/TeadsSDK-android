@@ -15,6 +15,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.webkit.WebView;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -77,23 +78,31 @@ class WebViewHelper implements JSInterface.Listener {
      */
     void injectJS(Context context) {
         if (mWebView != null && context != null) {
+            InputStream inputStream = null;
             try {
-                InputStream inputStream = context.getAssets().open("bootstrap.js");
+                inputStream = context.getAssets().open("bootstrap.js");
                 byte[] buffer = new byte[inputStream.available()];
                 //noinspection ResultOfMethodCallIgnored
                 inputStream.read(buffer);
-                inputStream.close();
                 String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
                 mWebView.loadUrl("javascript:(function() {" +
-                        "var scriptElement = document.getElementById('teadsbootstrap');" +
-                        " if(scriptElement) scriptElement.remove();" +
-                        " var script = document.createElement('script');" +
-                        "script.innerHTML = window.atob('" + encoded + "');" +
-                        "script.setAttribute('id', 'teadsbootstrap');" +
-                        "script.setAttribute('type', 'text/javascript');" +
-                        " document.body.appendChild(script);})()");
+                                         "var scriptElement = document.getElementById('teadsbootstrap');" +
+                                         " if(scriptElement) scriptElement.remove();" +
+                                         " var script = document.createElement('script');" +
+                                         "script.innerHTML = window.atob('" + encoded + "');" +
+                                         "script.setAttribute('id', 'teadsbootstrap');" +
+                                         "script.setAttribute('type', 'text/javascript');" +
+                                         " document.body.appendChild(script);})()");
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
