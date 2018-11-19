@@ -40,6 +40,11 @@ public class ExampleFragment extends BaseFragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new AdMobBannerFragment()));
     }
 
+    @OnClick(R.id.webviewWrapButton)
+    public void webViewWrapExample() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new InReadWebViewWrapFragment()));
+    }
+
     @Subscribe
     public void onReloadEvent(ReloadEvent event){
         // do nothing

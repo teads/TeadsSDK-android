@@ -109,7 +109,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
 
                 mContainer.addView(mAdView);
 
-                webViewParent.addView(mContainer);
+                webViewParent.addView(mContainer, webviewPosition);
                 mListener.onHelperReady();
             }
         });
