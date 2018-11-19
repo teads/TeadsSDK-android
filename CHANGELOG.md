@@ -2,7 +2,7 @@
 
 ### v4.1.1
 _2018-11-19_
-- fix `CustomAdView` & `InReadAdView` sate restoration
+- fix `CustomAdView` & `InReadAdView` state restoration
 - fix `onAdVolumeChange` not fired on `TeadsListener` 
 
 ### v4.1.0
