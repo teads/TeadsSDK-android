@@ -42,6 +42,14 @@
             android:text="@string/container_recyclerview"/>
 
         <Button
+            android:id="@+id/inread_repeatable_recyclerview"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:text="@string/container_recycler_repeatable"/>
+
+        <Button
             android:id="@+id/inread_webview"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
@@ -81,9 +89,9 @@
         <Button
             android:id="@+id/exampleButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:text="@string/example"/>
 
         <TextView
