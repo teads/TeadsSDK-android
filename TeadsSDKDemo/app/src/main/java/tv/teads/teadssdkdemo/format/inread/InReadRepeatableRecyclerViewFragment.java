@@ -49,7 +49,7 @@ public class InReadRepeatableRecyclerViewFragment extends BaseFragment {
     private void setRecyclerViewAdapter(RecyclerView recyclerView) {
         ArrayList<String> data = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
             data.add("Teads " + i);
         }
 
