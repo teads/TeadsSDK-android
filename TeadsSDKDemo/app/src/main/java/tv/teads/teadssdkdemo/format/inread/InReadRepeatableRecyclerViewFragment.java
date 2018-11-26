@@ -18,6 +18,8 @@ import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 
 /**
+ * Display the same inRead in different position inside a same recycler view thanks to
+ * {@link RepeatableRecyclerViewAdapter}
  * Created by Benjamin Volland on 22/11/2018.
  */
 public class InReadRepeatableRecyclerViewFragment extends BaseFragment {
@@ -47,7 +49,7 @@ public class InReadRepeatableRecyclerViewFragment extends BaseFragment {
     private void setRecyclerViewAdapter(RecyclerView recyclerView) {
         ArrayList<String> data = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             data.add("Teads " + i);
         }
 

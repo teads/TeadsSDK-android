@@ -14,12 +14,15 @@ import tv.teads.sdk.android.InReadAdView;
 import tv.teads.teadssdkdemo.R;
 
 /**
+ * Manage a repeatable ad for a Recycler view,
+ * It will display the same ad view every {@link RepeatableRecyclerViewAdapter#AD_INTERVAL} items
  * Created by Benjamin Volland on 22/11/2018.
  */
 public class RepeatableRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TYPE_TEADS = 0;
-    private static final int TYPE_TEXT  = 1;
+    private static final int TYPE_TEADS  = 0;
+    private static final int TYPE_TEXT   = 1;
+    private static final int AD_INTERVAL = 10;
 
     private final List<String> mDataset;
 
@@ -35,7 +38,7 @@ public class RepeatableRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public int getItemViewType(int position) {
-        return position == 10 || position == 20 || position == 30 ? TYPE_TEADS : TYPE_TEXT;
+        return position % AD_INTERVAL == 9 ? TYPE_TEADS : TYPE_TEXT;
     }
 
     @NonNull
@@ -65,7 +68,7 @@ public class RepeatableRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public int getItemCount() {
-        return mDataset.size() + (mDataset.size() > 30 ? 3 : mDataset.size() > 20 ? 2 : mDataset.size() > 10 ? 1 : 0);
+        return mDataset.size() + mDataset.size() / AD_INTERVAL;
     }
 
     public void reloadAd() {
