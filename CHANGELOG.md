@@ -1,5 +1,11 @@
 # Changelog
 
+### v4.1.2
+_2018-12-06_
+- Disable SDK for API under 19
+- Fix ad view player size
+- Improve performances
+
 ### v4.1.1
 _2018-11-19_
 - fix `CustomAdView` & `InReadAdView` state restoration
