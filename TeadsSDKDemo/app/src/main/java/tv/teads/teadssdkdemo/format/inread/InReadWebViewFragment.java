@@ -130,9 +130,10 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void onHelperReady() {
+    public void onHelperReady(@NonNull ViewGroup adContainer) {
         //The helper is ready we can now load the ad
         if (mAdView != null) {
+            mAdView.setAdContainerView(adContainer);
             mAdView.load();
         }
     }
