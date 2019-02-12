@@ -39,7 +39,6 @@ public class SimpleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         mPid = pid;
         mAdPosition = adPosition;
         mDataset = dataset;
-        mAdContainer = new FrameLayout(context);
         mAdView = new InReadAdView(context);
         mAdView.setPid(mPid);
         mAdView.enableDebug();
