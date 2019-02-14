@@ -28,11 +28,17 @@ public class InReadScrollViewFragment extends BaseFragment {
      */
     private InReadAdView mAdView;
 
+    /**
+     *  Your ad container
+     */
+    private ViewGroup mAdContainer;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inread_scrollview, container, false);
         mAdView = rootView.findViewById(R.id.teads_ad_view);
+        mAdContainer = rootView.findViewById(R.id.adContainer);
         return rootView;
     }
 
@@ -42,6 +48,7 @@ public class InReadScrollViewFragment extends BaseFragment {
         // Instanciate Teads Ad in inReadTop format
         mAdView.setPid(getPid());
         mAdView.setListener(mTeadsListener);
+        mAdView.setAdContainerView(mAdContainer);
         mAdView.load();
     }
 
@@ -58,6 +65,7 @@ public class InReadScrollViewFragment extends BaseFragment {
     @SuppressWarnings("unused")
     public void onReloadEvent(ReloadEvent event) {
         if (mAdView != null) {
+            mAdView.setAdContainerView(mAdContainer);
             mAdView.load();
         }
     }

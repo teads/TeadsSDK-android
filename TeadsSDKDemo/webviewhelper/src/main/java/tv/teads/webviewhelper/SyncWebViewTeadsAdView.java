@@ -7,6 +7,7 @@ package tv.teads.webviewhelper;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -110,7 +111,7 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
                 mContainer.addView(mAdView);
 
                 webViewParent.addView(mContainer, webviewPosition);
-                mListener.onHelperReady();
+                mListener.onHelperReady(mContainer);
             }
         });
 
@@ -227,6 +228,6 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         /**
          * Called when the adview has been ready to be used
          */
-        void onHelperReady();
+        void onHelperReady(@NonNull ViewGroup adContainer);
     }
 }
