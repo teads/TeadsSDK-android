@@ -4,6 +4,8 @@
 .idea/misc.xml
 /.idea/libraries
 .DS_Store
+*.iml
+/.idea/caches
 /build
 .apk
 app/app.iml

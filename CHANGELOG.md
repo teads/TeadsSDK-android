@@ -1,5 +1,15 @@
 # Changelog
 
+### v4.2.0
+_2019-02-14_
+- Add the method `setAdContainerView` in the InReadAdView to provide the ad container View to Teads in order to provide accurate stats and optimize your revenue
+- Add aditionnal log in the logcat to help find if the ad is hidden by an overlay and doesn’t start
+- Improve VPAID performances
+- Expose SDK version
+- Fix and minors improvements
+
+**Breaking change: The `InReadAdView#setAdContainerView` need to be implemented to have correct AdCall metrics**
+
 ### v4.1.2
 _2018-12-06_
 - Disable SDK for API under 19

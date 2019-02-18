@@ -88,6 +88,7 @@ public class AdMobBannerFragment extends BaseFragment {
                                               .userConsent("1", "0001")
                                               // The article url if you are a news publisher to increase your earnings
                                               .pageUrl("https://page.com/article1/")
+                                              .adContainerId(mBannerAdFrame.getId())
                                               .build();
         AdRequest adRequest = new AdRequest.Builder()
                                       .addCustomEventExtrasBundle(TeadsAdapter.class, extras.getExtras())

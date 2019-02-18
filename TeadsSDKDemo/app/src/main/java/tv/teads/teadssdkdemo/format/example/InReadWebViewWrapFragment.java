@@ -131,9 +131,10 @@ public class InReadWebViewWrapFragment extends BaseFragment implements SyncWebVi
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void onHelperReady() {
+    public void onHelperReady(@NonNull ViewGroup adContainer) {
         //The helper is ready we can now load the ad
         if (mAdView != null) {
+            mAdView.setAdContainerView(adContainer);
             mAdView.load(new AdSettings.Builder().pageUrl("https://example.com/article1").build());
         }
     }
