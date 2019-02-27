@@ -180,6 +180,13 @@ public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,
         if (ratio != null) {
             mWebviewHelper.updateSlot(ratio, 0);
         }
+
+        // After updating the slot the WebView height is not correct, hidding some content in the WebView
+        mWebview.postDelayed(new Runnable() {
+            public void run() {
+                    mWebview.requestLayout();
+            }
+        }, 300);
     }
 
     /**
