@@ -1,5 +1,10 @@
 # Changelog
 
+### v4.2.1
+_2019-03-05_
+- New `closeFullscreen` API 
+- Fix and minors improvements
+
 ### v4.2.0
 _2019-02-14_
 - Add the method `setAdContainerView` in the InReadAdView to provide the ad container View to Teads in order to provide accurate stats and optimize your revenue
