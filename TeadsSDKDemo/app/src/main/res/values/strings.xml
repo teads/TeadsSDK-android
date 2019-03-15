@@ -29,6 +29,7 @@
     <string name="container_webview">WebView</string>
     <string name="container_viewpager">ViewPager</string>
     <string name="container_recycler_repeatable">Repeatable</string>
+    <string name="container_recycler_repeatable_mopub">MoPub Banneer Repeatable</string>
     <string name="example">Additional sample</string>
     <string name="title_activity_main">MainActivity</string>
 
