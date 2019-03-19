@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.format.mediation.AdMobBannerFragment;
+import tv.teads.teadssdkdemo.format.mediation.MoPubRepeatableFragment;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
@@ -35,14 +36,19 @@ public class ExampleFragment extends BaseFragment {
         EventBus.getDefault().post(new ChangeFragmentEvent(new ProgrammaticallyExampleFragment()));
     }
 
-    @OnClick(R.id.admobButton)
-    public void adMobExample() {
-        EventBus.getDefault().post(new ChangeFragmentEvent(new AdMobBannerFragment()));
+    @OnClick(R.id.mopubButton)
+    public void mopubExample() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new MoPubRepeatableFragment()));
     }
 
     @OnClick(R.id.webviewWrapButton)
     public void webViewWrapExample() {
         EventBus.getDefault().post(new ChangeFragmentEvent(new InReadWebViewWrapFragment()));
+    }
+
+    @OnClick(R.id.admobButton)
+    public void adMobExample() {
+        EventBus.getDefault().post(new ChangeFragmentEvent(new AdMobBannerFragment()));
     }
 
     @Subscribe

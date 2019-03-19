@@ -29,6 +29,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:text="@string/container_recycler_repeatable_mopub"
+            android:id="@+id/mopubButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </ScrollView>

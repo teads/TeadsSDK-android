@@ -13,30 +13,28 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 
 import tv.teads.teadssdkdemo.R;
-import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter;
+import tv.teads.teadssdkdemo.format.adapter.RepeatableRecyclerViewAdapter;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 
 /**
- * InRead format within a RecyclerView
- * <p/>
- * Created by Hugo Gresse on 30/03/15.
+ * Display the same inRead in different position inside a same recycler view thanks to
+ * {@link RepeatableRecyclerViewAdapter}
+ * Created by Benjamin Volland on 22/11/2018.
  */
-public class InReadRecyclerViewFragment extends BaseFragment {
+public class InReadRepeatableRecyclerViewFragment extends BaseFragment {
 
     /**
      * The RecyclerView used in the application
      */
     private RecyclerView mRecyclerView;
 
-    private SimpleRecyclerViewAdapter mAdapter;
+    private RepeatableRecyclerViewAdapter mAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inread_recyclerview, container, false);
-
-        // Retrieve recyclerView from layout
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
 
         return rootView;
@@ -44,7 +42,6 @@ public class InReadRecyclerViewFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Set RecyclerView basic adapter
         setRecyclerViewAdapter(mRecyclerView);
 
     }
@@ -58,7 +55,7 @@ public class InReadRecyclerViewFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new SimpleRecyclerViewAdapter(getContext(), data, getPid(), 10);
+        mAdapter = new RepeatableRecyclerViewAdapter(getContext(), data, getPid());
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -69,4 +66,5 @@ public class InReadRecyclerViewFragment extends BaseFragment {
             mAdapter.reloadAd();
         }
     }
+
 }

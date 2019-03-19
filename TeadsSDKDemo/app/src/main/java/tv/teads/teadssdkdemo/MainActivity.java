@@ -25,13 +25,14 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tv.teads.teadssdkdemo.format.example.ExampleFragment;
-import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
-import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
-import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
 import tv.teads.teadssdkdemo.format.custom.CustomAdRecyclerViewFragment;
 import tv.teads.teadssdkdemo.format.custom.CustomAdScrollViewFragment;
 import tv.teads.teadssdkdemo.format.custom.CustomAdWebViewFragment;
+import tv.teads.teadssdkdemo.format.example.ExampleFragment;
+import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.inread.InReadRepeatableRecyclerViewFragment;
+import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment;
+import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent;
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int    SHAREDPREF_PID_DEFAULT     = 84242;
     private static final String SHAREDPREF_WEBVIEW_DEFAULT = "http://sample.teads.net/demo/sdk/demo.html";
 
-    private DrawerLayout                mDrawerLayout;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            MainFragment        fragment    = new MainFragment();
+            MainFragment fragment = new MainFragment();
             transaction.replace(R.id.fragment_container, fragment, MainFragment.class.getSimpleName());
             transaction.commit();
         }
@@ -78,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                                                                        this,
-                                                                        mDrawerLayout,
-                                                                        toolbar,
-                                                                        R.string.drawer_open,
-                                                                        R.string.drawer_close) {
+                this,
+                mDrawerLayout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
@@ -112,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public int getPid(Context context) {
         return PreferenceManager
-                 .getDefaultSharedPreferences(context)
-                 .getInt(
-                   SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
+                .getDefaultSharedPreferences(context)
+                .getInt(
+                        SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
     }
 
     /**
@@ -125,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public String getWebViewUrl(Context context) {
         return PreferenceManager
-                 .getDefaultSharedPreferences(context)
-                 .getString(
-                   SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
+                .getDefaultSharedPreferences(context)
+                .getString(
+                        SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
     }
 
 
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } catch (IllegalStateException exception) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. " +
-                             exception.toString());
+                    exception.toString());
         }
     }
 
@@ -178,8 +179,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*----------------------------------------
-    * NavigationDrawer button listener
-    */
+     * NavigationDrawer button listener
+     */
 
     @OnClick(R.id.inread_scrollview)
     public void inReadScrollView() {
@@ -189,6 +190,11 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.inread_recyclerview)
     public void inReadRecyclerView() {
         changeFragment(new InReadRecyclerViewFragment());
+    }
+
+    @OnClick(R.id.inread_repeatable_recyclerview)
+    public void inReadRepeatableRecyclerView() {
+        changeFragment(new InReadRepeatableRecyclerViewFragment());
     }
 
     @OnClick(R.id.inread_webview)
@@ -220,74 +226,74 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
-        @SuppressLint("InflateParams") View view  = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText                      input = view.findViewById(R.id.pidEditText);
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText input = view.findViewById(R.id.pidEditText);
         input.setText(Integer.toString(getPid(this)));
         input.setLines(1);
         input.setSingleLine(true);
 
         new AlertDialog.Builder(this)
-          .setTitle("Pid")
-          .setMessage("Change saved pid")
-          .setView(view)
-          .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int whichButton) {
-                  String pidString = input.getText().toString();
-                  int    pid;
-                  if (pidString.isEmpty()) {
-                      Toast.makeText(MainActivity.this, "Setting default pid", Toast.LENGTH_SHORT).show();
-                      pid = SHAREDPREF_PID_DEFAULT;
-                  } else {
-                      pid = Integer.parseInt(pidString);
-                  }
-                  PreferenceManager
-                    .getDefaultSharedPreferences(MainActivity.this)
-                    .edit()
-                    .putInt(
-                      SHAREDPREF_PID,
-                      pid)
-                    .apply();
-              }
-          })
-          .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int whichButton) {
-                  // Do nothing.
-              }
-          }).show();
+                .setTitle("Pid")
+                .setMessage("Change saved pid")
+                .setView(view)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String pidString = input.getText().toString();
+                        int pid;
+                        if (pidString.isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Setting default pid", Toast.LENGTH_SHORT).show();
+                            pid = SHAREDPREF_PID_DEFAULT;
+                        } else {
+                            pid = Integer.parseInt(pidString);
+                        }
+                        PreferenceManager
+                                .getDefaultSharedPreferences(MainActivity.this)
+                                .edit()
+                                .putInt(
+                                        SHAREDPREF_PID,
+                                        pid)
+                                .apply();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
 
     }
 
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        @SuppressLint("InflateParams") View view  = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
-        final EditText                      input = view.findViewById(R.id.webViewEditText);
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
+        final EditText input = view.findViewById(R.id.webViewEditText);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)
-          .setTitle("WebView Url")
-          .setMessage("Change WebView url")
-          .setView(view)
-          .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int whichButton) {
-                  String pidString = input.getText().toString();
-                  if (pidString.isEmpty()) {
-                      Toast.makeText(MainActivity.this, "Setting default webview url", Toast.LENGTH_SHORT).show();
-                      pidString = SHAREDPREF_WEBVIEW_DEFAULT;
-                  }
-                  PreferenceManager
-                    .getDefaultSharedPreferences(MainActivity.this)
-                    .edit()
-                    .putString(
-                      SHAREDPREF_WEBVIEWURL,
-                      pidString)
-                    .apply();
-              }
-          })
-          .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int whichButton) {
-                  // Do nothing.
-              }
-          }).show();
+                .setTitle("WebView Url")
+                .setMessage("Change WebView url")
+                .setView(view)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String pidString = input.getText().toString();
+                        if (pidString.isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Setting default webview url", Toast.LENGTH_SHORT).show();
+                            pidString = SHAREDPREF_WEBVIEW_DEFAULT;
+                        }
+                        PreferenceManager
+                                .getDefaultSharedPreferences(MainActivity.this)
+                                .edit()
+                                .putString(
+                                        SHAREDPREF_WEBVIEWURL,
+                                        pidString)
+                                .apply();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
     }
 }
