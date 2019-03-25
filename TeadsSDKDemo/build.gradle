@@ -27,9 +27,9 @@ allprojects {
 
         //Global configurations
         projectBuildToolsVersion = '28.0.3'
-        projectSdkVersion = 28
+        projectSdkVersion = 26
         libraryMinSdkVersion = 16
-        libraryTargetSdkVersion = 28 // To allow other app to be compatible until 24
+        libraryTargetSdkVersion = 26 // To allow other app to be compatible until 24
         // Dependencies versions
         supportLibVersion = '27.1.1'
     }

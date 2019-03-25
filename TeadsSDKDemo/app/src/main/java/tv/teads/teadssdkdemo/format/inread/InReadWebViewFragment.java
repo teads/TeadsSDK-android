@@ -61,7 +61,7 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView, this, "h2");
+        mWebviewHelperSynch = new SyncWebViewTeadsAdView(mWebview, mAdView, this, "p:nth-child(7)");
 
         mAdView.setPid(getPid());
         mAdView.setListener(mTeadsListener);
@@ -133,7 +133,8 @@ public class InReadWebViewFragment extends BaseFragment implements SyncWebViewTe
     public void onHelperReady(@NonNull ViewGroup adContainer) {
         //The helper is ready we can now load the ad
         if (mAdView != null) {
-            mAdView.setAdContainerView(adContainer);
+            // Current Android SDK version set the adContainer automatically, it was not suppoed to.
+            // mAdView.setAdContainerView(adContainer);
             mAdView.load();
         }
     }
