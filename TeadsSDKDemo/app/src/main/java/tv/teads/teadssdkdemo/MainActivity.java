@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "MainActivity";
 
+    private static final String INTENT_EXTRA_PID           = "ext_pid";
     private static final String SHAREDPREF_PID             = "sp_pid";
     private static final String SHAREDPREF_WEBVIEWURL      = "sp_wvurl";
     private static final int    SHAREDPREF_PID_DEFAULT     = 84242;
@@ -49,14 +52,37 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        if (!TextUtils.isEmpty(intent.getStringExtra(INTENT_EXTRA_PID))){
+            PreferenceManager
+                    .getDefaultSharedPreferences(MainActivity.this)
+                    .edit()
+                    .putInt(
+                            SHAREDPREF_PID,
+                            Integer.parseInt(intent.getStringExtra(INTENT_EXTRA_PID)))
+                    .apply();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        if (!TextUtils.isEmpty(getIntent().getStringExtra(INTENT_EXTRA_PID))){
+            PreferenceManager
+                    .getDefaultSharedPreferences(MainActivity.this)
+                    .edit()
+                    .putInt(
+                            SHAREDPREF_PID,
+                            Integer.parseInt(getIntent().getStringExtra(INTENT_EXTRA_PID)))
+                    .apply();
+        }
+
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            MainFragment fragment = new MainFragment();
+            MainFragment        fragment    = new MainFragment();
             transaction.replace(R.id.fragment_container, fragment, MainFragment.class.getSimpleName());
             transaction.commit();
         }
@@ -113,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public int getPid(Context context) {
         return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getInt(
-                        SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
+                       .getDefaultSharedPreferences(context)
+                       .getInt(
+                               SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT);
     }
 
     /**
@@ -126,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public String getWebViewUrl(Context context) {
         return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getString(
-                        SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
+                       .getDefaultSharedPreferences(context)
+                       .getString(
+                               SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT);
     }
 
 
@@ -151,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } catch (IllegalStateException exception) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. " +
-                    exception.toString());
+                                   exception.toString());
         }
     }
 
@@ -226,8 +252,8 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_pid)
     public void changePidDialog() {
         // Set an EditText view to get user input
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
-        final EditText input = view.findViewById(R.id.pidEditText);
+        @SuppressLint("InflateParams") View view  = getLayoutInflater().inflate(R.layout.dialog_pid_content, null);
+        final EditText                      input = view.findViewById(R.id.pidEditText);
         input.setText(Integer.toString(getPid(this)));
         input.setLines(1);
         input.setSingleLine(true);
@@ -239,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String pidString = input.getText().toString();
-                        int pid;
+                        int    pid;
                         if (pidString.isEmpty()) {
                             Toast.makeText(MainActivity.this, "Setting default pid", Toast.LENGTH_SHORT).show();
                             pid = SHAREDPREF_PID_DEFAULT;
@@ -266,8 +292,8 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.action_webviewurl)
     public void changeWebviewUrlDialog() {
         // Set an EditText view to get user input
-        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
-        final EditText input = view.findViewById(R.id.webViewEditText);
+        @SuppressLint("InflateParams") View view  = getLayoutInflater().inflate(R.layout.dialog_webview_content, null);
+        final EditText                      input = view.findViewById(R.id.webViewEditText);
         input.setText(getWebViewUrl(this));
 
         new AlertDialog.Builder(this)
