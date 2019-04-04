@@ -1,5 +1,11 @@
 # Changelog
 
+### v4.2.2
+_2019-04-04_
+- HTTPS is now forced by default for all Teads trackings
+- Add TeadsWebViewClientOverride to let the host application handle the Chrome crash. 
+- Fix and minors improvements
+
 ### v4.2.1
 _2019-03-05_
 - New `closeFullscreen` API 
