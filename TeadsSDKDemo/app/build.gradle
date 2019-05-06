@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt' // For ButterKnife
 
 android {
@@ -48,7 +48,10 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:cardview-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation ('com.google.android.gms:play-services-ads:15.0.1') {
+        exclude group: "com.android.support", module: "customtabs"
+        // CustomTabs include a support library version different from the project one (older)
+    }
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.jakewharton:butterknife:8.8.1'
