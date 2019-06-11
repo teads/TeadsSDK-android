@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <tv.teads.sdk.android.CustomAdView
-        android:id="@+id/teads_ad_view"
+        android:id="@+id/teadsAdView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

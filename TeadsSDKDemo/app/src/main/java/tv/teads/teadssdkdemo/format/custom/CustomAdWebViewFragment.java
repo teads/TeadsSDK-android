@@ -43,7 +43,7 @@ public class CustomAdWebViewFragment extends BaseFragment {
         mWebView = rootView.findViewById(R.id.webViewVideo);
 
         // Retrieve ad view
-        mAdView = rootView.findViewById(R.id.teads_ad_view);
+        mAdView = rootView.findViewById(R.id.teadsAdView);
 
         return rootView;
     }

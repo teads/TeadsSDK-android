@@ -47,7 +47,7 @@ public class CustomAdRecyclerViewFragment extends BaseFragment {
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
 
         // Retrieve ad view
-        mAdView = rootView.findViewById(R.id.teads_ad_view);
+        mAdView = rootView.findViewById(R.id.teadsAdView);
 
         return rootView;
     }

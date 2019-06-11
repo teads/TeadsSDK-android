@@ -34,7 +34,7 @@ public class CustomAdScrollViewFragment extends BaseFragment {
         View rootView = inflater.inflate(R.layout.fragment_custom_ad_scrollview, container, false);
 
         // Retrieve ad view
-        mAdView = rootView.findViewById(R.id.teads_ad_view);
+        mAdView = rootView.findViewById(R.id.teadsAdView);
 
         return rootView;
     }
