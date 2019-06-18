@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.utils;
+package tv.teads.teadssdkdemo.utils
 
 /**
  *
@@ -6,5 +6,4 @@ package tv.teads.teadssdkdemo.utils;
  *
  * Created by Benjamin Volland on 28/06/2016.
  */
-public class ReloadEvent {
-}
+class ReloadEvent

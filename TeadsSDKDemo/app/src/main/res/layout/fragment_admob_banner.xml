@@ -16,7 +16,7 @@
             android:textSize="@dimen/text_size" />
 
         <FrameLayout
-            android:id="@+id/banner_ad_frame"
+            android:id="@+id/bannerAdFrame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

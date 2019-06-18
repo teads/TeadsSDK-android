@@ -35,19 +35,19 @@ class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<Str
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when (viewType) {
+        return when (viewType) {
             TYPE_TEADS -> {
                 mAdContainer = parent
                 adView.setAdContainerView(mAdContainer)
-                return ViewHolderTeadsAd(adView)
+                ViewHolderTeadsAd(adView)
             }
             TYPE_TEXT -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.list_row, parent, false)
-                return ViewHolderDemo(v)
+                ViewHolderDemo(v)
             }
             else -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.list_row, parent, false)
-                return ViewHolderDemo(v)
+                ViewHolderDemo(v)
             }
         }
     }
@@ -56,7 +56,7 @@ class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<Str
         when (holder.itemViewType) {
             TYPE_TEADS -> {
             }
-            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text = dataset[if (position > adPosition && adPosition > 0)
+            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text = dataset[if (adPosition in 1 until position)
                 position - 1
             else
                 position]

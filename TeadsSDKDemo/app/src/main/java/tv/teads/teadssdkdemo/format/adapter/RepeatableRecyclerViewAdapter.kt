@@ -15,7 +15,7 @@ import tv.teads.teadssdkdemo.R
  * It will display the same ad view every [RepeatableRecyclerViewAdapter.AD_INTERVAL] items
  * Created by Benjamin Volland on 22/11/2018.
  */
-class RepeatableRecyclerViewAdapter(context: Context, private val dataset: List<String>, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RepeatableRecyclerViewAdapter(context: Context?, private val dataset: List<String>, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val adView: InReadAdView  = InReadAdView(context)
 
@@ -30,15 +30,15 @@ class RepeatableRecyclerViewAdapter(context: Context, private val dataset: List<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        when (viewType) {
-            TYPE_TEADS -> return ViewHolderTeadsAd(adView)
+        return when (viewType) {
+            TYPE_TEADS -> ViewHolderTeadsAd(adView)
             TYPE_TEXT -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.list_row, parent, false)
-                return ViewHolderDemo(v)
+                ViewHolderDemo(v)
             }
             else -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.list_row, parent, false)
-                return ViewHolderDemo(v)
+                ViewHolderDemo(v)
             }
         }
     }
@@ -61,7 +61,6 @@ class RepeatableRecyclerViewAdapter(context: Context, private val dataset: List<
 
     private inner class ViewHolderTeadsAd(view: View) : RecyclerView.ViewHolder(view) {
         val adView: InReadAdView = view as InReadAdView
-
     }
 
     private inner class ViewHolderDemo(view: View) : RecyclerView.ViewHolder(view) {
