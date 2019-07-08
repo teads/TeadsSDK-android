@@ -52,10 +52,14 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
+        if(context == null) {
+            return
+        }
+
         // 1. Init AdMob (could be done in your Application class)
         MobileAds.initialize(context, ADMOB_TEADS_APP_ID)
 
-        // 2. Create AdMob view and add it to hierarchy
+        // 2. Create AdMob view and add it to view hierarchy
         adView = AdView(context)
         adView.adUnitId = ADMOB_TEADS_BANNER_ID
         adView.adSize = AdSize.MEDIUM_RECTANGLE
@@ -64,7 +68,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        val observableWrapperView = ObservableWrapperView(context!!, adView)
+        val observableWrapperView = ObservableWrapperView(context, adView)
         webviewHelperSynch = SyncWebViewViewGroup(webview, observableWrapperView, this, "p:nth-child(7)")
 
         // 3. Attach ad listener

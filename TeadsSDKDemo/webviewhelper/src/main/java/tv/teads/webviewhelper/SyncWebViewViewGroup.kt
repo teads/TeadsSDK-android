@@ -32,7 +32,7 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
     /**
      * Layout containing the ad and the webview
      */
-    private var container: FrameLayout? = null
+    private lateinit var container: FrameLayout
 
     private val webviewHelper: WebViewHelper
 
@@ -64,7 +64,7 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
             val webViewParent = webview.parent as ViewGroup
 
             container = FrameLayout(webview.context)
-            container!!.layoutParams = ViewGroup.LayoutParams(webview.layoutParams)
+            container.layoutParams = ViewGroup.LayoutParams(webview.layoutParams)
             var webviewPosition = 0
             val childCount = webViewParent.childCount
             for (i in 0 until childCount) {
@@ -76,7 +76,7 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
             webViewParent.removeViewAt(webviewPosition)
             webview.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
                     .LayoutParams.MATCH_PARENT)
-            container!!.addView(webview)
+            container.addView(webview)
             wrapperView.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                                                 ViewGroup.LayoutParams.WRAP_CONTENT)
 
@@ -84,10 +84,10 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
                 (wrapperView.parent as ViewGroup).removeView(wrapperView)
             }
 
-            container!!.addView(wrapperView)
+            container.addView(wrapperView)
 
             webViewParent.addView(container, webviewPosition)
-            listener.onHelperReady(container!!)
+            listener.onHelperReady(container)
         }
     }
 
@@ -192,7 +192,7 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
         if (w == 0 || h == 0) {
             return
         }
-        Log.d(TAG, "SizeCHanges: " + w + " h" + h + " ratio:" + w.toFloat() / h)
+
         updateSlot(w.toFloat() / h)
     }
 
