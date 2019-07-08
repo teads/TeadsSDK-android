@@ -17,7 +17,6 @@ import tv.teads.teadssdkdemo.format.mediation.MoPubRepeatableRecyclerViewAdapter
 /**
  * Manage a repeatable ad for a Recycler view with the MoPub mediation,
  * It will display the same ad view every [MoPubRepeatableRecyclerViewAdapter.AD_INTERVAL] items
- * Created by Benjamin Volland on 15/03/2019.
  */
 class MoPubRepeatableRecyclerViewAdapter internal constructor(context: Context?, private val mDataset: List<String>, moPubId: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

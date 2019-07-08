@@ -16,9 +16,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
 
 /**
  * Custom ad format within a WebView
- *
- *
- * Created by Hugo Gresse on 30/03/15.
  */
 class CustomAdWebViewFragment : BaseFragment() {
 

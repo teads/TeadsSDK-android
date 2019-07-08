@@ -10,8 +10,6 @@ import android.webkit.WebView;
 
 /**
  * This WebView dispatch scroll event to the register listener.
- * <p>
- * Created by Benjamin Volland on 13/09/2017.
  */
 
 public class ObservableWebView extends WebView {

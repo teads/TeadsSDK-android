@@ -10,8 +10,6 @@ import android.webkit.JavascriptInterface;
 /**
  * Callback from Javascript JavaBridge. Use to get callback from WebView after registering a
  * JavascriptInterface
- * <p/>
- * Created by Benjamin Volland on 28/08/2017.
  */
 class JSInterface {
 

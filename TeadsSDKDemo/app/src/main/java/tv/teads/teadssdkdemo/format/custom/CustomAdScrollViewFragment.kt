@@ -15,9 +15,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
 
 /**
  * Custom ad format within a ScrollView
- *
- *
- * Created by Hugo Gresse on 30/03/15.
  */
 class CustomAdScrollViewFragment : BaseFragment() {
 

@@ -16,9 +16,6 @@ import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.ReloadEvent
 
-/**
- * Created by Benjamin Volland on 15/03/2019.
- */
 class MoPubRepeatableFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

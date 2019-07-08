@@ -9,9 +9,6 @@ import android.webkit.WebView;
 
 import java.lang.ref.WeakReference;
 
-/**
- * Created by Benjamin Volland on 20/04/2018.
- */
 public class LoadJSRunnable implements Runnable {
 
 

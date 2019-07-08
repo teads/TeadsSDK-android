@@ -8,14 +8,12 @@ import tv.teads.teadssdkdemo.MainActivity
 
 /**
  * The base fragment
- * Created by Hugo Gresse on 03/04/15.
  */
 abstract class BaseFragment : Fragment() {
 
     /**
      * Return the pid from activity
      *
-     * @return the pid
      */
     protected val pid: Int
         get() {

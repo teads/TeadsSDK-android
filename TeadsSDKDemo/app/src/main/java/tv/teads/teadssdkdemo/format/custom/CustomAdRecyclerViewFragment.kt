@@ -24,9 +24,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
 
 /**
  * Custom ad format within a RecyclerView
- *
- *
- * Created by Hugo Gresse on 30/03/15.
  */
 class CustomAdRecyclerViewFragment : BaseFragment() {
 

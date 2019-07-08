@@ -18,8 +18,6 @@ import tv.teads.sdk.android.engine.ui.view.ObservableAdView;
 
 /**
  * Insert and Synchronise the scroll between the TeadsAdView and the webview
- * <p>
- * Created by Benjamin Volland on 31/08/2017.
  */
 
 public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,

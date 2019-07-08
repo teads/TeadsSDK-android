@@ -6,8 +6,6 @@ package tv.teads.webviewhelper;
 
 /**
  * Utils constants
- * <p>
- * Created by Benjamin Volland on 28/08/2017.
  */
 
 class Constants {

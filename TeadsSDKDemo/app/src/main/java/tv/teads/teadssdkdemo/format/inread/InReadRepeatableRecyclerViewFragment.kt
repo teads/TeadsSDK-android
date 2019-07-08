@@ -17,7 +17,6 @@ import java.util.*
 /**
  * Display the same inRead in different position inside a same recycler view thanks to
  * [RepeatableRecyclerViewAdapter]
- * Created by Benjamin Volland on 22/11/2018.
  */
 class InReadRepeatableRecyclerViewFragment : BaseFragment() {
 

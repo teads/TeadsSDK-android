@@ -11,9 +11,6 @@ import tv.teads.teadssdkdemo.R
 
 /**
  * Simple RecyclerView adapter
- *
- *
- * Created by Hugo Gresse on 08/07/15.
  */
 class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<String>, pid: Int, private val adPosition: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

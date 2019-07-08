@@ -20,8 +20,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
 /**
  * InRead format within a RecyclerView
  *
- *
- * Created by Hugo Gresse on 30/03/15.
  */
 class InReadRecyclerViewFragment : BaseFragment() {
 

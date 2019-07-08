@@ -24,9 +24,6 @@ import tv.teads.webviewhelper.SyncWebViewTeadsAdView
 
 /**
  * InRead format within a WebView
- *
- *
- * Created by Hugo Gresse on 30/03/15.
  */
 class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 

@@ -16,9 +16,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
 
 /**
  * InRead format within a ScrollView
- *
- *
- * Created by Hugo Gresse on 30/03/15.
  */
 class InReadScrollViewFragment : BaseFragment() {
 
