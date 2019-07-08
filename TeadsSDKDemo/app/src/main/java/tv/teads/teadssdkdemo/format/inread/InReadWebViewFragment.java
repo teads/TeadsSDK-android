@@ -20,7 +20,7 @@ import tv.teads.sdk.android.TeadsListener;
 import tv.teads.teadssdkdemo.R;
 import tv.teads.teadssdkdemo.utils.BaseFragment;
 import tv.teads.teadssdkdemo.utils.ReloadEvent;
-import tv.teads.webviewhelper.ObservableWebView;
+import tv.teads.webviewhelper.baseView.ObservableWebView;
 import tv.teads.webviewhelper.SyncWebViewTeadsAdView;
 
 /**

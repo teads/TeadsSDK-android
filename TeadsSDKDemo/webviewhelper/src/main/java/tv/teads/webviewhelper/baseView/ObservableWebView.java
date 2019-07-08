@@ -2,7 +2,7 @@
  * Copyright (c) Teads 2018.
  */
 
-package tv.teads.webviewhelper;
+package tv.teads.webviewhelper.baseView;
 
 import android.content.Context;
 import android.util.AttributeSet;

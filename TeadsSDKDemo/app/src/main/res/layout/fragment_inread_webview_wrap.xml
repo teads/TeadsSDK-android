@@ -17,7 +17,7 @@
             android:text="@string/lorem_medium"
             android:textSize="@dimen/text_size"/>
 
-        <tv.teads.webviewhelper.ObservableWebView
+        <tv.teads.webviewhelper.baseView.ObservableWebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
