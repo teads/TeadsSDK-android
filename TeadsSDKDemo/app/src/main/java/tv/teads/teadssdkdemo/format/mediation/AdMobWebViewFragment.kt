@@ -68,7 +68,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        val observableWrapperView = ObservableWrapperView(context, adView)
+        val observableWrapperView = ObservableWrapperView(context!!, adView)
         webviewHelperSynch = SyncWebViewViewGroup(webview, observableWrapperView, this, "p:nth-child(7)")
 
         // 3. Attach ad listener
