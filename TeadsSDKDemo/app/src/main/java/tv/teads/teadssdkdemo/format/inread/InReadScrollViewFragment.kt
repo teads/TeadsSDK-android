@@ -19,16 +19,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
  */
 class InReadScrollViewFragment : BaseFragment() {
 
-    private val teadsListener = object : TeadsListener() {
-        override fun onAdFailedToLoad(reason: AdFailedReason?) {
-            Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onError(error: String?) {
-            Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -39,7 +29,15 @@ class InReadScrollViewFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         teadsAdView.setPid(pid)
-        teadsAdView.listener = teadsListener
+        teadsAdView.listener = object : TeadsListener() {
+            override fun onAdFailedToLoad(reason: AdFailedReason?) {
+                Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onError(error: String?) {
+                Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show()
+            }
+        }
         teadsAdView.setAdContainerView(adContainer)
         teadsAdView.load()
     }

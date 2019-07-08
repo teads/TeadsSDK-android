@@ -70,9 +70,6 @@ class InReadWebViewWrapFragment : BaseFragment(), SyncWebViewTeadsAdView.Listene
         adView.enableDebug()
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomWebviewClient(webviewHelperSynch)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true)
-        }
         webview.loadUrl(this.webViewUrl)
     }
 

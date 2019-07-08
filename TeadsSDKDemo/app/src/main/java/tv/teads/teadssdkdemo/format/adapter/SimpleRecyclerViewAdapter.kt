@@ -12,14 +12,14 @@ import tv.teads.teadssdkdemo.R
 /**
  * Simple RecyclerView adapter
  */
-class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<String>, pid: Int, private val adPosition: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SimpleRecyclerViewAdapter(private val dataset: List<String>, private val adPosition: Int, context: Context?, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val adView: InReadAdView = InReadAdView(context)
 
     /**
      * Your ad container
      */
-    private lateinit var mAdContainer: ViewGroup
+    private lateinit var adContainer: ViewGroup
 
     init {
         adView.setPid(pid)
@@ -34,8 +34,8 @@ class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<Str
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_TEADS -> {
-                mAdContainer = parent
-                adView.setAdContainerView(mAdContainer)
+                adContainer = parent
+                adView.setAdContainerView(adContainer)
                 ViewHolderTeadsAd(adView)
             }
             TYPE_TEXT -> {
@@ -53,10 +53,8 @@ class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<Str
         when (holder.itemViewType) {
             TYPE_TEADS -> {
             }
-            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text = dataset[if (adPosition in 1 until position)
-                position - 1
-            else
-                position]
+            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text =
+                    dataset[if (adPosition in 1 until position) position - 1 else position]
         }// loading is already done before hand
     }
 
@@ -65,7 +63,7 @@ class SimpleRecyclerViewAdapter(context: Context?, private val dataset: List<Str
     }
 
     fun reloadAd() {
-        adView.setAdContainerView(mAdContainer)
+        adView.setAdContainerView(adContainer)
         adView.load()
     }
 

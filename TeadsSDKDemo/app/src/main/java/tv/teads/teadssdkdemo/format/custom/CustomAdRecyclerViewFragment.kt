@@ -8,19 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_custom_ad_recyclerview.*
-
 import org.greenrobot.eventbus.Subscribe
-
-import java.util.ArrayList
-
 import tv.teads.sdk.android.AdFailedReason
-import tv.teads.sdk.android.CustomAdView
-import tv.teads.sdk.android.InReadAdView
 import tv.teads.sdk.android.TeadsListener
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.ReloadEvent
+import java.util.*
 
 /**
  * Custom ad format within a RecyclerView
@@ -66,7 +61,7 @@ class CustomAdRecyclerViewFragment : BaseFragment() {
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = SimpleRecyclerViewAdapter(activity, data, pid, -1)
+        recyclerView.adapter = SimpleRecyclerViewAdapter(data, pid, activity, -1)
     }
 
     @Subscribe

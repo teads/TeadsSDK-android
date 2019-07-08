@@ -7,14 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
-
 import org.greenrobot.eventbus.Subscribe
-
-import java.util.ArrayList
-
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.ReloadEvent
+import java.util.*
 
 class MoPubRepeatableFragment : BaseFragment() {
 
@@ -25,7 +22,6 @@ class MoPubRepeatableFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setRecyclerViewAdapter(recyclerView)
-
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
@@ -37,7 +33,7 @@ class MoPubRepeatableFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val mAdapter = MoPubRepeatableRecyclerViewAdapter(context, data, "d6f99ffee8f245329f2fb4954cb8b477")
+        val mAdapter = MoPubRepeatableRecyclerViewAdapter(data, "d6f99ffee8f245329f2fb4954cb8b477", context)
         mAdapter.loadBanner()
         recyclerView.adapter = mAdapter
     }

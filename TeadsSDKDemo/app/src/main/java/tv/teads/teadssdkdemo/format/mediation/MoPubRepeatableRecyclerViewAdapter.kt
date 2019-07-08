@@ -6,19 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
 import com.mopub.mobileads.MoPubView
-
 import tv.teads.adapter.mopub.TeadsLocalExtras
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.mediation.MoPubRepeatableRecyclerViewAdapter.ViewHolderDemo
-import tv.teads.teadssdkdemo.format.mediation.MoPubRepeatableRecyclerViewAdapter.ViewHolderTeadsAd
 
 /**
  * Manage a repeatable ad for a Recycler view with the MoPub mediation,
  * It will display the same ad view every [MoPubRepeatableRecyclerViewAdapter.AD_INTERVAL] items
  */
-class MoPubRepeatableRecyclerViewAdapter internal constructor(context: Context?, private val mDataset: List<String>, moPubId: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MoPubRepeatableRecyclerViewAdapter internal constructor(private val dataset: List<String>, moPubId: String, context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val moPubView: MoPubView = MoPubView(context)
 
@@ -55,11 +51,11 @@ class MoPubRepeatableRecyclerViewAdapter internal constructor(context: Context?,
             TYPE_MOPUB_AD -> {
             }
             TYPE_TEXT -> (holder as ViewHolderDemo).textView.text = (position - position / 10).toString()
-        }// loading is already done before hand
+        }
     }
 
     override fun getItemCount(): Int {
-        return mDataset.size + mDataset.size / AD_INTERVAL
+        return dataset.size + dataset.size / AD_INTERVAL
     }
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)

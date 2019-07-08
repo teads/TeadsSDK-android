@@ -7,15 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
-
 import org.greenrobot.eventbus.Subscribe
-
-import java.util.ArrayList
-
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.ReloadEvent
+import java.util.*
 
 /**
  * InRead format within a RecyclerView
@@ -45,7 +42,7 @@ class InReadRecyclerViewFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        mAdapter = SimpleRecyclerViewAdapter(context, data, pid, 10)
+        mAdapter = SimpleRecyclerViewAdapter(data, 10, context, pid)
         recyclerView.adapter = mAdapter
     }
 

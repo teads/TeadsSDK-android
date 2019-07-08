@@ -35,26 +35,6 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private val mTeadsListener = object : TeadsListener() {
-
-        override fun onAdFailedToLoad(adFailedReason: AdFailedReason?) {
-            Toast.makeText(this@InReadWebViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onError(s: String?) {
-            Toast.makeText(this@InReadWebViewFragment.activity, getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onAdLoaded(adRatio: Float) {
-            mWebviewHelperSynch.updateSlot(adRatio)
-            mWebviewHelperSynch.displayAd()
-        }
-
-        override fun closeAd() {
-            mWebviewHelperSynch.closeAd()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_inread_webview, container, false)
@@ -72,13 +52,28 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         mWebviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "p:nth-child(7)")
 
         adView.setPid(pid)
-        adView.listener = mTeadsListener
+        adView.listener = object : TeadsListener() {
+
+            override fun onAdFailedToLoad(adFailedReason: AdFailedReason?) {
+                Toast.makeText(this@InReadWebViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onError(s: String?) {
+                Toast.makeText(this@InReadWebViewFragment.activity, getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onAdLoaded(adRatio: Float) {
+                mWebviewHelperSynch.updateSlot(adRatio)
+                mWebviewHelperSynch.displayAd()
+            }
+
+            override fun closeAd() {
+                mWebviewHelperSynch.closeAd()
+            }
+        }
 
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomWebviewClient(mWebviewHelperSynch)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true)
-        }
         webview.loadUrl(this.webViewUrl)
     }
 
@@ -102,9 +97,6 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onHelperReady(adContainer: ViewGroup) {
-            //The helper is ready we can now load the ad
-            // Current Android SDK version set the adContainer automatically, it was not suppoed to.
-            // adView.setAdContainerView(adContainer);
             adView.load()
     }
 
