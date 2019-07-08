@@ -2,7 +2,6 @@ package tv.teads.teadssdkdemo.format.example
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
