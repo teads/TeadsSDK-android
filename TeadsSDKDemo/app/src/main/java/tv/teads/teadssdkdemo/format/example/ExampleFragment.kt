@@ -16,6 +16,7 @@ import tv.teads.teadssdkdemo.format.mediation.MoPubRepeatableFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.ReloadEvent
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent
+import tv.teads.teadssdkdemo.format.mediation.AdMobWebViewFragment
 
 /**
  * Different integration example
@@ -47,6 +48,11 @@ class ExampleFragment : BaseFragment() {
     @OnClick(R.id.admobButton)
     fun adMobExample() {
         EventBus.getDefault().post(ChangeFragmentEvent(AdMobBannerFragment()))
+    }
+
+    @OnClick(R.id.mediationWebViewButton)
+    fun mediationWebView() {
+        EventBus.getDefault().post(ChangeFragmentEvent(AdMobWebViewFragment()))
     }
 
     @Subscribe
