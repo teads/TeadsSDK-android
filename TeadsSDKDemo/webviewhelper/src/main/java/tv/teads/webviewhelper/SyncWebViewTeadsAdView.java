@@ -19,8 +19,6 @@ import tv.teads.webviewhelper.baseView.ObservableWebView;
 
 /**
  * Insert and Synchronise the scroll between the TeadsAdView and the webview
- * <p>
- * Created by Benjamin Volland on 31/08/2017.
  */
 
 public class SyncWebViewTeadsAdView implements WebViewHelper.Listener,

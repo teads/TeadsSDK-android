@@ -21,7 +21,6 @@ import java.io.InputStream;
 /**
  * Helper to find , open, and close a slot in a the content of a {@link WebView}.
  * To do it, a JS ({@link } is injected in the webview
- * Created by Benjamin Volland on 11/08/2017.
  */
 
 class WebViewHelper implements JSInterface.Listener {

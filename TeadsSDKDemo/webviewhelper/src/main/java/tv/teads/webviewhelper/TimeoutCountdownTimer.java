@@ -8,8 +8,6 @@ import android.os.CountDownTimer;
 
 /**
  * Timeout utility to have a timeout when needed. It managed a {@link #isTimeout()} to check for passed timeout.
- * <p>
- * Created by Benjamin Volland on 28/08/2017.
  */
 public abstract class TimeoutCountdownTimer extends CountDownTimer {
 

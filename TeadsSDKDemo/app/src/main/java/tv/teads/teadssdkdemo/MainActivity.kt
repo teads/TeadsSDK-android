@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
 
     @Subscribe
     fun onPostFragmentChangeEvent(event: ChangeFragmentEvent) {
-        changeFragment(event.mFragment)
+        changeFragment(event.fragment)
     }
 
     /*----------------------------------------
