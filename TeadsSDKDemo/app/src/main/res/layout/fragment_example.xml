@@ -24,6 +24,12 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:text="@string/mediationWebView"
+            android:id="@+id/mediationWebViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
             android:text="@string/webview_wrap_example"
             android:id="@+id/webviewWrapButton"
             android:layout_width="wrap_content"

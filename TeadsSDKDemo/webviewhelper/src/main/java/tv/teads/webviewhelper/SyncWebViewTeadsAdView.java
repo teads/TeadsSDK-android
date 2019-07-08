@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 
 import tv.teads.sdk.android.CustomAdView;
 import tv.teads.sdk.android.engine.ui.view.ObservableAdView;
+import tv.teads.webviewhelper.baseView.ObservableWebView;
 
 /**
  * Insert and Synchronise the scroll between the TeadsAdView and the webview

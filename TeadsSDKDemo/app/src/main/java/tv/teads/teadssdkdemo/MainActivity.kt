@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             toolbar.setTitleTextColor(resources.getColor(R.color.accent, null))
         } else {
+            @Suppress("DEPRECATION")
             toolbar.setTitleTextColor(resources.getColor(R.color.accent))
         }
         drawerLayout = findViewById(R.id.drawer_layout)
