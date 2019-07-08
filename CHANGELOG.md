@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.2.4
+_2019-06-11_
+- Fix and minors improvements
+ 
 ### v4.2.3
 _2019-04-04_
 - HTTPS is now forced by default for all Teads trackings
