@@ -13,7 +13,7 @@ import android.widget.FrameLayout
  * Wrap any view to intercept scroll event and notify the given listener.
  * Useful to move any view based on move/drag event on this view.
  */
-class ObservableWrapperView(context: Context?, viewGroup: ViewGroup) : FrameLayout(context) {
+class ObservableWrapperView(context: Context, viewGroup: ViewGroup) : FrameLayout(context) {
 
     private var listener: Listener? = null
     private var startNativeY: Float = 0.toFloat()
