@@ -21,7 +21,7 @@ import java.util.*
 class InReadRepeatableRecyclerViewFragment : BaseFragment() {
 
 
-    private lateinit var mAdapter: RepeatableRecyclerViewAdapter
+    private lateinit var adapter: RepeatableRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,7 +30,6 @@ class InReadRepeatableRecyclerViewFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setRecyclerViewAdapter(recyclerView)
-
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
@@ -42,13 +41,13 @@ class InReadRepeatableRecyclerViewFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        mAdapter = RepeatableRecyclerViewAdapter(context, data, pid)
-        recyclerView.adapter = mAdapter
+        adapter = RepeatableRecyclerViewAdapter(data, context, pid)
+        recyclerView.adapter = adapter
     }
 
     @Subscribe
     fun onReloadEvent(event: ReloadEvent) {
-        mAdapter.reloadAd()
+        adapter.reloadAd()
     }
 
 }

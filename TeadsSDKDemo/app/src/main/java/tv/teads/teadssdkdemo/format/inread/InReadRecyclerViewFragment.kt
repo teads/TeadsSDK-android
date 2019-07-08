@@ -20,7 +20,7 @@ import java.util.*
  */
 class InReadRecyclerViewFragment : BaseFragment() {
 
-    private lateinit var mAdapter: SimpleRecyclerViewAdapter
+    private lateinit var adapter: SimpleRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -30,7 +30,6 @@ class InReadRecyclerViewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Set RecyclerView basic adapter
         setRecyclerViewAdapter(recyclerView)
-
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
@@ -42,12 +41,12 @@ class InReadRecyclerViewFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        mAdapter = SimpleRecyclerViewAdapter(data, 10, context, pid)
-        recyclerView.adapter = mAdapter
+        adapter = SimpleRecyclerViewAdapter(data, 10, context, pid)
+        recyclerView.adapter = adapter
     }
 
     @Subscribe
     fun onReloadEvent(event: ReloadEvent) {
-        mAdapter.reloadAd()
+        adapter.reloadAd()
     }
 }

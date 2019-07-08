@@ -14,7 +14,7 @@ import tv.teads.teadssdkdemo.R
  * Manage a repeatable ad for a Recycler view,
  * It will display the same ad view every [RepeatableRecyclerViewAdapter.AD_INTERVAL] items
  */
-class RepeatableRecyclerViewAdapter(context: Context?, private val dataset: List<String>, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RepeatableRecyclerViewAdapter(private val dataset: List<String>, context: Context?, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val adView: InReadAdView  = InReadAdView(context)
 

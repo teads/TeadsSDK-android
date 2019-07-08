@@ -33,9 +33,9 @@ class MoPubRepeatableFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val mAdapter = MoPubRepeatableRecyclerViewAdapter(data, "d6f99ffee8f245329f2fb4954cb8b477", context)
-        mAdapter.loadBanner()
-        recyclerView.adapter = mAdapter
+        val adapter = MoPubRepeatableRecyclerViewAdapter(data, "d6f99ffee8f245329f2fb4954cb8b477", context)
+        adapter.loadBanner()
+        recyclerView.adapter = adapter
     }
 
     @Subscribe

@@ -2,7 +2,6 @@ package tv.teads.teadssdkdemo.format.inread
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +26,7 @@ import tv.teads.webviewhelper.SyncWebViewTeadsAdView
  */
 class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
-    private lateinit var mWebviewHelperSynch: SyncWebViewTeadsAdView
+    private lateinit var webviewHelperSynch: SyncWebViewTeadsAdView
 
     private lateinit var adView: InReadAdView
 
@@ -49,7 +48,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        mWebviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "p:nth-child(7)")
+        webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "p:nth-child(7)")
 
         adView.setPid(pid)
         adView.listener = object : TeadsListener() {
@@ -63,17 +62,17 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
             }
 
             override fun onAdLoaded(adRatio: Float) {
-                mWebviewHelperSynch.updateSlot(adRatio)
-                mWebviewHelperSynch.displayAd()
+                webviewHelperSynch.updateSlot(adRatio)
+                webviewHelperSynch.displayAd()
             }
 
             override fun closeAd() {
-                mWebviewHelperSynch.closeAd()
+                webviewHelperSynch.closeAd()
             }
         }
 
         webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomWebviewClient(mWebviewHelperSynch)
+        webview.webViewClient = CustomWebviewClient(webviewHelperSynch)
         webview.loadUrl(this.webViewUrl)
     }
 
@@ -84,7 +83,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        mWebviewHelperSynch.onConfigurationChanged()
+        webviewHelperSynch.onConfigurationChanged()
     }
 
     @Subscribe
