@@ -124,6 +124,10 @@
           height: height > maxHeight ? maxHeight : height
         };
 
+        if(opened){
+          teadsContainer.style.height = finalSize.height + "px";
+        }
+
         //Left margin is equal to the x offset + half of the delta between the
         //width offset and the real player width
         var leftMargin = offset.x + (offset.w - finalSize.width) / 2;
