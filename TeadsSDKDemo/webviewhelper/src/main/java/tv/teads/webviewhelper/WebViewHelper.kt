@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Teads 2018.
+ * Copyright (c) Teads 2019.
  */
 
 package tv.teads.webviewhelper
@@ -97,8 +97,7 @@ private constructor(builder: Builder) : JSInterface.Listener {
         val command = String.format(INSERT_SLOT_JS, if (TextUtils.isEmpty(selector))
             ""
         else
-            "'" + selector +
-                    "'")
+            "'$selector'")
         mainThreadHandler?.post(LoadJSRunnable(webview, command))
         requestSlotTimeout.start()
     }
@@ -110,21 +109,21 @@ private constructor(builder: Builder) : JSInterface.Listener {
      * @param offset the offset
      */
     fun updateSlot(ratio: Float, offset: Int) {
-        mainThreadHandler!!.post(LoadJSRunnable(webview, String.format(UPDATE_SLOT_JS, offset, ratio)))
+        mainThreadHandler?.post(LoadJSRunnable(webview, String.format(UPDATE_SLOT_JS, offset, ratio)))
     }
 
     /**
      * Call the js in the main thread to open the slot
      */
     fun openSlot() {
-        mainThreadHandler!!.post(LoadJSRunnable(webview, OPEN_SLOT_JS))
+        mainThreadHandler?.post(LoadJSRunnable(webview, OPEN_SLOT_JS))
     }
 
     /**
      * Call the js in the main thread to close the slot
      */
     fun closeSlot() {
-        mainThreadHandler!!.post(LoadJSRunnable(webview, CLOSE_SLOT_JS))
+        mainThreadHandler?.post(LoadJSRunnable(webview, CLOSE_SLOT_JS))
     }
 
     /**
@@ -139,7 +138,7 @@ private constructor(builder: Builder) : JSInterface.Listener {
      * Notify the js to sent us the slot position, as answer it should call [.onSlotUpdated]
      */
     fun askSlotPosition() {
-        mainThreadHandler!!.postDelayed(LoadJSRunnable(webview, UPDATE_POSITION_JS), 200)
+        mainThreadHandler?.postDelayed(LoadJSRunnable(webview, UPDATE_POSITION_JS), 200)
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,13 +158,13 @@ private constructor(builder: Builder) : JSInterface.Listener {
         }
 
         if (requestSlotTimeout.isTimeout) {
-            listener?.onSlotNotFound()
+            listener.onSlotNotFound()
         } else {
             val l = (pixelRatio * left).toInt()
             val t = (pixelRatio * top).toInt()
             val r = (pixelRatio * right).toInt()
             val b = (pixelRatio * bottom).toInt()
-            listener?.onSlotUpdated(l, t, r, b)
+            listener.onSlotUpdated(l, t, r, b)
         }
         requestSlotTimeout.cancel()
     }

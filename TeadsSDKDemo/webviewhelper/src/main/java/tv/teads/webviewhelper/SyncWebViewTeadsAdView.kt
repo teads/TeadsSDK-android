@@ -16,18 +16,17 @@ import tv.teads.webviewhelper.baseView.ObservableWebView
 
 /**
  * Insert and Synchronise the scroll between the TeadsAdView and the webview
- */
-
-class SyncWebViewTeadsAdView
-/**
- * Constructor
  *
  * @param webview  Webview with which we synchronize the scroll. [ObservableWebView]
  * @param adView   The adview with which we synchronize the scroll
  * @param listener The listener
  * @param selector The selector where we want insert the ad view
+ *
  */
-(private val webview: ObservableWebView, private val adView: CustomAdView, private val listener: Listener, selector: String) : WebViewHelper.Listener, ObservableWebView.OnScrollListener, ObservableAdView.ActionMoveListener {
+class SyncWebViewTeadsAdView(private val webview: ObservableWebView,
+                             private val adView: CustomAdView,
+                             private val listener: Listener,
+                             selector: String) : WebViewHelper.Listener, ObservableWebView.OnScrollListener, ObservableAdView.ActionMoveListener {
 
     /**
      * Layout containing the ad and the webview
