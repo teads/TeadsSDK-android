@@ -124,7 +124,7 @@
           height: height > maxHeight ? maxHeight : height
         };
 
-        if(opened){
+        if(opened) {
           teadsContainer.style.height = finalSize.height + "px";
         }
 
