@@ -64,6 +64,7 @@ class CustomAdRecyclerViewFragment : BaseFragment() {
         recyclerView.adapter = SimpleRecyclerViewAdapter(data, pid, activity, -1)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
     fun onReloadEvent(event: ReloadEvent) {
         teadsAdView.load()

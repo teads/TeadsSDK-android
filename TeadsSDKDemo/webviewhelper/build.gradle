@@ -39,8 +39,6 @@ repositories {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation "com.android.support:support-annotations:$supportLibVersion"
     // Teads SDK
     implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
         transitive = true

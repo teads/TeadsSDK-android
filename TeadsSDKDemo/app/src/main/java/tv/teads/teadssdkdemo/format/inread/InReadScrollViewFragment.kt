@@ -42,8 +42,8 @@ class InReadScrollViewFragment : BaseFragment() {
         teadsAdView.load()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
-    @SuppressWarnings("unused")
     fun onReloadEvent(event: ReloadEvent) {
         teadsAdView.clean()
         teadsAdView.setAdContainerView(adContainer)
