@@ -8,8 +8,8 @@ android {
 
     String sufixBaseName = ""
 
-    if (System.getenv("BUILD_ID") != null) {
-        sufixBaseName = "_b" + System.getenv("BUILD_ID")
+    if (System.getenv("BITRISE_GIT_BRANCH") != null) {
+        sufixBaseName = "_" + System.getenv("BITRISE_GIT_BRANCH")
     }
 
     defaultConfig {
@@ -23,9 +23,8 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    testBuildType "release"
     buildTypes {
-        release {
+        debug {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
