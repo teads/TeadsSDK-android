@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Teads 2018.
+ * Copyright (c) Teads 2019.
  */
 
 package tv.teads.teadssdkdemo
