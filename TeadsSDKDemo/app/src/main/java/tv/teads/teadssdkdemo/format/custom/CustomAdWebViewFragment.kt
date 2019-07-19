@@ -52,6 +52,7 @@ class CustomAdWebViewFragment : BaseFragment() {
         teadsAdView.clean()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
     fun onReloadEvent(event: ReloadEvent) {
         teadsAdView.load()

@@ -34,7 +34,6 @@ import tv.teads.teadssdkdemo.utils.ReloadEvent
 import tv.teads.teadssdkdemo.utils.event.ChangeFragmentEvent
 
 
-@Suppress("unused")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -137,10 +136,8 @@ class MainActivity : AppCompatActivity() {
     fun getWebViewUrl(context: Context): String {
         return PreferenceManager
                 .getDefaultSharedPreferences(context)
-                .getString(
-                        SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT)
+                .getString(SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT) ?: return SHAREDPREF_WEBVIEW_DEFAULT
     }
-
 
     private fun changeFragment(frag: Fragment) {
         if (supportFragmentManager.findFragmentById(R.id.fragment_container).javaClass == frag.javaClass) {
@@ -235,7 +232,7 @@ class MainActivity : AppCompatActivity() {
         // Set an EditText view to get user input
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
-        input.setText(Integer.toString(getPid(this)))
+        input.setText(getPid(this).toString())
         input.setLines(1)
         input.setSingleLine(true)
 

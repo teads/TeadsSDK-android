@@ -74,6 +74,7 @@ class AdMobBannerFragment : BaseFragment() {
     }
 
 
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
     fun onReloadEvent(event: ReloadEvent) {
         // not used

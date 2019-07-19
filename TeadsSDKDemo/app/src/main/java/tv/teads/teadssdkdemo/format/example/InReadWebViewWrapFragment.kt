@@ -82,6 +82,7 @@ class InReadWebViewWrapFragment : BaseFragment(), SyncWebViewTeadsAdView.Listene
         webviewHelperSynch.onConfigurationChanged()
     }
 
+    @Suppress("UNUSED_PARAMETER")
     @Subscribe
     fun onReloadEvent(event: ReloadEvent) {
         // Not used

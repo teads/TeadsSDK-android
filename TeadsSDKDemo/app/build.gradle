@@ -8,8 +8,8 @@ android {
 
     String sufixBaseName = ""
 
-    if (System.getenv("BUILD_ID") != null) {
-        sufixBaseName = "_b" + System.getenv("BUILD_ID")
+    if (System.getenv("BITRISE_GIT_BRANCH") != null) {
+        sufixBaseName = "_" + System.getenv("BITRISE_GIT_BRANCH")
     }
 
     defaultConfig {
@@ -21,11 +21,11 @@ android {
         buildToolsVersion projectBuildToolsVersion
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
         multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -43,16 +43,21 @@ repositories {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:cardview-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
-    implementation ('com.google.android.gms:play-services-ads:15.0.1') {
+    implementation('com.google.android.gms:play-services-ads:15.0.1') {
         exclude group: "com.android.support", module: "customtabs"
         // CustomTabs include a support library version different from the project one (older)
     }
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -68,4 +73,13 @@ dependencies {
         transitive = true
     }
     implementation project(':webviewhelper')
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
+    androidTestImplementation "com.android.support.test:rules:$rulesVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion" // THe project still use the Support Library
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

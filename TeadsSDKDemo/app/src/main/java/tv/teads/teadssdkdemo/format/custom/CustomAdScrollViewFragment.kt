@@ -41,8 +41,8 @@ class CustomAdScrollViewFragment : BaseFragment() {
         teadsAdView.load()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         teadsAdView.clean()
     }
 
