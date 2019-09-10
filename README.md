@@ -9,7 +9,7 @@ Clone this repository to your favorite folder, and open it with Android Studio. 
 
 The Teads SDK is distributed as a gradle dependencie that you have to add to your gradle file. It include everything you need to serve "outstream" video ads.
 
-For complete Integration documentation, [see the documentation](https://mobile.teads.tv/sdk/documentation/)
+For complete Integration documentation, [see the documentation](https://support.teads.tv/support/solutions/articles/36000165909)
 
 **Short integration using gradle :**
 Add our Maven Repository and the dependency: 
@@ -29,7 +29,7 @@ dependencies {
 
 
 ## Integration Documentation
-Integration instructions are available on [Teads SDK Documentation](https://mobile.teads.tv/sdk/documentation/).
+Integration instructions are available on [Teads SDK Documentation](https://support.teads.tv/support/solutions/articles/36000165909).
 
 ## Changelog
 
