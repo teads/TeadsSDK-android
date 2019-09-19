@@ -1,5 +1,13 @@
 # Changelog
 
+### v4.3.0
+_2019-09-19_
+
+- `setAdContainerView` is now **deprecated** on mediation adapter, the adapter now clean itself when asked by the mediation SDK to prevent leakage.
+- `TeadsWebViewClientOverride` is now **deprecated**. The SDK now handle `WebView#onRenderProcessGone` correctly to clean the ad automatically.
+- Report proper error when client is offline while loading a new ad.
+- Fix and minors improvements.
+
 ### v4.2.4
 _2019-06-11_
 - Fix and minors improvements
