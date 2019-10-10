@@ -1,8 +1,13 @@
 # Changelog
 
+### v4.3.2
+_2019-10-09_
+- `setAdContainerView` method in `CustomAdView` and `InReadAdView` is now **deprecated**.
+- Improvement on scroller creative
+- Add `PoolConfig` class in proguard consumer rules
+
 ### v4.3.0
 _2019-09-19_
-
 - `adContainerId` is now **deprecated** on mediation adapter, the adapter now clean itself when asked by the mediation SDK to prevent leakage.
 - `TeadsWebViewClientOverride` is now **deprecated**. The SDK now handle `WebView#onRenderProcessGone` correctly to clean the ad automatically.
 - Report proper error when client is offline while loading a new ad in SDK debug mode.
