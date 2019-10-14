@@ -61,7 +61,7 @@ class CustomAdRecyclerViewFragment : BaseFragment() {
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = SimpleRecyclerViewAdapter(data, pid, activity, -1)
+        recyclerView.adapter = SimpleRecyclerViewAdapter(data, -1, activity, -1)
     }
 
     @Suppress("UNUSED_PARAMETER")

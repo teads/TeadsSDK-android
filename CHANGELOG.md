@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.3.3
+_2019-10-14_
+- Fix and minors improvements  
+
 ### v4.3.2
 _2019-10-09_
 - `setAdContainerView` method in `CustomAdView` and `InReadAdView` is now **deprecated**.
