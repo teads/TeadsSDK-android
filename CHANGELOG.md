@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.3.4
+_2019-11-04_
+- Fix and minors improvements
+
 ### v4.3.3
 _2019-10-14_
 - Fix and minors improvements  
