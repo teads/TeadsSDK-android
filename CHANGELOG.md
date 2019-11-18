@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.4.0
+_2019-11-18_
+- Support Open measurement 1.2.20 to manage third-party visibility for display and video creative. [IAB documentation](https://iabtechlab.com/standards/open-measurement-sdk/) 
+ 
 ### v4.3.4
 _2019-11-04_
 - Fix and minors improvements
