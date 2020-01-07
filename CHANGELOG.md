@@ -1,7 +1,7 @@
 # Changelog
 
 ### v4.5.0
-_2019-11-18_
+_2020-01-03_
 - Support US Privacy String (CCPA) [IAB documentation](https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf)
 - Fix and Improvements
  
