@@ -7,19 +7,17 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import butterknife.ButterKnife
-import butterknife.OnClick
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import tv.teads.teadssdkdemo.format.custom.CustomAdRecyclerViewFragment
@@ -53,7 +51,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
 
         if (!TextUtils.isEmpty(intent.getStringExtra(INTENT_EXTRA_PID))) {
             PreferenceManager
@@ -112,6 +109,8 @@ class MainActivity : AppCompatActivity() {
         // Set the drawer toggle as the DrawerListener
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
+
+        configureClickListener()
     }
 
     /**
@@ -140,7 +139,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeFragment(frag: Fragment) {
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container).javaClass == frag.javaClass) {
+        if ((supportFragmentManager.findFragmentById(R.id.fragment_container) as Fragment).javaClass == frag.javaClass) {
             closeDrawerAndReloadAd()
             return
         }
@@ -186,49 +185,21 @@ class MainActivity : AppCompatActivity() {
      * NavigationDrawer button listener
      */
 
-    @OnClick(R.id.inread_scrollview)
-    fun inReadScrollView() {
-        changeFragment(InReadScrollViewFragment())
-    }
-
-    @OnClick(R.id.inread_recyclerview)
-    fun inReadRecyclerView() {
-        changeFragment(InReadRecyclerViewFragment())
-    }
-
-    @OnClick(R.id.inread_repeatable_recyclerview)
-    fun inReadRepeatableRecyclerView() {
-        changeFragment(InReadRepeatableRecyclerViewFragment())
-    }
-
-    @OnClick(R.id.inread_webview)
-    fun inReadWebView() {
-        changeFragment(InReadWebViewFragment())
-    }
-
-    @OnClick(R.id.custom_scrollview)
-    fun inReadTopScrollView() {
-        changeFragment(CustomAdScrollViewFragment())
-    }
-
-    @OnClick(R.id.custom_recyclerview)
-    fun inReadTopRecyclerView() {
-        changeFragment(CustomAdRecyclerViewFragment())
-    }
-
-    @OnClick(R.id.custom_webview)
-    fun inReadTopWebView() {
-        changeFragment(CustomAdWebViewFragment())
-    }
-
-    @OnClick(R.id.exampleButton)
-    fun example() {
-        changeFragment(ExampleFragment())
+    private fun configureClickListener() {
+        findViewById<View>(R.id.inread_scrollview).setOnClickListener {changeFragment(InReadScrollViewFragment())}
+        findViewById<View>(R.id.inread_recyclerview).setOnClickListener {changeFragment(InReadRecyclerViewFragment())}
+        findViewById<View>(R.id.inread_repeatable_recyclerview).setOnClickListener {changeFragment(InReadRepeatableRecyclerViewFragment())}
+        findViewById<View>(R.id.inread_webview).setOnClickListener {changeFragment(InReadWebViewFragment())}
+        findViewById<View>(R.id.custom_scrollview).setOnClickListener {changeFragment(CustomAdScrollViewFragment())}
+        findViewById<View>(R.id.custom_recyclerview).setOnClickListener {changeFragment(CustomAdRecyclerViewFragment())}
+        findViewById<View>(R.id.custom_webview).setOnClickListener {changeFragment(CustomAdWebViewFragment())}
+        findViewById<View>(R.id.exampleButton).setOnClickListener {changeFragment(ExampleFragment())}
+        findViewById<View>(R.id.action_pid).setOnClickListener {changePidDialog()}
+        findViewById<View>(R.id.action_webviewurl).setOnClickListener {changeWebviewUrlDialog()}
     }
 
     @SuppressLint("SetTextI18n")
-    @OnClick(R.id.action_pid)
-    fun changePidDialog() {
+    private fun changePidDialog() {
         // Set an EditText view to get user input
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
@@ -263,8 +234,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @OnClick(R.id.action_webviewurl)
-    fun changeWebviewUrlDialog() {
+    private fun changeWebviewUrlDialog() {
         // Set an EditText view to get user input
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_webview_content, null)
         val input = view.findViewById<EditText>(R.id.webViewEditText)

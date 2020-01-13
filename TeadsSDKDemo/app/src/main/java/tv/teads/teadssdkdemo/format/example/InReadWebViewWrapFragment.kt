@@ -77,7 +77,7 @@ class InReadWebViewWrapFragment : BaseFragment(), SyncWebViewTeadsAdView.Listene
         adView.clean()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         webviewHelperSynch.onConfigurationChanged()
     }

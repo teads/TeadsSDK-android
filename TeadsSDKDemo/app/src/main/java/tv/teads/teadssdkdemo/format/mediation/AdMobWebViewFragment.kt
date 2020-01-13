@@ -85,7 +85,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         webviewHelperSynch.clean()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         webviewHelperSynch.onConfigurationChanged()
     }

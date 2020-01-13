@@ -19,20 +19,20 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/build/generated/res/resValues/debug" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res" />
         <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
         <option name="PROJECT_TYPE" value="1" />
       </configuration>
     </facet>
     <facet type="kotlin-language" name="Kotlin">
-      <configuration version="3" platform="JVM 1.6" allPlatforms="JVM [1.6]" useProjectSettings="false" pureKotlinSourceFolders="$MODULE_DIR$/src/debug/kotlin;/Users/benjaminvolland/Repositories/TeadsSDK-android/TeadsSDKDemo/webviewhelper/src/debug/java;/Users/benjaminvolland/Repositories/TeadsSDK-android/TeadsSDKDemo/webviewhelper/src/release/kotlin;/Users/benjaminvolland/Repositories/TeadsSDK-android/TeadsSDKDemo/webviewhelper/src/release/java;/Users/benjaminvolland/Repositories/TeadsSDK-android/TeadsSDKDemo/webviewhelper/src/debugAndroidTest/kotlin;/Users/benjaminvolland/Repositories/TeadsSDK-android/TeadsSDKDemo/webviewhelper/src/debugUnitTest/kotlin;/Users/benjaminvolland/Repositories/TeadsSDK-android/TeadsSDKDemo/webviewhelper/src/releaseUnitTest/kotlin">
+      <configuration version="3" platform="JVM 1.6" allPlatforms="JVM [1.6]" useProjectSettings="false">
         <compilerSettings>
           <option name="additionalArguments" value="-Xallow-no-source-files" />
         </compilerSettings>
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/build/tmp/kotlin-classes/debug" />
-          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions-runtime/1.3.41/8d3d500e42bd74c17fa9586db8ca85c336979d02/kotlin-android-extensions-runtime-1.3.41.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.3.41/a1f331124ba069a09e964ad2640c36f140f2c758/kotlin-stdlib-jdk7-1.3.41.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.41/e24bd38de28a326cce8b1f0d61e809e9a92dad6a/kotlin-stdlib-1.3.41.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.41/2ecf4aa059427d7186312fd1736afedf7972e7f7/kotlin-stdlib-common-1.3.41.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/281657f2c638216842a9dc38b834fb6b/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/7bf1b3831e618dc664afb4afe3a9e4ad/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/b56e2bf738408aa1161f05b65a436a31/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.11.0/75966e05a49046ca2ae734e5626f28837a8d1e82/okhttp-3.11.0.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/102d7be47241d781ef95f1581d414b0943053130/okio-1.14.0.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/159808a16dcdf5a49d12403ff2441a5c/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/462792c192da302913ffa6f0c0441136/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf/gson-2.8.2.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.greenrobot/eventbus/3.0.0/ddd99896e9569eaababbe81b35d80e1b91c4ad85/eventbus-3.0.0.jar:/Users/benjaminvolland/Library/Android/sdk/platforms/android-28/android.jar" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions-runtime/1.3.50/bec16087637a7cafe54894e73d38037977cb30d2/kotlin-android-extensions-runtime-1.3.50.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.3.50/50ad05ea1c2595fb31b800e76db464d08d599af3/kotlin-stdlib-jdk7-1.3.50.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.50/b529d1738c7e98bbfa36a4134039528f2ce78ebf/kotlin-stdlib-1.3.50.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.50/3d9cd3e1bc7b92e95f43d45be3bfbcf38e36ab87/kotlin-stdlib-common-1.3.50.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/5275b4d1c0863039b3566a976436efb9/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/8d8b9acaa1b26238d56f40906cefa7c7/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/5db1fa869158f461397a9213dc2ac1f5/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.11.0/75966e05a49046ca2ae734e5626f28837a8d1e82/okhttp-3.11.0.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.14.0/102d7be47241d781ef95f1581d414b0943053130/okio-1.14.0.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/53bae80655b34aaf022929ee5ca67cad/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/95a346c1ed3ed662d379a6bcdc35ee48/jars/classes.jar:/Users/benjaminvolland/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf/gson-2.8.2.jar:/Users/benjaminvolland/.gradle/caches/transforms-2/files-2.1/ac9593b6cbf4d6657a0407a4460ca35a/jetified-eventbus-3.0.0.jar:/Users/benjaminvolland/Library/Android/sdk/platforms/android-28/android.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="webviewhelper_debug" />
@@ -48,12 +48,13 @@
           <option name="pluginClasspaths">
             <array>
               <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.intellij.deps/trove4j/1.0.20181211/216c2e14b070f334479d800987affe4054cd563f/trove4j-1.0.20181211.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.41/3bb1958b60435763b1299eb4e2dea5bea3bab2a3/kotlin-android-extensions-1.3.41.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.41/6b1d4385d65894e07a0d14a5949f5417a408f0b7/kotlin-compiler-embeddable-1.3.41.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.41/8fb58b8954661de666e321478bf4178c18ce8018/kotlin-reflect-1.3.41.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.41/bcc3380041bbba171119c22d7024961b60da69e0/kotlin-script-runtime-1.3.41.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.41/2ecf4aa059427d7186312fd1736afedf7972e7f7/kotlin-stdlib-common-1.3.41.jar" />
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.41/e24bd38de28a326cce8b1f0d61e809e9a92dad6a/kotlin-stdlib-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.50/f16428b9ce307d0f5842bd8ed9af1e43a141edd3/kotlin-android-extensions-1.3.50.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.50/1251c1768e5769b06c2487d6f6cf8acf6efb8960/kotlin-compiler-embeddable-1.3.50.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-embeddable/1.3.50/5cb93bb33f4c6f833ead0beca4c831668e00cf52/kotlin-daemon-embeddable-1.3.50.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.50/b499f22fd7c3e9c2e5b6c4005221fa47fc7f9a7a/kotlin-reflect-1.3.50.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.50/59492b8dfb92522ba0ddb5dd1c4d0ef0a4fca1af/kotlin-script-runtime-1.3.50.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.50/3d9cd3e1bc7b92e95f43d45be3bfbcf38e36ab87/kotlin-stdlib-common-1.3.50.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.50/b529d1738c7e98bbfa36a4134039528f2ce78ebf/kotlin-stdlib-1.3.50.jar" />
               <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
             </array>
           </option>
@@ -128,18 +129,18 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.41@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.41@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.41@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.3.50@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.50@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.50@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.11.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.14.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.2@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.greenrobot:eventbus:3.0.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:sdk:4.3.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:logger:4.3.2@aar" level="project" />
-    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:network:4.3.2@aar" level="project" />
+    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:sdk:4.5.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:logger:4.5.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: tv.teads.sdk.android:network:4.5.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: tv.teads.visdroid:library:1.7@aar" level="project" />
     <orderEntry type="library" name="Gradle: tv.teads.exoplayer:exoplayer-core:r2.4.3@aar" level="project" />
   </component>
