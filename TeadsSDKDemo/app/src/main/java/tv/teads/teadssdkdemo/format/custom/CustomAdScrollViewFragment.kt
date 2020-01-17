@@ -20,7 +20,7 @@ class CustomAdScrollViewFragment : BaseFragment() {
 
     private val teadsListener = object : TeadsListener() {
         override fun onAdFailedToLoad(adFailedReason: AdFailedReason?) {
-            Toast.makeText(this@CustomAdScrollViewFragment.activity, getString(R.string.didfail)+ adFailedReason.errorMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CustomAdScrollViewFragment.activity, getString(R.string.didfail)+ adFailedReason!!.errorMessage, Toast.LENGTH_SHORT).show()
         }
 
         override fun onError(s: String?) {
