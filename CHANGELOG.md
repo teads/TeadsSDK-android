@@ -1,11 +1,14 @@
 # Changelog
 
+### v4.5.1
+_2020-01-21_
+- Fix nullpointer on `SlotBoundsPlugin` class and minors improvements
+
 ### v4.5.0
 _2020-01-03_
 - Support US Privacy String (CCPA) [IAB documentation](https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf)
 - Fix and Improvements
  
-
 ### v4.4.0
 _2019-11-18_
 - Support Open measurement 1.2.20 to manage third-party visibility for display and video creative. [IAB documentation](https://iabtechlab.com/standards/open-measurement-sdk/) 
