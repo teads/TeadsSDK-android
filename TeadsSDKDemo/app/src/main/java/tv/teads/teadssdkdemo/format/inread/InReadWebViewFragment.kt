@@ -10,9 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
-
 import org.greenrobot.eventbus.Subscribe
-
 import tv.teads.sdk.android.AdFailedReason
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.sdk.android.TeadsListener
@@ -66,6 +64,13 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
                 webviewHelperSynch.displayAd()
             }
 
+            override fun onRatioUpdated(adRatio: Float) {
+                // Some creative can resize by itself, to handle it we have to notify the webview helper
+                // But unlike the ratio in onAdLoaded method, this ratio doesn't contains the footer and the header
+                // To manage this behavior, a work around is to substract 0.2 to the media ratio
+                webviewHelperSynch.updateSlot(adRatio - 0.2f)
+            }
+
             override fun closeAd() {
                 webviewHelperSynch.closeAd()
             }
@@ -96,7 +101,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onHelperReady(adContainer: ViewGroup) {
-            adView.load()
+        adView.load()
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////

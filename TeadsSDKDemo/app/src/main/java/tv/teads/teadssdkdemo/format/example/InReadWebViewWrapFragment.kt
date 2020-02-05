@@ -45,6 +45,13 @@ class InReadWebViewWrapFragment : BaseFragment(), SyncWebViewTeadsAdView.Listene
             webviewHelperSynch.displayAd()
         }
 
+        override fun onRatioUpdated(adRatio: Float) {
+            // Some creative can resize by itself, to handle it we have to notify the webview helper
+            // But unlike the ratio in onAdLoaded method, this ratio doesn't contains the footer and the header
+            // To manage this behavior, a work around is to substract 0.2 to the media ratio
+            webviewHelperSynch.updateSlot(adRatio - 0.2f)
+        }
+
         override fun closeAd() {
             webviewHelperSynch.closeAd()
         }
