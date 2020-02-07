@@ -1,5 +1,10 @@
 # Changelog
 
+### v4.6.0
+_2020-02-07_
+- Resolving BrowserActivity #147
+- Fix & improvements
+
 ### v4.5.1
 _2020-01-21_
 - Fix nullpointer on `SlotBoundsPlugin` class and minors improvements
