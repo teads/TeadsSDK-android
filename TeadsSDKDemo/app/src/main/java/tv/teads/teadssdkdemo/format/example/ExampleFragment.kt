@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_example.*
 
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-
-import butterknife.ButterKnife
-import butterknife.OnClick
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.AdMobBannerFragment
 import tv.teads.teadssdkdemo.format.mediation.MoPubRepeatableFragment
@@ -26,33 +24,22 @@ class ExampleFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_example, container, false)
-        ButterKnife.bind(this, rootView)
+        programmaticallyExampleButton.setOnClickListener{
+            EventBus.getDefault().post(ChangeFragmentEvent(ProgrammaticallyExampleFragment()))
+        }
+        mopubButton.setOnClickListener{
+            EventBus.getDefault().post(ChangeFragmentEvent(MoPubRepeatableFragment()))
+        }
+        webviewWrapButton.setOnClickListener{
+            EventBus.getDefault().post(ChangeFragmentEvent(InReadWebViewWrapFragment()))
+        }
+        admobButton.setOnClickListener{
+            EventBus.getDefault().post(ChangeFragmentEvent(AdMobBannerFragment()))
+        }
+        mediationWebViewButton.setOnClickListener{
+            EventBus.getDefault().post(ChangeFragmentEvent(AdMobWebViewFragment()))
+        }
         return rootView
-    }
-
-    @OnClick(R.id.programmaticallyExampleButton)
-    fun programmaticalyExample() {
-        EventBus.getDefault().post(ChangeFragmentEvent(ProgrammaticallyExampleFragment()))
-    }
-
-    @OnClick(R.id.mopubButton)
-    fun mopubExample() {
-        EventBus.getDefault().post(ChangeFragmentEvent(MoPubRepeatableFragment()))
-    }
-
-    @OnClick(R.id.webviewWrapButton)
-    fun webViewWrapExample() {
-        EventBus.getDefault().post(ChangeFragmentEvent(InReadWebViewWrapFragment()))
-    }
-
-    @OnClick(R.id.admobButton)
-    fun adMobExample() {
-        EventBus.getDefault().post(ChangeFragmentEvent(AdMobBannerFragment()))
-    }
-
-    @OnClick(R.id.mediationWebViewButton)
-    fun mediationWebView() {
-        EventBus.getDefault().post(ChangeFragmentEvent(AdMobWebViewFragment()))
     }
 
     @Subscribe
