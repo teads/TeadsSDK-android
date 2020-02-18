@@ -23,7 +23,7 @@ class MoPubRepeatableRecyclerViewAdapter internal constructor(private val datase
         val teadsLocalExtras = TeadsLocalExtras.Builder()
                 .enableDebug()
                 .userConsent("1", "11001")
-                .adContainerId(moPubView.id)
+                .pageUrl("https://page.com/article1/")
                 .build()
         moPubView.localExtras = teadsLocalExtras.extras
     }
