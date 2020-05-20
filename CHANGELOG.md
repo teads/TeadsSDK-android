@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.7.0
+_2020-05-20_
+- New Crash monitor for Teads SDK
+
 ### v4.6.0
 _2020-02-07_
 - Resolving BrowserActivity #147
