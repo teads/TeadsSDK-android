@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.7.1
+_2020-05-27_
+Resolve gradle cache issue
+
 ### v4.7.0
 _2020-05-20_
 - New Crash monitor for Teads SDK
