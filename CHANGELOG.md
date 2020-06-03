@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.7.2
+_2020-06-03_
+support TCFv2 IAB specifications
+
 ### v4.7.1
 _2020-05-27_
 Resolve gradle cache issue
