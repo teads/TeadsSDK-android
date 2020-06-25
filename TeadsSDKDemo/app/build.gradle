@@ -40,6 +40,8 @@ repositories {
     maven {
         url "https://s3.amazonaws.com/moat-sdk-builds"
     }
+    //Huawei maven repository
+    maven { url "https://developer.huawei.com/repo/" }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -70,6 +72,9 @@ dependencies {
         transitive = true
     }
     implementation project(':webviewhelper')
+
+    //Huawei ads identifier sdk
+    implementation "com.huawei.hms:ads-identifier:3.4.28.313"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "junit:junit:$junitVersion"
