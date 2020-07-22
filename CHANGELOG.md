@@ -1,4 +1,10 @@
 # Changelog
+### v4.7.2
+_2020-07-22_
+- New mediation resize feature for adapters
+- Updating internal dependencies version
+- Removing Brotli library
+
 ### v4.7.3
 _2020-06-25_
 - *Huawei OAID support*. This feature allows Teads network to deliver an ad on Huawei devices without Google play services.

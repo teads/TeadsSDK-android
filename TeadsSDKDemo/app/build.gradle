@@ -66,6 +66,7 @@ dependencies {
         transitive = true
     }
     // Teads Admob Adapter
+    implementation("tv.teads.sdk.android:adapterhelper:$libraryVersion@aar")
     implementation "tv.teads.sdk.android:admobadapter:$libraryVersion"
     implementation "tv.teads.sdk.android:mopubadapter:$libraryVersion"
     implementation('com.mopub:mopub-sdk:5.0.0@aar') {
