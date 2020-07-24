@@ -8,16 +8,20 @@ import android.widget.Toast
 import com.google.android.gms.ads.*
 import kotlinx.android.synthetic.main.fragment_admob_banner.*
 import org.greenrobot.eventbus.Subscribe
-import tv.teads.adapter.admob.TeadsAdNetworkExtras
 import tv.teads.adapter.admob.TeadsAdapter
+import tv.teads.helper.TeadsBannerAdapterListener
+import tv.teads.helper.TeadsHelper
+import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.ReloadEvent
+import kotlin.math.roundToInt
 
 /**
  * Display inRead as Banner within a ScrollView using AdMob Mediation.
  */
 class AdMobBannerFragment : BaseFragment() {
+    private lateinit var mListener: TeadsBannerAdapterListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -27,6 +31,7 @@ class AdMobBannerFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 1. Init AdMob (could be done in your Application class)
         MobileAds.initialize(context, ADMOB_TEADS_APP_ID)
+        TeadsHelper.initialize()
 
         // 2. Create AdMob view and add it to hierarchy
         val adView = AdView(view.context)
@@ -57,17 +62,32 @@ class AdMobBannerFragment : BaseFragment() {
             }
         }
 
-        // 4. Load a new ad (this will call AdMob and Teads afterward)
-        val extras = TeadsAdNetworkExtras.Builder()
+        mListener = object : TeadsBannerAdapterListener {
+            override fun onRatioUpdated(adRatio: Float) {
+                val params: ViewGroup.LayoutParams = adView.layoutParams
+
+                // Here the width is MATCH_PARENT
+                params.height = (params.width / adRatio).roundToInt()
+
+                adView.layoutParams = params
+            }
+
+        }
+
+        // 4. Attach listener to the helper and save the key
+        val key = TeadsHelper.attachListener(mListener)
+
+        // 5. Load a new ad (this will call AdMob and Teads afterward)
+        val extras = AdSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
                 .userConsent("1", "0001")
                 // The article url if you are a news publisher to increase your earnings
                 .pageUrl("https://page.com/article1/")
-                .adContainerId(bannerAdFrame.id)
+                .addAdapterListener(key)
                 .build()
         val adRequest = AdRequest.Builder()
-                .addCustomEventExtrasBundle(TeadsAdapter::class.java, extras.extras)
+                .addCustomEventExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
                 .build()
 
         adView.loadAd(adRequest)
@@ -82,8 +102,8 @@ class AdMobBannerFragment : BaseFragment() {
 
     companion object {
         // FIXME This ids should be replaced by your own AdMob application and ad block ids
-        val ADMOB_TEADS_APP_ID = "ca-app-pub-3570580224725271~3869556230"
-        val ADMOB_TEADS_BANNER_ID = "ca-app-pub-3570580224725271/1481793511"
+        val ADMOB_TEADS_APP_ID = "ca-app-pub-3068786746829754~3613028870"
+        val ADMOB_TEADS_BANNER_ID = "ca-app-pub-3068786746829754/3486435166"
     }
 
 }

@@ -65,6 +65,7 @@
     <string name="light">Light</string>
     <string name="programmatically_example">Programmatically example</string>
     <string name="admob">AdMob Mediation</string>
+    <string name="mopub">MoPub Mediation</string>
     <string name="mediationWebView">Mediation &amp; WebView</string>
     <string name="webview_wrap_example">WebVIew height=wrap_content</string>
 
