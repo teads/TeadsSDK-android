@@ -1,5 +1,9 @@
 # Changelog
-### v4.7.2
+### v4.7.6
+_2020-08-07_
+- Fixing internal issues with TCFv2 handling
+
+### v4.7.5
 _2020-07-22_
 - New mediation resize feature for adapters
 - Updating internal dependencies version
