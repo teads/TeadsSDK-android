@@ -11,8 +11,8 @@ _2020-07-22_
 
 ### v4.7.3
 _2020-06-25_
-- *Huawei OAID support*. This feature allows Teads network to deliver an ad on Huawei devices without Google play services.
-To enable the feature it's mandatory to import the Huawei SDK in the application dependecies (`implementation "com.huawei.hms:ads-identifier:3.4.28.313"`)
+- *Huawei OAID support*. This feature allows Teads network to deliver an ad on Huawei devices without Google Play Services.
+To enable the feature it's mandatory to import the Huawei SDK in the application dependencies (`implementation "com.huawei.hms:ads-identifier:3.4.28.313"`)
 [OAID](https://developer.huawei.com/consumer/en/codelab/HMSAdsOAID/index.html#0)
 - Fix for TCF v2 serialization
 
