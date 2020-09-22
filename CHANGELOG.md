@@ -1,4 +1,11 @@
 # Changelog
+
+### v4.7.8
+_2020-09-22_
+- Fix resize for VPAID ad
+- Enable third partie cookies above LOLLIPOP on Teads webview
+
+
 ### v4.7.6
 _2020-08-07_
 - Fixing internal issues with TCFv2 handling
