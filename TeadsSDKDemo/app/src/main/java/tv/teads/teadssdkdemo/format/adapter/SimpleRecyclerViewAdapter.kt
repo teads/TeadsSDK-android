@@ -28,11 +28,19 @@ class SimpleRecyclerViewAdapter(private val dataset: List<String>, private val a
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == adPosition) TYPE_TEADS else TYPE_TEXT
+        return when (position) {
+            0 -> TYPE_HEADER
+            10 -> TYPE_TEADS
+            else -> TYPE_TEXT
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
+            TYPE_HEADER -> {
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.header_row, parent, false)
+                ViewHolderDemo(v)
+            }
             TYPE_TEADS -> {
                 adContainer = parent
                 adView.setAdContainerView(adContainer)
@@ -53,28 +61,21 @@ class SimpleRecyclerViewAdapter(private val dataset: List<String>, private val a
         when (holder.itemViewType) {
             TYPE_TEADS -> {
             }
-            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text =
-                    dataset[if (adPosition in 1 until position) position - 1 else position]
+            TYPE_TEXT -> {}
         }// loading is already done before hand
     }
 
     override fun getItemCount(): Int {
-        return dataset.size + if (adPosition >= 0) 1 else 0
-    }
-
-    fun reloadAd() {
-        adView.setAdContainerView(adContainer)
-        adView.load()
+        return (dataset.size + 1) + if (adPosition >= 0) 1 else 0
     }
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)
 
-    private inner class ViewHolderDemo internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.listViewText)
-    }
+    private inner class ViewHolderDemo internal constructor(view: View) : RecyclerView.ViewHolder(view) {}
 
     companion object {
         private val TYPE_TEADS = 0
         private val TYPE_TEXT = 1
+        private val TYPE_HEADER = 2
     }
 }

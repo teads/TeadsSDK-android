@@ -31,14 +31,4 @@ abstract class BaseFragment : Fragment() {
             val activity = activity as MainActivity? ?: return ""
             return activity.getWebViewUrl(this.activity!!)
         }
-
-    override fun onResume() {
-        super.onResume()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        EventBus.getDefault().unregister(this)
-    }
 }

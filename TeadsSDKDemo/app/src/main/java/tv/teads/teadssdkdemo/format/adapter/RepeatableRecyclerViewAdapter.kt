@@ -46,7 +46,7 @@ class RepeatableRecyclerViewAdapter(private val dataset: List<String>, context: 
         when (holder.itemViewType) {
             TYPE_TEADS -> {
             }
-            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text = (position - position / 10).toString()
+            TYPE_TEXT -> {}
         }// loading is already done before hand
     }
 
@@ -62,10 +62,7 @@ class RepeatableRecyclerViewAdapter(private val dataset: List<String>, context: 
         val adView: InReadAdView = view as InReadAdView
     }
 
-    private inner class ViewHolderDemo(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.listViewText)
-
-    }
+    private inner class ViewHolderDemo(view: View) : RecyclerView.ViewHolder(view) {}
 
     companion object {
         private val TYPE_TEADS = 0

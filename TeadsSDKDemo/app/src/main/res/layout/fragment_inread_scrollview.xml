@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/scrollViewDemoVideo">
+    android:id="@+id/scrollViewDemoVideo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,29 +10,28 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lorem_medium"
-            android:textSize="@dimen/text_size" />
+            android:layout_height="150dp"
+            android:background="@drawable/gradient_teads"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Scroll down to see your creative"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <include layout="@layout/fake_text_view" />
 
         <FrameLayout
-            android:id="@+id/adContainer"
+            android:id="@+id/teadsAdView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-            <tv.teads.sdk.android.InReadAdView
-                android:id="@+id/teadsAdView"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"/>
-
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/lorem_medium"
-            android:textSize="@dimen/text_size"/>
+        <include layout="@layout/fake_text_view" />
     </LinearLayout>
 </ScrollView>

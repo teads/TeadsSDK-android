@@ -1,18 +1,145 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="tv.teads.teadssdkdemo.MainActivity$PlaceholderFragment">
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
 
     <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_format"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/help_opendrawer"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textSize="@dimen/text_title" />
+        android:layout_marginStart="4dp"
+        android:text="@string/format"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+    <RadioGroup
+        android:id="@+id/container_format"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:checkedButton="@id/inreadButton"
+        app:layout_constraintTop_toBottomOf="@id/text_format">
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/inreadButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/inread"
+            android:textColor="@android:color/white" />
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/nativeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/nativeS"
+            android:textColor="@color/primaryDarkDef" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/text_provider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="@dimen/list_item_margin"
+        android:text="@string/provider"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/container_format" />
+
+    <RadioGroup
+        android:id="@+id/container_provider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:checkedButton="@id/directButton"
+        app:layout_constraintTop_toBottomOf="@id/text_provider">
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/directButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/direct"
+            android:textColor="@android:color/white" />
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/mopubButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/mopub"
+            android:textColor="@color/primaryDarkDef" />
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/admobButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/admob"
+            android:textColor="@color/primaryDarkDef" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/text_integration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="@dimen/list_item_margin"
+        android:text="@string/integration"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/container_provider" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_integration">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/integrations"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

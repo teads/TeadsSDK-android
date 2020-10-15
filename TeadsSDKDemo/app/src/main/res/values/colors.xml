@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primaryDef">#FFFFFF</color>
-    <color name="primaryDarkDef">#66ABDB</color>
-    <color name="accent">#66ABDB</color>
-    <color name="colorPrimary">#66ABDB</color>
+    <color name="primaryDef">#69A9E0</color>
+    <color name="primaryDarkDef">#0818B3</color>
+    <color name="primaryGrey">#A7B9D0</color>
+    <color name="accent">#AB4195</color>
+    <color name="colorPrimary">#215798</color>
 
+    <color name="accentTransparency">#80AB4195</color>
+    <color name="colorPrimaryTransparency">#80215798</color>
 
+    <color name="fakeArticle">#52CFCFCF</color>
     <color name="lightBackground">#eeeeee</color>
 
     <color name="textTitle">#646464</color>

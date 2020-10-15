@@ -44,10 +44,4 @@ class InReadRecyclerViewFragment : BaseFragment() {
         adapter = SimpleRecyclerViewAdapter(data, 10, context, pid)
         recyclerView.adapter = adapter
     }
-
-    @Suppress("UNUSED_PARAMETER")
-    @Subscribe
-    fun onReloadEvent(event: ReloadEvent) {
-        adapter.reloadAd()
-    }
 }

@@ -50,7 +50,7 @@ class MoPubRepeatableRecyclerViewAdapter internal constructor(private val datase
         when (holder.itemViewType) {
             TYPE_MOPUB_AD -> {
             }
-            TYPE_TEXT -> (holder as ViewHolderDemo).textView.text = (position - position / 10).toString()
+            TYPE_TEXT -> {}
         }
     }
 
@@ -60,10 +60,7 @@ class MoPubRepeatableRecyclerViewAdapter internal constructor(private val datase
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)
 
-    private inner class ViewHolderDemo internal constructor(view: View) : RecyclerView.ViewHolder(view) {
-        internal val textView: TextView = view.findViewById(R.id.listViewText)
-
-    }
+    private inner class ViewHolderDemo internal constructor(view: View) : RecyclerView.ViewHolder(view) {}
 
     internal fun loadBanner() {
         moPubView.loadAd()

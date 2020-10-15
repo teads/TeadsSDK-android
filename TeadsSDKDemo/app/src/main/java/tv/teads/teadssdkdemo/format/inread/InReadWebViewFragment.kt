@@ -46,7 +46,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "p:nth-child(7)")
+        webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "#teads-placement-slot")
 
         adView.setPid(pid)
         adView.listener = object : TeadsListener() {
