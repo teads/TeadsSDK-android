@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.mediation
+package tv.teads.teadssdkdemo.format.mediation.mopub
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
-import org.greenrobot.eventbus.Subscribe
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.format.mediation.adapter.MoPubRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.mediation.data.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.teadssdkdemo.utils.ReloadEvent
 import java.util.*
 
-class MoPubRepeatableFragment : BaseFragment() {
+class MoPubRecyclerViewFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -27,18 +27,15 @@ class MoPubRepeatableFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         val data = ArrayList<String>()
 
-        for (i in 0..49) {
-            data.add("Teads $i")
+        for (i in 0..5) {
+            data.add("")
         }
 
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = MoPubRepeatableRecyclerViewAdapter(data, "d6f99ffee8f245329f2fb4954cb8b477", context)
-        adapter.loadBanner()
+        val adapter = MoPubRecyclerViewAdapter(data, MOPUB_ID, context)
         recyclerView.adapter = adapter
     }
 
-    @Subscribe
-    fun onReloadEvent(event: ReloadEvent) {
-    }
+    override fun getTitle(): String = "MoPub RecyclerView"
 }

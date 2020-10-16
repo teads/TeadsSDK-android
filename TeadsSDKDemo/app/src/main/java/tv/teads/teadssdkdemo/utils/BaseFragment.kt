@@ -31,4 +31,7 @@ abstract class BaseFragment : Fragment() {
             val activity = activity as MainActivity? ?: return ""
             return activity.getWebViewUrl(this.activity!!)
         }
+
+
+    abstract fun getTitle(): String
 }

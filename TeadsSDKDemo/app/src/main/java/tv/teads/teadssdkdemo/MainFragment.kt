@@ -8,13 +8,21 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import tv.teads.teadssdkdemo.data.FORMAT_TYPE
+import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
-import tv.teads.teadssdkdemo.data.PROVIDER_TYPE
+import tv.teads.teadssdkdemo.data.ProviderType
+import tv.teads.teadssdkdemo.format.inread.InReadGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
-import tv.teads.teadssdkdemo.utils.BaseFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobScrollViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobWebViewFragment
+import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.mopub.MopubScrollViewFragment
+import tv.teads.teadssdkdemo.format.mediation.mopub.MopubWebViewFragment
 
 /**
  * Empty fragment helping opening the navigation drawer
@@ -23,7 +31,7 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
     private val mIntegrationList = listOf(
             IntegrationType("ScrollView", R.drawable.scrollview),
             IntegrationType("RecyclerView", R.drawable.tableview),
-            IntegrationType("CollectionView", R.drawable.collectionview),
+            IntegrationType("RecyclerView Grid", R.drawable.collectionview),
             IntegrationType("WebView", R.drawable.webview)
     )
     //private val mFragmentsNative = mapOf<>()
@@ -31,30 +39,30 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
     private val mFragmentsInReadDirect = mapOf(
             0 to InReadScrollViewFragment(),
             1 to InReadRecyclerViewFragment(),
-            2 to InReadRecyclerViewFragment(),
+            2 to InReadGridRecyclerViewFragment(),
             3 to InReadWebViewFragment()
     )
 
     private val mFragmentsInReadAdmob = mapOf(
-            0 to InReadScrollViewFragment(),
-            1 to InReadRecyclerViewFragment(),
-            2 to InReadRecyclerViewFragment(),
-            3 to InReadWebViewFragment()
+            0 to AdMobScrollViewFragment(),
+            1 to AdMobRecyclerViewFragment(),
+            2 to AdMobGridRecyclerViewFragment(),
+            3 to AdMobWebViewFragment()
     )
 
     private val mFragmentsInReadMopub = mapOf(
-            0 to InReadScrollViewFragment(),
-            1 to InReadRecyclerViewFragment(),
-            2 to InReadRecyclerViewFragment(),
-            3 to InReadWebViewFragment()
+            0 to MopubScrollViewFragment(),
+            1 to MoPubRecyclerViewFragment(),
+            2 to MoPubGridRecyclerViewFragment(),
+            3 to MopubWebViewFragment()
     )
 
     private lateinit var mRecycler: RecyclerView
     private lateinit var mContainerFormat: RadioGroup
     private lateinit var mContainerProvider: RadioGroup
 
-    private var mFormatSelected: FORMAT_TYPE = FORMAT_TYPE.INREAD
-    private var mProviderSelected: PROVIDER_TYPE = PROVIDER_TYPE.DIRECT
+    private var mFormatSelected: FormatType = FormatType.INREAD
+    private var mProviderSelected: ProviderType = ProviderType.DIRECT
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -75,19 +83,19 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
 
     override fun onIntegrationClicked(position: Int) {
         when (mFormatSelected) {
-            FORMAT_TYPE.INREAD -> changeFragmentForInRead(position)
+            FormatType.INREAD -> changeFragmentForInRead(position)
         }
     }
 
     private fun changeFragmentForInRead(position: Int) {
         when (mProviderSelected) {
-            PROVIDER_TYPE.DIRECT -> {
+            ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(mFragmentsInReadDirect[position]!!)
             }
-            PROVIDER_TYPE.ADMOB -> {
+            ProviderType.ADMOB -> {
                 (activity as MainActivity).changeFragment(mFragmentsInReadAdmob[position]!!)
             }
-            PROVIDER_TYPE.MOPUB -> {
+            ProviderType.MOPUB -> {
                 (activity as MainActivity).changeFragment(mFragmentsInReadMopub[position]!!)
             }
         }
@@ -95,12 +103,12 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
         if (group?.id == R.id.container_format) {
-            mFormatSelected = if (id == R.id.inreadButton) FORMAT_TYPE.INREAD else FORMAT_TYPE.NATIVE
+            mFormatSelected = if (id == R.id.inreadButton) FormatType.INREAD else FormatType.NATIVE
         } else {
             mProviderSelected = when (id) {
-                R.id.directButton -> PROVIDER_TYPE.DIRECT
-                R.id.mopubButton -> PROVIDER_TYPE.MOPUB
-                else -> PROVIDER_TYPE.ADMOB
+                R.id.directButton -> ProviderType.DIRECT
+                R.id.mopubButton -> ProviderType.MOPUB
+                else -> ProviderType.ADMOB
             }
         }
     }

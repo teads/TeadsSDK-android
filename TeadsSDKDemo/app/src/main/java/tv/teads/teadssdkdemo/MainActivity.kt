@@ -13,11 +13,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.activity_main.*
+import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                 .getString(SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT) ?: return SHAREDPREF_WEBVIEW_DEFAULT
     }
 
-    fun changeFragment(frag: Fragment) {
+    fun changeFragment(frag: BaseFragment) {
         if ((supportFragmentManager.findFragmentById(R.id.fragment_container) as Fragment).javaClass == frag.javaClass) {
             return
         }
@@ -108,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             transaction.attach(frag)
             transaction.addToBackStack(backStateName)
             transaction.commit()
-            setToolBar(false)
+            setToolBar(false, frag.getTitle())
         } catch (exception: IllegalStateException) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. $exception")
         }
@@ -147,11 +148,12 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton("Cancel") { _, _ ->
                     // Do nothing.
                 }.show()
-
     }
 
-    private fun setToolBar(isMainFragment: Boolean) {
+    private fun setToolBar(isMainFragment: Boolean, title: String = "") {
         supportActionBar?.setDisplayHomeAsUpEnabled(!isMainFragment)
+        toolbar.title = title
+        toolbar_logo.visibility = if (isMainFragment) View.VISIBLE else View.GONE
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

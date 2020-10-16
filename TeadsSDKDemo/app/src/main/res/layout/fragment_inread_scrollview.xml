@@ -7,31 +7,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/gradient_teads"
-            android:gravity="center">
+        <include layout="@layout/article_header_row" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Scroll down to see your creative"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
+        <include layout="@layout/article_title_row" />
 
-        <include layout="@layout/fake_text_view" />
+        <include layout="@layout/article_real_lines" />
+
+        <include layout="@layout/article_fake_lines" />
 
         <FrameLayout
             android:id="@+id/teadsAdView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include layout="@layout/fake_text_view" />
+        <include layout="@layout/article_fake_lines" />
     </LinearLayout>
 </ScrollView>

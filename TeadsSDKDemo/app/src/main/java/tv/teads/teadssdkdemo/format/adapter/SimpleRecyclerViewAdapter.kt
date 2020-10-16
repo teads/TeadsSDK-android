@@ -5,21 +5,16 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.data.RecyclerItemType
 
 /**
  * Simple RecyclerView adapter
  */
-class SimpleRecyclerViewAdapter(private val dataset: List<String>, private val adPosition: Int, context: Context?, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SimpleRecyclerViewAdapter(private val dataset: List<String>, context: Context?, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val adView: InReadAdView = InReadAdView(context)
-
-    /**
-     * Your ad container
-     */
-    private lateinit var adContainer: ViewGroup
 
     init {
         adView.setPid(pid)
@@ -29,53 +24,43 @@ class SimpleRecyclerViewAdapter(private val dataset: List<String>, private val a
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            0 -> TYPE_HEADER
-            10 -> TYPE_TEADS
-            else -> TYPE_TEXT
+            0 -> RecyclerItemType.TYPE_SCROLL_DOWN.value
+            1 -> RecyclerItemType.TYPE_ARTICLE_TITLE.value
+            2 -> RecyclerItemType.TYPE_ARTICLE_REAL_LINES.value
+            4 -> RecyclerItemType.TYPE_TEADS.value
+            else -> RecyclerItemType.TYPE_ARTICLE_FAKE_LINES.value
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_HEADER -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.header_row, parent, false)
+            RecyclerItemType.TYPE_SCROLL_DOWN.value -> {
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.article_header_row, parent, false)
                 ViewHolderDemo(v)
             }
-            TYPE_TEADS -> {
-                adContainer = parent
-                adView.setAdContainerView(adContainer)
+            RecyclerItemType.TYPE_ARTICLE_TITLE.value -> {
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.article_title_row, parent, false)
+                ViewHolderDemo(v)
+            }
+            RecyclerItemType.TYPE_ARTICLE_REAL_LINES.value -> {
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.article_real_lines, parent, false)
+                ViewHolderDemo(v)
+            }
+            RecyclerItemType.TYPE_TEADS.value -> {
                 ViewHolderTeadsAd(adView)
             }
-            TYPE_TEXT -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.list_row, parent, false)
-                ViewHolderDemo(v)
-            }
             else -> {
-                val v = LayoutInflater.from(parent.context).inflate(R.layout.list_row, parent, false)
+                val v = LayoutInflater.from(parent.context).inflate(R.layout.article_fake_lines, parent, false)
                 ViewHolderDemo(v)
             }
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            TYPE_TEADS -> {
-            }
-            TYPE_TEXT -> {}
-        }// loading is already done before hand
-    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    override fun getItemCount(): Int {
-        return (dataset.size + 1) + if (adPosition >= 0) 1 else 0
-    }
+    override fun getItemCount(): Int = dataset.size
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)
 
     private inner class ViewHolderDemo internal constructor(view: View) : RecyclerView.ViewHolder(view) {}
-
-    companion object {
-        private val TYPE_TEADS = 0
-        private val TYPE_TEXT = 1
-        private val TYPE_HEADER = 2
-    }
 }

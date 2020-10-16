@@ -74,5 +74,7 @@
     <string name="format">Format</string>
     <string name="direct">Direct</string>
     <string name="integration">Integration</string>
+    <string name="desc">Holding attention in a mobile driven world is no easy challenge. At Teads, we embrace the swipes, the scrolls, the pinches and the taps to build ad experiences that delight the user and deliver business results for brands.</string>
+    <string name="header_article">Creative that cuts through the noise...but respects the user.</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.mediation
+package tv.teads.teadssdkdemo.format.mediation.admob
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,30 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.ads.*
-import kotlinx.android.synthetic.main.fragment_admob_banner.*
-import org.greenrobot.eventbus.Subscribe
+import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.format.mediation.data.AdMobIdentifier.ADMOB_TEADS_APP_ID
+import tv.teads.teadssdkdemo.format.mediation.data.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.teadssdkdemo.utils.ReloadEvent
 import kotlin.math.roundToInt
 
 /**
  * Display inRead as Banner within a ScrollView using AdMob Mediation.
  */
-class AdMobBannerFragment : BaseFragment() {
+class AdMobScrollViewFragment : BaseFragment() {
     private lateinit var mListener: TeadsBannerAdapterListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_admob_banner, container, false)
+        return inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // 1. Init AdMob (could be done in your Application class)
+        // 1. Init AdMob (could be done in your Application class) & initialize the helper
         MobileAds.initialize(context, ADMOB_TEADS_APP_ID)
         TeadsHelper.initialize()
 
@@ -37,7 +37,7 @@ class AdMobBannerFragment : BaseFragment() {
         val adView = AdView(view.context)
         adView.adUnitId = ADMOB_TEADS_BANNER_ID
         adView.adSize = AdSize.MEDIUM_RECTANGLE
-        bannerAdFrame.addView(adView)
+        teadsAdView.addView(adView)
 
         // 3. Attach listener (will include Teads events)
         adView.adListener = object : AdListener() {
@@ -62,6 +62,7 @@ class AdMobBannerFragment : BaseFragment() {
             }
         }
 
+        // 3. Attach banner adapter listener to resize your ads
         mListener = object : TeadsBannerAdapterListener {
             override fun onRatioUpdated(adRatio: Float) {
                 val params: ViewGroup.LayoutParams = adView.layoutParams
@@ -93,17 +94,5 @@ class AdMobBannerFragment : BaseFragment() {
         adView.loadAd(adRequest)
     }
 
-
-    @Suppress("UNUSED_PARAMETER")
-    @Subscribe
-    fun onReloadEvent(event: ReloadEvent) {
-        // not used
-    }
-
-    companion object {
-        // FIXME This ids should be replaced by your own AdMob application and ad block ids
-        val ADMOB_TEADS_APP_ID = "ca-app-pub-3068786746829754~3613028870"
-        val ADMOB_TEADS_BANNER_ID = "ca-app-pub-3068786746829754/3486435166"
-    }
-
+    override fun getTitle(): String = "AdMob ScrollView"
 }

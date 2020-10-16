@@ -18,9 +18,11 @@
             android:id="@+id/toolbar"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            app:titleTextColor="@color/primaryGrey"
             android:background="@android:color/white">
 
             <ImageView
+                android:id="@+id/toolbar_logo"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:scaleType="centerInside"
