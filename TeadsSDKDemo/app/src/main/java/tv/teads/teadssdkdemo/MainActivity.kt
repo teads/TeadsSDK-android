@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -122,24 +123,23 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun changePidDialog() {
-        // Set an EditText view to get user input
-        @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
+        val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
         input.setText(getPid(this).toString())
         input.setLines(1)
         input.setSingleLine(true)
 
         AlertDialog.Builder(this)
-                .setTitle("Pid")
-                .setMessage("Change saved pid")
+                .setTitle("Change default PID")
                 .setView(view)
                 .setPositiveButton("Save") { _, _ ->
                     val pidString = input.text.toString()
                     val pid: Int
                     pid = if (pidString.isEmpty()) {
-                        Toast.makeText(this@MainActivity, "Setting default pid", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "Setting default PID", Toast.LENGTH_SHORT).show()
                         SHAREDPREF_PID_DEFAULT
                     } else {
+                        Toast.makeText(this@MainActivity, "Setting PID is only working for DIRECT provider", Toast.LENGTH_SHORT).show()
                         Integer.parseInt(pidString)
                     }
                     PreferenceManager
@@ -161,10 +161,21 @@ class MainActivity : AppCompatActivity() {
         toolbar_logo.visibility = if (isMainFragment) View.VISIBLE else View.GONE
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_temp, menu);
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
-            supportFragmentManager.popBackStack()
-            setToolBar(true)
+        when (item?.itemId) {
+            android.R.id.home -> {
+                supportFragmentManager.popBackStack()
+                setToolBar(true)
+            }
+            R.id.action_pid -> {
+                changePidDialog()
+            }
         }
 
         return super.onOptionsItemSelected(item);
