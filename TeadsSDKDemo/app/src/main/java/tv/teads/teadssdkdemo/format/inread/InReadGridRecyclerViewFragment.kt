@@ -25,15 +25,9 @@ class InReadGridRecyclerViewFragment : BaseFragment() {
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
-        val data = ArrayList<String>()
-
-        for (i in 0..5) {
-            data.add("")
-        }
-
         recyclerView.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
 
-        adapter = SimpleRecyclerViewAdapter(data, context, pid)
+        adapter = SimpleRecyclerViewAdapter(context, pid)
         recyclerView.adapter = adapter
     }
 

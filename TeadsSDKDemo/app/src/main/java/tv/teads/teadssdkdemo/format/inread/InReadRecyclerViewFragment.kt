@@ -30,15 +30,9 @@ class InReadRecyclerViewFragment : BaseFragment() {
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
-        val data = ArrayList<String>()
-
-        for (i in 0..5) {
-            data.add("")
-        }
-
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = SimpleRecyclerViewAdapter(data, context, pid)
+        adapter = SimpleRecyclerViewAdapter(context, pid)
         recyclerView.adapter = adapter
     }
 

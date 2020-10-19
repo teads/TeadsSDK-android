@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.mediation.data
+package tv.teads.teadssdkdemo.format.mediation.identifier
 
 object AdMobIdentifier {
     const val ADMOB_TEADS_APP_ID = "ca-app-pub-3068786746829754~3613028870"

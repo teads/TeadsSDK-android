@@ -17,7 +17,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.mopub.common.MoPub
+import com.mopub.common.SdkConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
+import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
@@ -39,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        MoPub.initializeSdk(this, SdkConfiguration.Builder(MoPubIdentifier.MOPUB_ID).build()) {}
 
         if (!TextUtils.isEmpty(intent.getStringExtra(INTENT_EXTRA_PID))) {
             PreferenceManager

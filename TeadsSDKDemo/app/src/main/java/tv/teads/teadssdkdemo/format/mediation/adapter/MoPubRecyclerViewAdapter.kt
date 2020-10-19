@@ -18,16 +18,24 @@ import kotlin.math.roundToInt
  * Manage a repeatable ad for a Recycler view with the MoPub mediation,
  * It will display the same ad view every [MoPubRecyclerViewAdapter.AD_INTERVAL] items
  */
-class MoPubRecyclerViewAdapter internal constructor(private val dataset: List<String>, moPubId: String, context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MoPubRecyclerViewAdapter internal constructor(moPubId: String, context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val mMoPubView: MoPubView = MoPubView(context)
     private val mListener: TeadsBannerAdapterListener
 
     init {
+        // 1. Initialize Teads Helper
         TeadsHelper.initialize()
 
+        // 2. Setup the MoPub view
         mMoPubView.adUnitId = moPubId
+        // Don't forget to put autorefreshEnabled to false
+        mMoPubView.autorefreshEnabled = false
 
+        /* 3. Create a TeadsBannerAdapterListener
+        You need to create an instance for each instance of AdMob view
+        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
+         */
         mListener = object : TeadsBannerAdapterListener {
             override fun onRatioUpdated(adRatio: Float) {
                 mMoPubView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -44,16 +52,21 @@ class MoPubRecyclerViewAdapter internal constructor(private val dataset: List<St
             }
         }
 
+        // 5. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
 
+        // 6. Create the AdSettings to customize our Teads AdView
         val extras = AdSettings.Builder()
                 .enableDebug()
                 .userConsent("1", "11001")
                 .addAdapterListener(key)
                 .pageUrl("https://page.com/article1/")
                 .build()
+
+        // 6. Add the AdSettings to MoPub view
         mMoPubView.localExtras = extras.toHashMap()
 
+        // 8. Load the ad
         mMoPubView.loadAd()
     }
 
@@ -91,7 +104,7 @@ class MoPubRecyclerViewAdapter internal constructor(private val dataset: List<St
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    override fun getItemCount(): Int = dataset.size
+    override fun getItemCount(): Int = 6
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)
 

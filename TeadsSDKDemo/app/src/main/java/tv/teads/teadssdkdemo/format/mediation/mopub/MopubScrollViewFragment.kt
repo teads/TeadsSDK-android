@@ -12,7 +12,7 @@ import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.mediation.data.MoPubIdentifier.MOPUB_ID
+import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import kotlin.math.roundToInt
 
@@ -29,21 +29,25 @@ class MopubScrollViewFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // 1. Initialize Teads Helper
         TeadsHelper.initialize()
-        if (MoPub.isSdkInitialized()) {
-            mMopubView.loadAd()
-        } else {
-            MoPub.initializeSdk(context!!, SdkConfiguration.Builder(MOPUB_ID).build()) {
-                initializeSdk()
 
-                mMopubView.loadAd()
-            }
-        }
+        initializeSdk()
     }
 
     private fun initializeSdk() {
+        // 2. Create MoPub view, setup and add it to view hierarchy
         mMopubView = MoPubView(activity)
 
+        mMopubView.adUnitId = MOPUB_ID
+        mMopubView.autorefreshEnabled = false
+        mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
+        teadsAdView.addView(mMopubView)
+
+        /* 3. Create a TeadsBannerAdapterListener
+        You need to create an instance for each instance of AdMob view
+        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
+         */
         mListener = object : TeadsBannerAdapterListener {
             override fun onRatioUpdated(adRatio: Float) {
                 val params: ViewGroup.LayoutParams = mMopubView.layoutParams
@@ -55,13 +59,11 @@ class MopubScrollViewFragment : BaseFragment() {
             }
         }
 
-        mMopubView.adUnitId = MOPUB_ID
-        mMopubView.autorefreshEnabled = false
-        mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
 
-
+        // 4. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
 
+        // 5. Create the AdSettings to customize our Teads AdView
         val extras = AdSettings.Builder()
                 .enableDebug()
                 .userConsent("1", "BOq832qOq832qAcABBENCxAAAAAs57_______9______9uz_Ov_v_f__33e8__9v_l_7_-___u_-33d4u_1vf99yfm1-7etr3tp_87ues2_Xur__79__3z3_9pxP78k89r7337Ew_v-_v8b7JCKN4A")
@@ -70,7 +72,8 @@ class MopubScrollViewFragment : BaseFragment() {
                 .build()
         mMopubView.localExtras = extras.toHashMap()
 
-        teadsAdView.addView(mMopubView)
+        // 8. Load the ad
+        mMopubView.loadAd()
     }
 
     override fun getTitle(): String = "MoPub ScrollView"

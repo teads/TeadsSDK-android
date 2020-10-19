@@ -12,8 +12,8 @@ import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.mediation.data.AdMobIdentifier.ADMOB_TEADS_APP_ID
-import tv.teads.teadssdkdemo.format.mediation.data.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_APP_ID
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import kotlin.math.roundToInt
 
@@ -29,11 +29,11 @@ class AdMobScrollViewFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // 1. Init AdMob (could be done in your Application class) & initialize the helper
+        // 1. Initialize AdMob & Teads Helper
         MobileAds.initialize(context, ADMOB_TEADS_APP_ID)
         TeadsHelper.initialize()
 
-        // 2. Create AdMob view and add it to hierarchy
+        // 2. Create AdMob view, setup and add it to view hierarchy
         val adView = AdView(view.context)
         adView.adUnitId = ADMOB_TEADS_BANNER_ID
         adView.adSize = AdSize.MEDIUM_RECTANGLE
@@ -62,7 +62,10 @@ class AdMobScrollViewFragment : BaseFragment() {
             }
         }
 
-        // 3. Attach banner adapter listener to resize your ads
+        /* 3. Create a TeadsBannerAdapterListener
+        You need to create an instance for each instance of AdMob view
+        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
+         */
         mListener = object : TeadsBannerAdapterListener {
             override fun onRatioUpdated(adRatio: Float) {
                 val params: ViewGroup.LayoutParams = adView.layoutParams
@@ -75,22 +78,26 @@ class AdMobScrollViewFragment : BaseFragment() {
 
         }
 
-        // 4. Attach listener to the helper and save the key
+        // 4. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
 
-        // 5. Load a new ad (this will call AdMob and Teads afterward)
+        // 6. Create the AdSettings to customize our Teads AdView
         val extras = AdSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
                 .userConsent("1", "0001")
                 // The article url if you are a news publisher to increase your earnings
                 .pageUrl("https://page.com/article1/")
+                // /!\ You need to add the key to the settings
                 .addAdapterListener(key)
                 .build()
+
+        // 7. Create the AdRequest with the previous settings
         val adRequest = AdRequest.Builder()
                 .addCustomEventExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
                 .build()
 
+        // 8. Load the ad with the AdRequest
         adView.loadAd(adRequest)
     }
 

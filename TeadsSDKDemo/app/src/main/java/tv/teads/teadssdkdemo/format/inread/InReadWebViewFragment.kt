@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.sdk.android.AdFailedReason
+import tv.teads.sdk.android.AdSettings
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.sdk.android.TeadsListener
 import tv.teads.teadssdkdemo.R
@@ -37,15 +38,23 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
+        // 1. Create the InReadAdView
         adView = InReadAdView(context)
 
         /*
+        2. Create a SyncWebViewTeadsAdView
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
         webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "#teads-placement-slot")
 
+        // 2. Setup the AdView
         adView.setPid(pid)
+
+        /* 3. Subscribe to our listener
+        You need to implement at least onAdLoaded & onRatioUpdated to synchronize the AdView with the
+        previous helper you created.
+         */
         adView.listener = object : TeadsListener() {
 
             override fun onAdFailedToLoad(adFailedReason: AdFailedReason?) {
@@ -93,7 +102,14 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onHelperReady(adContainer: ViewGroup) {
-        adView.load()
+        // 2. Customize the AdView with your settings
+        val settings = AdSettings.Builder()
+                .enableDebug()
+                .build()
+
+        // 5. Load the ad with the created settings
+        //    You can still load without settings.
+        adView.load(settings)
     }
 
     override fun getTitle(): String = "WebView"

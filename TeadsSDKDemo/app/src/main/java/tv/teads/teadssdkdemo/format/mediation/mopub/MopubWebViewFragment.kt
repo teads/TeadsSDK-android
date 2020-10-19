@@ -9,14 +9,13 @@ import com.mopub.common.MoPub
 import com.mopub.common.SdkConfiguration
 import com.mopub.mobileads.MoPubErrorCode
 import com.mopub.mobileads.MoPubView
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
-import tv.teads.teadssdkdemo.format.mediation.data.MoPubIdentifier.MOPUB_ID
+import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncWebViewViewGroup
 import tv.teads.webviewhelper.baseView.ObservableWrapperView
@@ -37,34 +36,30 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (context == null)
+            return
+
+        // 1. Initialize AdMob & Teads Helper
         TeadsHelper.initialize()
-        MoPub.initializeSdk(context!!, SdkConfiguration.Builder(MOPUB_ID).build()) {
-            initializeSdk()
-        }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        webviewHelperSynch.clean()
-    }
+        // 2. Create MoPub view and setup it
+        mMopubView = MoPubView(context)
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        webviewHelperSynch.onConfigurationChanged()
-    }
-
-    override fun onHelperReady(adContainer: ViewGroup) {
-        if (MoPub.isSdkInitialized())
-            mMopubView.loadAd()
-    }
-
-    private fun initializeSdk() {
-        mMopubView = MoPubView(activity)
+        mMopubView.adUnitId = MOPUB_ID
+        mMopubView.autorefreshEnabled = false
+        mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
         mMopubView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
 
+        /* 3. Create ObservableWrapperView & SyncWebViewViewGroup instance with adview
+        For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
+        You can find it in the webviewhelper module. {@see SyncWebViewViewGroup}
+         */
         val observableWrapperView = ObservableWrapperView(context!!, mMopubView)
         webviewHelperSynch = SyncWebViewViewGroup(webview, observableWrapperView, this, "#teads-placement-slot")
 
+        /* 4. Attach MoPub listener (will include Teads events)
+        Call the helper in onBannerLoaded
+         */
         mMopubView.bannerAdListener = object : MoPubView.BannerAdListener {
             override fun onBannerLoaded(banner: MoPubView?) {
                 webviewHelperSynch.displayAd()
@@ -76,10 +71,10 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
             override fun onBannerClicked(banner: MoPubView?) {}
         }
 
-        mMopubView.adUnitId = MOPUB_ID
-        mMopubView.autorefreshEnabled = false
-        mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
-
+        /* 5. Create a TeadsBannerAdapterListener
+        You need to create an instance for each instance of AdMob view
+        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
+         */
         mListener = object : TeadsBannerAdapterListener {
             override fun onRatioUpdated(adRatio: Float) {
                 val params: ViewGroup.LayoutParams = mMopubView.layoutParams
@@ -87,6 +82,7 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
                 // Here the width of parent is MATCH_PARENT
                 params.height = ((mMopubView.parent as View).width / adRatio).roundToInt()
 
+                // 6. You need to call updateSlot method from the helper
                 // Some creative can resize by itself, to handle it we have to notify the webview helper
                 // this ratio doesn't contains the footer and the header
                 // To manage this behavior, a work around is to substract 0.2 to the media ratio
@@ -96,8 +92,10 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
             }
         }
 
+        // 7. Attach and Register its key in the helper
         val key = TeadsHelper.attachListener(mListener)
 
+        // 8. Create the AdSettings to customize our Teads AdView
         val extras = AdSettings.Builder()
                 .enableDebug()
                 .userConsent("1", "BOq832qOq832qAcABBENCxAAAAAs57_______9______9uz_Ov_v_f__33e8__9v_l_7_-___u_-33d4u_1vf99yfm1-7etr3tp_87ues2_Xur__79__3z3_9pxP78k89r7337Ew_v-_v8b7JCKN4A")
@@ -106,9 +104,29 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
                 .build()
         mMopubView.localExtras = extras.toHashMap()
 
-        webview.settings.javaScriptEnabled = true
+        // 9. Create a custom WebViewclient with helper in it
         webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch)
+        webview.settings.javaScriptEnabled = true
         webview.loadUrl(this.webViewUrl)
+    }
+
+    override fun onHelperReady(adContainer: ViewGroup) {
+        // 10. Load the ad
+        mMopubView.loadAd()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Don't forget to call the helper here
+        webviewHelperSynch.clean()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        // Don't forget to call the helper here
+        webviewHelperSynch.onConfigurationChanged()
     }
 
     override fun getTitle(): String = "MoPub WebView"

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import tv.teads.sdk.android.AdSettings
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.RecyclerItemType
@@ -12,14 +13,24 @@ import tv.teads.teadssdkdemo.data.RecyclerItemType
 /**
  * Simple RecyclerView adapter
  */
-class SimpleRecyclerViewAdapter(private val dataset: List<String>, context: Context?, pid: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SimpleRecyclerViewAdapter(context: Context?, pid: Int)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    // 1. Create the InReadAdView
     private val adView: InReadAdView = InReadAdView(context)
 
     init {
+        // 2. Setup the AdView
         adView.setPid(pid)
-        adView.enableDebug()
-        adView.load()
+
+        // 3. Create an AdSettings and setup your AdView if needed
+        val settings = AdSettings.Builder()
+                .enableDebug()
+                .build()
+
+        // 4. Load the ad with the created settings
+        //    You can still load without settings.
+        adView.load(settings)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -46,9 +57,7 @@ class SimpleRecyclerViewAdapter(private val dataset: List<String>, context: Cont
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.article_real_lines, parent, false)
                 ViewHolderDemo(v)
             }
-            RecyclerItemType.TYPE_TEADS.value -> {
-                ViewHolderTeadsAd(adView)
-            }
+            RecyclerItemType.TYPE_TEADS.value -> ViewHolderTeadsAd(adView)
             else -> {
                 val v = LayoutInflater.from(parent.context).inflate(R.layout.article_fake_lines, parent, false)
                 ViewHolderDemo(v)
@@ -58,7 +67,7 @@ class SimpleRecyclerViewAdapter(private val dataset: List<String>, context: Cont
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    override fun getItemCount(): Int = dataset.size
+    override fun getItemCount(): Int = 6
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)
 

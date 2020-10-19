@@ -11,7 +11,9 @@ import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.adapter.AdMobRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import java.util.ArrayList
+
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_APP_ID
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
 
 /**
  * Display inRead as Banner within a RecyclerView using AdMob Mediation.
@@ -25,20 +27,13 @@ class AdMobGridRecyclerViewFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Set RecyclerView basic adapter
         setRecyclerViewAdapter(recyclerView)
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
-        val data = ArrayList<String>()
+        recyclerView.layoutManager = GridLayoutManager(activity,1, GridLayoutManager.VERTICAL, false)
 
-        for (i in 0..5) {
-            data.add("")
-        }
-
-        recyclerView.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-
-        recyclerView.adapter = AdMobRecyclerViewAdapter(data, context)
+        recyclerView.adapter = AdMobRecyclerViewAdapter(ADMOB_TEADS_BANNER_ID, ADMOB_TEADS_APP_ID, context)
     }
 
     override fun getTitle(): String = "AdMob RecyclerView Grid"

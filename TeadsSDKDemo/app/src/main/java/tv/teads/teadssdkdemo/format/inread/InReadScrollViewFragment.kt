@@ -8,6 +8,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import kotlinx.android.synthetic.main.list_row_adview.*
 import tv.teads.sdk.android.AdFailedReason
+import tv.teads.sdk.android.AdSettings
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.sdk.android.TeadsListener
 import tv.teads.teadssdkdemo.R
@@ -29,10 +30,17 @@ class InReadScrollViewFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 1. Create the InReadAdView
         adView = InReadAdView(activity)
 
+        // 2. Setup the AdView
+        val settings = AdSettings.Builder()
+                .enableDebug()
+                .build()
+
         adView.setPid(pid)
-        adView.enableDebug()
+
+        // 4. Subscribe to our listener
         adView.listener = object : TeadsListener() {
             override fun onAdFailedToLoad(reason: AdFailedReason?) {
                 Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
@@ -51,8 +59,10 @@ class InReadScrollViewFragment : BaseFragment() {
             }
         }
 
+        // 5. Load the ad with the created settings
+        //    You can still load without settings.
         teadsAdView.addView(adView)
-        adView.load()
+        adView.load(settings)
     }
 
     override fun onDestroy() {

@@ -14,26 +14,27 @@ import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.RecyclerItemType
-import tv.teads.teadssdkdemo.format.mediation.admob.AdMobRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.data.AdMobIdentifier.ADMOB_TEADS_APP_ID
-import tv.teads.teadssdkdemo.format.mediation.data.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
 import kotlin.math.roundToInt
 
 /**
  * Simple RecyclerView adapter
  */
-class AdMobRecyclerViewAdapter(private val dataset: List<String>, context: Context?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdMobRecyclerViewAdapter(admobBannerId: String, admobAppId: String, context: Context?)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val adView: AdView = AdView(context)
-    private var mAdRatio: Float = 1F
     private val mListener: TeadsBannerAdapterListener
 
     init {
-        MobileAds.initialize(context, ADMOB_TEADS_APP_ID)
+        // 1. Initialize AdMob & Teads Helper
+        MobileAds.initialize(context, admobAppId)
         TeadsHelper.initialize()
 
-        adView.adUnitId = ADMOB_TEADS_BANNER_ID
+        // 2. Setup the AdMob view
+        adView.adUnitId = admobBannerId
         adView.adSize = AdSize.MEDIUM_RECTANGLE
+
+        // 3. Subsribe to the listener if needed
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
             }
@@ -55,6 +56,10 @@ class AdMobRecyclerViewAdapter(private val dataset: List<String>, context: Conte
             }
         }
 
+        /* 4. Create a TeadsBannerAdapterListener
+        You need to create an instance for each instance of AdMob view
+        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
+         */
         mListener = object : TeadsBannerAdapterListener {
             override fun onRatioUpdated(adRatio: Float) {
                 adView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -71,19 +76,26 @@ class AdMobRecyclerViewAdapter(private val dataset: List<String>, context: Conte
             }
         }
 
+        // 5. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
+
+        // 6. Create the AdSettings to customize our Teads AdView
         val extras = AdSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
                 .userConsent("1", "0001")
                 // The article url if you are a news publisher to increase your earnings
                 .pageUrl("https://page.com/article1/")
+                // /!\ You need to add the key to the settings
                 .addAdapterListener(key)
                 .build()
+
+        // 7. Create the AdRequest with the previous settings
         val adRequest = AdRequest.Builder()
                 .addCustomEventExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
                 .build()
 
+        // 8. Load the ad with the AdRequest
         adView.loadAd(adRequest)
     }
 
@@ -121,7 +133,7 @@ class AdMobRecyclerViewAdapter(private val dataset: List<String>, context: Conte
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 
-    override fun getItemCount(): Int = dataset.size
+    override fun getItemCount(): Int = 6
 
     private inner class ViewHolderTeadsAd internal constructor(view: View) : RecyclerView.ViewHolder(view)
 
