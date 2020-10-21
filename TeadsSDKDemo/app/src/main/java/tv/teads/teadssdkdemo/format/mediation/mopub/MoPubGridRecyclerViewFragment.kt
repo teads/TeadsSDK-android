@@ -29,9 +29,9 @@ class MoPubGridRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
 
-        val adapter = MoPubRecyclerViewAdapter(MOPUB_ID, context)
+        val adapter = MoPubRecyclerViewAdapter(MOPUB_ID, context, getTitle())
         recyclerView.adapter = adapter
     }
 
-    override fun getTitle(): String = "MoPub RecyclerView Grid"
+    override fun getTitle(): String = "InRead MoPub RecyclerView Grid"
 }

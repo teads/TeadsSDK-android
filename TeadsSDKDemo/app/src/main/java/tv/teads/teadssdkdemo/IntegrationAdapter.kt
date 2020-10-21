@@ -10,8 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import tv.teads.teadssdkdemo.data.IntegrationType
 
 class IntegrationAdapter(private val mListener: OnIntegrationClickedListener,
-                         private val mContext: Context, private val mList: List<IntegrationType>)
+                         mContext: Context)
     : RecyclerView.Adapter<IntegrationAdapter.IntegrationViewHolder>() {
+    private val mList = listOf(
+            IntegrationType("ScrollView", R.drawable.scrollview),
+            IntegrationType("RecyclerView", R.drawable.tableview),
+            IntegrationType("RecyclerView Grid", R.drawable.collectionview),
+            IntegrationType("WebView", R.drawable.webview)
+    )
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
 

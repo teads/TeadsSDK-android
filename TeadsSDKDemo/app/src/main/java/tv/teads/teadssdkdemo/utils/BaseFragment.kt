@@ -1,10 +1,11 @@
 package tv.teads.teadssdkdemo.utils
 
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.fragment.app.Fragment
-
-import org.greenrobot.eventbus.EventBus
-
 import tv.teads.teadssdkdemo.MainActivity
+
 
 /**
  * The base fragment
@@ -32,6 +33,15 @@ abstract class BaseFragment : Fragment() {
             return activity.getWebViewUrl(this.activity!!)
         }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+    }
 
     abstract fun getTitle(): String
 }

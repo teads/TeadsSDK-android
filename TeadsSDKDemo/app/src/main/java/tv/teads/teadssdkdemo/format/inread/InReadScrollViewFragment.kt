@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
-import kotlinx.android.synthetic.main.list_row_adview.*
 import tv.teads.sdk.android.AdFailedReason
 import tv.teads.sdk.android.AdSettings
 import tv.teads.sdk.android.InReadAdView
@@ -25,7 +25,11 @@ class InReadScrollViewFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+        val v = inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+
+        v.findViewById<TextView>(R.id.integration_header).text = getTitle()
+
+        return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,5 +74,5 @@ class InReadScrollViewFragment : BaseFragment() {
         adView.clean()
     }
 
-    override fun getTitle(): String = "ScrollView"
+    override fun getTitle(): String = "InRead Direct ScrollView"
 }

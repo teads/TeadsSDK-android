@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.inread.adapter.SimpleRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import java.util.*
 
 class InReadGridRecyclerViewFragment : BaseFragment() {
     private lateinit var adapter: SimpleRecyclerViewAdapter
@@ -27,9 +26,9 @@ class InReadGridRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
 
-        adapter = SimpleRecyclerViewAdapter(context, pid)
+        adapter = SimpleRecyclerViewAdapter(context, pid, getTitle())
         recyclerView.adapter = adapter
     }
 
-    override fun getTitle(): String = "RecyclerView Grid"
+    override fun getTitle(): String = "InRead Direct RecyclerView Grid"
 }

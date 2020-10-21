@@ -7,8 +7,8 @@
     <color name="accent">#AB4195</color>
     <color name="colorPrimary">#215798</color>
 
-    <color name="accentTransparency">#80AB4195</color>
-    <color name="colorPrimaryTransparency">#80215798</color>
+    <color name="accentTransparency">#CCAB4195</color>
+    <color name="colorPrimaryTransparency">#CC215798</color>
 
     <color name="fakeArticle">#52CFCFCF</color>
     <color name="lightBackground">#eeeeee</color>

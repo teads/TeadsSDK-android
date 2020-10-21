@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.ads.*
 import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
@@ -25,7 +26,11 @@ class AdMobScrollViewFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+        val v = inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+
+        v.findViewById<TextView>(R.id.integration_header).text = getTitle()
+
+        return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,5 +106,5 @@ class AdMobScrollViewFragment : BaseFragment() {
         adView.loadAd(adRequest)
     }
 
-    override fun getTitle(): String = "AdMob ScrollView"
+    override fun getTitle(): String = "InRead AdMob ScrollView"
 }

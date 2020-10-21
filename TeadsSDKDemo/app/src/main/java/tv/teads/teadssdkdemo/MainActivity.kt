@@ -1,19 +1,15 @@
 package tv.teads.teadssdkdemo
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -26,23 +22,15 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
 class MainActivity : AppCompatActivity() {
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        if (!TextUtils.isEmpty(intent.getStringExtra(INTENT_EXTRA_PID))) {
-            PreferenceManager
-                    .getDefaultSharedPreferences(this@MainActivity)
-                    .edit()
-                    .putInt(
-                            SHAREDPREF_PID,
-                            Integer.parseInt(intent.getStringExtra(INTENT_EXTRA_PID)))
-                    .apply()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        toolbar.title = ""
+        setSupportActionBar(toolbar)
+        setToolBar(true)
 
         MoPub.initializeSdk(this, SdkConfiguration.Builder(MoPubIdentifier.MOPUB_ID).build()) {}
 
@@ -62,16 +50,6 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.fragment_container, fragment, MainFragment::class.java.simpleName)
             transaction.commit()
         }
-
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
-        toolbar.title = ""
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            window.statusBarColor = ContextCompat.getColor(this, android.R.color.white)
-        }
-        setSupportActionBar(toolbar)
     }
 
     /**
@@ -83,8 +61,13 @@ class MainActivity : AppCompatActivity() {
     fun getPid(context: Context): Int {
         return PreferenceManager
                 .getDefaultSharedPreferences(context)
-                .getInt(
-                        SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT)
+                .getInt(SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT)
+    }
+
+    fun setPid(pid: Int) {
+        PreferenceManager.getDefaultSharedPreferences(this@MainActivity).edit()
+                .putInt(SHAREDPREF_PID, pid)
+                .apply()
     }
 
     /**
@@ -96,7 +79,8 @@ class MainActivity : AppCompatActivity() {
     fun getWebViewUrl(context: Context): String {
         return PreferenceManager
                 .getDefaultSharedPreferences(context)
-                .getString(SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT) ?: return SHAREDPREF_WEBVIEW_DEFAULT
+                .getString(SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT)
+                ?: return SHAREDPREF_WEBVIEW_DEFAULT
     }
 
     fun changeFragment(frag: BaseFragment) {
@@ -115,56 +99,27 @@ class MainActivity : AppCompatActivity() {
             transaction.attach(frag)
             transaction.addToBackStack(backStateName)
             transaction.commit()
-            setToolBar(false, frag.getTitle())
+            setToolBar(false)
         } catch (exception: IllegalStateException) {
             Log.e(LOG_TAG, "Unable to commit fragment, could be activity as been killed in background. $exception")
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun changePidDialog() {
-        val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
-        val input = view.findViewById<EditText>(R.id.pidEditText)
-        input.setText(getPid(this).toString())
-        input.setLines(1)
-        input.setSingleLine(true)
-
-        AlertDialog.Builder(this)
-                .setTitle("Change default PID")
-                .setView(view)
-                .setPositiveButton("Save") { _, _ ->
-                    val pidString = input.text.toString()
-                    val pid: Int
-                    pid = if (pidString.isEmpty()) {
-                        Toast.makeText(this@MainActivity, "Setting default PID", Toast.LENGTH_SHORT).show()
-                        SHAREDPREF_PID_DEFAULT
-                    } else {
-                        Toast.makeText(this@MainActivity, "Setting PID is only working for DIRECT provider", Toast.LENGTH_SHORT).show()
-                        Integer.parseInt(pidString)
-                    }
-                    PreferenceManager
-                            .getDefaultSharedPreferences(this@MainActivity)
-                            .edit()
-                            .putInt(
-                                    SHAREDPREF_PID,
-                                    pid)
-                            .apply()
-                }
-                .setNegativeButton("Cancel") { _, _ ->
-                    // Do nothing.
-                }.show()
-    }
-
-    private fun setToolBar(isMainFragment: Boolean, title: String = "") {
+    private fun setToolBar(isMainFragment: Boolean) {
         supportActionBar?.setDisplayHomeAsUpEnabled(!isMainFragment)
-        toolbar.title = title
-        toolbar_logo.visibility = if (isMainFragment) View.VISIBLE else View.GONE
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_temp, menu);
-
-        return true
+        when (isMainFragment) {
+            true -> {
+                toolbar_logo.setImageResource(R.drawable.teads_demo_black)
+                status_bar_view.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
+                toolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
+            }
+            else -> {
+                toolbar_logo.setImageResource(R.drawable.teads_demo_white)
+                status_bar_view.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
+                toolbar.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -173,17 +128,50 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.popBackStack()
                 setToolBar(true)
             }
-            R.id.action_pid -> {
-                changePidDialog()
-            }
         }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
         supportFragmentManager.popBackStack()
         setToolBar(true)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            hideSystemUIAndNavigation(this)
+            adjustToolbarMarginForNotch()
+        }
+    }
+
+    private fun hideSystemUIAndNavigation(activity: Activity) {
+        val decorView: View = activity.window.decorView
+        decorView.systemUiVisibility =
+                (View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN // Hide the nav bar and status bar
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
+    private fun adjustToolbarMarginForNotch() {
+        // Notch is only supported by >= Android 9
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val windowInsets = window.decorView.rootWindowInsets
+            if (windowInsets != null) {
+                val displayCutout = windowInsets.displayCutout
+                if (displayCutout != null) {
+                    val safeInsetTop = displayCutout.safeInsetTop
+                    val newLayoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+                    newLayoutParams.setMargins(0, safeInsetTop, 0, 0)
+                    toolbar.layoutParams = newLayoutParams
+                }
+            }
+        }
     }
 
     companion object {

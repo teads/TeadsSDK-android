@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.mopub.common.MoPub
 import com.mopub.common.SdkConfiguration
 import com.mopub.mobileads.MoPubView
@@ -25,7 +26,11 @@ class MopubScrollViewFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+        val v = inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+
+        v.findViewById<TextView>(R.id.integration_header).text = getTitle()
+
+        return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,5 +81,5 @@ class MopubScrollViewFragment : BaseFragment() {
         mMopubView.loadAd()
     }
 
-    override fun getTitle(): String = "MoPub ScrollView"
+    override fun getTitle(): String = "InRead MoPub ScrollView"
 }

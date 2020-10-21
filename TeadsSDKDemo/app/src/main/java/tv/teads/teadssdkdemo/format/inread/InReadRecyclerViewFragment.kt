@@ -8,9 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.inread.adapter.SimpleRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import java.util.*
 
 /**
  * InRead format within a RecyclerView
@@ -32,9 +31,9 @@ class InReadRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = SimpleRecyclerViewAdapter(context, pid)
+        adapter = SimpleRecyclerViewAdapter(context, pid, getTitle())
         recyclerView.adapter = adapter
     }
 
-    override fun getTitle(): String = "RecyclerView"
+    override fun getTitle(): String = "InRead Direct RecyclerView"
 }

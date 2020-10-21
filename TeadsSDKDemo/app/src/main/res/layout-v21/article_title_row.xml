@@ -11,6 +11,7 @@
         android:layout_marginTop="32dp"
         android:background="@color/primaryDef"
         android:padding="4dp"
+        android:letterSpacing="0.2"
         android:fontFamily="sans-serif"
         android:text="@string/article"
         android:textColor="@android:color/white"

@@ -27,6 +27,11 @@ android {
             minifyEnabled false
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 // Teads Repository
@@ -44,18 +49,12 @@ repositories {
     maven { url "https://developer.huawei.com/repo/" }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation('com.google.android.gms:play-services-ads:15.0.1') {
         exclude group: "com.android.support", module: "customtabs"
         // CustomTabs include a support library version different from the project one (older)

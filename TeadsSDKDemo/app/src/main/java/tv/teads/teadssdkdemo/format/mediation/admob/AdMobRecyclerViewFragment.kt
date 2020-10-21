@@ -32,8 +32,8 @@ class AdMobRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        recyclerView.adapter = AdMobRecyclerViewAdapter(ADMOB_TEADS_BANNER_ID, ADMOB_TEADS_APP_ID, context)
+        recyclerView.adapter = AdMobRecyclerViewAdapter(ADMOB_TEADS_BANNER_ID, ADMOB_TEADS_APP_ID, context, getTitle())
     }
 
-    override fun getTitle(): String = "AdMob RecyclerView"
+    override fun getTitle(): String = "InRead AdMob RecyclerView"
 }
