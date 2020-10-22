@@ -12,9 +12,10 @@ import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_APP_ID
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import kotlin.math.roundToInt
 
@@ -40,7 +41,7 @@ class AdMobScrollViewFragment : BaseFragment() {
 
         // 2. Create AdMob view, setup and add it to view hierarchy
         val adView = AdView(view.context)
-        adView.adUnitId = ADMOB_TEADS_BANNER_ID
+        adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
         adView.adSize = AdSize.MEDIUM_RECTANGLE
         teadsAdView.addView(adView)
 

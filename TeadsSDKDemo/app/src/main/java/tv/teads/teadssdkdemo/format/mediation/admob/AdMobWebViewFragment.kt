@@ -18,8 +18,8 @@ import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_APP_ID
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_BANNER_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncWebViewViewGroup
 import tv.teads.webviewhelper.baseView.ObservableWrapperView
@@ -65,7 +65,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         // 2. Create AdMob view, setup and add it to view hierarchy
         adView = AdView(context)
         adView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
-        adView.adUnitId = ADMOB_TEADS_BANNER_ID
+        adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
         adView.adSize = AdSize.MEDIUM_RECTANGLE
 
         /* 3. Create ObservableWrapperView & SyncWebViewViewGroup instance

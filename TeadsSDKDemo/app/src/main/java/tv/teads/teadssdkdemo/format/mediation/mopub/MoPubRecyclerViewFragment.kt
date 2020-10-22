@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.adapter.MoPubRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import java.util.*
@@ -27,7 +29,9 @@ class MoPubRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = MoPubRecyclerViewAdapter(MOPUB_ID, context, getTitle())
+        val adUnit = MoPubIdentifier.getAdUnitFromPid(pid)
+
+        val adapter = MoPubRecyclerViewAdapter(adUnit, context, getTitle())
         recyclerView.adapter = adapter
     }
 

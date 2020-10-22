@@ -134,7 +134,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:checkedButton="@id/inreadButton"
             android:orientation="horizontal">
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
@@ -145,12 +144,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/custom_button_selector"
                 android:button="@android:color/transparent"
-                android:checked="true"
                 android:gravity="center"
                 android:padding="8dp"
                 android:tag="84242"
                 android:text="@string/landscape"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/textColorNoBg" />
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
                 android:id="@+id/verticalButton"
@@ -194,6 +192,18 @@
                 android:text="@string/carousel"
                 android:textColor="@color/textColorNoBg" />
         </RadioGroup>
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/customButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:padding="8dp"
+            android:tag="0"
+            android:text="@string/custom_pid"
+            android:textColor="@color/textColorNoBg" />
     </LinearLayout>
 
     <TextView

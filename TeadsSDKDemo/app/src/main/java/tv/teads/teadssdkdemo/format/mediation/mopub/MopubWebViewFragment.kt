@@ -18,6 +18,7 @@ import tv.teads.sdk.android.AdSettings
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
+import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncWebViewViewGroup
@@ -48,7 +49,7 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         // 2. Create MoPub view and setup it
         mMopubView = MoPubView(context)
 
-        mMopubView.adUnitId = MOPUB_ID
+        mMopubView.adUnitId = MoPubIdentifier.getAdUnitFromPid(pid)
         mMopubView.autorefreshEnabled = false
         mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
         mMopubView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)

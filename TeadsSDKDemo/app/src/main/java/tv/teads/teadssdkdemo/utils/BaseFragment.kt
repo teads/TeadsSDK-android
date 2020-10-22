@@ -19,7 +19,7 @@ abstract class BaseFragment : Fragment() {
     protected val pid: Int
         get() {
             val activity = activity as MainActivity? ?: return 0
-            return activity.getPid(this.activity!!)
+            return activity.getPid()
         }
 
     /**

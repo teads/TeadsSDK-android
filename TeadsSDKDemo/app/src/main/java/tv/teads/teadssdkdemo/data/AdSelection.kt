@@ -18,3 +18,10 @@ enum class RecyclerItemType(val value: Int) {
     TYPE_ARTICLE_REAL_LINES(4),
     TYPE_ARTICLE_FAKE_LINES(5)
 }
+
+enum class CreativeSize(val value: Int) {
+    LANDSCAPE(84242),
+    VERTICAL(127546),
+    SQUARE(127547),
+    CAROUSEL(128779)
+}

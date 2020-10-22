@@ -12,7 +12,9 @@ import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import kotlin.math.roundToInt
@@ -44,7 +46,7 @@ class MopubScrollViewFragment : BaseFragment() {
         // 2. Create MoPub view, setup and add it to view hierarchy
         mMopubView = MoPubView(activity)
 
-        mMopubView.adUnitId = MOPUB_ID
+        mMopubView.adUnitId = MoPubIdentifier.getAdUnitFromPid(pid)
         mMopubView.autorefreshEnabled = false
         mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
         teadsAdView.addView(mMopubView)

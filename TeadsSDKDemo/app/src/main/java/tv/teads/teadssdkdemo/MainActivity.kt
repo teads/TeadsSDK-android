@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
@@ -11,6 +12,9 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -63,9 +67,9 @@ class MainActivity : AppCompatActivity() {
      * @param context current context
      * @return pid
      */
-    fun getPid(context: Context): Int {
+    fun getPid(): Int {
         return PreferenceManager
-                .getDefaultSharedPreferences(context)
+                .getDefaultSharedPreferences(this)
                 .getInt(SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT)
     }
 
@@ -150,7 +154,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onBackPressed() {
         supportFragmentManager.popBackStack()
         setToolBar(true)
@@ -196,9 +199,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val LOG_TAG = "MainActivity"
         private const val INTENT_EXTRA_PID = "ext_pid"
-        private const val SHAREDPREF_PID = "sp_pid"
+        const val SHAREDPREF_PID = "sp_pid"
         private const val SHAREDPREF_WEBVIEWURL = "sp_wvurl"
-        private const val SHAREDPREF_PID_DEFAULT = 84242
+        const val SHAREDPREF_PID_DEFAULT = 84242
         private const val SHAREDPREF_WEBVIEW_DEFAULT = "file:///android_asset/demo.html"
         private const val SHAREDPREF_WEBVIEW_NIGHT = "file:///android_asset/demo_night.html"
 
