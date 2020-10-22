@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.sdk.android.AdFailedReason
 import tv.teads.sdk.android.AdSettings
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.sdk.android.TeadsListener
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.utils.BaseFragment
@@ -82,6 +85,10 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
             }
         }
 
+        if ((activity as MainActivity).isWebViewDarkTheme
+                && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+        }
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
@@ -89,6 +96,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
     override fun onDestroy() {
         super.onDestroy()
+
         adView.clean()
     }
 

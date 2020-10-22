@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
 import com.google.android.gms.ads.*
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_APP_ID
@@ -76,6 +79,10 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         adView.adListener = adListener
 
         // 5.Create a custom WebViewclient with helper in it
+        if ((activity as MainActivity).isWebViewDarkTheme
+                && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+        }
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)

@@ -4,11 +4,23 @@
     <meta charset="utf-8" >
     <meta name="viewport" content="width=device-width, shrink-to-fit=YES, initial-scale=1, user-scalable=0">
     <style type="text/css">
+        :root {
+          color-scheme: light dark;
+          --text-color: #000000;
+          --background-color: #ffffff;
+        }
+        @media screen and (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #ffffff;
+                --background-color: #000000;
+            }
+        }
         body {
               font-family: 'Roboto', sans-serif;
               margin: 0;
               padding: 0;
               overflow-x: hidden;
+              background-color: var(--background-color);
         }
         .header {
             width: 100%;
@@ -21,7 +33,7 @@
             font-size: 20px;
             color: white;
             font-weight: 300;
-            background-image: linear-gradient(to right, rgba(171, 65, 149, .7), rgb(33, 87, 152, .7)), url('file://android_asset/coffee_bg.png');
+            background-image: linear-gradient(to right, rgba(171, 65, 149, .7), rgb(33, 87, 152, .7)), url("file:///android_asset/coffee_bg.png");
             background-size: cover;
         }
         .header p {
@@ -29,7 +41,7 @@
         	padding: 4px;
         }
         .header .header-integration-type {
-        	font-weight: 600;
+        	font-weight: 400;
 			font-size: 22px;
         }
         .header .header-scroll-text {
@@ -41,7 +53,7 @@
             word-break: break-all;
             text-align: justify;
             font-size: 14px;
-            color: #AAAAAA;
+            color: var(--text-color);
         }
         main {
             padding-left: 10px;

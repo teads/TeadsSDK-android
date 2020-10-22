@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:fontFamily="sans-serif"
-            android:textStyle="italic|bold"
+            android:textStyle="bold"
             tools:text="InRead Direct ScrollView"
             android:textColor="@android:color/white"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:layout_width="match_parent"

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
 import com.mopub.common.MoPub
 import com.mopub.common.SdkConfiguration
 import com.mopub.mobileads.MoPubErrorCode
@@ -13,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
 import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
@@ -105,6 +108,10 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         mMopubView.localExtras = extras.toHashMap()
 
         // 9. Create a custom WebViewclient with helper in it
+        if ((activity as MainActivity).isWebViewDarkTheme
+                && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+        }
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)

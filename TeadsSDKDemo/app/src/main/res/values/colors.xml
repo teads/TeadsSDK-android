@@ -21,6 +21,8 @@
     <color name="basicDayNight">#000000</color>
 
     <color name="background">#FFFFFF</color>
+    <color name="backgrouffnd">#385075</color>
+
 
 
     <!--Used by PagerSlidingTabStrip-->

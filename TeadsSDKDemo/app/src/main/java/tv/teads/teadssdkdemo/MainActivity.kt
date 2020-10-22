@@ -24,7 +24,7 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
 class MainActivity : AppCompatActivity() {
-    private var mWebViewUrlTheme: String = SHAREDPREF_WEBVIEW_DEFAULT
+    var isWebViewDarkTheme: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
      *
      * @return an url
      */
-    fun getWebViewUrl(): String = mWebViewUrlTheme
+    fun getWebViewUrl(): String = SHAREDPREF_WEBVIEW_DEFAULT
 
     fun changeFragment(frag: BaseFragment) {
         if ((supportFragmentManager.findFragmentById(R.id.fragment_container) as Fragment).javaClass == frag.javaClass) {
@@ -130,11 +130,11 @@ class MainActivity : AppCompatActivity() {
     private fun setDefaultDayNightTheme(config: Configuration) {
         when (config.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO -> {
-                mWebViewUrlTheme = SHAREDPREF_WEBVIEW_DEFAULT
+                isWebViewDarkTheme = false
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
             Configuration.UI_MODE_NIGHT_YES -> {
-                mWebViewUrlTheme = SHAREDPREF_WEBVIEW_NIGHT
+                isWebViewDarkTheme = true
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
