@@ -2,6 +2,7 @@ package tv.teads.teadssdkdemo
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -11,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,9 +24,12 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
 class MainActivity : AppCompatActivity() {
+    private var mWebViewUrlTheme: String = SHAREDPREF_WEBVIEW_DEFAULT
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setDefaultDayNightTheme(applicationContext.resources.configuration)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
 
@@ -73,15 +78,9 @@ class MainActivity : AppCompatActivity() {
     /**
      * Return the Webview url, if not one is set, the default one
      *
-     * @param context current context
      * @return an url
      */
-    fun getWebViewUrl(context: Context): String {
-        return PreferenceManager
-                .getDefaultSharedPreferences(context)
-                .getString(SHAREDPREF_WEBVIEWURL, SHAREDPREF_WEBVIEW_DEFAULT)
-                ?: return SHAREDPREF_WEBVIEW_DEFAULT
-    }
+    fun getWebViewUrl(): String = mWebViewUrlTheme
 
     fun changeFragment(frag: BaseFragment) {
         if ((supportFragmentManager.findFragmentById(R.id.fragment_container) as Fragment).javaClass == frag.javaClass) {
@@ -110,14 +109,33 @@ class MainActivity : AppCompatActivity() {
 
         when (isMainFragment) {
             true -> {
-                toolbar_logo.setImageResource(R.drawable.teads_demo_black)
-                status_bar_view.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
-                toolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
+                toolbar_logo.setImageResource(R.drawable.teads_demo)
+                status_bar_view.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
+                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
             }
             else -> {
                 toolbar_logo.setImageResource(R.drawable.teads_demo_white)
                 status_bar_view.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
                 toolbar.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
+            }
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        setDefaultDayNightTheme(newConfig)
+    }
+
+    private fun setDefaultDayNightTheme(config: Configuration) {
+        when (config.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                mWebViewUrlTheme = SHAREDPREF_WEBVIEW_DEFAULT
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                mWebViewUrlTheme = SHAREDPREF_WEBVIEW_NIGHT
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
     }
@@ -131,6 +149,7 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     override fun onBackPressed() {
         supportFragmentManager.popBackStack()
@@ -181,5 +200,7 @@ class MainActivity : AppCompatActivity() {
         private const val SHAREDPREF_WEBVIEWURL = "sp_wvurl"
         private const val SHAREDPREF_PID_DEFAULT = 84242
         private const val SHAREDPREF_WEBVIEW_DEFAULT = "file:///android_asset/demo.html"
+        private const val SHAREDPREF_WEBVIEW_NIGHT = "file:///android_asset/demo_night.html"
+
     }
 }

@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textFontWeight="300"
+            android:textFontWeight="200"
             android:fontFamily="sans-serif"
             android:text="@string/scroll_down"
             android:textColor="@android:color/white"

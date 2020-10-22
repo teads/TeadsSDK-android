@@ -14,10 +14,10 @@ class TeadsRadioButton(private val mContext: Context, attribute: AttributeSet) :
         setOnCheckedChangeListener(this)
     }
 
-    override fun onCheckedChanged(button: CompoundButton?, checked: Boolean): Unit {
+    override fun onCheckedChanged(button: CompoundButton?, checked: Boolean) {
         if (checked)
             setTextColor(ContextCompat.getColor(mContext, android.R.color.white))
         else
-            setTextColor(ContextCompat.getColor(mContext, R.color.primaryDarkDef))
+            setTextColor(ContextCompat.getColor(mContext, R.color.textColorNoBg))
     }
 }

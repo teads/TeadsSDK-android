@@ -10,22 +10,13 @@
     <color name="accentTransparency">#CCAB4195</color>
     <color name="colorPrimaryTransparency">#CC215798</color>
 
-    <color name="titleTextColor">#000000</color>
-    <color name="textColorBg">@android:color/white</color>
-    <color name="textColorNoBg">@color/primaryDarkDef</color>
+    <color name="titleTextColor">#FFFFFF</color>
+    <color name="textColorNoBg">#FFFFFF</color>
+    <color name="basicDayNight">#FFFFFF</color>
+
     <color name="fakeArticle">#52CFCFCF</color>
-    <color name="lightBackground">#eeeeee</color>
+    <color name="background">#283747</color>
 
     <color name="textTitle">#646464</color>
     <color name="textBody">#535353</color>
-    <color name="basicDayNight">#000000</color>
-
-    <color name="background">#FFFFFF</color>
-
-
-    <!--Used by PagerSlidingTabStrip-->
-    <color name="background_tab_pressed">#1AFFFFFF</color>
-
-    <!-- ListView divider -->
-    <color name="divider">#999999</color>
 </resources>

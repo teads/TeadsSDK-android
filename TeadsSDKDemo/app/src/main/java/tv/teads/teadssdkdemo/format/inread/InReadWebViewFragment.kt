@@ -83,7 +83,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         }
 
         webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch)
+        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
     }
 
@@ -112,5 +112,5 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         adView.load(settings)
     }
 
-    override fun getTitle(): String = "WebView"
+    override fun getTitle(): String = "InRead Direct WebView"
 }

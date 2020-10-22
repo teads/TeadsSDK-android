@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="@string/format"
-        android:textColor="@android:color/black"
+        android:textColor="@color/titleTextColor"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/inread"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/textColorNoBg" />
 
         <tv.teads.teadssdkdemo.component.TeadsRadioButton
             android:id="@+id/nativeButton"
@@ -60,7 +60,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="@dimen/list_item_margin"
         android:text="@string/provider"
-        android:textColor="@android:color/black"
+        android:textColor="@color/titleTextColor"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -96,7 +96,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/mopub"
-            android:textColor="@color/primaryDarkDef" />
+            android:textColor="@color/textColorNoBg" />
 
         <tv.teads.teadssdkdemo.component.TeadsRadioButton
             android:id="@+id/admobButton"
@@ -109,7 +109,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/admob"
-            android:textColor="@color/primaryDarkDef" />
+            android:textColor="@color/textColorNoBg" />
     </RadioGroup>
 
     <LinearLayout
@@ -125,7 +125,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="@dimen/list_item_margin"
             android:text="@string/creative_size"
-            android:textColor="@android:color/black"
+            android:textColor="@color/titleTextColor"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:tag="84242"
-                android:text="Landscape"
+                android:text="@string/landscape"
                 android:textColor="@android:color/white" />
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
@@ -164,7 +164,7 @@
                 android:padding="8dp"
                 android:tag="127546"
                 android:text="@string/vertical"
-                android:textColor="@color/primaryDarkDef" />
+                android:textColor="@color/textColorNoBg" />
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
                 android:id="@+id/squareButton"
@@ -178,7 +178,7 @@
                 android:padding="8dp"
                 android:tag="127547"
                 android:text="@string/square"
-                android:textColor="@color/primaryDarkDef" />
+                android:textColor="@color/textColorNoBg" />
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
                 android:id="@+id/carouselButton"
@@ -192,7 +192,7 @@
                 android:padding="8dp"
                 android:tag="128779"
                 android:text="@string/carousel"
-                android:textColor="@color/primaryDarkDef" />
+                android:textColor="@color/textColorNoBg" />
         </RadioGroup>
     </LinearLayout>
 
@@ -203,7 +203,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="@dimen/list_item_margin"
         android:text="@string/integration"
-        android:textColor="@android:color/black"
+        android:textColor="@color/titleTextColor"
         android:textSize="24sp"
         android:textStyle="bold" />
 

@@ -8,5 +8,5 @@
     android:fontFamily="sans-serif"
     android:lineSpacingExtra="4dp"
     android:layout_margin="8dp"
-    android:textColor="@android:color/black"
+    android:textColor="@color/basicDayNight"
     android:text="@string/desc" />

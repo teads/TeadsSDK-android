@@ -30,7 +30,7 @@ abstract class BaseFragment : Fragment() {
     val webViewUrl: String
         get() {
             val activity = activity as MainActivity? ?: return ""
-            return activity.getWebViewUrl(this.activity!!)
+            return activity.getWebViewUrl()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {

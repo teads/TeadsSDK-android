@@ -105,8 +105,8 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         mMopubView.localExtras = extras.toHashMap()
 
         // 9. Create a custom WebViewclient with helper in it
-        webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch)
         webview.settings.javaScriptEnabled = true
+        webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
     }
 
@@ -129,5 +129,5 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         webviewHelperSynch.onConfigurationChanged()
     }
 
-    override fun getTitle(): String = "MoPub WebView"
+    override fun getTitle(): String = "InRead MoPub WebView"
 }

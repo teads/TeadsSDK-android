@@ -77,7 +77,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
 
         // 5.Create a custom WebViewclient with helper in it
         webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch)
+        webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
     }
 
@@ -148,5 +148,5 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         adView.loadAd(adRequest)
     }
 
-    override fun getTitle(): String = "AdMob WebView"
+    override fun getTitle(): String = "InRead AdMob WebView"
 }

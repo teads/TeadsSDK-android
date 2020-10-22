@@ -28,14 +28,14 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:scaleType="centerInside"
-            android:src="@drawable/teads_demo_black" />
+            android:src="@drawable/teads_demo" />
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/white"
+        android:background="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

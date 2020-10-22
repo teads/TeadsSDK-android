@@ -82,5 +82,6 @@
     <string name="square">Square</string>
     <string name="vertical">Vertical</string>
     <string name="creative_size">Creative Size</string>
+    <string name="landscape">Landscape</string>
 
 </resources>
