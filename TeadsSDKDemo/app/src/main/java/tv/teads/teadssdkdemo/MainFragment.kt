@@ -6,15 +6,17 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.helper.widget.Flow
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_integration_type.*
 import tv.teads.teadssdkdemo.data.FormatType
+import tv.teads.teadssdkdemo.data.IntegrationType
 import tv.teads.teadssdkdemo.data.ProviderType
 import tv.teads.teadssdkdemo.format.inread.InReadGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
@@ -33,11 +35,18 @@ import tv.teads.teadssdkdemo.format.mediation.mopub.MopubWebViewFragment
 /**
  * Empty fragment helping opening the navigation drawer
  */
-class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener, RadioGroup.OnCheckedChangeListener {
+class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     //private val mFragmentsNative = mapOf<>()
     private lateinit var mMainView: View
     private lateinit var mCustomPid: RadioButton
     private lateinit var mContainerCreativeSizes: RadioGroup
+
+    private val mIntegrationList = listOf(
+            IntegrationType("ScrollView", R.drawable.scrollview),
+            IntegrationType("RecyclerView", R.drawable.tableview),
+            IntegrationType("RecyclerView Grid", R.drawable.collectionview),
+            IntegrationType("WebView", R.drawable.webview)
+    )
 
     private val mFragmentsInReadDirect = mapOf(
             0 to InReadScrollViewFragment(),
@@ -60,8 +69,6 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
             3 to MopubWebViewFragment()
     )
 
-    private lateinit var mRecycler: RecyclerView
-
     private var mFormatSelected: FormatType = FormatType.INREAD
     private var mProviderSelected: ProviderType = ProviderType.DIRECT
 
@@ -70,27 +77,46 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
         mMainView = inflater.inflate(R.layout.fragment_main, container, false)
 
         mMainView.apply {
-            mRecycler = this.findViewById(R.id.integrations)
             val containerFormat: RadioGroup = this.findViewById(R.id.container_format)
             val containerProvider: RadioGroup = this.findViewById(R.id.container_provider)
+            val containerIntegration: ConstraintLayout = this.findViewById(R.id.integration_container)
             mContainerCreativeSizes = this.findViewById(R.id.container_creative_size)
             mCustomPid = this.findViewById(R.id.customButton)
+
+            setIntegrationItems(containerIntegration)
+            setCreativeSizeChecked()
 
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
             containerProvider.setOnCheckedChangeListener(this@MainFragment)
             mContainerCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
             mCustomPid.setOnClickListener { changePidDialog() }
-
-            setCreativeSizeChecked()
         }
-
-        mRecycler.layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.VERTICAL, false)
-        mRecycler.adapter = IntegrationAdapter(this, activity!!)
 
         return mMainView
     }
 
-    override fun onIntegrationClicked(position: Int) {
+    private fun setIntegrationItems(container: ConstraintLayout) {
+        val inflater = LayoutInflater.from(activity)
+        val flow = container.getChildAt(0) as Flow
+        val ids = IntArray(mIntegrationList.size)
+
+        mIntegrationList.forEachIndexed { index, it ->
+            val view = inflater.inflate(R.layout.item_integration_type, container, false)
+
+            view.id = it.image
+            view.findViewById<ImageView>(R.id.image_integration).setImageResource(it.image)
+            view.findViewById<TextView>(R.id.title_integration).text = it.name
+            view.setOnClickListener { onIntegrationClicked(index) }
+
+            ids[index] = view.id
+
+            container.addView(view)
+        }
+
+        flow.referencedIds = ids
+    }
+
+    private fun onIntegrationClicked(position: Int) {
         when (mFormatSelected) {
             FormatType.INREAD -> changeFragmentForInRead(position)
         }
@@ -169,7 +195,18 @@ class MainFragment : Fragment(), IntegrationAdapter.OnIntegrationClickedListener
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
         when (group?.id) {
-            R.id.container_format -> setFormatSelected(id)
+            R.id.container_format -> {
+                when (id) {
+                    R.id.inreadButton -> setFormatSelected(id)
+                    R.id.nativeButton -> {
+                        // TODO COMING SOON
+                        group.findViewById<RadioButton>(id)
+                                .setTextColor(ContextCompat.getColor(context!!, R.color.textColorNoBg))
+                        group.check(R.id.inreadButton)
+                        Toast.makeText(activity, "Coming soon!", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
             R.id.container_creative_size -> {
                 mCustomPid.isChecked = false
                 setCreativeSizePid(group, id)
