@@ -12,9 +12,6 @@ import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_integration_type.*
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
 import tv.teads.teadssdkdemo.data.ProviderType
