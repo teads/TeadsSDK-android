@@ -29,6 +29,7 @@ import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.mopub.MopubScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.mopub.MopubWebViewFragment
 
+
 /**
  * Empty fragment helping opening the navigation drawer
  */
@@ -190,6 +191,13 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                 }.setNegativeButton("Cancel") { _, _ -> mCustomPid.isChecked = false }.show()
     }
 
+    private fun showDialogSoon() {
+        AlertDialog.Builder(context!!)
+                .setTitle("Coming soon!")
+                .setPositiveButton(android.R.string.yes) { dialog, which -> }
+                .show()
+    }
+
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
         when (group?.id) {
             R.id.container_format -> {
@@ -200,7 +208,7 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                         group.findViewById<RadioButton>(id)
                                 .setTextColor(ContextCompat.getColor(context!!, R.color.textColorNoBg))
                         group.check(R.id.inreadButton)
-                        Toast.makeText(activity, "Coming soon!", Toast.LENGTH_LONG).show()
+                        showDialogSoon()
                     }
                 }
             }

@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/toolbar_logo"
             android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:scaleType="centerInside"
             android:src="@drawable/teads_demo" />
