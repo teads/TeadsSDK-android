@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primaryDef">#69A9E0</color>
+    <color name="primaryDarkDef">#0818B3</color>
+    <color name="primaryGrey">#A7B9D0</color>
+    <color name="accent">#AB4195</color>
+    <color name="colorPrimary">#215798</color>
+
+    <color name="accentTransparency">#CCAB4195</color>
+    <color name="colorPrimaryTransparency">#CC215798</color>
+
+    <color name="titleTextColor">#FFFFFF</color>
+    <color name="textColorNoBg">#FFFFFF</color>
+    <color name="basicDayNight">#FFFFFF</color>
+
+    <color name="fakeArticle">#52CFCFCF</color>
+    <color name="background">#000000</color>
+
+    <color name="textTitle">#646464</color>
+    <color name="textBody">#535353</color>
+</resources>

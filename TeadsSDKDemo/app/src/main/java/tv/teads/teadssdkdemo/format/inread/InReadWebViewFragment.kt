@@ -6,17 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
-import org.greenrobot.eventbus.Subscribe
 import tv.teads.sdk.android.AdFailedReason
+import tv.teads.sdk.android.AdSettings
 import tv.teads.sdk.android.InReadAdView
 import tv.teads.sdk.android.TeadsListener
+import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.teadssdkdemo.utils.ReloadEvent
 import tv.teads.webviewhelper.SyncWebViewTeadsAdView
 
 /**
@@ -40,15 +41,23 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
+        // 1. Create the InReadAdView
         adView = InReadAdView(context)
 
         /*
+        2. Create a SyncWebViewTeadsAdView
         For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
         You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
          */
-        webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "p:nth-child(7)")
+        webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "#teads-placement-slot")
 
+        // 2. Setup the AdView
         adView.setPid(pid)
+
+        /* 3. Subscribe to our listener
+        You need to implement at least onAdLoaded & onRatioUpdated to synchronize the AdView with the
+        previous helper you created.
+         */
         adView.listener = object : TeadsListener() {
 
             override fun onAdFailedToLoad(adFailedReason: AdFailedReason?) {
@@ -67,8 +76,8 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
             override fun onRatioUpdated(adRatio: Float) {
                 // Some creative can resize by itself, to handle it we have to notify the webview helper
                 // But unlike the ratio in onAdLoaded method, this ratio doesn't contains the footer and the header
-                // To manage this behavior, a work around is to substract 0.2 to the media ratio
-                webviewHelperSynch.updateSlot(adRatio - 0.2f)
+                // To manage this behavior, a work around is to substract number to the media ratio
+                webviewHelperSynch.updateSlot(if (adRatio < 1) (adRatio - 0.05f) else adRatio - 0.2f)
             }
 
             override fun closeAd() {
@@ -76,13 +85,18 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
             }
         }
 
+        if ((activity as MainActivity).isWebViewDarkTheme
+                && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+        }
         webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomWebviewClient(webviewHelperSynch)
+        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+
         adView.clean()
     }
 
@@ -91,29 +105,20 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         webviewHelperSynch.onConfigurationChanged()
     }
 
-    @Subscribe
-    fun onReloadEvent(event: ReloadEvent) {
-        // Not used
-    }
-
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * WebView helper listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onHelperReady(adContainer: ViewGroup) {
-        adView.load()
+        // 2. Customize the AdView with your settings
+        val settings = AdSettings.Builder()
+                .enableDebug()
+                .build()
+
+        // 5. Load the ad with the created settings
+        //    You can still load without settings.
+        adView.load(settings)
     }
 
-    /*//////////////////////////////////////////////////////////////////////////////////////////////////
-     * WebViewClient
-     *//////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private inner class CustomWebviewClient internal constructor(private val webviewHelperSynch: SyncWebViewTeadsAdView) : WebViewClient() {
-
-        override fun onPageFinished(view: WebView, url: String) {
-            webviewHelperSynch.injectJS()
-
-            super.onPageFinished(view, url)
-        }
-    }
+    override fun getTitle(): String = "InRead Direct WebView"
 }

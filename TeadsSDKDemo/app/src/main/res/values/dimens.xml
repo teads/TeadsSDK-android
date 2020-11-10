@@ -1,50 +1,7 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">8dp</dimen>
     <dimen name="list_item_margin">32dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-
-
-    <dimen name="tab_height">36dp</dimen>
-    <dimen name="tab_sliding_textsize">12sp</dimen>
-    <dimen name="tab_sliding_height">5dp</dimen>
-
-    <dimen name="card_round">2dp</dimen>
-    <dimen name="card_gutter">8dp</dimen>
-    <dimen name="card_content_padding">16dp</dimen>
-
-    <dimen name="text_size">18sp</dimen>
-    <dimen name="text_title">20sp</dimen>
-    <dimen name="text_subtitle">16sp</dimen>
-    <dimen name="line_spacing_extra">7dp</dimen>
-
-
-
-
-
-    <!-- Material copy values -->
-    <!-- Default insets (outer padding) around controls -->
-    <dimen name="control_inset_material">4dp</dimen>
-    <!-- Default inner padding within controls -->
-    <dimen name="control_padding_material">5dp</dimen>
-    <!-- Default rounded corner for controls -->
-    <dimen name="control_corner_material">2dp</dimen>
-    <!-- Elevation when button is pressed -->
-    <dimen name="button_elevation_material">1dp</dimen>
-    <!-- Z translation to apply when button is pressed -->
-    <dimen name="button_pressed_z_material">2dp</dimen>
-    <!-- Default insets (outer padding) around buttons -->
-    <dimen name="button_inset_vertical_material">6dp</dimen>
-    <dimen name="button_inset_horizontal_material">@dimen/control_inset_material</dimen>
-    <!-- Default inner padding within buttons -->
-    <dimen name="button_padding_vertical_material">@dimen/control_padding_material</dimen>
-    <dimen name="button_margin_material">8dp</dimen>
-    <dimen name="button_padding_horizontal_material">8dp</dimen>
-
-    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
-         https://developer.android.com/design/patterns/navigation-drawer.html -->
-    <dimen name="navigation_drawer_width">240dp</dimen>
-
-    <dimen name="button_margin_subtitle">6dp</dimen>
-
+    <dimen name="main_radio_button_height">35dp</dimen>
+    <dimen name="main_radio_button_radius">12dp</dimen>
 </resources>

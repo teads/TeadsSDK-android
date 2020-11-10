@@ -1,18 +1,240 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="tv.teads.teadssdkdemo.MainActivity$PlaceholderFragment">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/help_opendrawer"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textSize="@dimen/text_title" />
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/text_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/formats"
+            android:textColor="@color/titleTextColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/container_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checkedButton="@id/inreadButton"
+            android:orientation="horizontal">
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/inreadButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/inread"
+                android:textColor="@color/textColorNoBg" />
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/nativeButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/nativeS"
+                android:textColor="@color/textColorNoBg" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_provider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="@dimen/list_item_margin"
+            android:text="@string/providers"
+            android:textColor="@color/titleTextColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/container_provider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checkedButton="@id/directButton"
+            android:orientation="horizontal">
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/directButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/direct"
+                android:textColor="@android:color/white" />
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/mopubButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/mopub"
+                android:textColor="@color/textColorNoBg" />
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/admobButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/admob"
+                android:textColor="@color/textColorNoBg" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/ad_types_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_creative_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="@dimen/list_item_margin"
+                android:text="@string/creative_sizes"
+                android:textColor="@color/titleTextColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/container_creative_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                    android:id="@+id/landscapeButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/main_radio_button_height"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:tag="84242"
+                    android:text="@string/landscape"
+                    android:textColor="@color/textColorNoBg" />
+
+                <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                    android:id="@+id/verticalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/main_radio_button_height"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:tag="127546"
+                    android:text="@string/vertical"
+                    android:textColor="@color/textColorNoBg" />
+
+                <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                    android:id="@+id/squareButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/main_radio_button_height"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:tag="127547"
+                    android:text="@string/square"
+                    android:textColor="@color/textColorNoBg" />
+
+                <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                    android:id="@+id/carouselButton"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/main_radio_button_height"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:tag="128779"
+                    android:text="@string/carousel"
+                    android:textColor="@color/textColorNoBg" />
+            </RadioGroup>
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/customButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:tag="0"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/custom"
+                android:textColor="@color/textColorNoBg" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_integration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="@dimen/list_item_margin"
+            android:text="@string/integrations"
+            android:textColor="@color/titleTextColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/integration_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flow_horizontalAlign="start"
+                app:flow_horizontalBias="0"
+                app:flow_horizontalGap="8dp"
+                app:flow_maxElementsWrap="2"
+                app:flow_verticalBias="0"
+                app:flow_verticalGap="8dp"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

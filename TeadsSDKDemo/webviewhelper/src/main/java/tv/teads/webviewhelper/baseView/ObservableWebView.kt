@@ -7,6 +7,7 @@ package tv.teads.webviewhelper.baseView
 import android.content.Context
 import android.util.AttributeSet
 import android.webkit.WebView
+import kotlin.math.floor
 
 /**
  * This WebView dispatch scroll event to the register listener.
@@ -23,9 +24,16 @@ class ObservableWebView : WebView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context.applicationContext, attrs, defStyle)
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
+        val height = floor(this.contentHeight * this.scale).toInt()
+        val webViewHeight = this.measuredHeight
+
+        if(this.scrollY + webViewHeight < height){
+            onScrollListener?.onScroll(l, t)
+        }
         super.onScrollChanged(l, t, oldl, oldt)
-        onScrollListener?.onScroll(l, t)
     }
+
+
 
     fun setOnScrollListener(onScrollListener: OnScrollListener) {
         this.onScrollListener = onScrollListener

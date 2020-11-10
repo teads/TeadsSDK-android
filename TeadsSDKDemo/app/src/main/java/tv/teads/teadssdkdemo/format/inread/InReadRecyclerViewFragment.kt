@@ -7,12 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
-import org.greenrobot.eventbus.Subscribe
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.adapter.SimpleRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.inread.adapter.SimpleRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.teadssdkdemo.utils.ReloadEvent
-import java.util.*
 
 /**
  * InRead format within a RecyclerView
@@ -28,26 +25,15 @@ class InReadRecyclerViewFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Set RecyclerView basic adapter
         setRecyclerViewAdapter(recyclerView)
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
-        val data = ArrayList<String>()
-
-        for (i in 0..49) {
-            data.add("Teads $i")
-        }
-
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = SimpleRecyclerViewAdapter(data, 10, context, pid)
+        adapter = SimpleRecyclerViewAdapter(context, pid, getTitle())
         recyclerView.adapter = adapter
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    @Subscribe
-    fun onReloadEvent(event: ReloadEvent) {
-        adapter.reloadAd()
-    }
+    override fun getTitle(): String = "InRead Direct RecyclerView"
 }
