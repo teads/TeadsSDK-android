@@ -1,5 +1,13 @@
 # Changelog
 
+### v4.8.0
+_2020-11-18_
+- ValidationTool: validate resize implementation (direct and mediation)
+- New AdSettings serialization/deserialization method (jsonEncoded)
+- Latest OM SDK version
+- Some creatives were starting with sound (FIXED)
+- Double intents called from the internal browser were not called (FIXED)
+
 ### v4.7.8
 _2020-09-22_
 - Fix resize for VPAID ad
