@@ -28,6 +28,10 @@ import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubGridRecyclerViewFragmen
 import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.mopub.MopubScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.mopub.MopubWebViewFragment
+import tv.teads.teadssdkdemo.format.mediation.smart.SmartGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.smart.SmartRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.smart.SmartScrollViewFragment
+import tv.teads.teadssdkdemo.format.mediation.smart.SmartWebViewFragment
 
 
 /**
@@ -65,6 +69,13 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             1 to MoPubRecyclerViewFragment(),
             2 to MoPubGridRecyclerViewFragment(),
             3 to MopubWebViewFragment()
+    )
+
+    private val mFragmentsInReadSmart = mapOf(
+            0 to SmartScrollViewFragment(),
+            1 to SmartRecyclerViewFragment(),
+            2 to SmartGridRecyclerViewFragment(),
+            3 to SmartWebViewFragment()
     )
 
     private var mFormatSelected: FormatType = FormatType.INREAD
@@ -130,6 +141,9 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             }
             ProviderType.MOPUB -> {
                 (activity as MainActivity).changeFragment(mFragmentsInReadMopub[position]!!)
+            }
+            ProviderType.SMART -> {
+                (activity as MainActivity).changeFragment(mFragmentsInReadSmart[position]!!)
             }
         }
     }
@@ -220,6 +234,7 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                 mProviderSelected = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.mopubButton -> ProviderType.MOPUB
+                    R.id.smartButton -> ProviderType.SMART
                     else -> ProviderType.ADMOB
                 }
             }

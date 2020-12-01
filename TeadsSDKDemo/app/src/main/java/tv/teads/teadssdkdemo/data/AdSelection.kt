@@ -8,7 +8,8 @@ enum class FormatType(val value: Int) {
 enum class ProviderType(val value: Int) {
     DIRECT(0),
     ADMOB(1),
-    MOPUB(2)
+    MOPUB(2),
+    SMART(3)
 }
 
 enum class RecyclerItemType(val value: Int) {
