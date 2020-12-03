@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.8.1
+_2020-12-02_
+- Prevent null pointer on vpaid plugin
+
 ### v4.8.0
 _2020-11-18_
 - ValidationTool: validate resize implementation (direct and mediation)
