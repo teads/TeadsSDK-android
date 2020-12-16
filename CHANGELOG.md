@@ -1,5 +1,9 @@
 # Changelog
 
+### v4.8.2
+_2020-12-16_
+- Changes proguard rules to keep class names for embedded dependencies
+
 ### v4.8.1
 _2020-12-02_
 - Prevent null pointer on vpaid plugin

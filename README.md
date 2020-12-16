@@ -21,7 +21,7 @@ repositories{
     }
 }
 dependencies {
-    implementation("tv.teads.sdk.android:sdk:4.8.1@aar") {
+    implementation("tv.teads.sdk.android:sdk:4.8.2@aar") {
         transitive = true
     }
 }
