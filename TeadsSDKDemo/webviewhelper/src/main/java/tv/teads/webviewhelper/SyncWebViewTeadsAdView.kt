@@ -15,7 +15,11 @@ import tv.teads.sdk.android.engine.ui.view.ObservableAdView
 import tv.teads.webviewhelper.baseView.ObservableWebView
 
 /**
+ *
  * Insert and Synchronise the scroll between the TeadsAdView and the webview
+ *
+ * This helper has been provided to give you a hand in your integration webview.
+ * It's not designed to work on every integration, it needs to be customised to suit your needs
  *
  * @param webview  Webview with which we synchronize the scroll. [ObservableWebView]
  * @param adView   The adview with which we synchronize the scroll
