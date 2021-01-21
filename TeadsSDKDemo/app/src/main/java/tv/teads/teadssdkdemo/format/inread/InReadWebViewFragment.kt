@@ -76,8 +76,12 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
             override fun onRatioUpdated(adRatio: Float) {
                 // Some creative can resize by itself, to handle it we have to notify the webview helper
                 // But unlike the ratio in onAdLoaded method, this ratio doesn't contains the footer and the header
-                // To manage this behavior, a work around is to substract number to the media ratio
-                webviewHelperSynch.updateSlot(if (adRatio < 1) (adRatio - 0.05f) else adRatio - 0.2f)
+                // To manage this behavior, a work around is to add an estimated header height to the media ratio
+                val screenDensity: Float = context?.resources?.displayMetrics?.density ?: 1f
+                val estimatedHeaderHeightPX = 40 * screenDensity
+                val estimatedTotalHeightPX = adView.width.toFloat() / adRatio + estimatedHeaderHeightPX
+                val ratioWithHeaderIncluded = adView.width.toFloat() / estimatedTotalHeightPX
+                webviewHelperSynch.updateSlot(ratioWithHeaderIncluded)
             }
 
             override fun closeAd() {
@@ -87,7 +91,7 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
         if ((activity as MainActivity).isWebViewDarkTheme
                 && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-                WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+            WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
         }
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
