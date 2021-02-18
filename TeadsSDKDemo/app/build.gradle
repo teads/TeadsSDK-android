@@ -62,14 +62,14 @@ dependencies {
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Teads SDK
-    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
+    implementation("tv.teads.sdk.android:sdk:4.8.3-tcfproguard@aar") {
         transitive = true
     }
     // Teads Admob Adapter
-    implementation("tv.teads.sdk.android:adapterhelper:$helperLibraryVersion@aar")
+    implementation("tv.teads.sdk.android:adapterhelper:$libraryVersion@aar")
     implementation "tv.teads.sdk.android:admobadapter:$libraryVersion"
     implementation "tv.teads.sdk.android:mopubadapter:$libraryVersion"
-    implementation("tv.teads.sdk.android:smartadapter:4.8.0@aar")
+    implementation("tv.teads.sdk.android:smartadapter:$libraryVersion@aar")
 
     implementation 'com.smartadserver.android:smart-core-sdk:7.8.0@aar'
     implementation 'com.smartadserver.android:smart-display-sdk:7.8.0@aar'
