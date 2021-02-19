@@ -1,5 +1,11 @@
 # Changelog
 
+### v4.8.5
+_2021-02-18_
+- Updated OM version
+- Fixed: TCFVersion was not properly proguard
+- Fixed: AdSettings serialization/deserialization using Base64 was flaky
+
 ### v4.8.2
 _2020-12-16_
 - Changes proguard rules to keep class names for embedded dependencies
