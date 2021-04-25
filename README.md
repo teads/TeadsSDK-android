@@ -1,4 +1,4 @@
-> :warning: **Bintray shut down**: From May 1, Teads dependences will no longer available on our old maven repository, [see more](https://github.com/teads/TeadsSDK-android/blob/master/BintraySunset.md).
+> :warning:  **Bintray shut down**: From May 1, Teads dependences will no longer available on our old maven repository, [see more](https://github.com/teads/TeadsSDK-android/blob/master/BintraySunset.md).
 
 # TeadsSDK-android
 
@@ -19,7 +19,7 @@ Add our Maven Repository and the dependency:
 
 repositories{
     maven {
-        url  "http://dl.bintray.com/teads/TeadsSDK-android"
+        url  "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod"
     }
 }
 dependencies {
