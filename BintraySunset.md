@@ -24,4 +24,4 @@ maven { url "http://dl.bintray.com/teads/TeadsSDK-android" }
 by the new one:
 ```groovy
 maven { url "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod" }
-``
+```
