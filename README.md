@@ -1,3 +1,5 @@
+> :warning: **Bintray shut down**: From May 1, Teads dependences will no longer available on our old maven repository, [see more](https://github.com/teads/TeadsSDK-android/blob/master/BintraySunset.md).
+
 # TeadsSDK-android
 
 Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads from Teads SSP ad server. This sample app includes the Teads Android Library and is showing integration examples.
