@@ -1,4 +1,4 @@
-JFrog announced the Bintray shut down the 1st May, 2021
+**JFrog** announced the Bintray shut down the 1st May, 2021
 
 https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/
 
@@ -25,4 +25,3 @@ by the new one:
 ```groovy
 maven { url "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod" }
 ``
-
