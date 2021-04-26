@@ -29,13 +29,9 @@ android {
 }
 
 repositories {
-    maven {
-        url "http://dl.bintray.com/teads/TeadsSDK-android"
-    }
+    maven { url "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod" }
     jcenter()
-    maven {
-        url "https://maven.google.com"
-    }
+    maven { url "https://maven.google.com" }
 }
 
 dependencies {

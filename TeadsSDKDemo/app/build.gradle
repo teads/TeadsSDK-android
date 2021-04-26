@@ -36,15 +36,9 @@ android {
 
 // Teads Repository
 repositories {
-    maven {
-        url "http://dl.bintray.com/teads/TeadsSDK-android"
-    }
-    maven {
-        url "https://maven.google.com"
-    }
-    maven {
-        url "https://s3.amazonaws.com/moat-sdk-builds"
-    }
+    maven { url "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod" }
+    maven { url "https://maven.google.com" }
+    maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
     //Huawei maven repository
     maven { url "https://developer.huawei.com/repo/" }
 }
