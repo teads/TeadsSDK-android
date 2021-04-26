@@ -13,7 +13,8 @@ The following dependencies are impacted:
 
 
 ## The Plan
-All artifacts have been migrated to Artifactory and are now available on a new repository.
+In order to manage the transition, Teads decided to migrate to JFrog Artifactory.
+All Teads Android assets have been migrated to a new repository. This concerns both our latest SDK version and all previous versions since v4.
 
 The only thing to do to continue using Teads libraries is to replace, in the gradle file, the old maven repository url: 
 ```groovy
