@@ -1,4 +1,4 @@
-> :warning:  **Bintray shut down**: From May 1, Teads dependences will no longer be available on our old maven repository, [see more](https://github.com/teads/TeadsSDK-android/blob/master/BintraySunset.md).
+> :warning:  **Bintray shut down**: From May 1, Teads dependencies will no longer be available on our old maven repository, [see more](https://github.com/teads/TeadsSDK-android/blob/master/BintraySunset.md).
 
 # TeadsSDK-android
 
