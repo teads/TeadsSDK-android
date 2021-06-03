@@ -1,6 +1,5 @@
 package tv.teads.teadssdkdemo.format.mediation.smart
 
-import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import com.smartadserver.android.library.model.SASAdElement
 import com.smartadserver.android.library.model.SASAdPlacement
 import com.smartadserver.android.library.ui.SASBannerView
 import com.smartadserver.android.library.util.SASConfiguration
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.adapter.smart.SmartHelper
 import tv.teads.helper.TeadsBannerAdapterListener
@@ -62,20 +60,23 @@ class SmartWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         // 4. Attach listener (will include Teads events) &
         // call the helper inside onBannerAdLoaded
         mAdView.bannerListener = object : SASBannerView.BannerListener {
-            override fun onBannerAdLoaded(banner: SASBannerView?, adElement: SASAdElement?) {
+            override fun onBannerAdLoaded(banner: SASBannerView, p1: SASAdElement) {
                 webviewHelperSynch.displayAd()
             }
-            override fun onBannerAdFailedToLoad(banner: SASBannerView?, e: Exception?) {
+
+            override fun onBannerAdFailedToLoad(banner: SASBannerView, e: Exception) {
                 activity?.runOnUiThread {
                     Toast.makeText(banner?.context, "Ad loading failed: onAdFailedToLoad(${e?.message})", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onBannerAdClicked(banner: SASBannerView?) {}
-            override fun onBannerAdExpanded(banner: SASBannerView?) {}
-            override fun onBannerAdCollapsed(banner: SASBannerView?) {}
-            override fun onBannerAdClosed(banner: SASBannerView?) {}
-            override fun onBannerAdResized(banner: SASBannerView?) {}
-            override fun onBannerAdVideoEvent(banner: SASBannerView?, event: Int) {}
+
+            override fun onBannerAdClicked(banner: SASBannerView) {}
+            override fun onBannerAdExpanded(banner: SASBannerView) {}
+            override fun onBannerAdCollapsed(banner: SASBannerView) {}
+            override fun onBannerAdResized(banner: SASBannerView) {}
+            override fun onBannerAdClosed(banner: SASBannerView) {}
+            override fun onBannerAdVideoEvent(banner: SASBannerView, p1: Int) {}
+
         }
 
         /* 5. Create a TeadsBannerAdapterListener

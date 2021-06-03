@@ -1,10 +1,8 @@
 package tv.teads.teadssdkdemo.format.mediation.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.smartadserver.android.library.model.SASAdElement
 import com.smartadserver.android.library.model.SASAdPlacement
@@ -38,18 +36,21 @@ class SmartRecyclerViewAdapter(context: Context, siteID: Int, pageName: String,
 
         // 3. Attach listener (will include Teads events)
         adView.bannerListener = object : SASBannerView.BannerListener {
-            override fun onBannerAdLoaded(banner: SASBannerView?, adElement: SASAdElement?) {}
-            override fun onBannerAdFailedToLoad(banner: SASBannerView?, e: Exception?) {
-                (context as Activity).runOnUiThread {
-                    Toast.makeText(banner?.context, "Ad loading failed: onAdFailedToLoad(${e?.message})", Toast.LENGTH_SHORT).show()
-                }
-            }
-            override fun onBannerAdClicked(banner: SASBannerView?) {}
-            override fun onBannerAdExpanded(banner: SASBannerView?) {}
-            override fun onBannerAdCollapsed(banner: SASBannerView?) {}
-            override fun onBannerAdClosed(banner: SASBannerView?) {}
-            override fun onBannerAdResized(banner: SASBannerView?) {}
-            override fun onBannerAdVideoEvent(banner: SASBannerView?, event: Int) {}
+            override fun onBannerAdLoaded(p0: SASBannerView, p1: SASAdElement) {}
+
+            override fun onBannerAdFailedToLoad(p0: SASBannerView, p1: java.lang.Exception) {}
+
+            override fun onBannerAdClicked(p0: SASBannerView) {}
+
+            override fun onBannerAdExpanded(p0: SASBannerView) {}
+
+            override fun onBannerAdCollapsed(p0: SASBannerView) {}
+
+            override fun onBannerAdResized(p0: SASBannerView) {}
+
+            override fun onBannerAdClosed(p0: SASBannerView) {}
+
+            override fun onBannerAdVideoEvent(p0: SASBannerView, p1: Int) {}
         }
 
         /* 4. Create a TeadsBannerAdapterListener

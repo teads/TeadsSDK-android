@@ -32,6 +32,7 @@ import tv.teads.teadssdkdemo.format.mediation.smart.SmartGridRecyclerViewFragmen
 import tv.teads.teadssdkdemo.format.mediation.smart.SmartRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.smart.SmartScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.smart.SmartWebViewFragment
+import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
 /**
@@ -50,39 +51,51 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             IntegrationType("WebView", R.drawable.webview)
     )
 
-    private val mFragmentsInReadDirect = mapOf(
-            0 to InReadScrollViewFragment(),
-            1 to InReadRecyclerViewFragment(),
-            2 to InReadGridRecyclerViewFragment(),
-            3 to InReadWebViewFragment()
-    )
+    private fun getFragmentInReadDirect(position: Int): BaseFragment {
+        return when (position) {
+            0 -> InReadScrollViewFragment()
+            1 -> InReadRecyclerViewFragment()
+            2 -> InReadGridRecyclerViewFragment()
+            3 -> InReadWebViewFragment()
+            else -> InReadScrollViewFragment()
+        }
+    }
 
-    private val mFragmentsInReadAdmob = mapOf(
-            0 to AdMobScrollViewFragment(),
-            1 to AdMobRecyclerViewFragment(),
-            2 to AdMobGridRecyclerViewFragment(),
-            3 to AdMobWebViewFragment()
-    )
+    private fun getFragmentInReadAdmob(position: Int): BaseFragment {
+        return when (position) {
+            0 -> AdMobScrollViewFragment()
+            1 -> AdMobRecyclerViewFragment()
+            2 -> AdMobGridRecyclerViewFragment()
+            3 -> AdMobWebViewFragment()
+            else -> AdMobScrollViewFragment()
+        }
+    }
 
-    private val mFragmentsInReadMopub = mapOf(
-            0 to MopubScrollViewFragment(),
-            1 to MoPubRecyclerViewFragment(),
-            2 to MoPubGridRecyclerViewFragment(),
-            3 to MopubWebViewFragment()
-    )
+    private fun getFragmentInReadMopub(position: Int): BaseFragment {
+        return when (position) {
+            0 -> MopubScrollViewFragment()
+            1 -> MoPubRecyclerViewFragment()
+            2 -> MoPubGridRecyclerViewFragment()
+            3 -> MopubWebViewFragment()
+            else -> MopubScrollViewFragment()
+        }
+    }
 
-    private val mFragmentsInReadSmart = mapOf(
-            0 to SmartScrollViewFragment(),
-            1 to SmartRecyclerViewFragment(),
-            2 to SmartGridRecyclerViewFragment(),
-            3 to SmartWebViewFragment()
-    )
+    private fun getFragmentInReadSmart(position: Int): BaseFragment {
+        return when (position) {
+            0 -> SmartScrollViewFragment()
+            1 -> SmartRecyclerViewFragment()
+            2 -> SmartGridRecyclerViewFragment()
+            3 -> SmartWebViewFragment()
+            else -> SmartScrollViewFragment()
+        }
+    }
 
     private var mFormatSelected: FormatType = FormatType.INREAD
     private var mProviderSelected: ProviderType = ProviderType.DIRECT
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         mMainView = inflater.inflate(R.layout.fragment_main, container, false)
 
         mMainView.apply {
@@ -128,22 +141,24 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     private fun onIntegrationClicked(position: Int) {
         when (mFormatSelected) {
             FormatType.INREAD -> changeFragmentForInRead(position)
+            else -> {
+            }
         }
     }
 
     private fun changeFragmentForInRead(position: Int) {
         when (mProviderSelected) {
             ProviderType.DIRECT -> {
-                (activity as MainActivity).changeFragment(mFragmentsInReadDirect[position]!!)
+                (activity as MainActivity).changeFragment(getFragmentInReadDirect(position))
             }
             ProviderType.ADMOB -> {
-                (activity as MainActivity).changeFragment(mFragmentsInReadAdmob[position]!!)
+                (activity as MainActivity).changeFragment(getFragmentInReadAdmob(position))
             }
             ProviderType.MOPUB -> {
-                (activity as MainActivity).changeFragment(mFragmentsInReadMopub[position]!!)
+                (activity as MainActivity).changeFragment(getFragmentInReadMopub(position))
             }
             ProviderType.SMART -> {
-                (activity as MainActivity).changeFragment(mFragmentsInReadSmart[position]!!)
+                (activity as MainActivity).changeFragment(getFragmentInReadSmart(position))
             }
         }
     }
@@ -164,6 +179,8 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                     val pid: Int = radioPid.tag.toString().toInt()
                     (activity as MainActivity).setPid(pid)
                 }
+            }
+            else -> {
             }
         }
     }
@@ -189,7 +206,7 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         input.setLines(1)
         input.setSingleLine(true)
 
-        AlertDialog.Builder(activity!!)
+        AlertDialog.Builder(requireActivity())
                 .setTitle("Set custom PID")
                 .setView(view)
                 .setPositiveButton("Save") { _, _ ->
@@ -206,9 +223,9 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun showDialogSoon() {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
                 .setTitle("Coming soon!")
-                .setPositiveButton(android.R.string.yes) { dialog, which -> }
+                .setPositiveButton(android.R.string.yes) { _, _ -> }
                 .show()
     }
 
@@ -220,7 +237,7 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                     R.id.nativeButton -> {
                         // TODO COMING SOON
                         group.findViewById<RadioButton>(id)
-                                .setTextColor(ContextCompat.getColor(context!!, R.color.textColorNoBg))
+                                .setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorNoBg))
                         group.check(R.id.inreadButton)
                         showDialogSoon()
                     }

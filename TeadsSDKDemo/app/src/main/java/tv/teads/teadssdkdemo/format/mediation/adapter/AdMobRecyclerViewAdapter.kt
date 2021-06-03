@@ -17,15 +17,15 @@ import kotlin.math.roundToInt
 /**
  * Simple RecyclerView adapter
  */
-class AdMobRecyclerViewAdapter(admobBannerId: String, admobAppId: String, context: Context?, title: String)
+class AdMobRecyclerViewAdapter(admobBannerId: String, context: Context?, title: String)
     : GenericRecyclerViewAdapter(title) {
 
-    private val adView: AdView = AdView(context)
+    private val adView: AdView = AdView(context!!)
     private val mListener: TeadsBannerAdapterListener
 
     init {
         // 1. Initialize AdMob & Teads Helper
-        MobileAds.initialize(context, admobAppId)
+        MobileAds.initialize(context!!)
         TeadsHelper.initialize()
 
         // 2. Setup the AdMob view
@@ -34,18 +34,15 @@ class AdMobRecyclerViewAdapter(admobBannerId: String, admobAppId: String, contex
 
         // 3. Subsribe to the listener if needed
         adView.adListener = object : AdListener() {
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Toast.makeText(context, "Ad loading failed: onAdFailedToLoad(${error.cause?.message})", Toast.LENGTH_SHORT).show()
+            }
+
             override fun onAdLoaded() {
             }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                Toast.makeText(context, "Ad loading failed: onAdFailedToLoad($errorCode)", Toast.LENGTH_SHORT).show()
-            }
-
             override fun onAdOpened() {
-                // Nothing to do for Teads
-            }
-
-            override fun onAdLeftApplication() {
                 // Nothing to do for Teads
             }
 

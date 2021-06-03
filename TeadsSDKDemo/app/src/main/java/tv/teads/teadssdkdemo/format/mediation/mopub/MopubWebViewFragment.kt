@@ -49,7 +49,7 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         // 2. Create MoPub view and setup it
         mMopubView = MoPubView(context)
 
-        mMopubView.adUnitId = MoPubIdentifier.getAdUnitFromPid(pid)
+        mMopubView.setAdUnitId(MoPubIdentifier.getAdUnitFromPid(pid))
         mMopubView.autorefreshEnabled = false
         mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
         mMopubView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
@@ -65,12 +65,13 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         Call the helper in onBannerLoaded
          */
         mMopubView.bannerAdListener = object : MoPubView.BannerAdListener {
-            override fun onBannerLoaded(banner: MoPubView?) {
+            override fun onBannerLoaded(banner: MoPubView) {
                 webviewHelperSynch.displayAd()
             }
 
             override fun onBannerExpanded(banner: MoPubView?) {}
             override fun onBannerCollapsed(banner: MoPubView?) {}
+
             override fun onBannerFailed(banner: MoPubView?, errorCode: MoPubErrorCode?) {}
             override fun onBannerClicked(banner: MoPubView?) {}
         }
@@ -106,7 +107,7 @@ class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
                 .setUsPrivacy("1YNN")
                 .addAdapterListener(key)
                 .build()
-        mMopubView.localExtras = extras.toHashMap()
+        mMopubView.setLocalExtras(extras.toHashMap())
 
         // 9. Create a custom WebViewclient with helper in it
         if ((activity as MainActivity).isWebViewDarkTheme

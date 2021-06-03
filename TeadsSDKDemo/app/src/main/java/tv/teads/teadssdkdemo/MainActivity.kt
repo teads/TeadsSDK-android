@@ -93,8 +93,6 @@ class MainActivity : AppCompatActivity() {
             //fragment not in back stack, create it.
             val transaction = manager.beginTransaction()
             transaction.replace(R.id.fragment_container, frag, (frag as Any).javaClass.name)
-            transaction.detach(frag)
-            transaction.attach(frag)
             transaction.addToBackStack(backStateName)
             transaction.commit()
             setToolBar(false)
