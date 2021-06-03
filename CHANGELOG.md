@@ -1,5 +1,15 @@
 # Changelog
 
+### v4.9.0
+> :warning:  **Warning**: This release includes a major breaking change.
+_2021-06-03_
+- Migration from Android Support Libraries to Jetpack (AndroidX) Libraries. The SDK will not work unless you make the following changes in your app
+..* Upgrade `com.android.tools.build:gradle` to v3.2.1 or later.
+..* Upgrade `compileSdkVersion` to 28 or later.
+..* Update your app to use AndroidX. [Migrate to AndroidX](https://developer.android.com/jetpack/androidx/migrate)
+- Update OM SDK to 1.3.19
+- Improve VPAID player performances 
+
 ### v4.8.5
 _2021-02-18_
 - Updated OM version

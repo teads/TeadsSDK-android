@@ -46,7 +46,7 @@ class MopubScrollViewFragment : BaseFragment() {
         // 2. Create MoPub view, setup and add it to view hierarchy
         mMopubView = MoPubView(activity)
 
-        mMopubView.adUnitId = MoPubIdentifier.getAdUnitFromPid(pid)
+        mMopubView.setAdUnitId(MoPubIdentifier.getAdUnitFromPid(pid))
         mMopubView.autorefreshEnabled = false
         mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
         teadsAdView.addView(mMopubView)
@@ -77,7 +77,7 @@ class MopubScrollViewFragment : BaseFragment() {
                 .setUsPrivacy("1YNN")
                 .addAdapterListener(key)
                 .build()
-        mMopubView.localExtras = extras.toHashMap()
+        mMopubView.setLocalExtras(extras.toHashMap())
 
         // 8. Load the ad
         mMopubView.loadAd()

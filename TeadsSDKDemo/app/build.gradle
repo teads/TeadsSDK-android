@@ -45,30 +45,30 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "androidx.constraintlayout:constraintlayout:2.0.2"
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.webkit:webkit:1.3.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation('com.google.android.gms:play-services-ads:15.0.1') {
+    implementation 'androidx.webkit:webkit:1.4.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation('com.google.android.gms:play-services-ads:20.1.0') {
         exclude group: "com.android.support", module: "customtabs"
         // CustomTabs include a support library version different from the project one (older)
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Teads SDK
-    implementation("tv.teads.sdk.android:sdk:4.8.3-tcfproguard@aar") {
+    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
         transitive = true
     }
     // Teads Admob Adapter
-    implementation("tv.teads.sdk.android:adapterhelper:$libraryVersion@aar")
+    implementation "tv.teads.sdk.android:adapterhelper:$libraryVersion"
     implementation "tv.teads.sdk.android:admobadapter:$libraryVersion"
     implementation "tv.teads.sdk.android:mopubadapter:$libraryVersion"
-    implementation("tv.teads.sdk.android:smartadapter:$libraryVersion@aar")
+    implementation "tv.teads.sdk.android:smartadapter:$libraryVersion"
 
-    implementation 'com.smartadserver.android:smart-core-sdk:7.8.0@aar'
-    implementation 'com.smartadserver.android:smart-display-sdk:7.8.0@aar'
+    implementation 'com.smartadserver.android:smart-core-sdk:7.10.0'
+    implementation 'com.smartadserver.android:smart-display-sdk:7.10.0'
 
-    implementation('com.mopub:mopub-sdk:5.8.0@aar') {
+    implementation('com.mopub:mopub-sdk:5.17.0@aar') {
         transitive = true
     }
     implementation project(':webviewhelper')

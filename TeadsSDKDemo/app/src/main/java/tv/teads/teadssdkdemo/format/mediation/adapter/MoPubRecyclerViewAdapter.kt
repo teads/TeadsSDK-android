@@ -31,7 +31,7 @@ class MoPubRecyclerViewAdapter internal constructor(moPubId: String, context: Co
         TeadsHelper.initialize()
 
         // 2. Setup the MoPub view
-        mMoPubView.adUnitId = moPubId
+        mMoPubView.setAdUnitId(moPubId)
         // Don't forget to put autorefreshEnabled to false
         mMoPubView.autorefreshEnabled = false
 
@@ -67,7 +67,7 @@ class MoPubRecyclerViewAdapter internal constructor(moPubId: String, context: Co
                 .build()
 
         // 6. Add the AdSettings to MoPub view
-        mMoPubView.localExtras = extras.toHashMap()
+        mMoPubView.setLocalExtras(extras.toHashMap())
 
         // 8. Load the ad
         mMoPubView.loadAd()

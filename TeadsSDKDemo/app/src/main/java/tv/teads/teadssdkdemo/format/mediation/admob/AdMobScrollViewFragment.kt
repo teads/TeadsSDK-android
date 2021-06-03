@@ -12,10 +12,8 @@ import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.helper.TeadsBannerAdapterListener
 import tv.teads.helper.TeadsHelper
 import tv.teads.sdk.android.AdSettings
-import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier.ADMOB_TEADS_APP_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import kotlin.math.roundToInt
 
@@ -36,7 +34,7 @@ class AdMobScrollViewFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 1. Initialize AdMob & Teads Helper
-        MobileAds.initialize(context, ADMOB_TEADS_APP_ID)
+        MobileAds.initialize(requireContext())
         TeadsHelper.initialize()
 
         // 2. Create AdMob view, setup and add it to view hierarchy
@@ -51,15 +49,11 @@ class AdMobScrollViewFragment : BaseFragment() {
                 // maybe track it on GA?
             }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                Toast.makeText(context, "Ad loading failed: onAdFailedToLoad($errorCode)", Toast.LENGTH_SHORT).show()
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Toast.makeText(context, "Ad loading failed: onAdFailedToLoad(${error.cause?.message})", Toast.LENGTH_SHORT).show()
             }
 
             override fun onAdOpened() {
-                // Nothing to do for Teads
-            }
-
-            override fun onAdLeftApplication() {
                 // Nothing to do for Teads
             }
 
