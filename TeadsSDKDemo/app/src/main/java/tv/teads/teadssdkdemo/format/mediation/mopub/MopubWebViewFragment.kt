@@ -1,141 +1,138 @@
 package tv.teads.teadssdkdemo.format.mediation.mopub
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.mopub.common.MoPub
-import com.mopub.common.SdkConfiguration
-import com.mopub.mobileads.MoPubErrorCode
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.mopub.mobileads.MoPubView
+import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
-import tv.teads.helper.TeadsBannerAdapterListener
-import tv.teads.helper.TeadsHelper
-import tv.teads.sdk.android.AdSettings
+import tv.teads.adapter.admob.TeadsAdapter
+import tv.teads.sdk.*
+import tv.teads.sdk.mediation.TeadsAdapterListener
+import tv.teads.sdk.mediation.TeadsHelper
+import tv.teads.sdk.renderer.InReadAdView
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
+import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier
-import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier.MOPUB_ID
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.webviewhelper.SyncWebViewViewGroup
-import tv.teads.webviewhelper.baseView.ObservableWrapperView
+import tv.teads.webviewhelper.SyncAdWebView
 import kotlin.math.roundToInt
 
 /**
- * Display inRead as Banner within a WebView using MoPub Mediation.
+ * InRead format within a WebView
  */
-class MopubWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
-    private lateinit var mMopubView: MoPubView
-    private lateinit var mListener: TeadsBannerAdapterListener
+class MoPubWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
-    private lateinit var webviewHelperSynch: SyncWebViewViewGroup
+    private lateinit var adView: MoPubView
+    private lateinit var mListener: TeadsAdapterListener
+    private lateinit var webviewHelperSynch: SyncAdWebView
+    private lateinit var adPlacement: InReadAdPlacement
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * Ad view listener
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_inread_webview, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (context == null)
-            return
 
-        // 1. Initialize AdMob & Teads Helper
+    @SuppressLint("SetJavaScriptEnabled")
+    override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
+        // 1. Teads Helper
         TeadsHelper.initialize()
 
-        // 2. Create MoPub view and setup it
-        mMopubView = MoPubView(context)
+        // 2. Create WebViewHelper
+        webviewHelperSynch = SyncAdWebView(requireContext(), webview, this@MoPubWebViewFragment, "#teads-placement-slot")
 
-        mMopubView.setAdUnitId(MoPubIdentifier.getAdUnitFromPid(pid))
-        mMopubView.autorefreshEnabled = false
-        mMopubView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
-        mMopubView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
+        // 3. Create MoPub view, setup and register it
+        adView = MoPubView(activity)
 
-        /* 3. Create ObservableWrapperView & SyncWebViewViewGroup instance with adview
-        For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
-        You can find it in the webviewhelper module. {@see SyncWebViewViewGroup}
-         */
-        val observableWrapperView = ObservableWrapperView(context!!, mMopubView)
-        webviewHelperSynch = SyncWebViewViewGroup(webview, observableWrapperView, this, "#teads-placement-slot")
+        webviewHelperSynch.registerAdView(adView)
+        adView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        adView.setAdUnitId(MoPubIdentifier.getAdUnitFromPid(pid))
+        adView.autorefreshEnabled = false
+        adView.adSize = MoPubView.MoPubAdSize.HEIGHT_90
 
-        /* 4. Attach MoPub listener (will include Teads events)
-        Call the helper in onBannerLoaded
-         */
-        mMopubView.bannerAdListener = object : MoPubView.BannerAdListener {
-            override fun onBannerLoaded(banner: MoPubView) {
-                webviewHelperSynch.displayAd()
+        // 4. Create the TeadsAdapterListener
+        mListener = object : TeadsAdapterListener {
+            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                webviewHelperSynch.registerTrackerView(trackerView)
             }
 
-            override fun onBannerExpanded(banner: MoPubView?) {}
-            override fun onBannerCollapsed(banner: MoPubView?) {}
-
-            override fun onBannerFailed(banner: MoPubView?, errorCode: MoPubErrorCode?) {}
-            override fun onBannerClicked(banner: MoPubView?) {}
-        }
-
-        /* 5. Create a TeadsBannerAdapterListener
-        You need to create an instance for each instance of AdMob view
-        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
-         */
-        mListener = object : TeadsBannerAdapterListener {
-            override fun onRatioUpdated(adRatio: Float) {
-                val params: ViewGroup.LayoutParams = mMopubView.layoutParams
+            override fun onRatioUpdated(adRatio: AdRatio) {
+                val params: ViewGroup.LayoutParams = adView.layoutParams
 
                 // Here the width of parent is MATCH_PARENT
-                params.height = ((mMopubView.parent as View).width / adRatio).roundToInt()
+                params.height = adRatio.calculateHeight(adView.measuredWidth)
 
-                // 6. You need to call updateSlot method from the helper
-                // Some creative can resize by itself, to handle it we have to notify the webview helper
-                // this ratio doesn't contains the footer and the header
-                // To manage this behavior, a work around is to substract 0.2 to the media ratio
-                webviewHelperSynch.updateSlot(adRatio - 0.2f)
+                /* You need to call updateSlot method from the helper
+                Some creative can resize by itself, to handle it we have to notify the webview helper
+                this ratio doesn't contains the footer and the header
+                To manage this behavior, a work around is to substract 0.2 to the media ratio
+                 */
+                webviewHelperSynch.updateSlot(adRatio.getAdSlotRatio(adView.measuredWidth))
 
-                mMopubView.layoutParams = params
+                adView.layoutParams = params
             }
         }
 
-        // 7. Attach and Register its key in the helper
-        val key = TeadsHelper.attachListener(mListener)
-
-        // 8. Create the AdSettings to customize our Teads AdView
-        val extras = AdSettings.Builder()
-                .enableDebug()
-                .userConsent("1", "BOq832qOq832qAcABBENCxAAAAAs57_______9______9uz_Ov_v_f__33e8__9v_l_7_-___u_-33d4u_1vf99yfm1-7etr3tp_87ues2_Xur__79__3z3_9pxP78k89r7337Ew_v-_v8b7JCKN4A")
-                .setUsPrivacy("1YNN")
-                .addAdapterListener(key)
-                .build()
-        mMopubView.setLocalExtras(extras.toHashMap())
-
-        // 9. Create a custom WebViewclient with helper in it
         if ((activity as MainActivity).isWebViewDarkTheme
                 && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
         }
         webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch, getTitle())
+        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
-    }
-
-    override fun onHelperReady(adContainer: ViewGroup) {
-        // 10. Load the ad
-        mMopubView.loadAd()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        // Don't forget to call the helper here
-        webviewHelperSynch.clean()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
-        // Don't forget to call the helper here
         webviewHelperSynch.onConfigurationChanged()
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////
+     * WebView helper listener
+     *//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    override fun onHelperReady(adContainer: ViewGroup) {
+        // 5. Attach and Register its key in the helper
+        val key = TeadsHelper.attachListener(mListener)
+
+        // 6. Create the TeadsMediationSettings to customize our Teads AdView
+        val extras = TeadsMediationSettings.Builder()
+                // Needed by european regulation
+                // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
+                .userConsent("1", "0001", TCFVersion.V1, 12)
+                .enableDebug()
+                // Add the helper in the adsettings
+                .setMediationListenerKey(key)
+                // The article url if you are a news publisher to increase your
+                // earnings
+                .pageSlotUrl("https://page.com/article1/")
+                .build()
+
+        // 7. Set the settings inside MoPub AdView
+        adView.setLocalExtras(mapOf("teads" to extras.toJsonEncoded()))
+
+        // 8. Load the ad
+        adView.loadAd()
     }
 
     override fun getTitle(): String = "InRead MoPub WebView"

@@ -7,9 +7,9 @@ enum class FormatType(val value: Int) {
 
 enum class ProviderType(val value: Int) {
     DIRECT(0),
-    ADMOB(1),
-    MOPUB(2),
-    SMART(3)
+    MOPUB(1),
+    ADMOB(2)
+    //SMART(3)
 }
 
 enum class RecyclerItemType(val value: Int) {
@@ -24,5 +24,6 @@ enum class CreativeSize(val value: Int) {
     LANDSCAPE(84242),
     VERTICAL(127546),
     SQUARE(127547),
-    CAROUSEL(128779)
+    CAROUSEL(128779),
+    NATIVE(124859)
 }

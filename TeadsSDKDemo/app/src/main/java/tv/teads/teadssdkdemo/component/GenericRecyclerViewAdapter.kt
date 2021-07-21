@@ -15,7 +15,7 @@ open class GenericRecyclerViewAdapter(private val mTitle: String) : RecyclerView
             0 -> RecyclerItemType.TYPE_SCROLL_DOWN.value
             1 -> RecyclerItemType.TYPE_ARTICLE_TITLE.value
             2 -> RecyclerItemType.TYPE_ARTICLE_REAL_LINES.value
-            4 -> RecyclerItemType.TYPE_TEADS.value
+            6 -> RecyclerItemType.TYPE_TEADS.value
             else -> RecyclerItemType.TYPE_ARTICLE_FAKE_LINES.value
         }
     }
@@ -43,7 +43,7 @@ open class GenericRecyclerViewAdapter(private val mTitle: String) : RecyclerView
         }
     }
 
-    override fun getItemCount(): Int = 6
+    override fun getItemCount(): Int = 8
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {}
 

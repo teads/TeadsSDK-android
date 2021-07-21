@@ -14,8 +14,8 @@ android {
     defaultConfig {
         minSdkVersion libraryMinSdkVersion
         targetSdkVersion libraryTargetSdkVersion
-        versionCode libraryVersionCode
-        versionName libraryVersion
+        versionCode teadsSDKVersionCode
+        versionName teadsSDKVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -30,13 +30,12 @@ android {
 
 repositories {
     maven { url "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod" }
-    jcenter()
     maven { url "https://maven.google.com" }
 }
 
 dependencies {
     // Teads SDK
-    implementation("tv.teads.sdk.android:sdk:$libraryVersion@aar") {
+    implementation("tv.teads.sdk.android:sdk:$teadsSDKVersion@aar") {
         transitive = true
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

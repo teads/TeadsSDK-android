@@ -15,14 +15,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.mopub.common.MoPub
-import com.mopub.common.SdkConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
-import tv.teads.teadssdkdemo.format.mediation.identifier.MoPubIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
 class MainActivity : AppCompatActivity() {
+
     var isWebViewDarkTheme: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,16 +34,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setToolBar(true)
 
-        MoPub.initializeSdk(this, SdkConfiguration.Builder(MoPubIdentifier.MOPUB_ID).build()) {}
-
         if (!TextUtils.isEmpty(intent.getStringExtra(INTENT_EXTRA_PID))) {
             PreferenceManager
-                    .getDefaultSharedPreferences(this@MainActivity)
-                    .edit()
-                    .putInt(
-                            SHAREDPREF_PID,
-                            Integer.parseInt(intent.getStringExtra(INTENT_EXTRA_PID)))
-                    .apply()
+                .getDefaultSharedPreferences(this@MainActivity)
+                .edit()
+                .putInt(
+                    SHAREDPREF_PID,
+                    Integer.parseInt(intent.getStringExtra(INTENT_EXTRA_PID))
+                )
+                .apply()
         }
 
         if (savedInstanceState == null) {
@@ -59,19 +56,18 @@ class MainActivity : AppCompatActivity() {
     /**
      * Return the pid, if not one is set, the default one
      *
-     * @param context current context
      * @return pid
      */
     fun getPid(): Int {
         return PreferenceManager
-                .getDefaultSharedPreferences(this)
-                .getInt(SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT)
+            .getDefaultSharedPreferences(this)
+            .getInt(SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT)
     }
 
     fun setPid(pid: Int) {
         PreferenceManager.getDefaultSharedPreferences(this@MainActivity).edit()
-                .putInt(SHAREDPREF_PID, pid)
-                .apply()
+            .putInt(SHAREDPREF_PID, pid)
+            .apply()
     }
 
     /**
@@ -163,14 +159,14 @@ class MainActivity : AppCompatActivity() {
     private fun hideSystemUIAndNavigation(activity: Activity) {
         val decorView: View = activity.window.decorView
         decorView.systemUiVisibility =
-                (View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN // Hide the nav bar and status bar
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN)
+            (View.SYSTEM_UI_FLAG_IMMERSIVE
+                    // Set the content to appear under the system bars so that the
+                    // content doesn't resize when the system bars hide and show.
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN // Hide the nav bar and status bar
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
     private fun adjustToolbarMarginForNotch() {
@@ -193,7 +189,6 @@ class MainActivity : AppCompatActivity() {
         private const val LOG_TAG = "MainActivity"
         private const val INTENT_EXTRA_PID = "ext_pid"
         const val SHAREDPREF_PID = "sp_pid"
-        private const val SHAREDPREF_WEBVIEWURL = "sp_wvurl"
         const val SHAREDPREF_PID_DEFAULT = 84242
         private const val SHAREDPREF_WEBVIEW_DEFAULT = "file:///android_asset/demo.html"
         private const val SHAREDPREF_WEBVIEW_NIGHT = "file:///android_asset/demo_night.html"

@@ -72,7 +72,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:checkedButton="@id/directButton"
             android:orientation="horizontal">
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
@@ -110,22 +109,10 @@
                 android:gravity="center"
                 android:text="@string/admob"
                 android:textColor="@color/textColorNoBg" />
-
-            <tv.teads.teadssdkdemo.component.TeadsRadioButton
-                android:id="@+id/smartButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/main_radio_button_height"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:text="@string/smart"
-                android:textColor="@color/textColorNoBg" />
         </RadioGroup>
 
         <LinearLayout
-            android:id="@+id/ad_types_block"
+            android:id="@+id/container_creative_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -142,7 +129,7 @@
                 android:textStyle="bold" />
 
             <RadioGroup
-                android:id="@+id/container_creative_size"
+                android:id="@+id/radiogroup_creative_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -205,13 +192,13 @@
                 android:id="@+id/customButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/main_radio_button_height"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/custom_button_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
                 android:tag="0"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/custom"
                 android:textColor="@color/textColorNoBg" />
         </LinearLayout>

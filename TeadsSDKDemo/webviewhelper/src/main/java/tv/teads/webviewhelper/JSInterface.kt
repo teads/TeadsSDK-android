@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Teads 2018.
- */
-
 package tv.teads.webviewhelper
 
 import android.webkit.JavascriptInterface

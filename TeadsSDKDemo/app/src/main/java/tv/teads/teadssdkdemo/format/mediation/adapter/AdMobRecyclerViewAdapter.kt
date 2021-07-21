@@ -2,17 +2,19 @@ package tv.teads.teadssdkdemo.format.mediation.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.*
 import tv.teads.adapter.admob.TeadsAdapter
-import tv.teads.helper.TeadsBannerAdapterListener
-import tv.teads.helper.TeadsHelper
-import tv.teads.sdk.android.AdSettings
+import tv.teads.sdk.AdOpportunityTrackerView
+import tv.teads.sdk.AdRatio
+import tv.teads.sdk.TeadsMediationSettings
+import tv.teads.sdk.mediation.TeadsAdapterListener
+import tv.teads.sdk.mediation.TeadsHelper
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.RecyclerItemType
-import kotlin.math.roundToInt
 
 /**
  * Simple RecyclerView adapter
@@ -21,7 +23,7 @@ class AdMobRecyclerViewAdapter(admobBannerId: String, context: Context?, title: 
     : GenericRecyclerViewAdapter(title) {
 
     private val adView: AdView = AdView(context!!)
-    private val mListener: TeadsBannerAdapterListener
+    private val mListener: TeadsAdapterListener
 
     init {
         // 1. Initialize AdMob & Teads Helper
@@ -51,19 +53,23 @@ class AdMobRecyclerViewAdapter(admobBannerId: String, context: Context?, title: 
             }
         }
 
-        /* 4. Create a TeadsBannerAdapterListener
+        /* 4. Create a TeadsAdapterListener
         You need to create an instance for each instance of AdMob view
         it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
          */
-        mListener = object : TeadsBannerAdapterListener {
-            override fun onRatioUpdated(adRatio: Float) {
-                adView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        mListener = object : TeadsAdapterListener {
+            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                adView.addView(trackerView)
+            }
+
+            override fun onRatioUpdated(adRatio: AdRatio) {
+                adView.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         adView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         val params: ViewGroup.LayoutParams = adView.layoutParams
 
                         // Here the width is MATCH_PARENT
-                        params.height = (adView.measuredWidth / adRatio).roundToInt()
+                        params.height = adRatio.calculateHeight(adView.measuredWidth)
 
                         adView.layoutParams = params
                     }
@@ -74,15 +80,15 @@ class AdMobRecyclerViewAdapter(admobBannerId: String, context: Context?, title: 
         // 5. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
 
-        // 6. Create the AdSettings to customize our Teads AdView
-        val extras = AdSettings.Builder()
+        // 6. Create the TeadsMediationSettings to customize our Teads AdView
+        val extras = TeadsMediationSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
-                .userConsent("1", "0001")
+                .userConsent("1", "0001", TCFVersion.V1, 12)
                 // The article url if you are a news publisher to increase your earnings
-                .pageUrl("https://page.com/article1/")
+                .pageSlotUrl("https://page.com/article1/")
                 // /!\ You need to add the key to the settings
-                .addAdapterListener(key)
+                .setMediationListenerKey(key)
                 .build()
 
         // 7. Create the AdRequest with the previous settings

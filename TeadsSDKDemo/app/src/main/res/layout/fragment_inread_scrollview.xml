@@ -18,7 +18,7 @@
         <include layout="@layout/article_fake_lines" />
 
         <FrameLayout
-            android:id="@+id/teadsAdView"
+            android:id="@+id/adSlotView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -6,28 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
+import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
-import tv.teads.sdk.android.AdFailedReason
-import tv.teads.sdk.android.AdSettings
-import tv.teads.sdk.android.InReadAdView
-import tv.teads.sdk.android.TeadsListener
+import tv.teads.sdk.*
+import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.webviewhelper.SyncWebViewTeadsAdView
+import tv.teads.webviewhelper.SyncAdWebView
 
 /**
  * InRead format within a WebView
  */
-class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
+class InReadWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
-    private lateinit var webviewHelperSynch: SyncWebViewTeadsAdView
-
-    private lateinit var adView: InReadAdView
+    private lateinit var webviewHelperSynch: SyncAdWebView
+    private lateinit var adPlacement: InReadAdPlacement
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * Ad view listener
@@ -41,53 +38,15 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
-        // 1. Create the InReadAdView
-        adView = InReadAdView(context)
+        // 1. Setup the settings
+        val placementSettings = AdPlacementSettings.Builder()
+                .enableDebug()
+                .build()
 
-        /*
-        2. Create a SyncWebViewTeadsAdView
-        For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
-        You can find it in the webviewhelper module. {@see SyncWebViewTeadsAdView}
-         */
-        webviewHelperSynch = SyncWebViewTeadsAdView(webview, adView, this, "#teads-placement-slot")
+        // 2. Create the InReadAdPlacement
+        adPlacement = TeadsSDK.createInReadPlacement(requireActivity(), pid, placementSettings)
 
-        // 2. Setup the AdView
-        adView.setPid(pid)
-
-        /* 3. Subscribe to our listener
-        You need to implement at least onAdLoaded & onRatioUpdated to synchronize the AdView with the
-        previous helper you created.
-         */
-        adView.listener = object : TeadsListener() {
-
-            override fun onAdFailedToLoad(adFailedReason: AdFailedReason?) {
-                Toast.makeText(this@InReadWebViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onError(s: String?) {
-                Toast.makeText(this@InReadWebViewFragment.activity, getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onAdLoaded(adRatio: Float) {
-                webviewHelperSynch.updateSlot(adRatio)
-                webviewHelperSynch.displayAd()
-            }
-
-            override fun onRatioUpdated(adRatio: Float) {
-                // Some creative can resize by itself, to handle it we have to notify the webview helper
-                // But unlike the ratio in onAdLoaded method, this ratio doesn't contains the footer and the header
-                // To manage this behavior, a work around is to add an estimated header height to the media ratio
-                val screenDensity: Float = context?.resources?.displayMetrics?.density ?: 1f
-                val estimatedHeaderHeightPX = 40 * screenDensity
-                val estimatedTotalHeightPX = adView.width.toFloat() / adRatio + estimatedHeaderHeightPX
-                val ratioWithHeaderIncluded = adView.width.toFloat() / estimatedTotalHeightPX
-                webviewHelperSynch.updateSlot(ratioWithHeaderIncluded)
-            }
-
-            override fun closeAd() {
-                webviewHelperSynch.closeAd()
-            }
-        }
+        webviewHelperSynch = SyncAdWebView(requireContext(), webview, this@InReadWebViewFragment, "#teads-placement-slot")
 
         if ((activity as MainActivity).isWebViewDarkTheme
                 && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
@@ -96,12 +55,6 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
         webview.settings.javaScriptEnabled = true
         webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        adView.clean()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -114,14 +67,37 @@ class InReadWebViewFragment : BaseFragment(), SyncWebViewTeadsAdView.Listener {
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onHelperReady(adContainer: ViewGroup) {
-        // 2. Customize the AdView with your settings
-        val settings = AdSettings.Builder()
-                .enableDebug()
+        val requestSettings = AdRequestSettings.Builder()
+                .pageSlotUrl("http://teads.com")
                 .build()
 
-        // 5. Load the ad with the created settings
-        //    You can still load without settings.
-        adView.load(settings)
+        // 3. Request the ad and register to the listener in it
+        adPlacement.requestAd(requestSettings, object : InReadAdListener {
+            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                webviewHelperSynch.registerTrackerView(trackerView)
+            }
+
+            override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
+                webviewHelperSynch.registerAdView(inReadAdView)
+                webviewHelperSynch.updateSlot(adRatio.getAdSlotRatio(webview.measuredWidth))
+            }
+
+            override fun onAdRatioUpdate(adRatio: AdRatio) {
+                webviewHelperSynch.updateSlot(adRatio.getAdSlotRatio(webview.measuredWidth))
+            }
+
+            override fun onAdClicked() {}
+            override fun onAdClosed() {
+                webviewHelperSynch.closeAd()
+            }
+            override fun onAdError(code: Int, description: String) {
+                webviewHelperSynch.clean()
+            }
+            override fun onAdImpression() {}
+            override fun onFailToReceiveAd(failReason: String) {
+                webviewHelperSynch.clean()
+            }
+        })
     }
 
     override fun getTitle(): String = "InRead Direct WebView"

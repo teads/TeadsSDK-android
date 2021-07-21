@@ -24,14 +24,7 @@ import tv.teads.teadssdkdemo.format.mediation.admob.AdMobGridRecyclerViewFragmen
 import tv.teads.teadssdkdemo.format.mediation.admob.AdMobRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.admob.AdMobScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.admob.AdMobWebViewFragment
-import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.mopub.MoPubRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.mopub.MopubScrollViewFragment
-import tv.teads.teadssdkdemo.format.mediation.mopub.MopubWebViewFragment
-import tv.teads.teadssdkdemo.format.mediation.smart.SmartGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.smart.SmartRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.smart.SmartScrollViewFragment
-import tv.teads.teadssdkdemo.format.mediation.smart.SmartWebViewFragment
+import tv.teads.teadssdkdemo.format.mediation.mopub.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
@@ -39,16 +32,17 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
  * Empty fragment helping opening the navigation drawer
  */
 class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
-    //private val mFragmentsNative = mapOf<>()
-    private lateinit var mMainView: View
-    private lateinit var mCustomPid: RadioButton
-    private lateinit var mContainerCreativeSizes: RadioGroup
 
-    private val mIntegrationList = listOf(
-            IntegrationType("ScrollView", R.drawable.scrollview),
-            IntegrationType("RecyclerView", R.drawable.tableview),
-            IntegrationType("RecyclerView Grid", R.drawable.collectionview),
-            IntegrationType("WebView", R.drawable.webview)
+    private lateinit var mainView: View
+    private lateinit var customPid: RadioButton
+    private lateinit var containerCreativeSizes: RadioGroup
+    private lateinit var containerProvider: RadioGroup
+
+    private val integrationList = listOf(
+        IntegrationType("ScrollView", R.drawable.scrollview),
+        IntegrationType("RecyclerView", R.drawable.tableview),
+        IntegrationType("RecyclerView Grid", R.drawable.collectionview),
+        IntegrationType("WebView", R.drawable.webview)
     )
 
     private fun getFragmentInReadDirect(position: Int): BaseFragment {
@@ -76,53 +70,46 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             0 -> MopubScrollViewFragment()
             1 -> MoPubRecyclerViewFragment()
             2 -> MoPubGridRecyclerViewFragment()
-            3 -> MopubWebViewFragment()
+            3 -> MoPubWebViewFragment()
             else -> MopubScrollViewFragment()
-        }
-    }
-
-    private fun getFragmentInReadSmart(position: Int): BaseFragment {
-        return when (position) {
-            0 -> SmartScrollViewFragment()
-            1 -> SmartRecyclerViewFragment()
-            2 -> SmartGridRecyclerViewFragment()
-            3 -> SmartWebViewFragment()
-            else -> SmartScrollViewFragment()
         }
     }
 
     private var mFormatSelected: FormatType = FormatType.INREAD
     private var mProviderSelected: ProviderType = ProviderType.DIRECT
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        mMainView = inflater.inflate(R.layout.fragment_main, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        mainView = inflater.inflate(R.layout.fragment_main, container, false)
 
-        mMainView.apply {
+        mainView.apply {
             val containerFormat: RadioGroup = this.findViewById(R.id.container_format)
-            val containerProvider: RadioGroup = this.findViewById(R.id.container_provider)
+            containerProvider = this.findViewById(R.id.container_provider)
             val containerIntegration: ConstraintLayout = this.findViewById(R.id.integration_container)
-            mContainerCreativeSizes = this.findViewById(R.id.container_creative_size)
-            mCustomPid = this.findViewById(R.id.customButton)
+            containerCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
+            customPid = this.findViewById(R.id.customButton)
 
             setIntegrationItems(containerIntegration)
             setCreativeSizeChecked()
+            setProviderSelected()
 
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
             containerProvider.setOnCheckedChangeListener(this@MainFragment)
-            mContainerCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
-            mCustomPid.setOnClickListener { changePidDialog() }
+            containerCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
+            customPid.setOnClickListener { changePidDialog() }
         }
 
-        return mMainView
+        return mainView
     }
 
     private fun setIntegrationItems(container: ConstraintLayout) {
         val inflater = LayoutInflater.from(activity)
         val flow = container.getChildAt(0) as Flow
-        val ids = IntArray(mIntegrationList.size)
+        val ids = IntArray(integrationList.size)
 
-        mIntegrationList.forEachIndexed { index, it ->
+        integrationList.forEachIndexed { index, it ->
             val view = inflater.inflate(R.layout.item_integration_type, container, false)
 
             view.id = it.image
@@ -157,9 +144,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.MOPUB -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadMopub(position))
             }
-            ProviderType.SMART -> {
-                (activity as MainActivity).changeFragment(getFragmentInReadSmart(position))
-            }
         }
     }
 
@@ -167,6 +151,15 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         mFormatSelected = when (id) {
             R.id.inreadButton -> FormatType.INREAD
             else -> FormatType.INREAD
+        }
+    }
+
+
+    private fun setProviderSelected() {
+        when (mProviderSelected) {
+            ProviderType.DIRECT -> containerProvider.check(R.id.directButton)
+            ProviderType.ADMOB -> containerProvider.check(R.id.admobButton)
+            ProviderType.MOPUB -> containerProvider.check(R.id.mopubButton)
         }
     }
 
@@ -188,13 +181,13 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     private fun setCreativeSizeChecked() {
         val pid = (activity as MainActivity).getPid()
 
-        val child = mContainerCreativeSizes.getChildAt(DirectIdentifier.getPositionByPid(pid)) as? RadioButton
+        val child = containerCreativeSizes.getChildAt(DirectIdentifier.getPositionByPid(pid)) as? RadioButton
 
         if (child == null) {
-            mContainerCreativeSizes.clearCheck()
-            mCustomPid.isChecked = true
+            containerCreativeSizes.clearCheck()
+            customPid.isChecked = true
         } else {
-            mCustomPid.isChecked = false
+            customPid.isChecked = false
             child.isChecked = child.tag.toString().toInt() == pid
         }
     }
@@ -207,26 +200,26 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         input.setSingleLine(true)
 
         AlertDialog.Builder(requireActivity())
-                .setTitle("Set custom PID")
-                .setView(view)
-                .setPositiveButton("Save") { _, _ ->
-                    val pidString = input.text.toString()
-                    val pid = if (pidString.isEmpty()) {
-                        MainActivity.SHAREDPREF_PID_DEFAULT
-                    } else Integer.parseInt(pidString)
-                    Toast.makeText(activity, "Setting custom PID is for Direct only", Toast.LENGTH_SHORT).show()
-                    PreferenceManager.getDefaultSharedPreferences(activity).edit()
-                            .putInt(MainActivity.SHAREDPREF_PID, pid)
-                            .apply()
-                    setCreativeSizeChecked()
-                }.setNegativeButton("Cancel") { _, _ -> mCustomPid.isChecked = false }.show()
+            .setTitle("Set custom PID")
+            .setView(view)
+            .setPositiveButton("Save") { _, _ ->
+                val pidString = input.text.toString()
+                val pid = if (pidString.isEmpty()) {
+                    MainActivity.SHAREDPREF_PID_DEFAULT
+                } else Integer.parseInt(pidString)
+                Toast.makeText(activity, "Setting custom PID is for Direct only", Toast.LENGTH_SHORT).show()
+                PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                    .putInt(MainActivity.SHAREDPREF_PID, pid)
+                    .apply()
+                setCreativeSizeChecked()
+            }.setNegativeButton("Cancel") { _, _ -> customPid.isChecked = false }.show()
     }
 
     private fun showDialogSoon() {
         AlertDialog.Builder(requireContext())
-                .setTitle("Coming soon!")
-                .setPositiveButton(android.R.string.yes) { _, _ -> }
-                .show()
+            .setTitle("Coming soon!")
+            .setPositiveButton(android.R.string.yes) { _, _ -> }
+            .show()
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
@@ -237,21 +230,20 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                     R.id.nativeButton -> {
                         // TODO COMING SOON
                         group.findViewById<RadioButton>(id)
-                                .setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorNoBg))
+                            .setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorNoBg))
                         group.check(R.id.inreadButton)
                         showDialogSoon()
                     }
                 }
             }
-            R.id.container_creative_size -> {
-                mCustomPid.isChecked = false
+            R.id.radiogroup_creative_size -> {
+                customPid.isChecked = false
                 setCreativeSizePid(group, id)
             }
             else -> {
                 mProviderSelected = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.mopubButton -> ProviderType.MOPUB
-                    R.id.smartButton -> ProviderType.SMART
                     else -> ProviderType.ADMOB
                 }
             }
