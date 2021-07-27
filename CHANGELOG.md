@@ -1,5 +1,10 @@
 # Changelog
 
+### v4.9.1
+_2021-07-27_
+- Allows dom storage on the internal browser for creative website.
+- Fix an issue on vpaid player state during a view attach (principaly on a recycler integration)
+
 ### v4.9.0
 > :warning:  **Warning**: This release includes a major breaking change.
 _2021-06-03_
