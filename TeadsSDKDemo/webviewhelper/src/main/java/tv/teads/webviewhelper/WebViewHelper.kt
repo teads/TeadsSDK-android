@@ -1,7 +1,3 @@
-/*
- * Copyright (c) Teads 2019.
- */
-
 package tv.teads.webviewhelper
 
 import android.annotation.SuppressLint

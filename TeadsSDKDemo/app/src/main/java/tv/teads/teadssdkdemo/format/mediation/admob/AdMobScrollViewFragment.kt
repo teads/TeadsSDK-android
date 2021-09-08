@@ -9,9 +9,12 @@ import android.widget.Toast
 import com.google.android.gms.ads.*
 import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import tv.teads.adapter.admob.TeadsAdapter
-import tv.teads.helper.TeadsBannerAdapterListener
-import tv.teads.helper.TeadsHelper
-import tv.teads.sdk.android.AdSettings
+import tv.teads.sdk.AdOpportunityTrackerView
+import tv.teads.sdk.AdRatio
+import tv.teads.sdk.TeadsMediationSettings
+import tv.teads.sdk.mediation.TeadsAdapterListener
+import tv.teads.sdk.mediation.TeadsHelper
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
@@ -21,7 +24,7 @@ import kotlin.math.roundToInt
  * Display inRead as Banner within a ScrollView using AdMob Mediation.
  */
 class AdMobScrollViewFragment : BaseFragment() {
-    private lateinit var mListener: TeadsBannerAdapterListener
+    private lateinit var mListener: TeadsAdapterListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,7 +44,7 @@ class AdMobScrollViewFragment : BaseFragment() {
         val adView = AdView(view.context)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
         adView.adSize = AdSize.MEDIUM_RECTANGLE
-        teadsAdView.addView(adView)
+        adSlotView.addView(adView, 0)
 
         // 3. Attach listener (will include Teads events)
         adView.adListener = object : AdListener() {
@@ -66,14 +69,18 @@ class AdMobScrollViewFragment : BaseFragment() {
         You need to create an instance for each instance of AdMob view
         it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
          */
-        mListener = object : TeadsBannerAdapterListener {
-            override fun onRatioUpdated(adRatio: Float) {
+        mListener = object : TeadsAdapterListener {
+            override fun onRatioUpdated(adRatio: AdRatio) {
                 val params: ViewGroup.LayoutParams = adView.layoutParams
 
                 // Here the width is MATCH_PARENT
-                params.height = (params.width / adRatio).roundToInt()
+                params.height = adRatio.calculateHeight(adView.measuredWidth)
 
                 adView.layoutParams = params
+            }
+
+            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                adSlotView.addView(trackerView)
             }
 
         }
@@ -82,14 +89,15 @@ class AdMobScrollViewFragment : BaseFragment() {
         val key = TeadsHelper.attachListener(mListener)
 
         // 6. Create the AdSettings to customize our Teads AdView
-        val extras = AdSettings.Builder()
+        val extras = TeadsMediationSettings.Builder()
+                .enableDebug()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
-                .userConsent("1", "0001")
+                .userConsent("1", "0001", TCFVersion.V1, 12)
                 // The article url if you are a news publisher to increase your earnings
-                .pageUrl("https://page.com/article1/")
+                .pageSlotUrl("https://page.com/article1/")
                 // /!\ You need to add the key to the settings
-                .addAdapterListener(key)
+                .setMediationListenerKey(key)
                 .build()
 
         // 7. Create the AdRequest with the previous settings

@@ -1,47 +1,53 @@
-/*
- * Copyright (c) Teads 2019.
- */
-
 package tv.teads.webviewhelper
 
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
-
+import tv.teads.sdk.AdOpportunityTrackerView
+import tv.teads.sdk.renderer.InReadAdView
+import tv.teads.webviewhelper.baseView.ObservableContainerAdView
 import tv.teads.webviewhelper.baseView.ObservableWebView
-import tv.teads.webviewhelper.baseView.ObservableWrapperView
 
 /**
- * Insert and Synchronise the scroll between a given ViewGroup and a WebView
  *
- * @param webview               Webview with which we synchronize the scroll. [ObservableWebView]
- * @param observableWrapperView The wrapper view surrounding any ViewGroup insance, for example GAM AdView
- * @param listener              The listener
- * @param selector              The selector where we want insert the ad view
+ * Insert and Synchronise the scroll between the TeadsAdView and the webview
+ *
+ * This helper has been provided to give you a hand in your integration webview.
+ * It's not designed to work on every integration, it needs to be customised to suit your needs
+ *
+ * @param webview  Webview with which we synchronize the scroll. [ObservableWebView]
+ * @param adView   The adview with which we synchronize the scroll
+ * @param listener The listener
+ * @param selector The selector where we want insert the ad view
+ *
  */
-class SyncWebViewViewGroup(private val webview: ObservableWebView,
-                           private val wrapperView: ObservableWrapperView,
-                           private val listener: Listener,
-                           selector: String) : WebViewHelper.Listener,
-                                               ObservableWebView.OnScrollListener,
-                                               ObservableWrapperView.Listener {
+class SyncAdWebView(context: Context,
+                    private val webview: ObservableWebView,
+                    private val listener: Listener,
+                    selector: String) : WebViewHelper.Listener, ObservableWebView.OnScrollListener, ObservableContainerAdView.ActionMoveListener {
+
+
+    private var opened: Boolean = false
 
     /**
      * Layout containing the ad and the webview
      */
     private lateinit var container: FrameLayout
+    private val containerAdView: ObservableContainerAdView = ObservableContainerAdView(context)
 
     private val webviewHelper: WebViewHelper
 
     private var initialY = 0
 
     init {
-        wrapperView.setListener(this)
+        containerAdView.setMoveListener(this)
         webview.setOnScrollListener(this)
-        webviewHelper = WebViewHelper.Builder(webview, this, selector).build()
+        webviewHelper = WebViewHelper.Builder(webview, this, selector)
+                .build()
     }
 
     /**
@@ -52,17 +58,17 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
     }
 
     /**
-     * Insert the given ViewGroup and the webview in a FrameLayout,
+     * Insert the trackerView and the webview in a FrameLayout,
      * and inject it in the old webview parent hierarchy
      */
-    private fun injectViewGroup() {
+    private fun injectTeadsContainerAdView() {
         if (webview.parent !is ViewGroup) {
             return
         }
         val handler = Handler(Looper.getMainLooper())
         handler.post {
-            val webViewParent = webview.parent as ViewGroup
 
+            val webViewParent = webview.parent as ViewGroup
             container = FrameLayout(webview.context)
             container.layoutParams = ViewGroup.LayoutParams(webview.layoutParams)
             var webviewPosition = 0
@@ -76,19 +82,24 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
             webViewParent.removeViewAt(webviewPosition)
             webview.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
                     .LayoutParams.MATCH_PARENT)
+
             container.addView(webview)
-            wrapperView.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                ViewGroup.LayoutParams.WRAP_CONTENT)
-
-            if (wrapperView.parent != null && wrapperView.parent is ViewGroup) {
-                (wrapperView.parent as ViewGroup).removeView(wrapperView)
-            }
-
-            container.addView(wrapperView)
-
+            container.addView(containerAdView)
             webViewParent.addView(container, webviewPosition)
+
             listener.onHelperReady(container)
         }
+    }
+
+
+    fun registerAdView(adView: ViewGroup) {
+        containerAdView.addView(adView, 0)
+        displayAd()
+    }
+
+    fun registerTrackerView(trackerView: AdOpportunityTrackerView) {
+        containerAdView.addView(trackerView)
+        displayAd()
     }
 
     /**
@@ -97,7 +108,6 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
     fun clean() {
         webview.clean()
         webviewHelper.reset()
-        wrapperView.clean()
     }
 
     /**
@@ -122,18 +132,18 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
     }
 
     override fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int) {
-        if (wrapperView.parent == null) {
-            injectViewGroup()
-        }
+        if (containerAdView.parent == null)
+            injectTeadsContainerAdView()
 
         val width = right - left
 
         initialY = top
-        wrapperView.translationY = (initialY - webview.scrollY).toFloat()
+        containerAdView.translationY = (initialY - webview.scrollY).toFloat()
 
-        if (wrapperView.layoutParams != null && wrapperView.layoutParams is ViewGroup.MarginLayoutParams) {
-            (wrapperView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = left
-            (wrapperView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = webview.width - width - left
+        if (containerAdView.layoutParams != null
+                && containerAdView.layoutParams is ViewGroup.MarginLayoutParams) {
+            (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = left
+            (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = webview.width - width - left
         }
     }
 
@@ -153,8 +163,8 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
     /**
      * Open the slot
      */
-    fun displayAd() {
-        webviewHelper.openSlot()
+    private fun displayAd() {
+        if (!opened) webviewHelper.openSlot()
     }
 
     /**
@@ -171,7 +181,7 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
      *//////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onScroll(l: Int, t: Int) {
-        wrapperView.translationY = (initialY - t).toFloat()
+        containerAdView.translationY = (initialY - t).toFloat()
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,14 +198,6 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
         }
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        if (w == 0 || h == 0) {
-            return
-        }
-
-        updateSlot(w.toFloat() / h)
-    }
-
     interface Listener {
         /**
          * Called when the adview has been ready to be used
@@ -204,6 +206,7 @@ class SyncWebViewViewGroup(private val webview: ObservableWebView,
     }
 
     companion object {
-        private val TAG = SyncWebViewViewGroup::class.java.simpleName
+
+        private val TAG = SyncAdWebView::class.java.simpleName
     }
 }

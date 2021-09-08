@@ -6,53 +6,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.adapter.admob.TeadsAdapter
-import tv.teads.helper.TeadsBannerAdapterListener
-import tv.teads.helper.TeadsHelper
-import tv.teads.sdk.android.AdSettings
+import tv.teads.sdk.*
+import tv.teads.sdk.mediation.TeadsAdapterListener
+import tv.teads.sdk.mediation.TeadsHelper
+import tv.teads.sdk.renderer.InReadAdView
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.component.CustomGroupWebViewClient
+import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.webviewhelper.SyncWebViewViewGroup
-import tv.teads.webviewhelper.baseView.ObservableWrapperView
+import tv.teads.webviewhelper.SyncAdWebView
 import kotlin.math.roundToInt
 
 /**
- * Display inRead as Banner within a WebView using AdMob Mediation.
- * This is an exemple using Teads WebView Helper classes to display ads within a WebView content.
+ * InRead format within a WebView
  */
-class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
-    private lateinit var mListener: TeadsBannerAdapterListener
+class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
-    private lateinit var webviewHelperSynch: SyncWebViewViewGroup
     private lateinit var adView: AdView
+    private lateinit var mListener: TeadsAdapterListener
+    private lateinit var webviewHelperSynch: SyncAdWebView
+    private lateinit var adPlacement: InReadAdPlacement
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private val adListener = object : AdListener() {
-
-        override fun onAdLoaded() {
-            webviewHelperSynch.displayAd()
-        }
-
-        override fun onAdFailedToLoad(error: LoadAdError) {
-            Toast.makeText(context, "Ad loading failed: onAdFailedToLoad(${error.cause?.message})", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_inread_webview, container, false)
     }
+
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
@@ -60,44 +54,50 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
         MobileAds.initialize(requireContext())
         TeadsHelper.initialize()
 
-        // 2. Create AdMob view, setup and add it to view hierarchy
+        // 2. Create WebViewHelper
+        webviewHelperSynch = SyncAdWebView(requireContext(), webview, this@AdMobWebViewFragment, "#teads-placement-slot")
+
+        // 3. Create AdMob view, setup and register it
         adView = AdView(requireContext())
-        adView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
+
+        webviewHelperSynch.registerAdView(adView)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
         adView.adSize = AdSize.MEDIUM_RECTANGLE
 
-        /* 3. Create ObservableWrapperView & SyncWebViewViewGroup instance
-        For a webview integration, we provide a example of tool to synchronise the ad view with the webview.
-        You can find it in the webviewhelper module. {@see SyncWebViewViewGroup}
-         */
-        val observableWrapperView = ObservableWrapperView(requireContext(), adView)
-        webviewHelperSynch = SyncWebViewViewGroup(webview, observableWrapperView, this, "#teads-placement-slot")
+        // 4. Create the TeadsAdapterListener
+        mListener = object : TeadsAdapterListener {
+            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                webviewHelperSynch.registerTrackerView(trackerView)
+            }
 
-        // 4. Attach listener (will include Teads events)
-        adView.adListener = adListener
+            override fun onRatioUpdated(adRatio: AdRatio) {
+                val params: ViewGroup.LayoutParams = adView.layoutParams
 
-        // 5.Create a custom WebViewclient with helper in it
+                // Here the width of parent is MATCH_PARENT
+                params.height = adRatio.calculateHeight(adView.measuredWidth)
+
+                /* You need to call updateSlot method from the helper
+                Some creative can resize by itself, to handle it we have to notify the webview helper
+                this ratio doesn't contains the footer and the header
+                To manage this behavior, a work around is to substract 0.2 to the media ratio
+                 */
+                webviewHelperSynch.updateSlot(adRatio.getAdSlotRatio(adView.measuredWidth))
+
+                adView.layoutParams = params
+            }
+        }
+
         if ((activity as MainActivity).isWebViewDarkTheme
                 && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
         }
         webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomGroupWebViewClient(webviewHelperSynch, getTitle())
+        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
         webview.loadUrl(this.webViewUrl)
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        // Don't forget to call the helper here
-        webviewHelperSynch.clean()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-
-        // Don't forget to call the helper here
         webviewHelperSynch.onConfigurationChanged()
     }
 
@@ -106,50 +106,28 @@ class AdMobWebViewFragment : BaseFragment(), SyncWebViewViewGroup.Listener {
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onHelperReady(adContainer: ViewGroup) {
-        /* 6. Create a TeadsBannerAdapterListener
-        You need to create an instance for each instance of AdMob view
-        it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
-         */
-        mListener = object : TeadsBannerAdapterListener {
-            override fun onRatioUpdated(adRatio: Float) {
-                val params: ViewGroup.LayoutParams = adView.layoutParams
-
-                // Here the width of parent is MATCH_PARENT
-                params.height = ((adView.parent as View).width / adRatio).roundToInt()
-
-                /* 7. You need to call updateSlot method from the helper
-                Some creative can resize by itself, to handle it we have to notify the webview helper
-                this ratio doesn't contains the footer and the header
-                To manage this behavior, a work around is to substract 0.2 to the media ratio
-                 */
-                webviewHelperSynch.updateSlot(adRatio - 0.2f)
-
-                adView.layoutParams = params
-            }
-        }
-
-        // 8. Attach and Register its key in the helper
+        // 5. Attach and Register its key in the helper
         val key = TeadsHelper.attachListener(mListener)
 
-        // 9. Create the AdSettings to customize our Teads AdView
-        val extras = AdSettings.Builder()
+        // 6. Create the AdSettings to customize our Teads AdView
+        val extras = TeadsMediationSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
-                .userConsent("1", "0001")
+                .userConsent("1", "0001", TCFVersion.V1, 12)
                 .enableDebug()
                 // Add the helper in the adsettings
-                .addAdapterListener(key)
+                .setMediationListenerKey(key)
                 // The article url if you are a news publisher to increase your
                 // earnings
-                .pageUrl("https://page.com/article1/")
+                .pageSlotUrl("https://page.com/article1/")
                 .build()
 
-        // 10. Create the AdRequest with the previous settings
+        // 7. Create the AdRequest with the previous settings
         val adRequest = AdRequest.Builder()
                 .addCustomEventExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
                 .build()
 
-        // 11. Load the ad with the AdRequest
+        // 8. Load the ad with the AdRequest
         adView.loadAd(adRequest)
     }
 

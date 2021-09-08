@@ -5,22 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
-import tv.teads.sdk.android.AdFailedReason
-import tv.teads.sdk.android.AdSettings
-import tv.teads.sdk.android.InReadAdView
-import tv.teads.sdk.android.TeadsListener
+import tv.teads.sdk.*
+import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import kotlin.math.roundToInt
 
 /**
  * InRead format within a ScrollView
  */
 class InReadScrollViewFragment : BaseFragment() {
 
-    private lateinit var adView: InReadAdView
+    private lateinit var adPlacement: InReadAdPlacement
+    private var inReadAdView: InReadAdView? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -34,44 +31,44 @@ class InReadScrollViewFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 1. Create the InReadAdView
-        adView = InReadAdView(activity)
 
-        // 2. Setup the AdView
-        val settings = AdSettings.Builder()
+        // 1. Setup the settings
+        val placementSettings = AdPlacementSettings.Builder()
                 .enableDebug()
                 .build()
 
-        adView.setPid(pid)
+        // 2. Create the InReadAdPlacement
+        adPlacement = TeadsSDK.createInReadPlacement(requireActivity(), pid, placementSettings)
 
-        // 4. Subscribe to our listener
-        adView.listener = object : TeadsListener() {
-            override fun onAdFailedToLoad(reason: AdFailedReason?) {
-                Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail), Toast.LENGTH_SHORT).show()
+        // 3. Request the ad and register to the listener in it
+        val requestSettings = AdRequestSettings.Builder()
+                .pageSlotUrl("http://teads.com")
+                .build()
+        adPlacement.requestAd(requestSettings, object : InReadAdListener {
+            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                adSlotView.addView(trackerView)
             }
 
-            override fun onError(error: String?) {
-                Toast.makeText(this@InReadScrollViewFragment.activity, getString(R.string.didfail_playback), Toast.LENGTH_SHORT).show()
+            override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
+                this@InReadScrollViewFragment.inReadAdView = inReadAdView
+                adSlotView.addView(inReadAdView, 0)
             }
 
-            override fun onRatioUpdated(adRatio: Float) {
-                val params = adView.layoutParams
+            override fun onAdClicked() {}
+            override fun onAdClosed() {}
+            override fun onAdError(code: Int, description: String) {}
+            override fun onAdImpression() {}
+            override fun onAdExpandedToFullscreen() {}
+            override fun onAdCollapsedFromFullscreen() {}
+            override fun onAdRatioUpdate(adRatio: AdRatio) {}
 
-                params.height = (adView.measuredWidth / adRatio).roundToInt()
-
-                adView.layoutParams = params
-            }
-        }
-
-        // 5. Load the ad with the created settings
-        //    You can still load without settings.
-        teadsAdView.addView(adView)
-        adView.load(settings)
+            override fun onFailToReceiveAd(failReason: String) {}
+        })
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        adView.clean()
+        inReadAdView?.clean()
     }
 
     override fun getTitle(): String = "InRead Direct ScrollView"
