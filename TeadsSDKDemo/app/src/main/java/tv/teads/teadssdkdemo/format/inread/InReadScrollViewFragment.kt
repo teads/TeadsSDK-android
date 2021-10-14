@@ -1,6 +1,7 @@
 package tv.teads.teadssdkdemo.format.inread
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,26 +45,41 @@ class InReadScrollViewFragment : BaseFragment() {
         val requestSettings = AdRequestSettings.Builder()
                 .pageSlotUrl("http://teads.com")
                 .build()
-        adPlacement.requestAd(requestSettings, object : InReadAdListener {
-            override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                adSlotView.addView(trackerView)
-            }
+        adPlacement.requestAd(requestSettings,
+                object : InReadAdListener {
+                    override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                        adSlotView.addView(trackerView)
+                    }
 
-            override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
-                this@InReadScrollViewFragment.inReadAdView = inReadAdView
-                adSlotView.addView(inReadAdView, 0)
-            }
+                    override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
+                        this@InReadScrollViewFragment.inReadAdView = inReadAdView
+                        adSlotView.addView(inReadAdView, 0)
+                    }
 
-            override fun onAdClicked() {}
-            override fun onAdClosed() {}
-            override fun onAdError(code: Int, description: String) {}
-            override fun onAdImpression() {}
-            override fun onAdExpandedToFullscreen() {}
-            override fun onAdCollapsedFromFullscreen() {}
-            override fun onAdRatioUpdate(adRatio: AdRatio) {}
+                    override fun onAdClicked() {}
+                    override fun onAdClosed() {}
+                    override fun onAdError(code: Int, description: String) {}
+                    override fun onAdImpression() {}
+                    override fun onAdExpandedToFullscreen() {}
+                    override fun onAdCollapsedFromFullscreen() {}
+                    override fun onAdRatioUpdate(adRatio: AdRatio) {}
+                    override fun onFailToReceiveAd(failReason: String) {}
+                },
+                object : VideoPlaybackListener {
+                    override fun onVideoComplete() {
+                        Log.d("PlaybackEvent", "complete")
+                    }
 
-            override fun onFailToReceiveAd(failReason: String) {}
-        })
+                    override fun onVideoPause() {
+                        Log.d("PlaybackEvent", "pause")
+                    }
+
+                    override fun onVideoPlay() {
+                        Log.d("PlaybackEvent", "play")
+                    }
+
+                }
+        )
     }
 
     override fun onDestroy() {

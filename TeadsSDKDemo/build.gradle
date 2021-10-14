@@ -25,8 +25,8 @@ allprojects {
     ext {
         // Libraries
         groupId = "tv.teads.sdk.android"
-        teadsSDKVersionCode = 85
-        teadsSDKVersion = "5.0.4"
+        teadsSDKVersionCode = 86
+        teadsSDKVersion = "5.0.5"
 
         //Global configurations
         projectBuildToolsVersion = '29.0.3'
