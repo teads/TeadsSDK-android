@@ -60,10 +60,10 @@ dependencies {
         transitive = true
     }
     // Teads Admob Adapter
-    implementation "tv.teads.sdk.android:adapterhelper:$libraryVersion"
-    implementation "tv.teads.sdk.android:admobadapter:$libraryVersion"
-    implementation "tv.teads.sdk.android:mopubadapter:$libraryVersion"
-    implementation "tv.teads.sdk.android:smartadapter:$libraryVersion"
+    implementation "tv.teads.sdk.android:adapterhelper:4.9.1"
+    implementation "tv.teads.sdk.android:admobadapter:4.9.1"
+    implementation "tv.teads.sdk.android:mopubadapter:4.9.1"
+    implementation "tv.teads.sdk.android:smartadapter:4.9.1"
 
     implementation 'com.smartadserver.android:smart-core-sdk:7.10.0'
     implementation 'com.smartadserver.android:smart-display-sdk:7.10.0'

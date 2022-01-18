@@ -1,4 +1,7 @@
 # Changelog
+### v4.9.2
+_2022-01-17_
+- Fix null pointer exception on Webview javascripte evaluation method
 
 ### v4.9.1
 _2021-07-27_
