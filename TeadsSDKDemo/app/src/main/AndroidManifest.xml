@@ -36,9 +36,11 @@
             android:name="com.mopub.common.privacy.ConsentDialogActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3068786746829754~3613028870" />
+
+        <meta-data android:name="applovin.sdk.key"
+            android:value="gVnGNZO0g67qWhpnz0fIyM6JtXc4Fi0NRLNGyV64ec4eh1-zJ-JqLOsfRfN03Lmld-owcwHxnX70afmuvcwagH"/>
     </application>
 </manifest>

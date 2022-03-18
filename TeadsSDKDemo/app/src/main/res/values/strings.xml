@@ -64,6 +64,7 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="programmatically_example">Programmatically example</string>
+    <string name="applovin">AppLovin</string>
     <string name="admob">AdMob</string>
     <string name="mopub">MoPub</string>
     <string name="mediationWebView">Mediation &amp; WebView</string>

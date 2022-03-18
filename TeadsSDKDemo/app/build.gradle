@@ -51,10 +51,13 @@ dependencies {
     // Teads Adapters
     implementation("tv.teads.sdk.android:admobadapter:$teadsSDKVersion@aar")
     implementation "tv.teads.sdk.android:mopubadapter:$teadsSDKVersion"
+    implementation "tv.teads.sdk.android:applovinadapter:$teadsSDKVersion"
 
     implementation('com.mopub:mopub-sdk:5.17.0@aar') {
         transitive = true
     }
+    implementation "com.applovin:applovin-sdk:11.1.2"
+
     implementation project(':webviewhelper')
 
     //Huawei ads identifier sdk
