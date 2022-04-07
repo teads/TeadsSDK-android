@@ -25,7 +25,6 @@ import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinGridRecyclerViewF
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinWebViewFragment
-import tv.teads.teadssdkdemo.format.mediation.mopub.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
@@ -73,16 +72,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             2 -> AppLovinGridRecyclerViewFragment()
             3 -> AppLovinWebViewFragment()
             else -> AppLovinScrollViewFragment()
-        }
-    }
-
-    private fun getFragmentInReadMopub(position: Int): BaseFragment {
-        return when (position) {
-            0 -> MopubScrollViewFragment()
-            1 -> MoPubRecyclerViewFragment()
-            2 -> MoPubGridRecyclerViewFragment()
-            3 -> MoPubWebViewFragment()
-            else -> MopubScrollViewFragment()
         }
     }
 
@@ -152,9 +141,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.ADMOB -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadAdmob(position))
             }
-            ProviderType.MOPUB -> {
-                (activity as MainActivity).changeFragment(getFragmentInReadMopub(position))
-            }
             ProviderType.APPLOVIN -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadAppLovin(position))
             }
@@ -173,7 +159,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         when (mProviderSelected) {
             ProviderType.DIRECT -> containerProvider.check(R.id.directButton)
             ProviderType.ADMOB -> containerProvider.check(R.id.admobButton)
-            ProviderType.MOPUB -> containerProvider.check(R.id.mopubButton)
             ProviderType.APPLOVIN -> containerProvider.check(R.id.applovinButton)
         }
     }
@@ -258,7 +243,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             else -> {
                 mProviderSelected = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
-                    R.id.mopubButton -> ProviderType.MOPUB
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB
                 }
