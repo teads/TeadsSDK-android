@@ -29,7 +29,6 @@
     <string name="container_webview">WebView</string>
     <string name="container_viewpager">ViewPager</string>
     <string name="container_recycler_repeatable">Repeatable</string>
-    <string name="container_recycler_repeatable_mopub">MoPub Banneer Repeatable</string>
     <string name="example">Additional sample</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -66,7 +65,6 @@
     <string name="programmatically_example">Programmatically example</string>
     <string name="applovin">AppLovin</string>
     <string name="admob">AdMob</string>
-    <string name="mopub">MoPub</string>
     <string name="mediationWebView">Mediation &amp; WebView</string>
     <string name="webview_wrap_example">WebVIew height=wrap_content</string>
     <string name="providers">Providers</string>
