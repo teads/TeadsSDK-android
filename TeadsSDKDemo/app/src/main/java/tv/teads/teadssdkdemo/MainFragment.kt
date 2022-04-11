@@ -6,12 +6,14 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.helper.widget.Flow
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
 import tv.teads.teadssdkdemo.data.ProviderType
@@ -20,12 +22,16 @@ import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
-import tv.teads.teadssdkdemo.format.mediation.admob.*
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobScrollViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.AdMobWebViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinWebViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
+import java.lang.IllegalStateException
 
 
 /**
@@ -35,14 +41,21 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
 
     private lateinit var mainView: View
     private lateinit var customPid: RadioButton
-    private lateinit var containerCreativeSizes: RadioGroup
-    private lateinit var containerProvider: RadioGroup
+    private lateinit var containerCreativeSizes: View
+    private lateinit var radioGroupCreativeSizes: RadioGroup
+    private lateinit var radioGroupProvider: RadioGroup
+    private lateinit var integrationsRecyclerView: RecyclerView
 
-    private val integrationList = listOf(
+    private val inReadIntegrationList = listOf(
         IntegrationType("ScrollView", R.drawable.scrollview),
         IntegrationType("RecyclerView", R.drawable.tableview),
         IntegrationType("RecyclerView Grid", R.drawable.collectionview),
         IntegrationType("WebView", R.drawable.webview)
+    )
+
+    private val nativeIntegrationList = listOf(
+        IntegrationType("RecyclerView", R.drawable.tableview),
+        IntegrationType("RecyclerView Grid", R.drawable.collectionview),
     )
 
     private fun getFragmentInReadDirect(position: Int): BaseFragment {
@@ -52,6 +65,14 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             2 -> InReadGridRecyclerViewFragment()
             3 -> InReadWebViewFragment()
             else -> InReadScrollViewFragment()
+        }
+    }
+
+    private fun getFragmentNativeDirect(position: Int): BaseFragment {
+        return when (position) {
+            0 -> InReadRecyclerViewFragment()
+            1 -> InReadGridRecyclerViewFragment()
+            else -> throw IllegalStateException()
         }
     }
 
@@ -86,50 +107,35 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
 
         mainView.apply {
             val containerFormat: RadioGroup = this.findViewById(R.id.container_format)
-            containerProvider = this.findViewById(R.id.container_provider)
-            val containerIntegration: ConstraintLayout = this.findViewById(R.id.integration_container)
-            containerCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
+            radioGroupProvider = this.findViewById(R.id.container_provider)
+            radioGroupCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
+            containerCreativeSizes = this.findViewById(R.id.container_creative_size)
             customPid = this.findViewById(R.id.customButton)
+            integrationsRecyclerView = this.findViewById(R.id.integrations_recycler_view)
 
-            setIntegrationItems(containerIntegration)
+            setIntegrationItems(inReadIntegrationList)
             setCreativeSizeChecked()
             setProviderSelected()
 
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
-            containerProvider.setOnCheckedChangeListener(this@MainFragment)
-            containerCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
+            radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
+            radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
             customPid.setOnClickListener { changePidDialog() }
         }
 
         return mainView
     }
 
-    private fun setIntegrationItems(container: ConstraintLayout) {
-        val inflater = LayoutInflater.from(activity)
-        val flow = container.getChildAt(0) as Flow
-        val ids = IntArray(integrationList.size)
-
-        integrationList.forEachIndexed { index, it ->
-            val view = inflater.inflate(R.layout.item_integration_type, container, false)
-
-            view.id = it.image
-            view.findViewById<ImageView>(R.id.image_integration).setImageResource(it.image)
-            view.findViewById<TextView>(R.id.title_integration).text = it.name
-            view.setOnClickListener { onIntegrationClicked(index) }
-
-            ids[index] = view.id
-
-            container.addView(view)
+    private fun setIntegrationItems(integratiosList: List<IntegrationType>) {
+        integrationsRecyclerView.adapter = IntegrationItemAdapter(integratiosList) { position ->
+            onIntegrationClicked(position)
         }
-
-        flow.referencedIds = ids
     }
 
     private fun onIntegrationClicked(position: Int) {
         when (mFormatSelected) {
             FormatType.INREAD -> changeFragmentForInRead(position)
-            else -> {
-            }
+            FormatType.NATIVE -> changeFragmentForNative(position)
         }
     }
 
@@ -147,19 +153,40 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         }
     }
 
+    private fun changeFragmentForNative(position: Int) {
+        if (mProviderSelected == ProviderType.DIRECT) {
+                (activity as MainActivity).changeFragment(getFragmentNativeDirect(position))
+        }
+    }
+
     private fun setFormatSelected(id: Int) {
-        mFormatSelected = when (id) {
-            R.id.inreadButton -> FormatType.INREAD
-            else -> FormatType.INREAD
+        val availableFormatsMap = mapOf(
+            R.id.inreadButton to FormatType.INREAD,
+            R.id.nativeButton to FormatType.NATIVE
+        )
+        mFormatSelected = availableFormatsMap[id] ?: return
+
+        radioGroupProvider.setAvailableOptions(mFormatSelected)
+
+        when (mFormatSelected) {
+            FormatType.INREAD -> {
+                setIntegrationItems(inReadIntegrationList)
+                containerCreativeSizes.visibility = View.VISIBLE
+
+            }
+            FormatType.NATIVE -> {
+                setIntegrationItems(nativeIntegrationList)
+                containerCreativeSizes.visibility = View.GONE
+            }
         }
     }
 
 
     private fun setProviderSelected() {
         when (mProviderSelected) {
-            ProviderType.DIRECT -> containerProvider.check(R.id.directButton)
-            ProviderType.ADMOB -> containerProvider.check(R.id.admobButton)
-            ProviderType.APPLOVIN -> containerProvider.check(R.id.applovinButton)
+            ProviderType.DIRECT -> radioGroupProvider.check(R.id.directButton)
+            ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
+            ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
         }
     }
 
@@ -181,10 +208,11 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     private fun setCreativeSizeChecked() {
         val pid = (activity as MainActivity).getPid()
 
-        val child = containerCreativeSizes.getChildAt(DirectIdentifier.getPositionByPid(pid)) as? RadioButton
+        val child =
+            radioGroupCreativeSizes.getChildAt(DirectIdentifier.getPositionByPid(pid)) as? RadioButton
 
         if (child == null) {
-            containerCreativeSizes.clearCheck()
+            radioGroupCreativeSizes.clearCheck()
             customPid.isChecked = true
         } else {
             customPid.isChecked = false
@@ -215,26 +243,30 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             }.setNegativeButton("Cancel") { _, _ -> customPid.isChecked = false }.show()
     }
 
-    private fun showDialogSoon() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Coming soon!")
-            .setPositiveButton(android.R.string.yes) { _, _ -> }
-            .show()
+    private fun RadioGroup.setAvailableOptions(formatType: FormatType) {
+        when (formatType) {
+            FormatType.INREAD -> {
+                getChildAt(0).visibility = View.VISIBLE
+                getChildAt(1).visibility = View.VISIBLE
+                getChildAt(2).visibility = View.VISIBLE
+            }
+            FormatType.NATIVE -> {
+                getChildAt(0)
+                    .let { it as RadioButton }
+                    .apply {
+                        visibility = View.VISIBLE
+                        isChecked = true
+                    }
+                getChildAt(1).visibility = View.INVISIBLE
+                getChildAt(2).visibility = View.INVISIBLE
+            }
+        }
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
         when (group?.id) {
             R.id.container_format -> {
-                when (id) {
-                    R.id.inreadButton -> setFormatSelected(id)
-                    R.id.nativeButton -> {
-                        // TODO COMING SOON
-                        group.findViewById<RadioButton>(id)
-                            .setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorNoBg))
-                        group.check(R.id.inreadButton)
-                        showDialogSoon()
-                    }
-                }
+                setFormatSelected(id)
             }
             R.id.radiogroup_creative_size -> {
                 customPid.isChecked = false
