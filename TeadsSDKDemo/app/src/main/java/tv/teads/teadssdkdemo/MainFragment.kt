@@ -30,6 +30,7 @@ import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinGridRecyclerViewF
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinWebViewFragment
+import tv.teads.teadssdkdemo.format.native.NativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import java.lang.IllegalStateException
 
@@ -70,8 +71,8 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentNativeDirect(position: Int): BaseFragment {
         return when (position) {
-            0 -> InReadRecyclerViewFragment()
-            1 -> InReadGridRecyclerViewFragment()
+            0 -> NativeRecyclerViewFragment()
+            1 -> InReadGridRecyclerViewFragment() // todo change to native
             else -> throw IllegalStateException()
         }
     }

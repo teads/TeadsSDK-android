@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="8dp">
+
+    <tv.teads.sdk.renderer.NativeAdView
+        android:id="@+id/nativeAdView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <tv.teads.sdk.renderer.MediaView
+                android:id="@+id/teads_native_media"
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/teads_native_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="8dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/teads_native_media"
+                tools:background="@color/accent" />
+
+            <TextView
+                android:id="@id/teads_native_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:text="Test"
+                android:textColor="#333"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/teads_native_call_to_action"
+                app:layout_constraintStart_toEndOf="@id/teads_native_icon"
+                app:layout_constraintTop_toBottomOf="@id/teads_native_media"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@id/teads_native_advertiser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif"
+                android:text="Test"
+                android:textColor="#333"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/teads_native_call_to_action"
+                app:layout_constraintStart_toEndOf="@id/teads_native_icon"
+                app:layout_constraintTop_toBottomOf="@id/teads_native_title"
+                app:layout_constraintVertical_bias="0" />
+
+            <Button
+                android:id="@+id/teads_native_call_to_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/teads_native_media" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </tv.teads.sdk.renderer.NativeAdView>
+
+</androidx.cardview.widget.CardView>
