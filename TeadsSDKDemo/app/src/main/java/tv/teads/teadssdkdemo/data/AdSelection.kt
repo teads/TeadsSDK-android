@@ -18,7 +18,8 @@ enum class RecyclerItemType(val value: Int) {
     TYPE_SCROLL_DOWN (2),
     TYPE_ARTICLE_TITLE(3),
     TYPE_ARTICLE_REAL_LINES(4),
-    TYPE_ARTICLE_FAKE_LINES(5)
+    TYPE_ARTICLE_FAKE_LINES(5),
+    TYPE_FAKE_FEED(5)
 }
 
 enum class CreativeSize(val value: Int) {

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.native.adapter.MarginItemDecoration
+import tv.teads.teadssdkdemo.utils.MarginItemDecoration
 import tv.teads.teadssdkdemo.format.native.adapter.NativeRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 

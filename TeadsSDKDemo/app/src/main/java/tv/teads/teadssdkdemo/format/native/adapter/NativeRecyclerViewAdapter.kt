@@ -36,9 +36,9 @@ class NativeRecyclerViewAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> RecyclerItemType.TYPE_SCROLL_DOWN.value
-            1 -> if (isGrid) RecyclerItemType.TYPE_EMPTY.value else RecyclerItemType.TYPE_ARTICLE_FAKE_LINES.value
+            1 -> if (isGrid) RecyclerItemType.TYPE_EMPTY.value else RecyclerItemType.TYPE_FAKE_FEED.value
             4 -> RecyclerItemType.TYPE_TEADS.value
-            else -> RecyclerItemType.TYPE_ARTICLE_FAKE_LINES.value
+            else -> RecyclerItemType.TYPE_FAKE_FEED.value
         }
     }
 

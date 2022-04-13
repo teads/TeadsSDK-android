@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.native.adapter
+package tv.teads.teadssdkdemo.utils
 
 import android.graphics.Rect
 import android.view.View
@@ -16,10 +16,12 @@ class MarginItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        if (parent.getChildAdapterPosition(view) == 0)
-            return
-
         with(outRect) {
+            if (parent.getChildAdapterPosition(view) == 0) {
+                bottom = spaceSize
+                return
+            }
+
             if (orientation == GridLayoutManager.VERTICAL) {
                 if (parent.getChildAdapterPosition(view) < spanCount) {
                     top = spaceSize
