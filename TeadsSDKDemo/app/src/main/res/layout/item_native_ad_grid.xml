@@ -19,13 +19,14 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/native_media_card"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 app:cardCornerRadius="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -41,31 +42,32 @@
                 android:id="@+id/teads_native_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginTop="10dp"
                 android:ellipsize="end"
+                android:lines="2"
                 android:maxLines="2"
                 android:textColor="@color/titleTextColor"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/teads_native_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/native_media_card"
-                app:layout_constraintTop_toTopOf="@id/native_media_card"
+                app:layout_constraintEnd_toEndOf="@id/native_media_card"
+                app:layout_constraintStart_toStartOf="@id/native_media_card"
+                app:layout_constraintTop_toBottomOf="@id/native_media_card"
+                app:layout_constraintVertical_chainStyle="spread"
                 tools:text="'Sed porta sapien ut placerat venenatis'" />
 
             <TextView
                 android:id="@+id/teads_native_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 android:ellipsize="end"
+                android:lines="2"
                 android:maxLines="2"
                 android:textColor="@color/titleTextColor"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/sponsor_label"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/sponsor_label"
+                app:layout_constraintEnd_toEndOf="@id/teads_native_title"
                 app:layout_constraintStart_toStartOf="@id/teads_native_title"
                 app:layout_constraintTop_toBottomOf="@id/teads_native_title"
                 tools:text="Nulla est purus, fringilla eget nunc a, rutrum vehicula leo. Nulla sed tortor dictum. Nulla est purus, fringilla eget nunc a, rutrum vehicula leo." />
@@ -74,26 +76,21 @@
                 android:id="@+id/sponsor_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
+                android:lines="2"
                 android:text="Sponsored"
                 android:textColor="@color/primaryGrey"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/native_media_card"
-                app:layout_constraintEnd_toStartOf="@id/sponsor_more"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/native_media_card"
+                app:layout_constraintBottom_toTopOf="@id/sponsor_more"
+                app:layout_constraintStart_toStartOf="@id/teads_native_content"
                 app:layout_constraintTop_toBottomOf="@id/teads_native_content" />
 
-            <!-- todo must it be a button with id teads_native_call_to_action? -->
             <TextView
                 android:id="@+id/sponsor_more"
                 android:layout_width="60dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/custom_button_selector"
                 android:gravity="center"
@@ -101,8 +98,8 @@
                 android:textColor="@color/textColorNoBg"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/teads_native_content" />
+                app:layout_constraintStart_toStartOf="@id/sponsor_label"
+                app:layout_constraintTop_toBottomOf="@id/sponsor_label" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,92 +5,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
     app:cardElevation="4dp"
-    tools:layout_width="200dp">
+    card_view:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/image"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/feed_image_card"
             android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/teads_logo_black"
-            app:flow_verticalStyle="packed"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/feed_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/teads_logo_black" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/feed_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:text="'Sed porta sapien ut placerat venenatis'"
+            android:maxLines="2"
             android:textColor="@color/titleTextColor"
-            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/image" />
+            app:layout_constraintEnd_toEndOf="@id/feed_image_card"
+            app:layout_constraintStart_toStartOf="@id/feed_image_card"
+            app:layout_constraintTop_toBottomOf="@id/feed_image_card"
+            tools:text="'Sed porta sapien ut placerat venenatis'" />
 
         <TextView
-            android:id="@+id/body"
+            android:id="@+id/feed_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:maxLines="3"
-
-            android:text="Nulla est purus, fringilla eget nunc a, rutrum vehicula leo. Nulla sed tortor dictum."
+            android:maxLines="2"
             android:textColor="@color/titleTextColor"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/title"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintEnd_toEndOf="@id/feed_title"
+            app:layout_constraintStart_toStartOf="@id/feed_title"
+            app:layout_constraintTop_toBottomOf="@id/feed_title"
+            tools:text="Nulla est purus, fringilla eget nunc a, rutrum vehicula leo. Nulla sed tortor dictum. Nulla est purus, fringilla eget nunc a, rutrum vehicula leo." />
 
         <TextView
-            android:id="@+id/bottom"
-            android:layout_width="0dp"
+            android:id="@+id/feed_source"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="\@teads"
+            android:layout_marginTop="20dp"
             android:textColor="@color/primaryGrey"
             android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="@id/follow"
-            app:layout_constraintStart_toStartOf="@id/body"
-            app:layout_constraintEnd_toStartOf="@id/follow"
-            app:layout_constraintBottom_toBottomOf="@id/follow"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/feed_body"
+            app:layout_constraintTop_toBottomOf="@id/feed_body"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0"
+            tools:text="\@teads" />
 
         <TextView
-            android:id="@+id/follow"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
+            android:id="@+id/feed_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/primaryGrey"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/feed_source"
+            app:layout_constraintTop_toBottomOf="@id/feed_source"
+            tools:text="5min" />
+
+        <TextView
+            android:id="@+id/feed_follow"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/custom_button_selector"
             android:gravity="center"
             android:text="follow"
-            android:textColor="@color/primaryDarkDef"
+            android:textColor="@color/textColorNoBg"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/feed_time"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/body" />
+            app:layout_constraintTop_toBottomOf="@id/feed_time" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

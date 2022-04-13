@@ -49,7 +49,7 @@ class NativeRecyclerViewAdapter(
         return when (viewType) {
             RecyclerItemType.TYPE_TEADS.value -> {
                 val nativeView = LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_native_ad,
+                    if (isGrid) R.layout.item_native_ad_grid else R.layout.item_native_ad,
                     parent,
                     false
                 )
