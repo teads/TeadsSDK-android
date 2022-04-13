@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="8dp">
+    card_view:cardCornerRadius="4dp">
 
     <tv.teads.sdk.renderer.NativeAdView
         android:id="@+id/nativeAdView"
@@ -49,22 +49,6 @@
                 app:layout_constraintEnd_toStartOf="@id/teads_native_call_to_action"
                 app:layout_constraintStart_toEndOf="@id/teads_native_icon"
                 app:layout_constraintTop_toBottomOf="@id/teads_native_media"
-                app:layout_constraintVertical_bias="0" />
-
-            <TextView
-                android:id="@id/teads_native_advertiser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="sans-serif"
-                android:text="Test"
-                android:textColor="#333"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/teads_native_call_to_action"
-                app:layout_constraintStart_toEndOf="@id/teads_native_icon"
-                app:layout_constraintTop_toBottomOf="@id/teads_native_title"
                 app:layout_constraintVertical_bias="0" />
 
             <Button

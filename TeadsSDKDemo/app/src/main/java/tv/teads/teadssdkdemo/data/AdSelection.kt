@@ -13,6 +13,7 @@ enum class ProviderType(val value: Int) {
 }
 
 enum class RecyclerItemType(val value: Int) {
+    TYPE_EMPTY(-1),
     TYPE_TEADS(0),
     TYPE_SCROLL_DOWN (2),
     TYPE_ARTICLE_TITLE(3),
