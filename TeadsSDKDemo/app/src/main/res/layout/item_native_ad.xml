@@ -28,36 +28,35 @@
 
             <ImageView
                 android:id="@+id/teads_native_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_margin="8dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/teads_native_media"
-                tools:background="@color/accent" />
+                tools:background="@drawable/teads_logo_black" />
 
             <TextView
                 android:id="@id/teads_native_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif"
-                android:text="Test"
-                android:textColor="#333"
-                android:textSize="18sp"
+                tools:text="Ad text appears here"
+                android:textColor="@color/titleTextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/teads_native_call_to_action"
                 app:layout_constraintStart_toEndOf="@id/teads_native_icon"
-                app:layout_constraintTop_toBottomOf="@id/teads_native_media"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintTop_toBottomOf="@id/teads_native_media" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/teads_native_call_to_action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="center"
+                tools:text="Action"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/teads_native_media" />
