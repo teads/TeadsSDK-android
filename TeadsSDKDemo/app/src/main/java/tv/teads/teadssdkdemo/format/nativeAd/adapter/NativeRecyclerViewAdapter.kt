@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.native.adapter
+package tv.teads.teadssdkdemo.format.nativeAd.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -38,8 +38,7 @@ class NativeRecyclerViewAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
-            0 -> RecyclerItemType.TYPE_SCROLL_DOWN.value
-            1 -> if (isGrid) RecyclerItemType.TYPE_EMPTY.value else RecyclerItemType.TYPE_FAKE_FEED.value
+            0 -> if (isGrid) RecyclerItemType.TYPE_FAKE_FEED.value else RecyclerItemType.TYPE_SCROLL_DOWN.value
             4 -> RecyclerItemType.TYPE_TEADS.value
             else -> RecyclerItemType.TYPE_FAKE_FEED.value
         }
@@ -56,7 +55,7 @@ class NativeRecyclerViewAdapter(
 
                 ViewHolderDemo(nativeView)
             }
-            RecyclerItemType.TYPE_ARTICLE_FAKE_LINES.value -> {
+            RecyclerItemType.TYPE_FAKE_FEED.value -> {
                 val fakeFeed = LayoutInflater.from(parent.context).inflate(
                     if (isGrid) R.layout.item_fake_feed_grid else R.layout.item_fake_feed,
                     parent,
@@ -73,6 +72,7 @@ class NativeRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         when (holder.itemViewType) {
             RecyclerItemType.TYPE_TEADS.value -> {
                 val nativeAdView = holder.itemView.findViewById<NativeAdView>(R.id.nativeAdView)
@@ -84,21 +84,21 @@ class NativeRecyclerViewAdapter(
                 })
             }
             RecyclerItemType.TYPE_FAKE_FEED.value -> {
+                val positionInList = position % 9
+
                 with(holder.itemView) {
-                    findViewById<TextView>(R.id.feed_title).text = feedItems[position].title
-                    findViewById<TextView>(R.id.feed_body).text = feedItems[position].body
-                    findViewById<TextView>(R.id.feed_source).text = feedItems[position].source
-                    findViewById<TextView>(R.id.feed_time).text = feedItems[position].time
-                    findViewById<ImageView>(R.id.feed_image).setImageResource(feedItems[position].image)
+                    findViewById<TextView>(R.id.feed_title).text = feedItems[positionInList].title
+                    findViewById<TextView>(R.id.feed_body).text = feedItems[positionInList].body
+                    findViewById<TextView>(R.id.feed_source).text = feedItems[positionInList].source
+                    findViewById<TextView>(R.id.feed_time).text = feedItems[positionInList].time
+                    findViewById<ImageView>(R.id.feed_image).setImageResource(feedItems[positionInList].image)
                 }
             }
             else -> super.onBindViewHolder(holder, position)
         }
     }
 
-    override fun getItemCount(): Int {
-        return 9
-    }
+    override fun getItemCount(): Int = feedItems.size + 1
 
     private val feedItems = listOf(
         FeedItem(

@@ -30,8 +30,8 @@ import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinGridRecyclerViewF
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinWebViewFragment
-import tv.teads.teadssdkdemo.format.native.NativeGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.native.NativeRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.nativeAd.NativeGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.nativeAd.NativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import java.lang.IllegalStateException
 
