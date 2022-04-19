@@ -86,11 +86,10 @@
                 app:layout_constraintStart_toEndOf="@id/native_media_card"
                 app:layout_constraintTop_toBottomOf="@id/teads_native_content" />
 
-            <!-- todo must it be a button with id teads_native_call_to_action? -->
             <TextView
                 android:id="@+id/sponsor_more"
                 android:layout_width="60dp"
-                android:layout_height="25dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"

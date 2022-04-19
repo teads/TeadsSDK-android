@@ -91,7 +91,7 @@
         <TextView
             android:id="@+id/feed_follow"
             android:layout_width="60dp"
-            android:layout_height="25dp"
+            android:layout_height="32dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/custom_button_selector"
