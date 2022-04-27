@@ -9,3 +9,4 @@
 /build
 .apk
 app/app.iml
+/.idea/jarRepositories.xml
