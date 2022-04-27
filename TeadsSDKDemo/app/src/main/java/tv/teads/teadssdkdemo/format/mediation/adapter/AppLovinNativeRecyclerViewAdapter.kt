@@ -1,40 +1,44 @@
-package tv.teads.teadssdkdemo.format.nativeAd.adapter
+package tv.teads.teadssdkdemo.format.mediation.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import tv.teads.sdk.*
-import tv.teads.sdk.renderer.NativeAdView
+import com.applovin.mediation.MaxAd
+import com.applovin.mediation.MaxError
+import com.applovin.mediation.nativeAds.MaxNativeAdListener
+import com.applovin.mediation.nativeAds.MaxNativeAdLoader
+import com.applovin.mediation.nativeAds.MaxNativeAdView
+import com.applovin.mediation.nativeAds.MaxNativeAdViewBinder
+import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
-import tv.teads.teadssdkdemo.data.FeedItem
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
 import tv.teads.teadssdkdemo.data.RecyclerItemType
 
 /**
- * Native RecyclerView adapter
+ * AppLovin Native RecyclerView adapter
  */
-class NativeRecyclerViewAdapter(
+class AppLovinNativeRecyclerViewAdapter(
     private val context: Context?,
-    pid: Int,
     title: String,
     private val isGrid: Boolean = false,
 ) : GenericRecyclerViewAdapter(title) {
 
-    private var requestSettings: AdRequestSettings
-    private val adPlacement: NativeAdPlacement
+    private val nativeAdLoader: MaxNativeAdLoader = MaxNativeAdLoader("a416d5d67e65ddcd", context)
+    private val nativeAdMap = mutableMapOf<Int, MaxAd>()
 
     init {
-        // 1. Setup the settings
-        val placementSettings = AdPlacementSettings.Builder().build()
-        requestSettings = AdRequestSettings.Builder().build()
+        val settingsEncoded = TeadsMediationSettings.Builder()
+            .enableDebug()
+            .setUsPrivacy("1YNN")
+            .build().toJsonEncoded()
 
-        // 2. Create the NativeAdPlacement
-        adPlacement = TeadsSDK.createNativePlacement(context!!, pid, placementSettings)
+        nativeAdLoader.setLocalExtraParameter("teadsSettings", settingsEncoded)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -49,7 +53,7 @@ class NativeRecyclerViewAdapter(
         return when (viewType) {
             RecyclerItemType.TYPE_NATIVE_AD.value -> {
                 val nativeView = LayoutInflater.from(parent.context).inflate(
-                    if (isGrid) R.layout.item_native_ad_grid else R.layout.item_native_ad,
+                    if (isGrid) R.layout.item_applovin_native_ad_placeholder_grid else R.layout.item_applovin_native_ad_placeholder,
                     parent,
                     false
                 )
@@ -73,16 +77,27 @@ class NativeRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         when (holder.itemViewType) {
             RecyclerItemType.TYPE_NATIVE_AD.value -> {
-                val nativeAdView = holder.itemView.findViewById<NativeAdView>(R.id.nativeAdView)
+                nativeAdLoader.setNativeAdListener(object : MaxNativeAdListener() {
+                    override fun onNativeAdLoaded(nativeAdView: MaxNativeAdView?, ad: MaxAd) {
+                        nativeAdMap[position]?.let { nativeAdLoader.destroy(it) }
+                        nativeAdMap[position] = ad
 
-                adPlacement.requestAd(requestSettings, object : NativeAdListener {
-                    override fun onAdReceived(nativeAd: NativeAd) {
-                        nativeAdView.bind(nativeAd)
+                        (holder.itemView as ViewGroup).apply {
+                            removeAllViews()
+                            addView(nativeAdView)
+                        }
                     }
+
+                    override fun onNativeAdLoadFailed(adUnitId: String, error: MaxError) {
+                        Log.e("onNativeAdLoadFailed", error.message)
+                    }
+
+                    override fun onNativeAdClicked(ad: MaxAd) {}
                 })
+
+                nativeAdLoader.loadAd(createNativeAdView())
             }
             RecyclerItemType.TYPE_FAKE_FEED.value -> {
                 val positionInList = position % 9
@@ -97,6 +112,20 @@ class NativeRecyclerViewAdapter(
             }
             else -> super.onBindViewHolder(holder, position)
         }
+    }
+
+    private fun createNativeAdView(): MaxNativeAdView {
+        val binder: MaxNativeAdViewBinder = MaxNativeAdViewBinder
+            .Builder(if (isGrid) R.layout.item_applovin_native_ad_grid else R.layout.item_applovin_native_ad)
+            .setTitleTextViewId(R.id.ad_title)
+            .setBodyTextViewId(R.id.ad_body)
+            .setMediaContentViewGroupId(R.id.media_view_container)
+            .setOptionsContentViewGroupId(R.id.ad_options_view)
+            .setIconImageViewId(R.id.dummy_icon_image_view) // todo adapter sdk should be fixed
+            .setCallToActionButtonId(R.id.dummy_call_to_action) // todo adapter sdk should be fixed
+            .setAdvertiserTextViewId(R.id.dummy_advertiser) // todo adapter sdk should be fixed
+            .build()
+        return MaxNativeAdView(binder, context)
     }
 
     override fun getItemCount(): Int = feedItems.size + 1
