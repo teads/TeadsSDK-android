@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import tv.teads.sdk.AdOpportunityTrackerView
-import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.webviewhelper.baseView.ObservableContainerAdView
 import tv.teads.webviewhelper.baseView.ObservableWebView
 
@@ -28,7 +27,10 @@ import tv.teads.webviewhelper.baseView.ObservableWebView
 class SyncAdWebView(context: Context,
                     private val webview: ObservableWebView,
                     private val listener: Listener,
-                    selector: String) : WebViewHelper.Listener, ObservableWebView.OnScrollListener, ObservableContainerAdView.ActionMoveListener {
+                    selector: String,
+                    private val topOffSet: Int = 0,
+                    private val bottomOffSet: Int = 0,
+) : WebViewHelper.Listener, ObservableWebView.OnScrollListener, ObservableContainerAdView.ActionMoveListener {
 
 
     private var opened: Boolean = false
@@ -84,9 +86,18 @@ class SyncAdWebView(context: Context,
                     .LayoutParams.MATCH_PARENT)
 
             container.addView(webview)
-            container.addView(containerAdView)
-            webViewParent.addView(container, webviewPosition)
 
+            val adLayer = FrameLayout(webview.context).apply {
+                layoutParams = FrameLayout.LayoutParams(webview.layoutParams).also {
+                    it.topMargin = topOffSet
+                    it.bottomMargin = bottomOffSet
+                }
+            }
+
+            adLayer.addView(containerAdView)
+
+            container.addView(adLayer)
+            webViewParent.addView(container, webviewPosition)
             listener.onHelperReady(container)
         }
     }
@@ -138,7 +149,7 @@ class SyncAdWebView(context: Context,
         val width = right - left
 
         initialY = top
-        containerAdView.translationY = (initialY - webview.scrollY).toFloat()
+        containerAdView.translationY = (initialY - (containerAdView.parent as ViewGroup).scrollY).toFloat()
 
         if (containerAdView.layoutParams != null
                 && containerAdView.layoutParams is ViewGroup.MarginLayoutParams) {
