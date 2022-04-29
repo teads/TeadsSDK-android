@@ -55,7 +55,6 @@
                 tools:text="'Sed porta sapien ut placerat venenatis'" />
 
             <TextView
-                android:id="@id/teads_native_title"
                 android:id="@+id/teads_native_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
