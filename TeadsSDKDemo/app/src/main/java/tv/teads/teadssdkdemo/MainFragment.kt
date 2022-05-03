@@ -24,8 +24,8 @@ import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
-import tv.teads.teadssdkdemo.format.nativeAd.NativeGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.nativeAd.NativeRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.nativead.NativeGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.nativead.NativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import java.lang.IllegalStateException
 

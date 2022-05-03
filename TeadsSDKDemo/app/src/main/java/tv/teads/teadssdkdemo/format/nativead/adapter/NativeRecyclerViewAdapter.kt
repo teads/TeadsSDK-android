@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.nativeAd.adapter
+package tv.teads.teadssdkdemo.format.nativead.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,7 +11,6 @@ import tv.teads.sdk.*
 import tv.teads.sdk.renderer.NativeAdView
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
-import tv.teads.teadssdkdemo.data.FeedItem
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
 import tv.teads.teadssdkdemo.data.RecyclerItemType
 

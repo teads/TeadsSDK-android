@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.nativeAd
+package tv.teads.teadssdkdemo.format.nativead
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.article_header_row.*
 import kotlinx.android.synthetic.main.fragment_native_grid_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.nativeAd.adapter.NativeRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.nativead.adapter.NativeRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.MarginItemDecoration
 
