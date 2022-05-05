@@ -104,27 +104,6 @@
             app:layout_constraintStart_toStartOf="@id/sponsor_label"
             app:layout_constraintTop_toBottomOf="@id/sponsor_label" />
 
-        <!-- todo it was added because teads adapter is obligating me to add it, but it should not -->
-        <TextView
-            android:id="@+id/dummy_advertiser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <!-- todo it was added because teads adapter is obligating me to add it, but it should not -->
-        <ImageView
-            android:id="@+id/dummy_icon_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-        <!-- todo it was added because teads adapter is obligating me to add it, but it should not -->
-        <Button
-            android:id="@+id/dummy_call_to_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

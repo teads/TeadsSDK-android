@@ -121,9 +121,6 @@ class AppLovinNativeRecyclerViewAdapter(
             .setBodyTextViewId(R.id.ad_body)
             .setMediaContentViewGroupId(R.id.media_view_container)
             .setOptionsContentViewGroupId(R.id.ad_options_view)
-            .setIconImageViewId(R.id.dummy_icon_image_view) // todo adapter sdk should be fixed
-            .setCallToActionButtonId(R.id.dummy_call_to_action) // todo adapter sdk should be fixed
-            .setAdvertiserTextViewId(R.id.dummy_advertiser) // todo adapter sdk should be fixed
             .build()
         return MaxNativeAdView(binder, context)
     }
