@@ -92,9 +92,9 @@ class SyncAdWebView(context: Context,
                     it.topMargin = topOffSet
                     it.bottomMargin = bottomOffSet
                 }
-            }
 
-            adLayer.addView(containerAdView)
+                addView(containerAdView)
+            }
 
             container.addView(adLayer)
             webViewParent.addView(container, webviewPosition)
@@ -149,7 +149,7 @@ class SyncAdWebView(context: Context,
         val width = right - left
 
         initialY = top
-        containerAdView.translationY = (initialY - (containerAdView.parent as ViewGroup).scrollY).toFloat()
+        containerAdView.translationY = (initialY - ((containerAdView.parent as ViewGroup).scrollY) - topOffSet).toFloat()
 
         if (containerAdView.layoutParams != null
                 && containerAdView.layoutParams is ViewGroup.MarginLayoutParams) {
@@ -192,7 +192,7 @@ class SyncAdWebView(context: Context,
      *//////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onScroll(l: Int, t: Int) {
-        containerAdView.translationY = (initialY - t).toFloat()
+        containerAdView.translationY = ((initialY - t) - topOffSet).toFloat()
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////
