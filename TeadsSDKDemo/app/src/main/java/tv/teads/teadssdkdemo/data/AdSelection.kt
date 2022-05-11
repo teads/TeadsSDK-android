@@ -19,7 +19,8 @@ enum class RecyclerItemType(val value: Int) {
     TYPE_ARTICLE_TITLE(3),
     TYPE_ARTICLE_REAL_LINES(4),
     TYPE_ARTICLE_FAKE_LINES(5),
-    TYPE_FAKE_FEED(5)
+    TYPE_NATIVE_AD(5),
+    TYPE_FAKE_FEED(6)
 }
 
 enum class CreativeSize(val value: Int) {

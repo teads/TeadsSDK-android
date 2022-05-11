@@ -22,16 +22,10 @@ import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
-import tv.teads.teadssdkdemo.format.mediation.admob.AdMobGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.admob.AdMobRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.admob.AdMobScrollViewFragment
-import tv.teads.teadssdkdemo.format.mediation.admob.AdMobWebViewFragment
-import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinScrollViewFragment
-import tv.teads.teadssdkdemo.format.mediation.applovin.AppLovinWebViewFragment
-import tv.teads.teadssdkdemo.format.nativeAd.NativeGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.nativeAd.NativeRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.admob.*
+import tv.teads.teadssdkdemo.format.mediation.applovin.*
+import tv.teads.teadssdkdemo.format.nativead.NativeGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.nativead.NativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import java.lang.IllegalStateException
 
@@ -74,6 +68,22 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         return when (position) {
             0 -> NativeRecyclerViewFragment()
             1 -> NativeGridRecyclerViewFragment()
+            else -> throw IllegalStateException()
+        }
+    }
+
+    private fun getFragmentAdMobNative(position: Int): BaseFragment {
+        return when (position) {
+            0 -> AdMobNativeRecyclerViewFragment()
+            1 -> AdMobNativeGridRecyclerViewFragment()
+            else -> throw IllegalStateException()
+        }
+    }
+
+    private fun getFragmentAppLovinNative(position: Int): BaseFragment {
+        return when (position) {
+            0 -> AppLovinNativeRecyclerViewFragment()
+            1 -> AppLovinNativeGridRecyclerViewFragment()
             else -> throw IllegalStateException()
         }
     }
@@ -156,8 +166,16 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changeFragmentForNative(position: Int) {
-        if (mProviderSelected == ProviderType.DIRECT) {
+        when (mProviderSelected) {
+            ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentNativeDirect(position))
+            }
+            ProviderType.ADMOB -> {
+                (activity as MainActivity).changeFragment(getFragmentAdMobNative(position))
+            }
+            ProviderType.APPLOVIN -> {
+                (activity as MainActivity).changeFragment(getFragmentAppLovinNative(position))
+            }
         }
     }
 
@@ -167,8 +185,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             R.id.nativeButton to FormatType.NATIVE
         )
         mFormatSelected = availableFormatsMap[id] ?: return
-
-        radioGroupProvider.setAvailableOptions(mFormatSelected)
 
         when (mFormatSelected) {
             FormatType.INREAD -> {
@@ -243,26 +259,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                     .apply()
                 setCreativeSizeChecked()
             }.setNegativeButton("Cancel") { _, _ -> customPid.isChecked = false }.show()
-    }
-
-    private fun RadioGroup.setAvailableOptions(formatType: FormatType) {
-        when (formatType) {
-            FormatType.INREAD -> {
-                getChildAt(0).visibility = View.VISIBLE
-                getChildAt(1).visibility = View.VISIBLE
-                getChildAt(2).visibility = View.VISIBLE
-            }
-            FormatType.NATIVE -> {
-                getChildAt(0)
-                    .let { it as RadioButton }
-                    .apply {
-                        visibility = View.VISIBLE
-                        isChecked = true
-                    }
-                getChildAt(1).visibility = View.INVISIBLE
-                getChildAt(2).visibility = View.INVISIBLE
-            }
-        }
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {

@@ -53,7 +53,7 @@ dependencies {
 
     implementation "tv.teads.sdk.android:applovinadapter:$teadsSDKVersion"
 
-    implementation "com.applovin:applovin-sdk:11.1.2"
+    implementation "com.applovin:applovin-sdk:11.3.0"
 
     implementation project(':webviewhelper')
 

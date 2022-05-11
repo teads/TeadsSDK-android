@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.gms.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nativeAdView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardElevation="4dp"
-    card_view:cardCornerRadius="4dp">
+    android:layout_height="wrap_content">
 
-    <tv.teads.sdk.renderer.NativeAdView
-        android:id="@+id/nativeAdView"
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        card_view:cardCornerRadius="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,15 +30,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <tv.teads.sdk.renderer.MediaView
-                    android:id="@+id/teads_native_media"
+                <com.google.android.gms.ads.nativead.MediaView
+                    android:id="@+id/ad_mob_media"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/teads_native_title"
+                android:id="@+id/ad_mob_headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -48,7 +49,7 @@
                 android:textColor="@color/titleTextColor"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/teads_native_content"
+                app:layout_constraintBottom_toTopOf="@id/ad_mob_body"
                 app:layout_constraintEnd_toEndOf="@id/native_media_card"
                 app:layout_constraintStart_toStartOf="@id/native_media_card"
                 app:layout_constraintTop_toBottomOf="@id/native_media_card"
@@ -56,7 +57,7 @@
                 tools:text="'Sed porta sapien ut placerat venenatis'" />
 
             <TextView
-                android:id="@+id/teads_native_content"
+                android:id="@+id/ad_mob_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -66,9 +67,9 @@
                 android:textColor="@color/titleTextColor"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@id/sponsor_label"
-                app:layout_constraintEnd_toEndOf="@id/teads_native_title"
-                app:layout_constraintStart_toStartOf="@id/teads_native_title"
-                app:layout_constraintTop_toBottomOf="@id/teads_native_title"
+                app:layout_constraintEnd_toEndOf="@id/ad_mob_headline"
+                app:layout_constraintStart_toStartOf="@id/ad_mob_headline"
+                app:layout_constraintTop_toBottomOf="@id/ad_mob_headline"
                 tools:text="Nulla est purus, fringilla eget nunc a, rutrum vehicula leo. Nulla sed tortor dictum. Nulla est purus, fringilla eget nunc a, rutrum vehicula leo." />
 
             <TextView
@@ -82,8 +83,8 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/sponsor_more"
-                app:layout_constraintStart_toStartOf="@id/teads_native_content"
-                app:layout_constraintTop_toBottomOf="@id/teads_native_content" />
+                app:layout_constraintStart_toStartOf="@id/ad_mob_body"
+                app:layout_constraintTop_toBottomOf="@id/ad_mob_body" />
 
             <TextView
                 android:id="@+id/sponsor_more"
@@ -102,6 +103,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </tv.teads.sdk.renderer.NativeAdView>
+    </androidx.cardview.widget.CardView>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.gms.ads.nativead.NativeAdView>
