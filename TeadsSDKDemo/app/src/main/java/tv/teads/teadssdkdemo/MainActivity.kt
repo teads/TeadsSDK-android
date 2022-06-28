@@ -189,7 +189,7 @@ class MainActivity : AppCompatActivity() {
         private const val LOG_TAG = "MainActivity"
         private const val INTENT_EXTRA_PID = "ext_pid"
         const val SHAREDPREF_PID = "sp_pid"
-        const val SHAREDPREF_PID_DEFAULT = 84242
+        const val SHAREDPREF_PID_DEFAULT = 124859
         private const val SHAREDPREF_WEBVIEW_DEFAULT = "file:///android_asset/demo.html"
         private const val SHAREDPREF_WEBVIEW_NIGHT = "file:///android_asset/demo_night.html"
 

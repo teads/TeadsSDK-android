@@ -34,7 +34,7 @@ class NativeGridRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
 
-        adapter = NativeRecyclerViewAdapter(context, 124859, "", true)
+        adapter = NativeRecyclerViewAdapter(context, pid, "", true)
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

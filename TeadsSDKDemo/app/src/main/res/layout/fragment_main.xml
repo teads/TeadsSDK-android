@@ -189,20 +189,21 @@
                     android:textColor="@color/textColorNoBg" />
             </RadioGroup>
 
-            <tv.teads.teadssdkdemo.component.TeadsRadioButton
-                android:id="@+id/customButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_radio_button_height"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/custom_button_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:tag="0"
-                android:text="@string/custom"
-                android:textColor="@color/textColorNoBg" />
         </LinearLayout>
+
+        <tv.teads.teadssdkdemo.component.TeadsRadioButton
+            android:id="@+id/customButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_radio_button_height"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/custom_button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:tag="0"
+            android:text="@string/custom"
+            android:textColor="@color/textColorNoBg" />
 
         <TextView
             android:id="@+id/text_integration"

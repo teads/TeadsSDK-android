@@ -32,7 +32,7 @@ class NativeRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = NativeRecyclerViewAdapter(context, 124859, getTitle())
+        adapter = NativeRecyclerViewAdapter(context, pid, getTitle())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

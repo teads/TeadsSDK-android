@@ -82,7 +82,7 @@
     <string name="vertical">Vertical</string>
     <string name="creative_sizes">Creative Sizes</string>
     <string name="landscape">Landscape</string>
-    <string name="custom">Custom</string>
+    <string name="custom">Direct Custom PID</string>
     <string name="smart">Smart</string>
 
 </resources>

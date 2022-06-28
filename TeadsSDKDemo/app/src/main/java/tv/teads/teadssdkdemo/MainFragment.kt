@@ -2,14 +2,12 @@ package tv.teads.teadssdkdemo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +25,6 @@ import tv.teads.teadssdkdemo.format.mediation.applovin.*
 import tv.teads.teadssdkdemo.format.nativead.NativeGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.nativead.NativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import java.lang.IllegalStateException
 
 
 /**
@@ -118,11 +115,12 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         mainView = inflater.inflate(R.layout.fragment_main, container, false)
 
         mainView.apply {
+            customPid = this.findViewById(R.id.customButton)
+            customPid.setOnClickListener { changePidDialog() }
             val containerFormat: RadioGroup = this.findViewById(R.id.container_format)
             radioGroupProvider = this.findViewById(R.id.container_provider)
             radioGroupCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
             containerCreativeSizes = this.findViewById(R.id.container_creative_size)
-            customPid = this.findViewById(R.id.customButton)
             integrationsRecyclerView = this.findViewById(R.id.integrations_recycler_view)
 
             setIntegrationItems(inReadIntegrationList)
@@ -132,7 +130,6 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
             radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
             radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
-            customPid.setOnClickListener { changePidDialog() }
         }
 
         return mainView
@@ -206,6 +203,8 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
             ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
         }
+
+        setPidButtonConstraints()
     }
 
     private fun setCreativeSizePid(group: RadioGroup, id: Int) {
@@ -249,16 +248,27 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             .setTitle("Set custom PID")
             .setView(view)
             .setPositiveButton("Save") { _, _ ->
-                val pidString = input.text.toString()
-                val pid = if (pidString.isEmpty()) {
-                    MainActivity.SHAREDPREF_PID_DEFAULT
-                } else Integer.parseInt(pidString)
-                Toast.makeText(activity, "Setting custom PID is for Direct only", Toast.LENGTH_SHORT).show()
-                PreferenceManager.getDefaultSharedPreferences(activity).edit()
-                    .putInt(MainActivity.SHAREDPREF_PID, pid)
-                    .apply()
+                val pidString = input.text.toString().takeIf { it.isNotBlank() }
+                val pid = pidString?.let { Integer.parseInt(it) } ?: MainActivity.SHAREDPREF_PID_DEFAULT
+                (activity as MainActivity).setPid(pid)
                 setCreativeSizeChecked()
-            }.setNegativeButton("Cancel") { _, _ -> customPid.isChecked = false }.show()
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                customPid.isChecked = false
+            }
+            .setNeutralButton("Set Default") { _, _ ->
+                (activity as MainActivity).setPid(MainActivity.SHAREDPREF_PID_DEFAULT)
+                setCreativeSizeChecked()
+            }
+            .show()
+    }
+
+    private fun setPidButtonConstraints() {
+        customPid.visibility = if (mProviderSelected == ProviderType.DIRECT) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
@@ -270,12 +280,14 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                 customPid.isChecked = false
                 setCreativeSizePid(group, id)
             }
-            else -> {
+            R.id.container_provider -> {
                 mProviderSelected = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB
                 }
+
+                setPidButtonConstraints()
             }
         }
     }
