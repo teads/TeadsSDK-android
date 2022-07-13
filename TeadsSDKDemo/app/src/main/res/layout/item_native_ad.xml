@@ -17,9 +17,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <tv.teads.sdk.renderer.MediaView
+                android:id="@+id/teads_native_media"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/native_media_card"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
@@ -27,13 +36,7 @@
                 app:cardCornerRadius="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <tv.teads.sdk.renderer.MediaView
-                    android:id="@+id/teads_native_media"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                app:layout_constraintTop_toBottomOf="@id/teads_native_media">
 
             </androidx.cardview.widget.CardView>
 
