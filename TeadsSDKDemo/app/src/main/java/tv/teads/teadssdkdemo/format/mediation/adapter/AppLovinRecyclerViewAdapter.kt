@@ -10,9 +10,6 @@ import com.applovin.mediation.MaxAdFormat
 import com.applovin.mediation.MaxAdViewAdListener
 import com.applovin.mediation.MaxError
 import com.applovin.mediation.ads.MaxAdView
-import com.applovin.sdk.AppLovinSdk
-import com.google.android.gms.ads.*
-import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings

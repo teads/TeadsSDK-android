@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.nativead.adapter
+package tv.teads.teadssdkdemo.format.infeed.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import tv.teads.teadssdkdemo.data.RecyclerItemType
 /**
  * Native RecyclerView adapter
  */
-class NativeRecyclerViewAdapter(
+class InFeedRecyclerViewAdapter(
     private val context: Context?,
     pid: Int,
     title: String,

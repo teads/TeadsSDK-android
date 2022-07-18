@@ -5,6 +5,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 import tv.teads.teadssdkdemo.MainActivity
+import tv.teads.teadssdkdemo.data.FormatType
+import tv.teads.teadssdkdemo.data.PidStore
+import tv.teads.teadssdkdemo.data.ProviderType
 
 
 /**
@@ -13,14 +16,25 @@ import tv.teads.teadssdkdemo.MainActivity
 abstract class BaseFragment : Fragment() {
 
     /**
-     * Return the pid from activity
+     * Return the pid
      *
      */
-    protected val pid: Int
+    val pid: Int
         get() {
-            val activity = activity as MainActivity? ?: return 0
-            return activity.getPid()
+            return PidStore.getPid(requireContext(), selectedFormat)
         }
+
+    /**
+     * Return current selected format type
+     *
+     */
+    var selectedFormat: FormatType = FormatType.INREAD
+
+    /**
+     * Return current selected provider type
+     *
+     */
+    var selectedProvider: ProviderType = ProviderType.DIRECT
 
     /**
      * Return the webview url to display

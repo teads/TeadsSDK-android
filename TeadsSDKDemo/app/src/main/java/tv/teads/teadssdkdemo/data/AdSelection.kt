@@ -1,8 +1,8 @@
 package tv.teads.teadssdkdemo.data
 
-enum class FormatType(val value: Int) {
-    INREAD(0),
-    NATIVE(1)
+enum class FormatType(val value: String) {
+    INREAD("inRead"),
+    INFEED("inFeed")
 }
 
 enum class ProviderType(val value: Int) {

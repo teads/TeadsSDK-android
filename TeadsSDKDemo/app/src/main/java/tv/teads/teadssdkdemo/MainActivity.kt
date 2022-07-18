@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
+import tv.teads.teadssdkdemo.data.PidStore
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
@@ -34,17 +33,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setToolBar(true)
 
-        if (!TextUtils.isEmpty(intent.getStringExtra(INTENT_EXTRA_PID))) {
-            PreferenceManager
-                .getDefaultSharedPreferences(this@MainActivity)
-                .edit()
-                .putInt(
-                    SHAREDPREF_PID,
-                    Integer.parseInt(intent.getStringExtra(INTENT_EXTRA_PID))
-                )
-                .apply()
-        }
-
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
             val fragment = MainFragment()
@@ -54,28 +42,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Return the pid, if not one is set, the default one
-     *
-     * @return pid
-     */
-    fun getPid(): Int {
-        return PreferenceManager
-            .getDefaultSharedPreferences(this)
-            .getInt(SHAREDPREF_PID, SHAREDPREF_PID_DEFAULT)
-    }
-
-    fun setPid(pid: Int) {
-        PreferenceManager.getDefaultSharedPreferences(this@MainActivity).edit()
-            .putInt(SHAREDPREF_PID, pid)
-            .apply()
-    }
-
-    /**
      * Return the Webview url, if not one is set, the default one
      *
      * @return an url
      */
-    fun getWebViewUrl(): String = SHAREDPREF_WEBVIEW_DEFAULT
+    fun getWebViewUrl(): String = PidStore.SHAREDPREF_WEBVIEW_DEFAULT
 
     fun changeFragment(frag: BaseFragment) {
         if ((supportFragmentManager.findFragmentById(R.id.fragment_container) as Fragment).javaClass == frag.javaClass) {
@@ -187,11 +158,5 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val LOG_TAG = "MainActivity"
-        private const val INTENT_EXTRA_PID = "ext_pid"
-        const val SHAREDPREF_PID = "sp_pid"
-        const val SHAREDPREF_PID_DEFAULT = 124859
-        private const val SHAREDPREF_WEBVIEW_DEFAULT = "file:///android_asset/demo.html"
-        private const val SHAREDPREF_WEBVIEW_NIGHT = "file:///android_asset/demo_night.html"
-
     }
 }

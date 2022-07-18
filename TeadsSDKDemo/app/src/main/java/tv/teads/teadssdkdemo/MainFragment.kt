@@ -5,15 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
+import tv.teads.teadssdkdemo.data.PidStore
 import tv.teads.teadssdkdemo.data.ProviderType
 import tv.teads.teadssdkdemo.format.inread.InReadGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
@@ -22,22 +20,25 @@ import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
-import tv.teads.teadssdkdemo.format.nativead.NativeGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.nativead.NativeRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
+import tv.teads.teadssdkdemo.utils.toDefaultPid
+import java.lang.StringBuilder
 
 
 /**
  * Empty fragment helping opening the navigation drawer
  */
-class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
+class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private lateinit var mainView: View
-    private lateinit var customPid: RadioButton
+    private lateinit var customPid: Button
     private lateinit var containerCreativeSizes: View
     private lateinit var radioGroupCreativeSizes: RadioGroup
     private lateinit var radioGroupProvider: RadioGroup
     private lateinit var integrationsRecyclerView: RecyclerView
+    private lateinit var currentPidView: TextView
 
     private val inReadIntegrationList = listOf(
         IntegrationType("ScrollView", R.drawable.scrollview),
@@ -63,8 +64,8 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentNativeDirect(position: Int): BaseFragment {
         return when (position) {
-            0 -> NativeRecyclerViewFragment()
-            1 -> NativeGridRecyclerViewFragment()
+            0 -> InFeedRecyclerViewFragment()
+            1 -> InFeedGridRecyclerViewFragment()
             else -> throw IllegalStateException()
         }
     }
@@ -105,8 +106,9 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         }
     }
 
-    private var mFormatSelected: FormatType = FormatType.INREAD
-    private var mProviderSelected: ProviderType = ProviderType.DIRECT
+    override fun getTitle(): String {
+        return ""
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -122,10 +124,12 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
             radioGroupCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
             containerCreativeSizes = this.findViewById(R.id.container_creative_size)
             integrationsRecyclerView = this.findViewById(R.id.integrations_recycler_view)
+            currentPidView = this.findViewById(R.id.text_current_pid)
 
             setIntegrationItems(inReadIntegrationList)
-            setCreativeSizeChecked()
+            setCreativeSizeChecked(FormatType.INREAD)
             setProviderSelected()
+            showCurrentPids()
 
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
             radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
@@ -142,14 +146,14 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun onIntegrationClicked(position: Int) {
-        when (mFormatSelected) {
+        when (selectedFormat) {
             FormatType.INREAD -> changeFragmentForInRead(position)
-            FormatType.NATIVE -> changeFragmentForNative(position)
+            FormatType.INFEED -> changeFragmentForNative(position)
         }
     }
 
     private fun changeFragmentForInRead(position: Int) {
-        when (mProviderSelected) {
+        when (selectedProvider) {
             ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadDirect(position))
             }
@@ -163,7 +167,7 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changeFragmentForNative(position: Int) {
-        when (mProviderSelected) {
+        when (selectedProvider) {
             ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentNativeDirect(position))
             }
@@ -179,17 +183,17 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     private fun setFormatSelected(id: Int) {
         val availableFormatsMap = mapOf(
             R.id.inreadButton to FormatType.INREAD,
-            R.id.nativeButton to FormatType.NATIVE
+            R.id.infeedButton to FormatType.INFEED
         )
-        mFormatSelected = availableFormatsMap[id] ?: return
+        selectedFormat = availableFormatsMap[id] ?: return
 
-        when (mFormatSelected) {
+        when (selectedFormat) {
             FormatType.INREAD -> {
                 setIntegrationItems(inReadIntegrationList)
                 containerCreativeSizes.visibility = View.VISIBLE
 
             }
-            FormatType.NATIVE -> {
+            FormatType.INFEED -> {
                 setIntegrationItems(nativeIntegrationList)
                 containerCreativeSizes.visibility = View.GONE
             }
@@ -198,7 +202,7 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
 
 
     private fun setProviderSelected() {
-        when (mProviderSelected) {
+        when (selectedProvider) {
             ProviderType.DIRECT -> radioGroupProvider.check(R.id.directButton)
             ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
             ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
@@ -208,13 +212,14 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setCreativeSizePid(group: RadioGroup, id: Int) {
-        when (mFormatSelected) {
+        when (selectedFormat) {
             FormatType.INREAD -> {
                 val radioPid = group.findViewById<View>(id) as? RadioButton
 
                 if (radioPid != null && radioPid.isChecked) {
                     val pid: Int = radioPid.tag.toString().toInt()
-                    (activity as MainActivity).setPid(pid)
+                    PidStore.setPid(requireContext(), pid, selectedFormat)
+                    showCurrentPids()
                 }
             }
             else -> {
@@ -222,53 +227,72 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         }
     }
 
-    private fun setCreativeSizeChecked() {
-        val pid = (activity as MainActivity).getPid()
+    private fun setCreativeSizeChecked(formatType: FormatType) {
+        val pid = PidStore.getPid(requireContext(), formatType)
 
         val child =
             radioGroupCreativeSizes.getChildAt(DirectIdentifier.getPositionByPid(pid)) as? RadioButton
 
         if (child == null) {
             radioGroupCreativeSizes.clearCheck()
-            customPid.isChecked = true
         } else {
-            customPid.isChecked = false
             child.isChecked = child.tag.toString().toInt() == pid
         }
     }
 
     private fun changePidDialog() {
+        val directFormats = arrayOf(FormatType.INREAD, FormatType.INFEED)
+        val stringfiedDirectFormats = directFormats.map { it.value }.toTypedArray()
+        val checkedItem = directFormats.indexOf(selectedFormat)
+
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
-        input.setText((activity as MainActivity).getPid().toString())
         input.setLines(1)
         input.setSingleLine(true)
+        input.hint = "type your custom pid"
+        input.setText(PidStore.getPid(requireContext(), selectedFormat).toString())
 
         AlertDialog.Builder(requireActivity())
             .setTitle("Set custom PID")
             .setView(view)
+            .setSingleChoiceItems(stringfiedDirectFormats, checkedItem) { _, selected ->
+                selectedFormat = directFormats[selected]
+                input.setText(PidStore.getPid(requireContext(), selectedFormat).toString())
+            }
             .setPositiveButton("Save") { _, _ ->
                 val pidString = input.text.toString().takeIf { it.isNotBlank() }
-                val pid = pidString?.let { Integer.parseInt(it) } ?: MainActivity.SHAREDPREF_PID_DEFAULT
-                (activity as MainActivity).setPid(pid)
-                setCreativeSizeChecked()
+                val pid = pidString?.let { Integer.parseInt(it) } ?: selectedFormat.toDefaultPid()
+
+                PidStore.setPid(requireContext(), pid, selectedFormat)
+                showCurrentPids()
+                setCreativeSizeChecked(selectedFormat)
             }
-            .setNegativeButton("Cancel") { _, _ ->
-                customPid.isChecked = false
-            }
+            .setNegativeButton("Cancel") { _, _ -> }
             .setNeutralButton("Set Default") { _, _ ->
-                (activity as MainActivity).setPid(MainActivity.SHAREDPREF_PID_DEFAULT)
-                setCreativeSizeChecked()
+                PidStore.setPid(requireContext(), selectedFormat.toDefaultPid(), selectedFormat)
+                showCurrentPids()
+                setCreativeSizeChecked(selectedFormat)
             }
             .show()
     }
 
     private fun setPidButtonConstraints() {
-        customPid.visibility = if (mProviderSelected == ProviderType.DIRECT) {
+        val status = if (selectedProvider == ProviderType.DIRECT) {
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
+
+        customPid.visibility = status
+        customPid.visibility = status
+    }
+
+    private fun showCurrentPids() {
+        val pids = StringBuilder()
+            .append("[InRead: ${PidStore.getPid(requireContext(), FormatType.INREAD)}, ")
+            .append("InFeed: ${PidStore.getPid(requireContext(), FormatType.INFEED)}]")
+
+        currentPidView.text = pids.toString()
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
@@ -277,11 +301,10 @@ class MainFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                 setFormatSelected(id)
             }
             R.id.radiogroup_creative_size -> {
-                customPid.isChecked = false
                 setCreativeSizePid(group, id)
             }
             R.id.container_provider -> {
-                mProviderSelected = when (id) {
+                selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB
