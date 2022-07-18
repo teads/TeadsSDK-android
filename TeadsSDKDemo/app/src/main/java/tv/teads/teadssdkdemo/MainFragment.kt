@@ -244,6 +244,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         val directFormats = arrayOf(FormatType.INREAD, FormatType.INFEED)
         val stringfiedDirectFormats = directFormats.map { it.value }.toTypedArray()
         val checkedItem = directFormats.indexOf(selectedFormat)
+        var nextFormat = selectedFormat // init with current
 
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
@@ -256,22 +257,22 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             .setTitle("Set custom PID")
             .setView(view)
             .setSingleChoiceItems(stringfiedDirectFormats, checkedItem) { _, selected ->
-                selectedFormat = directFormats[selected]
-                input.setText(PidStore.getPid(requireContext(), selectedFormat).toString())
+                nextFormat = directFormats[selected]
+                input.setText(PidStore.getPid(requireContext(), nextFormat).toString())
             }
             .setPositiveButton("Save") { _, _ ->
                 val pidString = input.text.toString().takeIf { it.isNotBlank() }
-                val pid = pidString?.let { Integer.parseInt(it) } ?: selectedFormat.toDefaultPid()
+                val pid = pidString?.let { Integer.parseInt(it) } ?: nextFormat.toDefaultPid()
 
-                PidStore.setPid(requireContext(), pid, selectedFormat)
+                PidStore.setPid(requireContext(), pid, nextFormat)
                 showCurrentPids()
-                setCreativeSizeChecked(selectedFormat)
+                setCreativeSizeChecked(nextFormat)
             }
             .setNegativeButton("Cancel") { _, _ -> }
             .setNeutralButton("Set Default") { _, _ ->
-                PidStore.setPid(requireContext(), selectedFormat.toDefaultPid(), selectedFormat)
+                PidStore.setPid(requireContext(), nextFormat.toDefaultPid(), nextFormat)
                 showCurrentPids()
-                setCreativeSizeChecked(selectedFormat)
+                setCreativeSizeChecked(nextFormat)
             }
             .show()
     }
