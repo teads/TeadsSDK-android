@@ -16,14 +16,25 @@
             android:id="@+id/ad_options_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            app:layout_constraintEnd_toEndOf="@id/sponsor_more"
-            app:layout_constraintTop_toTopOf="@id/ad_title"
+            android:layout_margin="10dp"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/media_view_container"
             app:layout_constraintBottom_toBottomOf="@id/ad_title"
             tools:background="@android:drawable/ic_menu_info_details" />
 
+        <FrameLayout
+            android:id="@+id/media_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/native_media_card"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
@@ -31,13 +42,7 @@
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <FrameLayout
-                android:id="@+id/media_view_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+            app:layout_constraintTop_toBottomOf="@id/media_view_container">
 
         </androidx.cardview.widget.CardView>
 

@@ -7,7 +7,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item_native_ad.view.*
 import tv.teads.sdk.*
+import tv.teads.sdk.renderer.AdScale
 import tv.teads.sdk.renderer.NativeAdView
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
@@ -29,7 +31,11 @@ class InFeedRecyclerViewAdapter(
 
     init {
         // 1. Setup the settings
-        val placementSettings = AdPlacementSettings.Builder().build()
+        val placementSettings = AdPlacementSettings
+            .Builder()
+            .setAdScale(AdScale.CENTER_CROP)
+            .build()
+
         requestSettings = AdRequestSettings.Builder().build()
 
         // 2. Create the NativeAdPlacement
@@ -79,6 +85,7 @@ class InFeedRecyclerViewAdapter(
 
                 adPlacement.requestAd(requestSettings, object : NativeAdListener {
                     override fun onAdReceived(nativeAd: NativeAd) {
+                        nativeAdView.teads_native_media.adScale = AdScale.CENTER_INSIDE
                         nativeAdView.bind(nativeAd)
                     }
                 })
