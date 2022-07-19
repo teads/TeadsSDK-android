@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
@@ -37,7 +38,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private lateinit var radioGroupCreativeSizes: RadioGroup
     private lateinit var radioGroupProvider: RadioGroup
     private lateinit var integrationsRecyclerView: RecyclerView
-    private lateinit var currentPidView: TextView
+    private lateinit var currentPidView: Chip
 
     private val inReadIntegrationList = listOf(
         IntegrationType("ScrollView", R.drawable.scrollview),
@@ -290,8 +291,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun showCurrentPid() {
-        val currentPid = "[${PidStore.getPid(requireContext(), selectedFormat)}]"
-        currentPidView.text = currentPid
+        currentPidView.text = "Current: ${PidStore.getPid(requireContext(), selectedFormat)}"
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
