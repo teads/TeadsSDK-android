@@ -290,7 +290,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun showCurrentPid() {
-        val currentPid = "[${selectedFormat.value}: ${PidStore.getPid(requireContext(), selectedFormat)}]"
+        val currentPid = "[${PidStore.getPid(requireContext(), selectedFormat)}]"
         currentPidView.text = currentPid
     }
 
