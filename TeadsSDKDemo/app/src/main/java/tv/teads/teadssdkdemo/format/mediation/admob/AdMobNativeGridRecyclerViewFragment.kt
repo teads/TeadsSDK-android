@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.article_header_row.*
-import kotlinx.android.synthetic.main.fragment_native_grid_recyclerview.*
+import kotlinx.android.synthetic.main.fragment_grid_recyclerview.*
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.adapter.AdMobNativeRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
@@ -21,7 +21,7 @@ class AdMobNativeGridRecyclerViewFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_native_grid_recyclerview, container, false)
+        return inflater.inflate(R.layout.fragment_grid_recyclerview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

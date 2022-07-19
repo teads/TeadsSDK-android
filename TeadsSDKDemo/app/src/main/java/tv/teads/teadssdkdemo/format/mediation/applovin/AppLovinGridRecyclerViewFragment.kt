@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_inread_recyclerview.*
+import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.adapter.AdMobRecyclerViewAdapter
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
@@ -19,7 +18,7 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
 class AppLovinGridRecyclerViewFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_recyclerview, container, false)
+        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

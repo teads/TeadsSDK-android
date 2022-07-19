@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.nativead
+package tv.teads.teadssdkdemo.format.infeed
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.article_header_row.*
-import kotlinx.android.synthetic.main.fragment_native_grid_recyclerview.*
+import kotlinx.android.synthetic.main.fragment_grid_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.nativead.adapter.NativeRecyclerViewAdapter
+import tv.teads.teadssdkdemo.format.infeed.adapter.InFeedRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.MarginItemDecoration
 
@@ -17,13 +17,13 @@ import tv.teads.teadssdkdemo.utils.MarginItemDecoration
  * Native format within a RecyclerView
  *
  */
-class NativeGridRecyclerViewFragment : BaseFragment() {
+class InFeedGridRecyclerViewFragment : BaseFragment() {
 
-    private lateinit var adapter: NativeRecyclerViewAdapter
+    private lateinit var adapter: InFeedRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_native_grid_recyclerview, container, false)
+        return inflater.inflate(R.layout.fragment_grid_recyclerview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class NativeGridRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
 
-        adapter = NativeRecyclerViewAdapter(context, 124859, "", true)
+        adapter = InFeedRecyclerViewAdapter(context, pid, "", true)
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }
