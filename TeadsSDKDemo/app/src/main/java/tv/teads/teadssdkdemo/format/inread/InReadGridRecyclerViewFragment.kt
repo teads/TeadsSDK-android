@@ -17,6 +17,7 @@ class InReadGridRecyclerViewFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_recyclerview, container, false)
+        // todo not grid at all?
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

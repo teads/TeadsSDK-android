@@ -24,7 +24,6 @@ import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
-import java.lang.StringBuilder
 
 
 /**
@@ -129,7 +128,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             setIntegrationItems(inReadIntegrationList)
             setCreativeSizeChecked(FormatType.INREAD)
             setProviderSelected()
-            showCurrentPids()
+            showCurrentPid()
 
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
             radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
@@ -198,6 +197,8 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 containerCreativeSizes.visibility = View.GONE
             }
         }
+
+        showCurrentPid()
     }
 
 
@@ -219,7 +220,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 if (radioPid != null && radioPid.isChecked) {
                     val pid: Int = radioPid.tag.toString().toInt()
                     PidStore.setPid(requireContext(), pid, selectedFormat)
-                    showCurrentPids()
+                    showCurrentPid()
                 }
             }
             else -> {
@@ -241,7 +242,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changePidDialog() {
-        val directFormats = arrayOf(FormatType.INREAD, FormatType.INFEED)
+        val directFormats = arrayOf(selectedFormat)
         val stringfiedDirectFormats = directFormats.map { it.value }.toTypedArray()
         val checkedItem = directFormats.indexOf(selectedFormat)
         var nextFormat = selectedFormat // init with current
@@ -265,13 +266,13 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 val pid = pidString?.let { Integer.parseInt(it) } ?: nextFormat.toDefaultPid()
 
                 PidStore.setPid(requireContext(), pid, nextFormat)
-                showCurrentPids()
+                showCurrentPid()
                 setCreativeSizeChecked(nextFormat)
             }
             .setNegativeButton("Cancel") { _, _ -> }
             .setNeutralButton("Set Default") { _, _ ->
                 PidStore.setPid(requireContext(), nextFormat.toDefaultPid(), nextFormat)
-                showCurrentPids()
+                showCurrentPid()
                 setCreativeSizeChecked(nextFormat)
             }
             .show()
@@ -285,15 +286,12 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         }
 
         customPid.visibility = status
-        customPid.visibility = status
+        currentPidView.visibility = status
     }
 
-    private fun showCurrentPids() {
-        val pids = StringBuilder()
-            .append("[InRead: ${PidStore.getPid(requireContext(), FormatType.INREAD)}, ")
-            .append("InFeed: ${PidStore.getPid(requireContext(), FormatType.INFEED)}]")
-
-        currentPidView.text = pids.toString()
+    private fun showCurrentPid() {
+        val currentPid = "[${selectedFormat.value}: ${PidStore.getPid(requireContext(), selectedFormat)}]"
+        currentPidView.text = currentPid
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
