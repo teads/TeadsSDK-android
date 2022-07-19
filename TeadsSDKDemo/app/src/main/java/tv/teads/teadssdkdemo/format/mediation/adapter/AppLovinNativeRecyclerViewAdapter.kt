@@ -15,6 +15,7 @@ import com.applovin.mediation.nativeAds.MaxNativeAdLoader
 import com.applovin.mediation.nativeAds.MaxNativeAdView
 import com.applovin.mediation.nativeAds.MaxNativeAdViewBinder
 import tv.teads.sdk.TeadsMediationSettings
+import tv.teads.sdk.renderer.AdScale
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
@@ -36,7 +37,9 @@ class AppLovinNativeRecyclerViewAdapter(
         val settingsEncoded = TeadsMediationSettings.Builder()
             .enableDebug()
             .setUsPrivacy("1YNN")
-            .build().toJsonEncoded()
+            .setAdScale(AdScale.CENTER_INSIDE)
+            .build()
+            .toJsonEncoded()
 
         nativeAdLoader.setLocalExtraParameter("teadsSettings", settingsEncoded)
     }
