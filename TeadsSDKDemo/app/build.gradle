@@ -17,7 +17,6 @@ android {
         targetSdkVersion libraryTargetSdkVersion
         versionCode teadsSDKVersionCode
         versionName teadsSDKVersion
-        buildToolsVersion projectBuildToolsVersion
         archivesBaseName = "teads-sdkdemo-" + versionName + sufixBaseName
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
