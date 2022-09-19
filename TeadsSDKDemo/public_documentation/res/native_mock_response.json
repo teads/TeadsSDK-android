@@ -1,0 +1,21 @@
+{
+	"ads": [{
+		"type": "NativeJson",
+		"content": "[YOUR_NATIVE_JSON_HERE]",
+		"connection_id": 299168,
+		"scenario_id": 6974,
+		"dsp_campaign_id": "35295989",
+		"ad_source_id": 7,
+		"dsp_creative_id": "227676893",
+		"placement_id": 124859,
+		"portfolio_item_id": 25
+	}],
+	"wigoEnabled": false,
+	"placementMetadata": {
+		"124859": {
+			"adCallTrackingUrl": "https://t.teads.tv/track?action=adCall&pid=124859&pageId=77781&auctid=a9b5cb49-13f7-4adb-a84c-0ce0f1032de4&vid=00000000-0000-0000-0000-000000000000&cts=1592296591553&env=sdk-inapp&sv=4.7.0&gdpr_apply=true&gdpr_status=21&gdpr_consent=&gdpr_reason=210&gdpr_api_version=1&ca=false&bsg=uncat&bsias=uncat&pfid=25&sid=299168&brid=11013&rpm_reason=3",
+			"auctionId": "a9b5cb49-13f7-4adb-a84c-0ce0f1032de4"
+		}
+	},
+	"viewerId": "00000000-0000-0000-0000-000000000000"
+}

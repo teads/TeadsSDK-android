@@ -38,7 +38,6 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private lateinit var radioGroupCreativeSizes: RadioGroup
     private lateinit var radioGroupProvider: RadioGroup
     private lateinit var integrationsRecyclerView: RecyclerView
-    private lateinit var currentPidView: Chip
 
     private val inReadIntegrationList = listOf(
         IntegrationType("ScrollView", R.drawable.scrollview),
@@ -124,7 +123,6 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             radioGroupCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
             containerCreativeSizes = this.findViewById(R.id.container_creative_size)
             integrationsRecyclerView = this.findViewById(R.id.integrations_recycler_view)
-            currentPidView = this.findViewById(R.id.text_current_pid)
 
             setIntegrationItems(inReadIntegrationList)
             setCreativeSizeChecked(FormatType.INREAD)
@@ -146,14 +144,14 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun onIntegrationClicked(position: Int) {
-        when (selectedFormat) {
+        when (PidStore.selectedFormat) {
             FormatType.INREAD -> changeFragmentForInRead(position)
             FormatType.INFEED -> changeFragmentForNative(position)
         }
     }
 
     private fun changeFragmentForInRead(position: Int) {
-        when (selectedProvider) {
+        when (PidStore.selectedProvider) {
             ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadDirect(position))
             }
@@ -167,7 +165,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changeFragmentForNative(position: Int) {
-        when (selectedProvider) {
+        when (PidStore.selectedProvider) {
             ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentNativeDirect(position))
             }
@@ -185,9 +183,9 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             R.id.inreadButton to FormatType.INREAD,
             R.id.infeedButton to FormatType.INFEED
         )
-        selectedFormat = availableFormatsMap[id] ?: return
+        PidStore.selectedFormat = availableFormatsMap[id] ?: return
 
-        when (selectedFormat) {
+        when (PidStore.selectedFormat) {
             FormatType.INREAD -> {
                 setIntegrationItems(inReadIntegrationList)
                 containerCreativeSizes.visibility = View.VISIBLE
@@ -204,7 +202,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
 
     private fun setProviderSelected() {
-        when (selectedProvider) {
+        when (PidStore.selectedProvider) {
             ProviderType.DIRECT -> radioGroupProvider.check(R.id.directButton)
             ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
             ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
@@ -214,13 +212,13 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setCreativeSizePid(group: RadioGroup, id: Int) {
-        when (selectedFormat) {
+        when (PidStore.selectedFormat) {
             FormatType.INREAD -> {
                 val radioPid = group.findViewById<View>(id) as? RadioButton
 
                 if (radioPid != null && radioPid.isChecked) {
                     val pid: Int = radioPid.tag.toString().toInt()
-                    PidStore.setPid(requireContext(), pid, selectedFormat)
+                    PidStore.setPid(requireContext(), pid, PidStore.selectedFormat)
                     showCurrentPid()
                 }
             }
@@ -243,17 +241,17 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changePidDialog() {
-        val directFormats = arrayOf(selectedFormat)
+        val directFormats = arrayOf(PidStore.selectedFormat)
         val stringfiedDirectFormats = directFormats.map { it.value }.toTypedArray()
-        val checkedItem = directFormats.indexOf(selectedFormat)
-        var nextFormat = selectedFormat // init with current
+        val checkedItem = directFormats.indexOf(PidStore.selectedFormat)
+        var nextFormat = PidStore.selectedFormat // init with current
 
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
         input.setLines(1)
         input.setSingleLine(true)
         input.hint = "type your custom pid"
-        input.setText(PidStore.getPid(requireContext(), selectedFormat).toString())
+        input.setText(PidStore.getPid(requireContext(), PidStore.selectedFormat).toString())
 
         AlertDialog.Builder(requireActivity())
             .setTitle("Set custom PID")
@@ -280,18 +278,17 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setPidButtonConstraints() {
-        val status = if (selectedProvider == ProviderType.DIRECT) {
+        val status = if (PidStore.selectedProvider == ProviderType.DIRECT) {
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
 
         customPid.visibility = status
-        currentPidView.visibility = status
     }
 
     private fun showCurrentPid() {
-        currentPidView.text = "Current: ${PidStore.getPid(requireContext(), selectedFormat)}"
+        customPid.text = "Change PID: ${PidStore.getPid(requireContext(), PidStore.selectedFormat)}"
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
@@ -303,7 +300,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 setCreativeSizePid(group, id)
             }
             R.id.container_provider -> {
-                selectedProvider = when (id) {
+                PidStore.selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB

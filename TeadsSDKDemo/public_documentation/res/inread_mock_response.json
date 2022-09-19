@@ -1,0 +1,22 @@
+{
+  "ads": [
+    {
+      "type": "VastUrl",
+      "content": "[YOUR_VAST_URL_HERE]",
+      "scenario_id": 18603,
+      "dsp_campaign_id": "590162",
+      "dsp_creative_id": "625187",
+      "insertion_id": 590162,
+      "placement_id": 84242,
+      "portfolio_item_id": 1,
+      "early_click_protection_duration": 0
+    }
+  ],
+  "wigoEnabled": false,
+  "placementMetadata": {
+    "84242": {
+      "auctionId": "1921d114-365d-498d-a828-97603b3c8d73"
+    }
+  },
+  "viewerId": "00000000-0000-0000-0000-000000000001"
+}
