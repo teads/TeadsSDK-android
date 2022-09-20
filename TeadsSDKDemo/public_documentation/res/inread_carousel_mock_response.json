@@ -1,0 +1,10 @@
+{
+    "ads": [
+        {
+            "type": "VastXml",
+            "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<VAST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"2.0\">\n    <Ad id=\"6753877076826597\">\n        <InLine>\n    <AdSystem>Brainient8</AdSystem>\n    <AdTitle><![CDATA[Brainient8 11390-6753877076826597]]></AdTitle>\n    <Impression>\n        <![CDATA[https://studio-t.teads.tv/track?action=studio_impression&studio_cid=6753877076826597&random=[CACHEBUSTING]&]]>\n    </Impression>\n    <Creatives>\n    <Creative sequence=\"1\">\n        <Linear>\n            \n        <Duration>00:01:30</Duration>\n      \n\t\t\t<MediaFiles>\n            \t <MediaFile id=\"brhtml5\" delivery=\"progressive\" width=\"540\" height=\"540\" type=\"application/javascript\" apiFramework=\"VPAID\">\n\t<![CDATA[https://s8t.teads.tv/vpaid/6753877076826597]]>\n</MediaFile>\n\n\t\t\t</MediaFiles>\n            \n        </Linear>\n    </Creative>\n</Creatives>\n\n</InLine>\n\n    </Ad>\n</VAST>\n",
+            "scenario_id": 9145,
+            "insertion_id": 197012
+        }
+    ]
+}

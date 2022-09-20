@@ -21,20 +21,8 @@ abstract class BaseFragment : Fragment() {
      */
     val pid: Int
         get() {
-            return PidStore.getPid(requireContext(), selectedFormat)
+            return PidStore.getPid(requireContext())
         }
-
-    /**
-     * Return current selected format type
-     *
-     */
-    var selectedFormat: FormatType = FormatType.INREAD
-
-    /**
-     * Return current selected provider type
-     *
-     */
-    var selectedProvider: ProviderType = ProviderType.DIRECT
 
     /**
      * Return the webview url to display

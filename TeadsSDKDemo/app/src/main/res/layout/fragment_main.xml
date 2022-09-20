@@ -208,17 +208,6 @@
             android:textColor="@color/textColorNoBg"
             android:textStyle="normal" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/text_current_pid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/textColorNoBg"
-            android:textSize="12sp"
-            tools:text="PID details"/>
-
         <TextView
             android:id="@+id/text_integration"
             android:layout_width="match_parent"
