@@ -7,6 +7,10 @@ import android.os.Looper
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.webviewhelper.baseView.ObservableContainerAdView
 import tv.teads.webviewhelper.baseView.ObservableWebView
@@ -49,7 +53,7 @@ class SyncAdWebView(context: Context,
         containerAdView.setMoveListener(this)
         webview.setOnScrollListener(this)
         webviewHelper = WebViewHelper.Builder(webview, this, selector)
-                .build()
+            .build()
     }
 
     /**
@@ -63,43 +67,42 @@ class SyncAdWebView(context: Context,
      * Insert the trackerView and the webview in a FrameLayout,
      * and inject it in the old webview parent hierarchy
      */
-    private fun injectTeadsContainerAdView() {
+    private suspend fun injectTeadsContainerAdView() {
         if (webview.parent !is ViewGroup) {
             return
         }
-        val handler = Handler(Looper.getMainLooper())
-        handler.post {
-
-            val webViewParent = webview.parent as ViewGroup
-            container = FrameLayout(webview.context)
-            container.layoutParams = ViewGroup.LayoutParams(webview.layoutParams)
-            var webviewPosition = 0
-            val childCount = webViewParent.childCount
-            for (i in 0 until childCount) {
-                if (webViewParent.getChildAt(i) == webview) {
-                    webviewPosition = i
-                }
+        val webViewParent = webview.parent as ViewGroup
+        container = FrameLayout(webview.context)
+        container.layoutParams = ViewGroup.LayoutParams(webview.layoutParams)
+        var webviewPosition = 0
+        val childCount = webViewParent.childCount
+        for (i in 0 until childCount) {
+            if (webViewParent.getChildAt(i) == webview) {
+                webviewPosition = i
             }
-
-            webViewParent.removeViewAt(webviewPosition)
-            webview.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
-                    .LayoutParams.MATCH_PARENT)
-
-            container.addView(webview)
-
-            val adLayer = FrameLayout(webview.context).apply {
-                layoutParams = FrameLayout.LayoutParams(webview.layoutParams).also {
-                    it.topMargin = topOffSet
-                    it.bottomMargin = bottomOffSet
-                }
-
-                addView(containerAdView)
-            }
-
-            container.addView(adLayer)
-            webViewParent.addView(container, webviewPosition)
-            listener.onHelperReady(container)
         }
+
+        webViewParent.removeViewAt(webviewPosition)
+        webview.layoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+                .LayoutParams.MATCH_PARENT
+        )
+
+        container.addView(webview)
+
+        val adLayer = FrameLayout(webview.context).apply {
+            layoutParams = FrameLayout.LayoutParams(webview.layoutParams).also {
+                it.topMargin = topOffSet
+                it.bottomMargin = bottomOffSet
+            }
+
+            addView(containerAdView)
+        }
+
+        container.addView(adLayer)
+        webViewParent.addView(container, webviewPosition)
+
+        listener.onHelperReady(container)
     }
 
 
@@ -143,18 +146,21 @@ class SyncAdWebView(context: Context,
     }
 
     override fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int) {
-        if (containerAdView.parent == null)
-            injectTeadsContainerAdView()
+        CoroutineScope(Dispatchers.Main).launch {
+            if (containerAdView.parent == null)
+                injectTeadsContainerAdView()
 
-        val width = right - left
+            val width = right - left
 
-        initialY = top
-        containerAdView.translationY = (initialY - ((containerAdView.parent as ViewGroup).scrollY) - topOffSet).toFloat()
+            initialY = top
+            containerAdView.translationY = (initialY - ((containerAdView.parent as ViewGroup).scrollY) - topOffSet).toFloat()
 
-        if (containerAdView.layoutParams != null
-                && containerAdView.layoutParams is ViewGroup.MarginLayoutParams) {
-            (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = left
-            (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = webview.width - width - left
+            if (containerAdView.layoutParams != null
+                && containerAdView.layoutParams is ViewGroup.MarginLayoutParams
+            ) {
+                (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = left
+                (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = webview.width - width - left
+            }
         }
     }
 
