@@ -1,4 +1,5 @@
 import tv.teads.AndroidLibConfig
+import tv.teads.Libs
 import tv.teads.versionName
 
 plugins {
@@ -31,8 +32,10 @@ android {
 }
 
 dependencies {
+    implementation(Libs.COROUTINES_CORE)
+
     // Teads SDK
-    implementation(tv.teads.Libs.Teads.sdk(project.versionName)) {
+    implementation(Libs.Teads.sdk(project.versionName)) {
         isTransitive = true
     }
 }

@@ -1,6 +1,7 @@
 package tv.teads
 
 object Libs {
+    const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
 
     const val APPLOVIN_SDK = "com.applovin:applovin-sdk:11.3.0"
 
