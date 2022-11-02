@@ -11,10 +11,7 @@ import com.applovin.mediation.MaxAdFormat
 import com.applovin.mediation.MaxAdViewAdListener
 import com.applovin.mediation.MaxError
 import com.applovin.mediation.ads.MaxAdView
-import com.applovin.sdk.AppLovinSdk
-import com.google.android.gms.ads.*
 import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
-import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings
@@ -22,10 +19,8 @@ import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import kotlin.math.roundToInt
 
 /**
  * Display inRead as Banner within a ScrollView using AppLovin Mediation.
@@ -92,7 +87,7 @@ class AppLovinScrollViewFragment : BaseFragment() {
         // 4. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
 
-        // 6. Create the AdSettings to customize our Teads AdView
+        // 5. Create the AdSettings to customize our Teads AdView
         val settingsEncoded = TeadsMediationSettings.Builder()
             .enableDebug()
             // Needed by european regulation
@@ -105,11 +100,11 @@ class AppLovinScrollViewFragment : BaseFragment() {
             .build()
             .toJsonEncoded()
 
-        // 7. Add the settings encoded to the adView using this key
+        // 6. Add the settings encoded to the adView using this key
         adView.setLocalExtraParameter("teadsSettings", settingsEncoded)
 
 
-        // 8. Load the ad after the AppLovin sdk initialized
+        // 7. Load the ad after the AppLovin sdk initialized
         adView.loadAd()
     }
 

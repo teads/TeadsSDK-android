@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.mediation.adapter.AppLovinRecyclerViewAdapter
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
+import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
@@ -28,7 +28,7 @@ class AppLovinRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adUnit = AdMobIdentifier.getAdUnitFromPid(pid)
+        val adUnit = AppLovinIdentifier.getAdUnitFromPid(pid)
 
         recyclerView.adapter = AppLovinRecyclerViewAdapter(adUnit, context, getTitle())
     }
