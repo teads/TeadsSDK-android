@@ -46,14 +46,13 @@ class InReadScrollViewFragment : BaseFragment() {
                 .pageSlotUrl("http://teads.com")
                 .build()
         adPlacement.requestAd(requestSettings,
-                object : InReadAdListener {
+                object : InReadAdModelListener {
                     override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                        adSlotView.addView(trackerView)
+                        adView.addView(trackerView)
                     }
 
-                    override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
-                        this@InReadScrollViewFragment.inReadAdView = inReadAdView
-                        adSlotView.addView(inReadAdView, 0)
+                    override fun onAdReceived(ad: InReadAd, adRatio: AdRatio) {
+                        adView.bind(ad)
                     }
 
                     override fun onAdClicked() {}
