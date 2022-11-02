@@ -17,8 +17,8 @@
 
         <include layout="@layout/article_fake_lines" />
 
-        <FrameLayout
-            android:id="@+id/adSlotView"
+        <tv.teads.sdk.renderer.InReadAdView
+            android:id="@+id/adView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

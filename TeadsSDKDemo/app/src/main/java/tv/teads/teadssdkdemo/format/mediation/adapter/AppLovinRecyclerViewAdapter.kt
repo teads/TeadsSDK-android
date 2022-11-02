@@ -80,6 +80,7 @@ class AppLovinRecyclerViewAdapter(appLovinUnitId: String, context: Context?, tit
 
         // 5. Create the TeadsMediationSettings to customize our Teads AdView
         val settingsEncoded = TeadsMediationSettings.Builder()
+            .enableDebug()
             // Needed by european regulation
             // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
             .userConsent("1", "0001", TCFVersion.V1, 12)

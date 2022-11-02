@@ -10,12 +10,7 @@ import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.applovin.mediation.MaxAdFormat
 import com.applovin.mediation.ads.MaxAdView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.fragment_inread_webview.*
-import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.sdk.*
 import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
@@ -23,7 +18,6 @@ import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncAdWebView

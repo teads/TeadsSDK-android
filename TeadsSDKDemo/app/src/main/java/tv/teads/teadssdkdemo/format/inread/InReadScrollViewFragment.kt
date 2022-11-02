@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
+import kotlinx.android.synthetic.main.fragment_inread_view_scrollview.*
 import tv.teads.sdk.*
 import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.R
@@ -23,7 +23,7 @@ class InReadScrollViewFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
+        val v = inflater.inflate(R.layout.fragment_inread_view_scrollview, container, false)
 
         v.findViewById<TextView>(R.id.integration_header).text = getTitle()
 
