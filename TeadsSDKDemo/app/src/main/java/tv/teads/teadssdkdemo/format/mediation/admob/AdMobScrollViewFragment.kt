@@ -102,7 +102,7 @@ class AdMobScrollViewFragment : BaseFragment() {
 
         // 7. Create the AdRequest with the previous settings
         val adRequest = AdRequest.Builder()
-                .addCustomEventExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
+                .addNetworkExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
                 .build()
 
         // 8. Load the ad with the AdRequest
