@@ -114,7 +114,7 @@ class AdMobNativeRecyclerViewAdapter(
                     .build()
 
                 val adRequest = AdRequest.Builder()
-                    .addCustomEventExtrasBundle(TeadsNativeAdapter::class.java, settings.toBundle())
+                    .addNetworkExtrasBundle(TeadsNativeAdapter::class.java, settings.toBundle())
                     .build()
 
                 adLoader.loadAd(adRequest)
