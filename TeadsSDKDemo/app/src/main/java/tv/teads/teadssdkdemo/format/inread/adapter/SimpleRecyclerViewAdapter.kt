@@ -43,13 +43,13 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
             RecyclerItemType.TYPE_TEADS.value -> {
                 val adView = holder.itemView as FrameLayout
                 // 3. Request the ad and register to the listener in it
-                adPlacement.requestAd(requestSettings, object : InReadAdListener {
+                adPlacement.requestAd(requestSettings, object : InReadAdViewListener {
                     override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
                         adView.addView(trackerView)
                     }
 
-                    override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
-                        adView.addView(inReadAdView, 0)
+                    override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
+                        adView.addView(ad, 0)
                     }
 
                     override fun onAdClicked() {}

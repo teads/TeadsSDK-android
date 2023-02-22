@@ -72,13 +72,13 @@ class InReadWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
                 .build()
 
         // 3. Request the ad and register to the listener in it
-        adPlacement.requestAd(requestSettings, object : InReadAdListener {
+        adPlacement.requestAd(requestSettings, object : InReadAdViewListener {
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
                 webviewHelperSynch.registerTrackerView(trackerView)
             }
 
-            override fun onAdReceived(inReadAdView: InReadAdView, adRatio: AdRatio) {
-                webviewHelperSynch.registerAdView(inReadAdView)
+            override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
+                webviewHelperSynch.registerAdView(ad)
                 webviewHelperSynch.updateSlot(adRatio.getAdSlotRatio(webview.measuredWidth))
             }
 
