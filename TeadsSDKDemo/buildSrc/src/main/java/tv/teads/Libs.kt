@@ -10,10 +10,16 @@ object Libs {
 
     const val HUAWEI_IDENTIFIER = "com.huawei.hms:ads-identifier:3.4.28.313"
 
+    private const val smartVersion = "7.14.0"
+
+    const val SMART_CORE_SDK = "com.smartadserver.android:smart-core-sdk:$smartVersion@aar"
+    const val SMART_DISPLAY_SDK = "com.smartadserver.android:smart-display-sdk:$smartVersion@aar"
+
     object Teads {
         fun sdk(version: String) = "tv.teads.sdk.android:sdk:$version@aar"
         fun admobAdapter(version: String) = "tv.teads.sdk.android:admobadapter:$version@aar"
         fun applovinAdapter(version: String) = "tv.teads.sdk.android:applovinadapter:$version@aar"
+        fun smartAdapter(version: String) = "tv.teads.sdk.android:smartadapter:$version@aar"
     }
 
     object AndroidX {

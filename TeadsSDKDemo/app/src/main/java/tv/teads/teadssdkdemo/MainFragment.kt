@@ -23,6 +23,7 @@ import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
 import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.smart.SmartNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
 
@@ -73,6 +74,14 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         return when (position) {
             0 -> AdMobNativeRecyclerViewFragment()
             1 -> AdMobNativeGridRecyclerViewFragment()
+            else -> throw IllegalStateException()
+        }
+    }
+
+    private fun getFragmentSmartNative(position: Int): BaseFragment {
+        return when (position) {
+            0 -> SmartNativeRecyclerViewFragment()
+            1 -> AppLovinNativeGridRecyclerViewFragment()
             else -> throw IllegalStateException()
         }
     }
@@ -172,6 +181,9 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.ADMOB -> {
                 (activity as MainActivity).changeFragment(getFragmentAdMobNative(position))
             }
+            ProviderType.SMART -> {
+                (activity as MainActivity).changeFragment(getFragmentSmartNative(position))
+            }
             ProviderType.APPLOVIN -> {
                 (activity as MainActivity).changeFragment(getFragmentAppLovinNative(position))
             }
@@ -205,6 +217,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         when (PidStore.selectedProvider) {
             ProviderType.DIRECT -> radioGroupProvider.check(R.id.directButton)
             ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
+            ProviderType.SMART -> radioGroupProvider.check(R.id.smartButton)
             ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
         }
 
@@ -302,6 +315,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             R.id.container_provider -> {
                 PidStore.selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
+                    R.id.smartButton -> ProviderType.SMART
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB
                 }

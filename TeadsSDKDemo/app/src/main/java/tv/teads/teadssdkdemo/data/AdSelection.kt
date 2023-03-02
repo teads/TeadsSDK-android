@@ -8,7 +8,7 @@ enum class FormatType(val value: String) {
 enum class ProviderType(val value: Int) {
     DIRECT(0),
     ADMOB(2),
-    //SMART(3)
+    SMART(3),
     APPLOVIN(4)
 }
 
