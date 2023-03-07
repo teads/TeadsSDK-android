@@ -1,11 +1,11 @@
 /**
  * @module Teads JS Utils for inRead
- * @author RonanDrouglazet <ronan.drouglazet@ebuzzing.com>
- * @date 10-2014
+ * @date 03-2022
  * @copyright Teads <http://www.teads.tv>
  *
- * This helper has been provided to give you a hand in your integration webview.
- * It's not designed to work on every integration, it needs to be customised to suit your needs
+ * ⚠️ This bootstrap has been provided to give you a hand in your integration webview.
+ * It's not designed to work on every integration, it may need to be customised to suit your needs
+ *
  */
 
 (function () {
@@ -13,8 +13,7 @@
   var showHideTimerDuration = 100;
   var intervalCheckPosition = 500;
   var opened = false;
-  var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight;
-  var transitionType = "height [DURATION]ms ease-in-out";
+  var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight, lastGeometry;
   // command use to communicate with WebViewController JS Bridge
   var command = {
     trigger: {
@@ -33,6 +32,14 @@
       getCoo: "nativePlayerToJsGetTargetGeometry"
     }
   };
+  var lastGeometry = {
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "right":  0,
+    "ratio": 0
+  }
+
 
   // The platform int
   var UNKNOWN_OS = 0;
@@ -96,10 +103,11 @@
   var showPlaceholder = function () {
     tryOrLog(function () {
       opened = true;
-      // set height to active transition
       teadsContainer.style.height = finalSize.height + "px";
       // send status on native side
       bridge.callHandler(command.trigger.startShow);
+      // start interval position check, if position change, informe native side
+      intervalPosition = setInterval(checkPosition, intervalCheckPosition);
     }, 'showPlaceholder');
   };
 
@@ -141,6 +149,8 @@
           "right": parseInt(leftMargin + finalSize.width),
           "ratio": parseFloat(window.devicePixelRatio)
         };
+
+        if (isEqualToLastGeometry(json)) return
 
         bridge.callHandler(command.trigger.position, json);
       }
@@ -284,6 +294,26 @@
         console.error(fctName, e)
       }
     }
+  }
+
+    var lastGeometry = {
+      "top": 0,
+      "left": 0,
+      "bottom": 0,
+      "right":  0,
+      "ratio": 0
+    }
+
+  var isEqualToLastGeometry = function(geometry) {
+    if (lastGeometry.top === geometry.top &&
+        lastGeometry.bottom === geometry.bottom &&
+        lastGeometry.left === geometry.left &&
+        lastGeometry.right === geometry.right &&
+        lastGeometry.ratio === geometry.ratio)
+        return true;
+
+    lastGeometry = geometry;
+    return false;
   }
   // START !
   sendJsLibReady();
