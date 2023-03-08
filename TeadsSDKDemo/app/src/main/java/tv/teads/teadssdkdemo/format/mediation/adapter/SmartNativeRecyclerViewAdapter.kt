@@ -139,18 +139,19 @@ class SmartNativeRecyclerViewAdapter(
     private fun appendAdToParent(ad: SASNativeAdElement, parentView: ViewGroup) {
         parentView.apply {
             removeAllViews()
-            addView(createMediaView(ad))
+            addView(createMediaView(ad, if (isGrid) R.layout.item_smart_native_ad_grid else R.layout.item_smart_native_ad))
         }
     }
 
-    private fun createMediaView(ad: SASNativeAdElement): View = TeadsSmartViewBinder(context!!, R.layout.item_smart_native_ad, ad)
-        .title(R.id.ad_title)
-        .body(R.id.ad_body)
-        .iconImage(R.id.teads_icon)
-        .callToAction(R.id.teads_cta)
-        .mediaLayout(R.id.teads_mediaview)
-        .adChoice(R.id.ad_choice)
-        .bind()
+    private fun createMediaView(ad: SASNativeAdElement, layout: Int): View =
+        TeadsSmartViewBinder(context!!, layout, ad)
+            .title(R.id.ad_title)
+            .body(R.id.ad_body)
+            .iconImage(R.id.teads_icon)
+            .callToAction(R.id.teads_cta)
+            .mediaLayout(R.id.teads_mediaview)
+            .adChoice(R.id.ad_choice)
+            .bind()
 
     override fun getItemCount(): Int = feedItems.size + 1
 }

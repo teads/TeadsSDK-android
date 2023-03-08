@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
 import tv.teads.teadssdkdemo.data.PidStore
 import tv.teads.teadssdkdemo.data.ProviderType
+import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
@@ -21,9 +22,7 @@ import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
-import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.mediation.smart.SmartNativeRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.mediation.smart.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
 
@@ -81,7 +80,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private fun getFragmentSmartNative(position: Int): BaseFragment {
         return when (position) {
             0 -> SmartNativeRecyclerViewFragment()
-            1 -> AppLovinNativeGridRecyclerViewFragment()
+            1 -> SmartNativeGridRecyclerViewFragment()
             else -> throw IllegalStateException()
         }
     }
@@ -100,6 +99,16 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             1 -> AdMobRecyclerViewFragment()
             2 -> AdMobGridRecyclerViewFragment()
             3 -> AdMobWebViewFragment()
+            else -> AdMobScrollViewFragment()
+        }
+    }
+
+    private fun getFragmentInReadSmart(position: Int): BaseFragment {
+        return when (position) {
+            0 -> SmartScrollViewFragment()
+            1 -> SmartRecyclerViewFragment()
+            2 -> SmartGridRecyclerViewFragment()
+            3 -> SmartWebViewFragment()
             else -> AdMobScrollViewFragment()
         }
     }
@@ -166,6 +175,9 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             }
             ProviderType.ADMOB -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadAdmob(position))
+            }
+            ProviderType.SMART -> {
+                (activity as MainActivity).changeFragment(getFragmentInReadSmart(position))
             }
             ProviderType.APPLOVIN -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadAppLovin(position))
@@ -313,9 +325,13 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 setCreativeSizePid(group, id)
             }
             R.id.container_provider -> {
+                containerCreativeSizes.visibility = View.VISIBLE
                 PidStore.selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
-                    R.id.smartButton -> ProviderType.SMART
+                    R.id.smartButton -> {
+                        containerCreativeSizes.visibility = View.GONE
+                        ProviderType.SMART
+                    }
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB
                 }
