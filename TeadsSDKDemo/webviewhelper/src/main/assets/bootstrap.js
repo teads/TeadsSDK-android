@@ -13,7 +13,7 @@
   var showHideTimerDuration = 100;
   var intervalCheckPosition = 500;
   var opened = false;
-  var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight, lastGeometry;
+  var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight;
   // command use to communicate with WebViewController JS Bridge
   var command = {
     trigger: {
