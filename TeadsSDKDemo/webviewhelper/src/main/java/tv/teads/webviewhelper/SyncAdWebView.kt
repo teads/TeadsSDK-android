@@ -161,6 +161,7 @@ class SyncAdWebView(context: Context,
                 (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).leftMargin = left
                 (containerAdView.layoutParams as ViewGroup.MarginLayoutParams).rightMargin = webview.width - width - left
             }
+            webview.requestLayout()
         }
     }
 
@@ -172,9 +173,6 @@ class SyncAdWebView(context: Context,
         if (ratio != null) {
             webviewHelper.updateSlot(ratio, 0)
         }
-
-        // After updating the slot the WebView height is not correct, hidding some content in the WebView
-        webview.postDelayed({ webview.requestLayout() }, 300)
     }
 
     /**
