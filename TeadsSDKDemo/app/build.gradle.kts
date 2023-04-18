@@ -60,6 +60,8 @@ dependencies {
 
     implementation(Libs.APPLOVIN_SDK)
 
+    implementation(Libs.AD_COLONY_SDK)
+
     implementation(projects.webviewhelper)
 
     //Huawei ads identifier sdk

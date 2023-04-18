@@ -4,6 +4,7 @@ object Libs {
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
 
     const val APPLOVIN_SDK = "com.applovin:applovin-sdk:11.3.0"
+    const val AD_COLONY_SDK = "com.adcolony:sdk:4.7.0"
 
     const val MATERIAL = "com.google.android.material:material:1.4.0"
     const val PLAY_SERVICES_ADS = "com.google.android.gms:play-services-ads:20.2.0"
