@@ -5,17 +5,16 @@ import tv.teads.versionName
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
+
 }
 
 android {
-    compileSdk = AndroidLibConfig.compileSdk
+    compileSdkVersion(AndroidLibConfig.compileSdk)
 
     defaultConfig {
         applicationId = "tv.teads.teadssdkdemo"
-        minSdk = AndroidLibConfig.minSdk
-        targetSdk = AndroidLibConfig.targetSdk
+        minSdkVersion(AndroidLibConfig.minSdk)
+        targetSdkVersion(AndroidLibConfig.targetSdk)
         versionCode = project.versionCode
         versionName = project.versionName
         multiDexEnabled = true
@@ -62,10 +61,11 @@ dependencies {
 
     implementation(Libs.AD_COLONY_SDK)
 
-    implementation(projects.webviewhelper)
+//    implementation(projects.webviewhelper)
+    implementation(project(":webviewhelper"))
 
     //Huawei ads identifier sdk
     implementation(Libs.HUAWEI_IDENTIFIER)
 
-    testImplementation(Libs.Test.JUNIT)
+//    testImplementation(Libs.Test.JUNIT)
 }

@@ -4,18 +4,16 @@ import tv.teads.versionName
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
-    compileSdk= AndroidLibConfig.compileSdk
+    compileSdkVersion(AndroidLibConfig.compileSdk)
 
-    resourcePrefix = "teads_"
+    resourcePrefix("teads_")
 
     defaultConfig {
-        minSdk = AndroidLibConfig.minSdk
-        targetSdk = AndroidLibConfig.targetSdk
+        minSdkVersion(AndroidLibConfig.minSdk)
+        targetSdkVersion(AndroidLibConfig.targetSdk)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

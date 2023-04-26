@@ -1,13 +1,16 @@
 plugins {
     `kotlin-dsl`
+    id("org.jetbrains.kotlin.jvm") version "1.4.32"
 }
 
+dependencies {
+    implementation("com.android.tools.build:gradle:3.5.4")
+}
+
+
 repositories {
+    gradlePluginPortal()
     google()
     mavenCentral()
 }
 
-dependencies {
-    implementation("com.android.tools.build:gradle:7.2.1")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")
-}
