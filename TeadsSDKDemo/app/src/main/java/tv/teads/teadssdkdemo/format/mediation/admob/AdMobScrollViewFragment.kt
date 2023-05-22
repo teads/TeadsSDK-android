@@ -89,8 +89,8 @@ class AdMobScrollViewFragment : BaseFragment() {
         val key = TeadsHelper.attachListener(mListener)
 
         // 6. Create the AdSettings to customize our Teads AdView
-        val extras = TeadsMediationSettings.Builder()
-                .enableDebug()
+        val extras = TeadsMediationSettings.Builder() // build TeadsMediationSettings
+                .enableDebug() // enable debug
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
                 .userConsent("1", "0001", TCFVersion.V1, 12)
@@ -98,11 +98,12 @@ class AdMobScrollViewFragment : BaseFragment() {
                 .pageSlotUrl("https://page.com/article1/")
                 // /!\ You need to add the key to the settings
                 .setMediationListenerKey(key)
+                .enableValidationMode() // // enable validation mode
                 .build()
 
         // 7. Create the AdRequest with the previous settings
         val adRequest = AdRequest.Builder()
-                .addNetworkExtrasBundle(TeadsAdapter::class.java, extras.toBundle())
+                .addNetworkExtrasBundle(TeadsAdapter::class.java, extras.toBundle()) // add it to the requester
                 .build()
 
         // 8. Load the ad with the AdRequest
