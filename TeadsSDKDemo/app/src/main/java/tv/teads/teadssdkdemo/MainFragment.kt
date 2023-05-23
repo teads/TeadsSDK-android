@@ -23,6 +23,7 @@ import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
 import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
 
@@ -47,6 +48,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     )
 
     private val nativeIntegrationList = listOf(
+        IntegrationType("ScrollView", R.drawable.scrollview),
         IntegrationType("RecyclerView", R.drawable.tableview),
         IntegrationType("RecyclerView Grid", R.drawable.collectionview),
     )
@@ -63,8 +65,9 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentNativeDirect(position: Int): BaseFragment {
         return when (position) {
-            0 -> InFeedRecyclerViewFragment()
-            1 -> InFeedGridRecyclerViewFragment()
+            0 -> InFeedScrollViewFragment()
+            1 -> InFeedRecyclerViewFragment()
+            2 -> InFeedGridRecyclerViewFragment()
             else -> throw IllegalStateException()
         }
     }

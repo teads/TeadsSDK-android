@@ -1,68 +1,76 @@
-package tv.teads.teadssdkdemo.format.inread
+package tv.teads.teadssdkdemo.format.infeed
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_inread_view_scrollview.*
+import kotlinx.android.synthetic.main.article_header_row.*
+import kotlinx.android.synthetic.main.fragment_infeed_view_scrollview.*
 import tv.teads.sdk.*
-import tv.teads.sdk.renderer.InReadAdView
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.data.PidStore.FAKE_GDPR_STR
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * InRead format within a ScrollView
+ * InFeed format within a ScrollView
  */
-class InReadScrollViewFragment : BaseFragment() {
+class InFeedScrollViewFragment : BaseFragment() {
 
-    private lateinit var adPlacement: InReadAdPlacement
-    private var inReadAdView: InReadAdView? = null
+    private var nativeAd: NativeAd? = null
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_inread_view_scrollview, container, false)
-
-        v.findViewById<TextView>(R.id.integration_header).text = getTitle()
-
-        return v
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_infeed_view_scrollview, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        integration_header.text = getTitle()
+
         // 1. Setup the settings
         val placementSettings = AdPlacementSettings.Builder()
                 .enableDebug()
+                .userConsent("1", FAKE_GDPR_STR, TCFVersion.V2, 7)
                 .build()
 
-        // 2. Create the InReadAdPlacement
-        adPlacement = TeadsSDK.createInReadPlacement(requireActivity(), pid, placementSettings)
+        // 2. Create the NativeAdPlacement
+        val adPlacement = TeadsSDK.createNativePlacement(requireActivity(), pid, placementSettings)
 
         // 3. Request the ad and register to the listener in it
         val requestSettings = AdRequestSettings.Builder()
                 .pageSlotUrl("http://teads.com")
                 .build()
+
         adPlacement.requestAd(requestSettings,
-                object : InReadAdModelListener {
-                    override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                        adView.addView(trackerView)
+                object : NativeAdListener {
+                    override fun onAdReceived(nativeAd: NativeAd) {
+                        this@InFeedScrollViewFragment.nativeAd = nativeAd
+                        nativeAdView.visibility = View.VISIBLE
+                        nativeAdView.bind(nativeAd)
                     }
 
-                    override fun onAdReceived(ad: InReadAd, adRatio: AdRatio) {
-                        adView.bind(ad)
+                    override fun onAdClicked() {
+                        Log.d("NativeAdListener", "onAdClicked")
                     }
 
-                    override fun onAdClicked() {}
-                    override fun onAdClosed() {}
-                    override fun onAdError(code: Int, description: String) {}
-                    override fun onAdImpression() {}
-                    override fun onAdExpandedToFullscreen() {}
-                    override fun onAdCollapsedFromFullscreen() {}
-                    override fun onAdRatioUpdate(adRatio: AdRatio) {}
-                    override fun onFailToReceiveAd(failReason: String) {}
+                    override fun onAdError(code: Int, description: String) {
+                        Log.d("NativeAdListener", "onAdError")
+                    }
+
+                    override fun onAdImpression() {
+                        Log.d("NativeAdListener", "onAdImpression")
+                    }
+
+                    override fun onFailToReceiveAd(failReason: String) {
+                        Log.d("NativeAdListener", "onFailToReceiveAd")
+                    }
+
                 },
                 object : VideoPlaybackListener {
                     override fun onVideoComplete() {
@@ -76,15 +84,14 @@ class InReadScrollViewFragment : BaseFragment() {
                     override fun onVideoPlay() {
                         Log.d("PlaybackEvent", "play")
                     }
-
                 }
         )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        inReadAdView?.clean()
+        nativeAd?.clean()
     }
 
-    override fun getTitle(): String = "InRead Direct ScrollView"
+    override fun getTitle(): String = "InFeed Direct ScrollView"
 }
