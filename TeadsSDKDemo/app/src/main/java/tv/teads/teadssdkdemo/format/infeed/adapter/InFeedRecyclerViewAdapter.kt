@@ -32,7 +32,7 @@ class InFeedRecyclerViewAdapter(
     private val adPlacement: NativeAdPlacement
 
     init {
-        // 1. Setup the settings
+        // 1. Setup the settings, don't use fake values on production
         val placementSettings = AdPlacementSettings
             .Builder()
             .userConsent("1", FAKE_GDPR_STR, TCFVersion.V2, 7)

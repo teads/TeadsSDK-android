@@ -33,7 +33,7 @@ class InFeedScrollViewFragment : BaseFragment() {
 
         integration_header.text = getTitle()
 
-        // 1. Setup the settings
+        // 1. Setup the settings, don't use fake values on production
         val placementSettings = AdPlacementSettings.Builder()
                 .enableDebug()
                 .userConsent("1", FAKE_GDPR_STR, TCFVersion.V2, 7)
