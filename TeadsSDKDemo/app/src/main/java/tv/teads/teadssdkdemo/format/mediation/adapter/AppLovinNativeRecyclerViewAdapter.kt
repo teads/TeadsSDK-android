@@ -17,6 +17,7 @@ import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
 import tv.teads.teadssdkdemo.data.RecyclerItemType
+import tv.teads.teadssdkdemo.data.SessionDataSource
 
 /**
  * AppLovin Native RecyclerView adapter
@@ -36,7 +37,7 @@ class AppLovinNativeRecyclerViewAdapter(
             .setUsPrivacy("1YNN")
             .userConsent(
                 "1",
-                "CPXVK9cPXVK9cAtABBFRCKCsAP_AAH_AAAAAIqtd_X__bX9j-_5_fft0eY1P9_r3_-QzjhfNt-8F3L_W_L0X42E7NF36pq4KuR4Eu3LBIQNlHMHUTUmwaokVrzHsak2cpyNKJ7LEknMZO2dYGH9Pn9lDuYKY7_5___bx3j-v_t_-39T378Xf3_d5_2---vCfV599jbv9f3__39nP___9v-_8_______gimASYal5AF2JY4Mm0aRQogRhWEhVAoAKKAYWiKwAcHBTsrAJ9QQsAEAqAjAiBBiCjBgEAAgEASERASAFggEQBEAgABAAiAQgAImAQWAFgYBAAKAaFiAFAAIEhBkUERymBARIlFBLZWIJQV7GmEAZZYAUCiMioAESAAAkDISFg5jgCQEuFkgSYoXyAEYAAAAA.YAAAAAAAAAAA",
+                SessionDataSource.FAKE_GDPR_STR,
                 TCFVersion.V2,
                 12
             )

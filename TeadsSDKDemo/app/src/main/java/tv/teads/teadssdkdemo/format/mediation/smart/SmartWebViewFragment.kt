@@ -20,6 +20,7 @@ import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
+import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncAdWebView
 
@@ -105,7 +106,7 @@ class SmartWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
         val extras = TeadsMediationSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
-                .userConsent("1", "0001", TCFVersion.V2, 12)
+                .userConsent("1", SessionDataSource.FAKE_GDPR_STR, TCFVersion.V2, 12)
                 .enableDebug()
                 // Add the helper in the adsettings
                 .setMediationListenerKey(key)
