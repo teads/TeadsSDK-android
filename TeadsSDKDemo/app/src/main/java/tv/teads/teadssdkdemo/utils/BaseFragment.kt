@@ -5,9 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 import tv.teads.teadssdkdemo.MainActivity
-import tv.teads.teadssdkdemo.data.FormatType
-import tv.teads.teadssdkdemo.data.PidStore
-import tv.teads.teadssdkdemo.data.ProviderType
+import tv.teads.teadssdkdemo.data.SessionDataSource
 
 
 /**
@@ -21,7 +19,7 @@ abstract class BaseFragment : Fragment() {
      */
     val pid: Int
         get() {
-            return PidStore.getPid(requireContext())
+            return SessionDataSource.getPid(requireContext())
         }
 
     /**

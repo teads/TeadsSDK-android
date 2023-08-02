@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
-import tv.teads.teadssdkdemo.data.PidStore
+import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.data.ProviderType
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
@@ -146,6 +146,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             setCreativeSizeChecked()
             setProviderSelected()
             showCurrentPid()
+            setMediationIntegrationConstraints()
 
             containerFormat.setOnCheckedChangeListener(this@MainFragment)
             radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
@@ -162,7 +163,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun initIntegrationItems() {
-        val integrationTypeList = when (PidStore.selectedFormat) {
+        val integrationTypeList = when (SessionDataSource.selectedFormat) {
             FormatType.INREAD -> inReadIntegrationList
             FormatType.INFEED -> nativeIntegrationList
         }
@@ -170,14 +171,14 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun onIntegrationClicked(position: Int) {
-        when (PidStore.selectedFormat) {
+        when (SessionDataSource.selectedFormat) {
             FormatType.INREAD -> changeFragmentForInRead(position)
             FormatType.INFEED -> changeFragmentForNative(position)
         }
     }
 
     private fun changeFragmentForInRead(position: Int) {
-        when (PidStore.selectedProvider) {
+        when (SessionDataSource.selectedProvider) {
             ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadDirect(position))
             }
@@ -194,7 +195,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changeFragmentForNative(position: Int) {
-        when (PidStore.selectedProvider) {
+        when (SessionDataSource.selectedProvider) {
             ProviderType.DIRECT -> {
                 (activity as MainActivity).changeFragment(getFragmentNativeDirect(position))
             }
@@ -215,9 +216,9 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             R.id.inreadButton to FormatType.INREAD,
             R.id.infeedButton to FormatType.INFEED
         )
-        PidStore.selectedFormat = availableFormatsMap[id] ?: return
+        SessionDataSource.selectedFormat = availableFormatsMap[id] ?: return
 
-        when (PidStore.selectedFormat) {
+        when (SessionDataSource.selectedFormat) {
             FormatType.INREAD -> {
                 setIntegrationItems(inReadIntegrationList)
                 containerCreativeSizes.visibility = View.VISIBLE
@@ -225,16 +226,17 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             FormatType.INFEED -> {
                 setIntegrationItems(nativeIntegrationList)
                 containerCreativeSizes.visibility = View.GONE
-                setDirectIntegrationConstraints()
             }
         }
 
         showCurrentPid()
+        setDirectIntegrationConstraints()
+        setMediationIntegrationConstraints()
     }
 
 
     private fun setProviderSelected() {
-        when (PidStore.selectedProvider) {
+        when (SessionDataSource.selectedProvider) {
             ProviderType.DIRECT -> radioGroupProvider.check(R.id.directButton)
             ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
             ProviderType.SMART -> radioGroupProvider.check(R.id.smartButton)
@@ -245,13 +247,13 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setCreativeSizePid(group: RadioGroup, id: Int) {
-        when (PidStore.selectedFormat) {
+        when (SessionDataSource.selectedFormat) {
             FormatType.INREAD -> {
                 val radioPid = group.findViewById<View>(id) as? RadioButton
 
                 if (radioPid != null && radioPid.isChecked) {
                     val pid: Int = radioPid.tag.toString().toInt()
-                    PidStore.setPid(requireContext(), pid, PidStore.selectedFormat)
+                    SessionDataSource.setPid(requireContext(), pid, SessionDataSource.selectedFormat)
                     showCurrentPid()
                 }
             }
@@ -261,7 +263,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setCreativeSizeChecked(formatType: FormatType? = null) {
-        val pid = PidStore.getPid(requireContext(), formatType)
+        val pid = SessionDataSource.getPid(requireContext(), formatType)
 
         val child =
             radioGroupCreativeSizes.getChildAt(DirectIdentifier.getPositionByPid(pid)) as? RadioButton
@@ -274,36 +276,36 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun changePidDialog() {
-        val directFormats = arrayOf(PidStore.selectedFormat)
+        val directFormats = arrayOf(SessionDataSource.selectedFormat)
         val stringfiedDirectFormats = directFormats.map { it.value }.toTypedArray()
-        val checkedItem = directFormats.indexOf(PidStore.selectedFormat)
-        var nextFormat = PidStore.selectedFormat // init with current
+        val checkedItem = directFormats.indexOf(SessionDataSource.selectedFormat)
+        var nextFormat = SessionDataSource.selectedFormat // init with current
 
         @SuppressLint("InflateParams") val view = layoutInflater.inflate(R.layout.dialog_pid_content, null)
         val input = view.findViewById<EditText>(R.id.pidEditText)
         input.setLines(1)
         input.setSingleLine(true)
         input.hint = "type your custom pid"
-        input.setText(PidStore.getPid(requireContext(), PidStore.selectedFormat).toString())
+        input.setText(SessionDataSource.getPid(requireContext(), SessionDataSource.selectedFormat).toString())
 
         AlertDialog.Builder(requireActivity())
             .setTitle("Set custom PID")
             .setView(view)
             .setSingleChoiceItems(stringfiedDirectFormats, checkedItem) { _, selected ->
                 nextFormat = directFormats[selected]
-                input.setText(PidStore.getPid(requireContext(), nextFormat).toString())
+                input.setText(SessionDataSource.getPid(requireContext(), nextFormat).toString())
             }
             .setPositiveButton("Save") { _, _ ->
                 val pidString = input.text.toString().takeIf { it.isNotBlank() }
                 val pid = pidString?.let { Integer.parseInt(it) } ?: nextFormat.toDefaultPid()
 
-                PidStore.setPid(requireContext(), pid, nextFormat)
+                SessionDataSource.setPid(requireContext(), pid, nextFormat)
                 showCurrentPid()
                 setCreativeSizeChecked(nextFormat)
             }
             .setNegativeButton("Cancel") { _, _ -> }
             .setNeutralButton("Set Default") { _, _ ->
-                PidStore.setPid(requireContext(), nextFormat.toDefaultPid(), nextFormat)
+                SessionDataSource.setPid(requireContext(), nextFormat.toDefaultPid(), nextFormat)
                 showCurrentPid()
                 setCreativeSizeChecked(nextFormat)
             }
@@ -311,23 +313,31 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setDirectIntegrationConstraints() {
-        customPid.visibility = if (PidStore.selectedProvider == ProviderType.DIRECT) {
+        customPid.visibility = if (SessionDataSource.selectedProvider == ProviderType.DIRECT) {
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
         when {
-            PidStore.selectedProvider != ProviderType.DIRECT && PidStore.selectedFormat == FormatType.INFEED -> {
+            SessionDataSource.selectedProvider != ProviderType.DIRECT && SessionDataSource.selectedFormat == FormatType.INFEED -> {
                 setIntegrationItems(nativeIntegrationList.filter { it.name != "ScrollView" })
             }
-            PidStore.selectedProvider == ProviderType.DIRECT && PidStore.selectedFormat == FormatType.INFEED -> {
+            SessionDataSource.selectedProvider == ProviderType.DIRECT && SessionDataSource.selectedFormat == FormatType.INFEED -> {
                 setIntegrationItems(nativeIntegrationList)
             }
         }
     }
 
+    private fun setMediationIntegrationConstraints() {
+        if (SessionDataSource.selectedProvider == ProviderType.SMART) {
+            containerCreativeSizes.visibility = View.GONE
+        } else {
+            containerCreativeSizes.visibility = View.VISIBLE
+        }
+    }
+
     private fun showCurrentPid() {
-        customPid.text = "Change PID: ${PidStore.getPid(requireContext(), PidStore.selectedFormat)}"
+        customPid.text = "Change PID: ${SessionDataSource.getPid(requireContext(), SessionDataSource.selectedFormat)}"
     }
 
     override fun onCheckedChanged(group: RadioGroup?, id: Int) {
@@ -339,7 +349,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 setCreativeSizePid(group, id)
             }
             R.id.container_provider -> {
-                PidStore.selectedProvider = when (id) {
+                SessionDataSource.selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     R.id.smartButton -> ProviderType.SMART
@@ -348,6 +358,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 }
 
                 setDirectIntegrationConstraints()
+                setMediationIntegrationConstraints()
             }
         }
     }

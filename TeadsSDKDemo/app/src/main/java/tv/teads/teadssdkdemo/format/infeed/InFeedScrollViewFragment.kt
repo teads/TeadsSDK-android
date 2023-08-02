@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_infeed_view_scrollview.*
 import tv.teads.sdk.*
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.data.PidStore.FAKE_GDPR_STR
+import tv.teads.teadssdkdemo.data.SessionDataSource.FAKE_GDPR_STR
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**

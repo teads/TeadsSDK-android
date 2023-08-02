@@ -5,7 +5,7 @@ import android.preference.PreferenceManager
 import tv.teads.teadssdkdemo.utils.toDefaultPid
 import tv.teads.teadssdkdemo.utils.toStoreKey
 
-object PidStore {
+object SessionDataSource {
     const val SHAREDPREF_INREAD_PID_KEY = "sp_inread_pid"
     const val SHAREDPREF_INFEED_PID_KEY = "sp_infeed_pid"
 
