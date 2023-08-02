@@ -8,20 +8,21 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_main.*
 import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
 import tv.teads.teadssdkdemo.data.PidStore
 import tv.teads.teadssdkdemo.data.ProviderType
-import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.inread.InReadGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
+import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.smart.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
@@ -42,11 +43,11 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private val inReadIntegrationList = listOf(
         IntegrationType("ScrollView", R.drawable.scrollview),
         IntegrationType("RecyclerView", R.drawable.tableview),
-        IntegrationType("RecyclerView Grid", R.drawable.collectionview),
         IntegrationType("WebView", R.drawable.webview)
     )
 
     private val nativeIntegrationList = listOf(
+        IntegrationType("ScrollView", R.drawable.scrollview),
         IntegrationType("RecyclerView", R.drawable.tableview),
         IntegrationType("RecyclerView Grid", R.drawable.collectionview),
     )
@@ -55,16 +56,16 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         return when (position) {
             0 -> InReadScrollViewFragment()
             1 -> InReadRecyclerViewFragment()
-            2 -> InReadGridRecyclerViewFragment()
-            3 -> InReadWebViewFragment()
+            2 -> InReadWebViewFragment()
             else -> InReadScrollViewFragment()
         }
     }
 
     private fun getFragmentNativeDirect(position: Int): BaseFragment {
         return when (position) {
-            0 -> InFeedRecyclerViewFragment()
-            1 -> InFeedGridRecyclerViewFragment()
+            0 -> InFeedScrollViewFragment()
+            1 -> InFeedRecyclerViewFragment()
+            2 -> InFeedGridRecyclerViewFragment()
             else -> throw IllegalStateException()
         }
     }
@@ -233,7 +234,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
         }
 
-        setPidButtonConstraints()
+        setDirectIntegrationConstraints()
     }
 
     private fun setCreativeSizePid(group: RadioGroup, id: Int) {
@@ -302,14 +303,20 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             .show()
     }
 
-    private fun setPidButtonConstraints() {
-        val status = if (PidStore.selectedProvider == ProviderType.DIRECT) {
+    private fun setDirectIntegrationConstraints() {
+        customPid.visibility = if (PidStore.selectedProvider == ProviderType.DIRECT) {
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
-
-        customPid.visibility = status
+        when {
+            PidStore.selectedProvider != ProviderType.DIRECT && PidStore.selectedFormat == FormatType.INFEED -> {
+                setIntegrationItems(nativeIntegrationList.filter { it.name != "ScrollView" })
+            }
+            PidStore.selectedProvider == ProviderType.DIRECT && PidStore.selectedFormat == FormatType.INFEED -> {
+                setIntegrationItems(nativeIntegrationList)
+            }
+        }
     }
 
     private fun showCurrentPid() {
@@ -325,18 +332,14 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 setCreativeSizePid(group, id)
             }
             R.id.container_provider -> {
-                containerCreativeSizes.visibility = View.VISIBLE
                 PidStore.selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
-                    R.id.smartButton -> {
-                        containerCreativeSizes.visibility = View.GONE
-                        ProviderType.SMART
-                    }
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     else -> ProviderType.ADMOB
                 }
 
-                setPidButtonConstraints()
+                setDirectIntegrationConstraints()
+                // todo set mediation constants
             }
         }
     }

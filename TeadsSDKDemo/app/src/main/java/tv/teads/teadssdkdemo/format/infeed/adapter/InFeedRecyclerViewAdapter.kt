@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_native_ad.view.*
 import tv.teads.sdk.*
-import tv.teads.sdk.renderer.AdScale
+import tv.teads.sdk.renderer.MediaScale
 import tv.teads.sdk.renderer.NativeAdView
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
+import tv.teads.teadssdkdemo.data.PidStore.FAKE_GDPR_STR
 import tv.teads.teadssdkdemo.data.RecyclerItemType
 
 /**
@@ -30,10 +32,11 @@ class InFeedRecyclerViewAdapter(
     private val adPlacement: NativeAdPlacement
 
     init {
-        // 1. Setup the settings
+        // 1. Setup the settings, don't use fake values on production
         val placementSettings = AdPlacementSettings
             .Builder()
-            .setAdScale(AdScale.CENTER_CROP)
+            .userConsent("1", FAKE_GDPR_STR, TCFVersion.V2, 7)
+            .setMediaScale(MediaScale.CENTER_CROP)
             .build()
 
         requestSettings = AdRequestSettings.Builder().build()
@@ -85,7 +88,7 @@ class InFeedRecyclerViewAdapter(
 
                 adPlacement.requestAd(requestSettings, object : NativeAdListener {
                     override fun onAdReceived(nativeAd: NativeAd) {
-                        nativeAdView.teads_native_media.adScale = AdScale.CENTER_INSIDE
+                        nativeAdView.teads_native_media.mediaScale = MediaScale.CENTER_INSIDE
                         nativeAdView.bind(nativeAd)
                     }
                 })
