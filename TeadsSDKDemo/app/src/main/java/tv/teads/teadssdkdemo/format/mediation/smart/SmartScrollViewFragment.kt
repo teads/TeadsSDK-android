@@ -14,7 +14,6 @@ import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 class SmartScrollViewFragment : BaseFragment() {
-    private val supplyChainObjectString: String = "" // "1.0,1!exchange1.com,1234,1,publisher,publisher.com";
     private val siteID = 385317L
     private val pageName = "1399205"
     private val formatID = 96445L
@@ -40,7 +39,7 @@ class SmartScrollViewFragment : BaseFragment() {
         val settings = TeadsMediationSettings.Builder()
             .build()
 
-        val bannerPlacement = SASAdPlacement(siteID, pageName, formatID, "teadsAdSettingsKey=${settings.toJsonEncoded()}", supplyChainObjectString)
+        val bannerPlacement = SASAdPlacement(siteID, pageName, formatID, "teadsAdSettingsKey=${settings.toJsonEncoded()}")
 
         smartAdView.loadAd(bannerPlacement)
 

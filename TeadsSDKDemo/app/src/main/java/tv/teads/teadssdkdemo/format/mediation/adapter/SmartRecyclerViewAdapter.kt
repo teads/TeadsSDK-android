@@ -13,9 +13,8 @@ import tv.teads.teadssdkdemo.data.RecyclerItemType
 /**
  * Simple RecyclerView adapter
  */
-class SmartRecyclerViewAdapter(context: Context?, title: String)
+class SmartRecyclerViewAdapter(context: Context, title: String)
     : GenericRecyclerViewAdapter(title) {
-    private val supplyChainObjectString: String = "" // "1.0,1!exchange1.com,1234,1,publisher,publisher.com";
     private val siteID = 385317L
     private val pageName = "1399205"
     private val formatID = 96445L
@@ -23,7 +22,7 @@ class SmartRecyclerViewAdapter(context: Context?, title: String)
     private val smartAdView: SASBannerView
 
     init {
-        smartAdView = SASBannerView(context!!)
+        smartAdView = SASBannerView(context)
 
         // First of all, configure the SDK
         SASConfiguration.getSharedInstance().configure(context, siteID.toInt())
@@ -34,7 +33,7 @@ class SmartRecyclerViewAdapter(context: Context?, title: String)
         val settings = TeadsMediationSettings.Builder()
             .build()
 
-        val bannerPlacement = SASAdPlacement(siteID, pageName, formatID, "teadsAdSettingsKey=${settings.toJsonEncoded()}", supplyChainObjectString)
+        val bannerPlacement = SASAdPlacement(siteID, pageName, formatID, "teadsAdSettingsKey=${settings.toJsonEncoded()}")
 
         smartAdView.loadAd(bannerPlacement)
     }

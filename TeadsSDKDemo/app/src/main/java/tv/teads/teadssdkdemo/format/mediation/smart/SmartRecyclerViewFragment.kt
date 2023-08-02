@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.mediation.adapter.AdMobRecyclerViewAdapter
 import tv.teads.teadssdkdemo.format.mediation.adapter.SmartRecyclerViewAdapter
-import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * Display inRead as Banner within a RecyclerView using AdMob Mediation.
+ * Display inRead as Banner within a RecyclerView using Smart Mediation.
  */
 class SmartRecyclerViewFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -28,10 +26,7 @@ class SmartRecyclerViewFragment : BaseFragment() {
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
-
-        val adUnit = AdMobIdentifier.getAdUnitFromPid(pid)
-
-        recyclerView.adapter = SmartRecyclerViewAdapter(context, getTitle())
+        recyclerView.adapter = SmartRecyclerViewAdapter(requireContext(), getTitle())
     }
 
     override fun getTitle(): String = "InRead Smart RecyclerView"

@@ -113,7 +113,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
         val extras = TeadsMediationSettings.Builder()
                 // Needed by european regulation
                 // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
-                .userConsent("1", "0001", TCFVersion.V1, 12)
+                .userConsent("1", "0001", TCFVersion.V2, 12)
                 .enableDebug()
                 // Add the helper in the adsettings
                 .setMediationListenerKey(key)

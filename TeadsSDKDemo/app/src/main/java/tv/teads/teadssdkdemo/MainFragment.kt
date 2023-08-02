@@ -108,8 +108,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         return when (position) {
             0 -> SmartScrollViewFragment()
             1 -> SmartRecyclerViewFragment()
-            2 -> SmartGridRecyclerViewFragment()
-            3 -> SmartWebViewFragment()
+            2 -> SmartWebViewFragment()
             else -> AdMobScrollViewFragment()
         }
     }
@@ -143,8 +142,8 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             containerCreativeSizes = this.findViewById(R.id.container_creative_size)
             integrationsRecyclerView = this.findViewById(R.id.integrations_recycler_view)
 
-            setIntegrationItems(inReadIntegrationList)
-            setCreativeSizeChecked(FormatType.INREAD)
+            initIntegrationItems()
+            setCreativeSizeChecked()
             setProviderSelected()
             showCurrentPid()
 
@@ -160,6 +159,14 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         integrationsRecyclerView.adapter = IntegrationItemAdapter(integratiosList) { position ->
             onIntegrationClicked(position)
         }
+    }
+
+    private fun initIntegrationItems() {
+        val integrationTypeList = when (PidStore.selectedFormat) {
+            FormatType.INREAD -> inReadIntegrationList
+            FormatType.INFEED -> nativeIntegrationList
+        }
+        setIntegrationItems(integrationTypeList)
     }
 
     private fun onIntegrationClicked(position: Int) {
@@ -214,11 +221,11 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             FormatType.INREAD -> {
                 setIntegrationItems(inReadIntegrationList)
                 containerCreativeSizes.visibility = View.VISIBLE
-
             }
             FormatType.INFEED -> {
                 setIntegrationItems(nativeIntegrationList)
                 containerCreativeSizes.visibility = View.GONE
+                setDirectIntegrationConstraints()
             }
         }
 
@@ -253,7 +260,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         }
     }
 
-    private fun setCreativeSizeChecked(formatType: FormatType) {
+    private fun setCreativeSizeChecked(formatType: FormatType? = null) {
         val pid = PidStore.getPid(requireContext(), formatType)
 
         val child =
@@ -335,11 +342,12 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                 PidStore.selectedProvider = when (id) {
                     R.id.directButton -> ProviderType.DIRECT
                     R.id.applovinButton -> ProviderType.APPLOVIN
-                    else -> ProviderType.ADMOB
+                    R.id.smartButton -> ProviderType.SMART
+                    R.id.admobButton -> ProviderType.ADMOB
+                    else -> throw IllegalStateException()
                 }
 
                 setDirectIntegrationConstraints()
-                // todo set mediation constants
             }
         }
     }
