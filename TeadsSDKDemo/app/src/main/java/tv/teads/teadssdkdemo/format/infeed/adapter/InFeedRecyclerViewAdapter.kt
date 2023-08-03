@@ -15,7 +15,7 @@ import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
-import tv.teads.teadssdkdemo.data.PidStore.FAKE_GDPR_STR
+import tv.teads.teadssdkdemo.data.SessionDataSource.FAKE_GDPR_STR
 import tv.teads.teadssdkdemo.data.RecyclerItemType
 
 /**

@@ -45,6 +45,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Libs.AndroidX.APPCOMPAT)
     implementation(Libs.AndroidX.CONSTRAINT_LAYOUT)
+    implementation(Libs.COROUTINES_CORE)
     implementation(Libs.AndroidX.CARDVIEW)
     implementation(Libs.AndroidX.WEBKIT)
     implementation(Libs.MATERIAL)
@@ -57,8 +58,13 @@ dependencies {
     // Teads Adapters
     implementation(Libs.Teads.admobAdapter(project.versionName))
     implementation(Libs.Teads.applovinAdapter(project.versionName))
+    implementation(Libs.Teads.smartAdapter(project.versionName))
 
     implementation(Libs.APPLOVIN_SDK)
+    implementation(Libs.SMART_CORE_SDK)
+    implementation(Libs.SMART_DISPLAY_SDK) {
+        isTransitive = true
+    }
 
     implementation(projects.webviewhelper)
 

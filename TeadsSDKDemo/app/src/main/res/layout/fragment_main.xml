@@ -100,6 +100,18 @@
                 android:textColor="@color/textColorNoBg" />
 
             <tv.teads.teadssdkdemo.component.TeadsRadioButton
+                android:id="@+id/smartButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/smart"
+                android:textColor="@color/textColorNoBg" />
+
+            <tv.teads.teadssdkdemo.component.TeadsRadioButton
                 android:id="@+id/applovinButton"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/main_radio_button_height"

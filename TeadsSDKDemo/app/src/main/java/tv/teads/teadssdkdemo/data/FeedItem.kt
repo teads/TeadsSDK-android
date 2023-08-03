@@ -73,6 +73,104 @@ data class FeedItem(
                 source = "@knight",
                 time = "18min",
                 image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
+            ),
+            FeedItem(
+                title = "'Why The Andy Warhol Diaries Recreated the Artist’s Voice With AI'",
+                body = "The filmmakers had under four minutes of audio to work with. And yes, they considered the ethical concerns.",
+                source = "@watercutter",
+                time = "17min",
+                image = R.drawable.feed_watercutter
+            ),
+            FeedItem(
+                title = "'After Yang Will Make You Grieve For a Robot'",
+                body = "The beautiful and strange new movie from South Korean filmmaker Kogonada presents a very different view of an AI-enhanced future.",
+                source = "@knight",
+                time = "18min",
+                image = R.drawable.feed_knigth
             )
         )
     }

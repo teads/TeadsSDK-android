@@ -1,17 +1,23 @@
 package tv.teads.teadssdkdemo.format.mediation.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.applovin.mediation.MaxAd
-import com.applovin.mediation.MaxError
-import com.applovin.mediation.nativeAds.*
+import com.smartadserver.android.library.model.SASAdPlacement
+import com.smartadserver.android.library.model.SASNativeAdElement
+import com.smartadserver.android.library.model.SASNativeAdManager
+import com.smartadserver.android.library.util.SASConfiguration.getSharedInstance
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import tv.teads.adapter.smart.nativead.TeadsSmartViewBinder
 import tv.teads.sdk.TeadsMediationSettings
+import tv.teads.sdk.renderer.AdScale
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
@@ -20,18 +26,27 @@ import tv.teads.teadssdkdemo.data.RecyclerItemType
 import tv.teads.teadssdkdemo.data.SessionDataSource
 
 /**
- * AppLovin Native RecyclerView adapter
+ * Smart Native RecyclerView adapter
  */
-class AppLovinNativeRecyclerViewAdapter(
+class SmartNativeRecyclerViewAdapter(
     private val context: Context?,
     title: String,
     private val isGrid: Boolean = false,
 ) : GenericRecyclerViewAdapter(title) {
 
-    private val nativeAdLoader: MaxNativeAdLoader = MaxNativeAdLoader("a416d5d67e65ddcd", context)
-    private val nativeAdMap = mutableMapOf<Int, MaxNativeAdView?>()
+    private val siteID = 385317
+    private val pageName = "1399205"
+    private val formatID = 102803
+
+    private val nativeAdMap = mutableMapOf<Int, SASNativeAdElement>()
+    private val nativeAdManager: SASNativeAdManager
 
     init {
+        getSharedInstance().configure(context!!, siteID)
+
+        // Enable output to Android Logcat (optional)
+        getSharedInstance().isLoggingEnabled = true
+
         val settingsEncoded = TeadsMediationSettings.Builder()
             .enableDebug()
             .setUsPrivacy("1YNN")
@@ -44,7 +59,9 @@ class AppLovinNativeRecyclerViewAdapter(
             .build()
             .toJsonEncoded()
 
-        nativeAdLoader.setLocalExtraParameter("teadsSettings", settingsEncoded)
+        val adPlacement =
+            SASAdPlacement(siteID.toLong(), pageName, formatID.toLong(), "teadsAdSettingsKey=${settingsEncoded}", "")
+        nativeAdManager = SASNativeAdManager(context!!, adPlacement)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -85,24 +102,24 @@ class AppLovinNativeRecyclerViewAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             RecyclerItemType.TYPE_NATIVE_AD.value -> {
-                val maxNativeAdView = nativeAdMap[holder.adapterPosition]
+                val sasNativeAdElement = nativeAdMap[holder.adapterPosition]
 
-                if (maxNativeAdView != null) appendAdToParent(maxNativeAdView, holder.itemView as ViewGroup)
+                if (sasNativeAdElement != null) appendAdToParent(sasNativeAdElement, holder.itemView as ViewGroup)
                 else {
-                    nativeAdLoader.setNativeAdListener(object : MaxNativeAdListener() {
-                        override fun onNativeAdLoaded(nativeAdView: MaxNativeAdView?, ad: MaxAd) {
-                            nativeAdMap[holder.adapterPosition] = nativeAdView
+                    nativeAdManager.nativeAdListener = object : SASNativeAdManager.NativeAdListener {
+                        override fun onNativeAdLoaded(ad: SASNativeAdElement) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                nativeAdMap[position] = ad
 
-                            appendAdToParent(nativeAdView, holder.itemView as ViewGroup)
+                                appendAdToParent(ad, holder.itemView as ViewGroup)
+                            }
                         }
 
-                        override fun onNativeAdLoadFailed(adUnitId: String, error: MaxError) {
-                            Log.e("onNativeAdLoadFailed", error.message)
+                        override fun onNativeAdFailedToLoad(e: Exception) {
+                            // the native ad loading failed
                         }
-
-                        override fun onNativeAdClicked(ad: MaxAd) {}
-                    })
-                    nativeAdLoader.loadAd(createNativeAdView())
+                    }
+                    nativeAdManager.loadNativeAd()
                 }
             }
             RecyclerItemType.TYPE_FAKE_FEED.value -> {
@@ -120,23 +137,22 @@ class AppLovinNativeRecyclerViewAdapter(
         }
     }
 
-    private fun appendAdToParent(adView: MaxNativeAdView?, parentView: ViewGroup) {
+    private fun appendAdToParent(ad: SASNativeAdElement, parentView: ViewGroup) {
         parentView.apply {
             removeAllViews()
-            addView(adView)
+            addView(createMediaView(ad, if (isGrid) R.layout.item_smart_native_ad_grid else R.layout.item_smart_native_ad))
         }
     }
 
-    private fun createNativeAdView(): MaxNativeAdView {
-        val binder: MaxNativeAdViewBinder = MaxNativeAdViewBinder
-            .Builder(if (isGrid) R.layout.item_applovin_native_ad_grid else R.layout.item_applovin_native_ad)
-            .setTitleTextViewId(R.id.ad_title)
-            .setBodyTextViewId(R.id.ad_body)
-            .setMediaContentViewGroupId(R.id.teads_mediaview)
-            .setOptionsContentViewGroupId(R.id.ad_options_view)
-            .build()
-        return MaxNativeAdView(binder, context)
-    }
+    private fun createMediaView(ad: SASNativeAdElement, layout: Int): View =
+        TeadsSmartViewBinder(context!!, layout, ad)
+            .title(R.id.ad_title)
+            .body(R.id.ad_body)
+            .iconImage(R.id.teads_icon)
+            .callToAction(R.id.teads_cta)
+            .mediaLayout(R.id.teads_mediaview)
+            .adChoice(R.id.ad_choice)
+            .bind()
 
     override fun getItemCount(): Int = feedItems.size + 1
 }

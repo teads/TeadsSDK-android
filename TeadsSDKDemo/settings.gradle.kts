@@ -18,6 +18,7 @@ dependencyResolutionManagement {
 
         //Huawei maven repository
         maven(url = "https://developer.huawei.com/repo/")
+        maven(url = "https://packagecloud.io/smartadserver/android/maven2")
     }
 }
 

@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
-import tv.teads.teadssdkdemo.data.PidStore
+import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
      *
      * @return an url
      */
-    fun getWebViewUrl(): String = PidStore.SHAREDPREF_WEBVIEW_DEFAULT
+    fun getWebViewUrl(): String = SessionDataSource.SHAREDPREF_WEBVIEW_DEFAULT
 
     fun changeFragment(frag: BaseFragment) {
         if ((supportFragmentManager.findFragmentById(R.id.fragment_container) as Fragment).javaClass == frag.javaClass) {

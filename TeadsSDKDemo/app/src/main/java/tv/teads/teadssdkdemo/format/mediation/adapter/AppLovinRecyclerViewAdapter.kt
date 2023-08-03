@@ -18,6 +18,7 @@ import tv.teads.sdk.mediation.TeadsHelper
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.RecyclerItemType
+import tv.teads.teadssdkdemo.data.SessionDataSource
 
 /**
  * Simple RecyclerView adapter
@@ -83,7 +84,7 @@ class AppLovinRecyclerViewAdapter(appLovinUnitId: String, context: Context?, tit
             .enableDebug()
             // Needed by european regulation
             // See https://mobile.teads.tv/sdk/documentation/android/gdpr-consent
-            .userConsent("1", "0001", TCFVersion.V1, 12)
+            .userConsent("1", SessionDataSource.FAKE_GDPR_STR, TCFVersion.V2, 12)
             // The article url if you are a news publisher to increase your earnings
             .pageSlotUrl("https://page.com/article1/")
             // /!\ You need to add the key to the settings
