@@ -92,7 +92,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
         with(binding.webview) {
             settings.javaScriptEnabled = true
-            webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
+            webViewClient = CustomInReadWebviewClient(webviewHelperSynch, title)
             loadUrl(this@AdMobWebViewFragment.webViewUrl)
         }
     }

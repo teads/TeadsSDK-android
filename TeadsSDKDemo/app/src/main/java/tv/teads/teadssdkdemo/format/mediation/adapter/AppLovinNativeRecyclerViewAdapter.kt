@@ -23,7 +23,7 @@ import tv.teads.teadssdkdemo.data.SessionDataSource
  * AppLovin Native RecyclerView adapter
  */
 class AppLovinNativeRecyclerViewAdapter(
-    private val context: Context?,
+    private val context: Context,
     title: String,
     private val isGrid: Boolean = false,
 ) : GenericRecyclerViewAdapter(title) {

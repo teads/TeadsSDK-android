@@ -33,7 +33,7 @@ class AdMobNativeGridRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
 
-        val adapter = AdMobNativeRecyclerViewAdapter(context, "", true)
+        val adapter = AdMobNativeRecyclerViewAdapter(requireContext(), "", true)
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

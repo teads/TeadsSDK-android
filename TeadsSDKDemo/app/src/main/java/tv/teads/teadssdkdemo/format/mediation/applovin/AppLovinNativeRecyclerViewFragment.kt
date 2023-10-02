@@ -31,7 +31,7 @@ class AppLovinNativeRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = AppLovinNativeRecyclerViewAdapter(context, getTitle())
+        val adapter = AppLovinNativeRecyclerViewAdapter(requireContext(), getTitle())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

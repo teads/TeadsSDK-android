@@ -28,7 +28,7 @@ class SmartNativeRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = SmartNativeRecyclerViewAdapter(context, getTitle())
+        val adapter = SmartNativeRecyclerViewAdapter(requireContext(), getTitle())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

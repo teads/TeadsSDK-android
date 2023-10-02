@@ -29,7 +29,7 @@ import tv.teads.teadssdkdemo.data.SessionDataSource
  * Smart Native RecyclerView adapter
  */
 class SmartNativeRecyclerViewAdapter(
-    private val context: Context?,
+    private val context: Context,
     title: String,
     private val isGrid: Boolean = false,
 ) : GenericRecyclerViewAdapter(title) {
@@ -42,7 +42,7 @@ class SmartNativeRecyclerViewAdapter(
     private val nativeAdManager: SASNativeAdManager
 
     init {
-        getSharedInstance().configure(context!!, siteID)
+        getSharedInstance().configure(context, siteID)
 
         // Enable output to Android Logcat (optional)
         getSharedInstance().isLoggingEnabled = true
@@ -61,7 +61,7 @@ class SmartNativeRecyclerViewAdapter(
 
         val adPlacement =
             SASAdPlacement(siteID.toLong(), pageName, formatID.toLong(), "teadsAdSettingsKey=${settingsEncoded}", "")
-        nativeAdManager = SASNativeAdManager(context!!, adPlacement)
+        nativeAdManager = SASNativeAdManager(context, adPlacement)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -145,7 +145,7 @@ class SmartNativeRecyclerViewAdapter(
     }
 
     private fun createMediaView(ad: SASNativeAdElement, layout: Int): View =
-        TeadsSmartViewBinder(context!!, layout, ad)
+        TeadsSmartViewBinder(context, layout, ad)
             .title(R.id.ad_title)
             .body(R.id.ad_body)
             .iconImage(R.id.teads_icon)

@@ -22,7 +22,7 @@ import tv.teads.teadssdkdemo.data.RecyclerItemType
  * Native RecyclerView adapter
  */
 class InFeedRecyclerViewAdapter(
-    private val context: Context?,
+    private val context: Context,
     pid: Int,
     title: String,
     private val isGrid: Boolean = false,
@@ -42,7 +42,7 @@ class InFeedRecyclerViewAdapter(
         requestSettings = AdRequestSettings.Builder().build()
 
         // 2. Create the NativeAdPlacement
-        adPlacement = TeadsSDK.createNativePlacement(context!!, pid, placementSettings)
+        adPlacement = TeadsSDK.createNativePlacement(context, pid, placementSettings)
     }
 
     override fun getItemViewType(position: Int): Int {

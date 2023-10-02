@@ -10,7 +10,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">shortEdges</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">default</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
