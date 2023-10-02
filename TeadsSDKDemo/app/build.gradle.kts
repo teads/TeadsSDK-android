@@ -61,6 +61,7 @@ dependencies {
     implementation(Libs.Teads.admobAdapter(project.versionName))
     implementation(Libs.Teads.applovinAdapter(project.versionName))
     implementation(Libs.Teads.smartAdapter(project.versionName))
+    implementation(Libs.Teads.prebidAdapter(project.versionName))
 
     implementation(Libs.PLAY_SERVICES_ADS)
     implementation(Libs.APPLOVIN_SDK)
@@ -68,6 +69,7 @@ dependencies {
     implementation(Libs.SMART_DISPLAY_SDK) {
         isTransitive = true
     }
+    implementation(Libs.PREBID_SDK)
 
     implementation(projects.webviewhelper)
 
