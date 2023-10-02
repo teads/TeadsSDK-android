@@ -34,7 +34,7 @@ class InFeedRecyclerViewFragment : BaseFragment() {
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = InFeedRecyclerViewAdapter(context, pid, getTitle())
+        adapter = InFeedRecyclerViewAdapter(requireContext(), pid, getTitle())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }
