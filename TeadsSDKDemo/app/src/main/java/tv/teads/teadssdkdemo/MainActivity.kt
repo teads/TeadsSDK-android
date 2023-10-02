@@ -10,27 +10,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_main.*
 import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.databinding.ActivityMainBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
-
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     var isWebViewDarkTheme: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
         setDefaultDayNightTheme(applicationContext.resources.configuration)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-
-        toolbar.title = ""
-        setSupportActionBar(toolbar)
+        with(binding.toolbar) {
+            title = ""
+            setSupportActionBar(this)
+        }
         setToolBar(true)
 
         if (savedInstanceState == null) {
@@ -73,14 +75,14 @@ class MainActivity : AppCompatActivity() {
 
         when (isMainFragment) {
             true -> {
-                toolbar_logo.setImageResource(R.drawable.teads_demo)
-                status_bar_view.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
-                toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
+                binding.toolbarLogo.setImageResource(R.drawable.teads_demo)
+                binding.statusBarView.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
+                binding.toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
             }
             else -> {
-                toolbar_logo.setImageResource(R.drawable.teads_demo_white)
-                status_bar_view.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
-                toolbar.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
+                binding.toolbarLogo.setImageResource(R.drawable.teads_demo_white)
+                binding.statusBarView.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
+                binding.toolbar.background = ContextCompat.getDrawable(this, R.drawable.gradient_teads)
             }
         }
     }
@@ -148,9 +150,9 @@ class MainActivity : AppCompatActivity() {
                 val displayCutout = windowInsets.displayCutout
                 if (displayCutout != null) {
                     val safeInsetTop = displayCutout.safeInsetTop
-                    val newLayoutParams = toolbar.layoutParams as ViewGroup.MarginLayoutParams
+                    val newLayoutParams = binding.toolbar.layoutParams as ViewGroup.MarginLayoutParams
                     newLayoutParams.setMargins(0, safeInsetTop, 0, 0)
-                    toolbar.layoutParams = newLayoutParams
+                    binding.toolbar.layoutParams = newLayoutParams
                 }
             }
         }

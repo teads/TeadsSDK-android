@@ -7,9 +7,9 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_native_ad.view.*
 import tv.teads.sdk.*
 import tv.teads.sdk.renderer.MediaScale
+import tv.teads.sdk.renderer.MediaView
 import tv.teads.sdk.renderer.NativeAdView
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
@@ -88,7 +88,7 @@ class InFeedRecyclerViewAdapter(
 
                 adPlacement.requestAd(requestSettings, object : NativeAdListener {
                     override fun onAdReceived(nativeAd: NativeAd) {
-                        nativeAdView.teads_native_media.mediaScale = MediaScale.CENTER_INSIDE
+                        nativeAdView.findViewById<MediaView>(R.id.teads_native_media).mediaScale = MediaScale.CENTER_INSIDE
                         nativeAdView.bind(nativeAd)
                     }
                 })

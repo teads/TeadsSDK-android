@@ -11,16 +11,14 @@ import androidx.webkit.WebViewFeature
 import com.smartadserver.android.library.model.SASAdPlacement
 import com.smartadserver.android.library.ui.SASBannerView
 import com.smartadserver.android.library.util.SASConfiguration
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
-import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.sdk.*
 import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
-import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.databinding.FragmentInreadWebviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncAdWebView
 
@@ -28,6 +26,8 @@ import tv.teads.webviewhelper.SyncAdWebView
  * InRead format within a WebView
  */
 class SmartWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
+    private lateinit var binding: FragmentInreadWebviewBinding
+
     private val siteID = 385317L
     private val pageName = "1399205"
     private val formatID = 96445L
@@ -41,9 +41,9 @@ class SmartWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_webview, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentInreadWebviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
 
@@ -53,7 +53,7 @@ class SmartWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
         adView = SASBannerView(requireContext())
 
-        webviewHelperSynch = SyncAdWebView(requireContext(), webview, this@SmartWebViewFragment, "#teads-placement-slot")
+        webviewHelperSynch = SyncAdWebView(requireContext(), binding.webview, this@SmartWebViewFragment, "#teads-placement-slot")
 
         SASConfiguration.getSharedInstance().configure(requireContext(), siteID.toInt())
         SASConfiguration.getSharedInstance().isLoggingEnabled = true
@@ -84,11 +84,14 @@ class SmartWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
         if ((activity as MainActivity).isWebViewDarkTheme
                 && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+            WebSettingsCompat.setForceDark(binding.webview.settings, WebSettingsCompat.FORCE_DARK_ON)
         }
-        webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
-        webview.loadUrl(this.webViewUrl)
+
+        with(binding.webview) {
+            settings.javaScriptEnabled = true
+            webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
+            loadUrl(this@SmartWebViewFragment.webViewUrl)
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

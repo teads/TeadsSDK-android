@@ -10,15 +10,14 @@ import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.applovin.mediation.MaxAdFormat
 import com.applovin.mediation.ads.MaxAdView
-import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.sdk.*
 import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
-import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.databinding.FragmentInreadWebviewBinding
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncAdWebView
@@ -27,6 +26,7 @@ import tv.teads.webviewhelper.SyncAdWebView
  * InRead format within a WebView
  */
 class AppLovinWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
+    private lateinit var binding: FragmentInreadWebviewBinding
 
     private lateinit var adView: MaxAdView
     private lateinit var mListener: TeadsAdapterListener
@@ -36,9 +36,9 @@ class AppLovinWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
      * Ad view listener
      *//////////////////////////////////////////////////////////////////////////////////////////////////
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_webview, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentInreadWebviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
 
@@ -48,7 +48,7 @@ class AppLovinWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
         TeadsHelper.initialize()
 
         // 2. Create WebViewHelper
-        webviewHelperSynch = SyncAdWebView(requireContext(), webview, this@AppLovinWebViewFragment, "#teads-placement-slot")
+        webviewHelperSynch = SyncAdWebView(requireContext(), binding.webview, this@AppLovinWebViewFragment, "#teads-placement-slot")
 
         // 3. Create MaxAdView view
         adView = MaxAdView(AppLovinIdentifier.getAdUnitFromPid(pid), MaxAdFormat.MREC, context)
@@ -81,11 +81,14 @@ class AppLovinWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
         if ((activity as MainActivity).isWebViewDarkTheme
             && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)
         ) {
-            WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+            WebSettingsCompat.setForceDark(binding.webview.settings, WebSettingsCompat.FORCE_DARK_ON)
         }
-        webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
-        webview.loadUrl(this.webViewUrl)
+
+        with(binding.webview) {
+            settings.javaScriptEnabled = true
+            webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
+            loadUrl(this@AppLovinWebViewFragment.webViewUrl)
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

@@ -6,7 +6,6 @@ import tv.teads.versionName
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -39,6 +38,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -59,6 +62,7 @@ dependencies {
     implementation(Libs.Teads.admobAdapter(project.versionName))
     implementation(Libs.Teads.applovinAdapter(project.versionName))
     implementation(Libs.Teads.smartAdapter(project.versionName))
+    implementation(Libs.Teads.prebidAdapter(project.versionName))
 
     implementation(Libs.APPLOVIN_SDK)
     implementation(Libs.SMART_CORE_SDK)

@@ -20,6 +20,7 @@ object Libs {
         fun admobAdapter(version: String) = "tv.teads.sdk.android:admobadapter:$version@aar"
         fun applovinAdapter(version: String) = "tv.teads.sdk.android:applovinadapter:$version@aar"
         fun smartAdapter(version: String) = "tv.teads.sdk.android:smartadapter:$version@aar"
+        fun prebidAdapter(version: String) = "tv.teads.sdk.android:prebidadapter:$version@aar"
     }
 
     object AndroidX {

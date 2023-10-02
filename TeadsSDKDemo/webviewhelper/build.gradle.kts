@@ -5,7 +5,6 @@ import tv.teads.versionName
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -20,6 +19,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
+
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -31,6 +31,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 

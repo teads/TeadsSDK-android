@@ -5,18 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.article_header_row.*
-import kotlinx.android.synthetic.main.fragment_infeed_view_scrollview.*
+import android.widget.TextView
 import tv.teads.sdk.*
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.SessionDataSource.FAKE_GDPR_STR
+import tv.teads.teadssdkdemo.databinding.FragmentInfeedViewScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
  * InFeed format within a ScrollView
  */
 class InFeedScrollViewFragment : BaseFragment() {
+    private lateinit var binding: FragmentInfeedViewScrollviewBinding
 
     private var nativeAd: NativeAd? = null
 
@@ -24,14 +25,15 @@ class InFeedScrollViewFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_infeed_view_scrollview, container, false)
+    ): View {
+        binding = FragmentInfeedViewScrollviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        integration_header.text = getTitle()
+        view.findViewById<TextView>(R.id.integration_header).text = getTitle()
 
         // 1. Setup the settings, don't use fake values on production
         val placementSettings = AdPlacementSettings.Builder()
@@ -51,8 +53,8 @@ class InFeedScrollViewFragment : BaseFragment() {
                 object : NativeAdListener {
                     override fun onAdReceived(nativeAd: NativeAd) {
                         this@InFeedScrollViewFragment.nativeAd = nativeAd
-                        nativeAdView.visibility = View.VISIBLE
-                        nativeAdView.bind(nativeAd)
+                        binding.nativeAdView.visibility = View.VISIBLE
+                        binding.nativeAdView.bind(nativeAd)
                     }
 
                     override fun onAdClicked() {

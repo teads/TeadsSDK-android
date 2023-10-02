@@ -11,7 +11,6 @@ import com.applovin.mediation.MaxAdFormat
 import com.applovin.mediation.MaxAdViewAdListener
 import com.applovin.mediation.MaxError
 import com.applovin.mediation.ads.MaxAdView
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings
@@ -20,6 +19,7 @@ import tv.teads.sdk.mediation.TeadsHelper
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
@@ -27,24 +27,23 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
  * Display inRead as Banner within a ScrollView using AppLovin Mediation.
  */
 class AppLovinScrollViewFragment : BaseFragment() {
+    private lateinit var binding: FragmentInreadScrollviewBinding
     private lateinit var mListener: TeadsAdapterListener
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
-
-        v.findViewById<TextView>(R.id.integration_header).text = getTitle()
-
-        return v
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentInreadScrollviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.findViewById<TextView>(R.id.integration_header).text = getTitle()
+
         // 1. Initialize Teads Helper (Don't forget to initialize AppLovin aswell see SplashScreen)
         TeadsHelper.initialize()
 
         // 2. Create MaxAdView view and add it to view hierarchy
         val adView = MaxAdView(AppLovinIdentifier.getAdUnitFromPid(pid), MaxAdFormat.MREC, context)
-        adSlotView.addView(adView, 0)
+        binding.adSlotView.addView(adView, 0)
 
         // 3. Attach listener (will include Teads events)
         adView.setListener(object : MaxAdViewAdListener {
@@ -65,7 +64,7 @@ class AppLovinScrollViewFragment : BaseFragment() {
             override fun onAdClicked(ad: MaxAd?) {}
         })
 
-        /* 3. Create a TeadsBannerAdapterListener
+        /* 4. Create a TeadsBannerAdapterListener
         You need to create an instance for each instance of MaxAdView view
         it needs to be a strong reference to it, so our helper can cleanup when you don't need it anymore
          */
@@ -80,15 +79,15 @@ class AppLovinScrollViewFragment : BaseFragment() {
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                adSlotView.addView(trackerView)
+                binding.adSlotView.addView(trackerView)
             }
 
         }
 
-        // 4. Attach the listener to the helper and save the key
+        // 5. Attach the listener to the helper and save the key
         val key = TeadsHelper.attachListener(mListener)
 
-        // 5. Create the AdSettings to customize our Teads AdView
+        // 6. Create the AdSettings to customize our Teads AdView
         val settingsEncoded = TeadsMediationSettings.Builder()
             .enableDebug()
             // Needed by european regulation
@@ -101,11 +100,11 @@ class AppLovinScrollViewFragment : BaseFragment() {
             .build()
             .toJsonEncoded()
 
-        // 6. Add the settings encoded to the adView using this key
+        // 7. Add the settings encoded to the adView using this key
         adView.setLocalExtraParameter("teadsSettings", settingsEncoded)
 
 
-        // 7. Load the ad after the AppLovin sdk initialized
+        // 8. Load the ad after the AppLovin sdk initialized
         adView.loadAd()
     }
 
