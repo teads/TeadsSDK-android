@@ -41,15 +41,30 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             RecyclerItemType.TYPE_TEADS.value -> {
-                val adView = holder.itemView as FrameLayout
+                val adViewContainer = holder.itemView as FrameLayout
+                var inReadAdView: InReadAdView? = null
+
                 // 3. Request the ad and register to the listener in it
                 adPlacement.requestAd(requestSettings, object : InReadAdViewListener {
                     override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                        adView.addView(trackerView)
+                        adViewContainer.addView(trackerView)
                     }
 
                     override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
-                        adView.addView(ad, 0)
+                        val layoutParams = ad.layoutParams
+                        adViewContainer.addView(ad, 0)
+                        layoutParams.height = adRatio.calculateHeight(adViewContainer.measuredWidth)
+                        adViewContainer.layoutParams = layoutParams
+
+                        inReadAdView = ad
+                    }
+
+                    override fun onAdRatioUpdate(adRatio: AdRatio) {
+                        inReadAdView?.let { inReadAdView ->
+                            val layoutParams = inReadAdView.layoutParams
+                            layoutParams.height = adRatio.calculateHeight(adViewContainer.measuredWidth)
+                            adViewContainer.layoutParams = layoutParams
+                        }
                     }
 
                     override fun onAdClicked() {}
@@ -58,9 +73,7 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
                     override fun onAdImpression() {}
                     override fun onAdExpandedToFullscreen() {}
                     override fun onAdCollapsedFromFullscreen() {}
-                    override fun onAdRatioUpdate(adRatio: AdRatio) {}
-
-                    override fun onFailToReceiveAd(failReason: String) {}
+                    override fun onFailToReceiveAd(failReason: String) { }
                 })
             }
             else -> super.onBindViewHolder(holder, position)

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.databinding.FragmentRecyclerviewBinding
 import tv.teads.teadssdkdemo.format.mediation.adapter.AppLovinNativeRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.MarginItemDecoration
@@ -17,20 +17,21 @@ import tv.teads.teadssdkdemo.utils.MarginItemDecoration
  *
  */
 class AppLovinNativeRecyclerViewFragment : BaseFragment() {
+    private lateinit var binding: FragmentRecyclerviewBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentRecyclerviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setRecyclerViewAdapter(recyclerView)
+        setRecyclerViewAdapter(binding.recyclerView)
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val adapter = AppLovinNativeRecyclerViewAdapter(context, getTitle())
+        val adapter = AppLovinNativeRecyclerViewAdapter(requireContext(), getTitle())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

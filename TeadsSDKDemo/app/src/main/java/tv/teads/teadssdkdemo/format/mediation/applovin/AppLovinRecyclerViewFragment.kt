@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_recyclerview.*
-import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.databinding.FragmentRecyclerviewBinding
 import tv.teads.teadssdkdemo.format.mediation.adapter.AppLovinRecyclerViewAdapter
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
@@ -16,13 +15,15 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
  * Display inRead as Banner within a RecyclerView using AdMob Mediation.
  */
 class AppLovinRecyclerViewFragment : BaseFragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
+    private lateinit var binding: FragmentRecyclerviewBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentRecyclerviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setRecyclerViewAdapter(recyclerView)
+        setRecyclerViewAdapter(binding.recyclerView)
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {

@@ -6,33 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.utils.MarginItemDecoration
+import tv.teads.teadssdkdemo.databinding.FragmentRecyclerviewBinding
 import tv.teads.teadssdkdemo.format.infeed.adapter.InFeedRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
+import tv.teads.teadssdkdemo.utils.MarginItemDecoration
 
 /**
  * Native format within a RecyclerView
  *
  */
 class InFeedRecyclerViewFragment : BaseFragment() {
+    private lateinit var binding: FragmentRecyclerviewBinding
 
     private lateinit var adapter: InFeedRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
+                              savedInstanceState: Bundle?): View {
+        binding = FragmentRecyclerviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setRecyclerViewAdapter(recyclerView)
+        setRecyclerViewAdapter(binding.recyclerView)
     }
 
     private fun setRecyclerViewAdapter(recyclerView: RecyclerView) {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = InFeedRecyclerViewAdapter(context, pid, getTitle())
+        adapter = InFeedRecyclerViewAdapter(requireContext(), pid, getTitle())
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.item_margin)))
     }

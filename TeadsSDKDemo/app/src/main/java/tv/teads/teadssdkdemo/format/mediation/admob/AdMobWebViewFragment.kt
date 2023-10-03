@@ -12,32 +12,28 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
-import kotlinx.android.synthetic.main.fragment_inread_webview.*
 import tv.teads.adapter.admob.TeadsAdapter
 import tv.teads.sdk.*
 import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
-import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.MainActivity
-import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.databinding.FragmentInreadWebviewBinding
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.webviewhelper.SyncAdWebView
-import kotlin.math.roundToInt
 
 /**
  * InRead format within a WebView
  */
 class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
+    private lateinit var binding: FragmentInreadWebviewBinding
 
     private lateinit var adView: AdView
     private lateinit var mListener: TeadsAdapterListener
     private lateinit var webviewHelperSynch: SyncAdWebView
-    private lateinit var adPlacement: InReadAdPlacement
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////////
      * Ad view listener
@@ -45,7 +41,8 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_inread_webview, container, false)
+        binding = FragmentInreadWebviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
 
@@ -56,7 +53,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
         TeadsHelper.initialize()
 
         // 2. Create WebViewHelper
-        webviewHelperSynch = SyncAdWebView(requireContext(), webview, this@AdMobWebViewFragment, "#teads-placement-slot")
+        webviewHelperSynch = SyncAdWebView(requireContext(), binding.webview, this@AdMobWebViewFragment, "#teads-placement-slot")
 
         // 3. Create AdMob view, setup and register it
         adView = AdView(requireContext())
@@ -90,11 +87,14 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
         if ((activity as MainActivity).isWebViewDarkTheme
                 && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            WebSettingsCompat.setForceDark(webview.settings, WebSettingsCompat.FORCE_DARK_ON)
+            WebSettingsCompat.setForceDark(binding.webview.settings, WebSettingsCompat.FORCE_DARK_ON)
         }
-        webview.settings.javaScriptEnabled = true
-        webview.webViewClient = CustomInReadWebviewClient(webviewHelperSynch, getTitle())
-        webview.loadUrl(this.webViewUrl)
+
+        with(binding.webview) {
+            settings.javaScriptEnabled = true
+            webViewClient = CustomInReadWebviewClient(webviewHelperSynch, title)
+            loadUrl(this@AdMobWebViewFragment.webViewUrl)
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

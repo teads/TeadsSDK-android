@@ -6,7 +6,6 @@ import tv.teads.versionName
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -39,6 +38,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -49,7 +52,6 @@ dependencies {
     implementation(Libs.AndroidX.CARDVIEW)
     implementation(Libs.AndroidX.WEBKIT)
     implementation(Libs.MATERIAL)
-    implementation(Libs.PLAY_SERVICES_ADS)
 
     // Teads SDK
     implementation(Libs.Teads.sdk(project.versionName)) {
@@ -60,6 +62,7 @@ dependencies {
     implementation(Libs.Teads.applovinAdapter(project.versionName))
     implementation(Libs.Teads.smartAdapter(project.versionName))
 
+    implementation(Libs.PLAY_SERVICES_ADS)
     implementation(Libs.APPLOVIN_SDK)
     implementation(Libs.SMART_CORE_SDK)
     implementation(Libs.SMART_DISPLAY_SDK) {

@@ -8,21 +8,21 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_main.*
 import tv.teads.teadssdkdemo.adapter.IntegrationItemAdapter
 import tv.teads.teadssdkdemo.data.FormatType
 import tv.teads.teadssdkdemo.data.IntegrationType
-import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.data.ProviderType
+import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.databinding.FragmentMainBinding
+import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
+import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
-import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.mediation.smart.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
@@ -33,7 +33,8 @@ import tv.teads.teadssdkdemo.utils.toDefaultPid
  */
 class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
-    private lateinit var mainView: View
+    private lateinit var binding: FragmentMainBinding
+
     private lateinit var customPid: Button
     private lateinit var containerCreativeSizes: View
     private lateinit var radioGroupCreativeSizes: RadioGroup
@@ -131,29 +132,30 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        mainView = inflater.inflate(R.layout.fragment_main, container, false)
+        binding = FragmentMainBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
-        mainView.apply {
-            customPid = this.findViewById(R.id.customButton)
-            customPid.setOnClickListener { changePidDialog() }
-            val containerFormat: RadioGroup = this.findViewById(R.id.container_format)
-            radioGroupProvider = this.findViewById(R.id.container_provider)
-            radioGroupCreativeSizes = this.findViewById(R.id.radiogroup_creative_size)
-            containerCreativeSizes = this.findViewById(R.id.container_creative_size)
-            integrationsRecyclerView = this.findViewById(R.id.integrations_recycler_view)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-            initIntegrationItems()
-            setCreativeSizeChecked()
-            setProviderSelected()
-            showCurrentPid()
-            setMediationIntegrationConstraints()
+        customPid = binding.customButton
+        customPid.setOnClickListener { changePidDialog() }
+        val containerFormat: RadioGroup = binding.containerFormat
+        radioGroupProvider = binding.containerProvider
+        radioGroupCreativeSizes = binding.radiogroupCreativeSize
+        containerCreativeSizes = binding.containerCreativeSize
+        integrationsRecyclerView = binding.integrationsRecyclerView
 
-            containerFormat.setOnCheckedChangeListener(this@MainFragment)
-            radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
-            radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
-        }
+        initIntegrationItems()
+        setCreativeSizeChecked()
+        setProviderSelected()
+        showCurrentPid()
+        setMediationIntegrationConstraints()
 
-        return mainView
+        containerFormat.setOnCheckedChangeListener(this@MainFragment)
+        radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
+        radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
     }
 
     private fun setIntegrationItems(integratiosList: List<IntegrationType>) {

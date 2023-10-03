@@ -28,14 +28,14 @@ import tv.teads.teadssdkdemo.data.RecyclerItemType
  * Native RecyclerView adapter
  */
 class AdMobNativeRecyclerViewAdapter(
-    private val context: Context?,
+    private val context: Context,
     title: String,
     private val isGrid: Boolean = false,
 ) : GenericRecyclerViewAdapter(title) {
 
     init {
         TeadsHelper.initialize()
-        MobileAds.initialize(context!!)
+        MobileAds.initialize(context)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -76,7 +76,7 @@ class AdMobNativeRecyclerViewAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             RecyclerItemType.TYPE_NATIVE_AD.value -> {
-                val adLoader = AdLoader.Builder(context!!, ADMOB_TEADS_TEST_ID)
+                val adLoader = AdLoader.Builder(context, ADMOB_TEADS_TEST_ID)
                     .forNativeAd { ad: NativeAd ->
                         with(holder.itemView as NativeAdView) {
                             mediaView = findViewById(R.id.ad_mob_media)

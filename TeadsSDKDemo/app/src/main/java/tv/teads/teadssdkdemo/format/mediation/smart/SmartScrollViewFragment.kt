@@ -8,26 +8,26 @@ import android.widget.TextView
 import com.smartadserver.android.library.model.SASAdPlacement
 import com.smartadserver.android.library.ui.SASBannerView
 import com.smartadserver.android.library.util.SASConfiguration
-import kotlinx.android.synthetic.main.fragment_inread_scrollview.*
 import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 class SmartScrollViewFragment : BaseFragment() {
+    private lateinit var binding: FragmentInreadScrollviewBinding
+
     private val siteID = 385317L
     private val pageName = "1399205"
     private val formatID = 96445L
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_inread_scrollview, container, false)
-
-        v.findViewById<TextView>(R.id.integration_header).text = getTitle()
-
-        return v
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentInreadScrollviewBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.findViewById<TextView>(R.id.integration_header).text = getTitle()
+
         val smartAdView = SASBannerView(requireContext())
 
         // First of all, configure the SDK
@@ -43,7 +43,7 @@ class SmartScrollViewFragment : BaseFragment() {
 
         smartAdView.loadAd(bannerPlacement)
 
-        adSlotView.addView(smartAdView)
+        binding.adSlotView.addView(smartAdView)
     }
 
     override fun getTitle(): String = "InRead Smart ScrollView"
