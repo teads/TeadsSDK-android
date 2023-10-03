@@ -29,10 +29,6 @@ import tv.teads.teadssdkdemo.format.mediation.smart.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
 
-
-/**
- * Empty fragment helping opening the navigation drawer
- */
 class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private lateinit var binding: FragmentMainBinding
@@ -59,6 +55,36 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         IntegrationType("BidResponseLoading", R.drawable.scrollview),
         IntegrationType("PluginRenderer", R.drawable.scrollview)
     )
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentMainBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        customPid = binding.customButton
+        customPid.setOnClickListener { changePidDialog() }
+        val containerFormat: RadioGroup = binding.containerFormat
+        radioGroupProvider = binding.containerProvider
+        radioGroupCreativeSizes = binding.radiogroupCreativeSize
+        containerCreativeSizes = binding.containerCreativeSize
+        integrationsRecyclerView = binding.integrationsRecyclerView
+
+        setIntegrationList()
+        setCreativeSizeChecked()
+        setProviderSelected()
+        showCurrentPid()
+        setMediationIntegrationConstraints()
+
+        containerFormat.setOnCheckedChangeListener(this@MainFragment)
+        radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
+        radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
+    }
 
     private fun getFragmentInReadDirect(position: Int): BaseFragment {
         return when (position) {
@@ -143,36 +169,6 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     override fun getTitle(): String {
         return ""
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMainBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        customPid = binding.customButton
-        customPid.setOnClickListener { changePidDialog() }
-        val containerFormat: RadioGroup = binding.containerFormat
-        radioGroupProvider = binding.containerProvider
-        radioGroupCreativeSizes = binding.radiogroupCreativeSize
-        containerCreativeSizes = binding.containerCreativeSize
-        integrationsRecyclerView = binding.integrationsRecyclerView
-
-        setIntegrationList()
-        setCreativeSizeChecked()
-        setProviderSelected()
-        showCurrentPid()
-        setMediationIntegrationConstraints()
-
-        containerFormat.setOnCheckedChangeListener(this@MainFragment)
-        radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
-        radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
     }
 
     private fun setIntegrationItems(integratiosList: List<IntegrationType>) {
