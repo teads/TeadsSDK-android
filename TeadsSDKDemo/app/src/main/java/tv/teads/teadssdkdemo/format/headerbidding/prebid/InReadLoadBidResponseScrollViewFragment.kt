@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.inread
+package tv.teads.teadssdkdemo.format.headerbidding.prebid
 
 import android.os.Bundle
 import android.util.Log
@@ -20,9 +20,9 @@ import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * InRead format within a ScrollView
+ * New loadAd entry point + InRead format within a ScrollView
  */
-class InternalLoadBidResponseScrollViewFragment : BaseFragment() {
+class InReadLoadBidResponseScrollViewFragment : BaseFragment() {
     private lateinit var binding: FragmentInreadScrollviewBinding
     private lateinit var adPlacement: PrebidAdPlacement
     private var inReadAdView: InReadAdView? = null

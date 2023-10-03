@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.inread
+package tv.teads.teadssdkdemo.format.headerbidding.prebid
 
 import android.os.Bundle
 import android.util.Log
@@ -22,9 +22,9 @@ import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * InRead format within a ScrollView
+ * PluginRenderer + inRead format within a ScrollView
  */
-class InternalPrebidScrollViewFragment : BaseFragment(), TeadsPBMEventListener {
+class InReadPluginRendererScrollViewFragment : BaseFragment(), TeadsPBMEventListener {
     private lateinit var binding: FragmentInreadScrollviewBinding
     private var inReadAdView: InReadAdView? = null
     private val adUnitConfiguration = AdUnitConfiguration()

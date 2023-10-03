@@ -84,5 +84,6 @@
     <string name="landscape">Landscape</string>
     <string name="custom">Change PID</string>
     <string name="smart">Smart</string>
+    <string name="prebid">Prebid</string>
 
 </resources>
