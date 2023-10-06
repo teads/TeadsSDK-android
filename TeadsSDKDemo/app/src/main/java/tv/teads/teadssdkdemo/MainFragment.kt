@@ -20,7 +20,7 @@ import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
-import tv.teads.teadssdkdemo.format.headerbidding.prebid.InReadLoadBidResponseScrollViewFragment
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.CustomPrebidIntegrationScrollViewFragment
 import tv.teads.teadssdkdemo.format.headerbidding.prebid.InReadPluginRendererScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
@@ -52,7 +52,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     )
 
     private val prebidInReadIntegrationList = listOf(
-        IntegrationType("BidResponseLoading", R.drawable.scrollview),
+        IntegrationType("CustomPrebid", R.drawable.scrollview),
         IntegrationType("PluginRenderer", R.drawable.scrollview)
     )
 
@@ -91,7 +91,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             0 -> InReadScrollViewFragment()
             1 -> InReadRecyclerViewFragment()
             2 -> InReadWebViewFragment()
-            3 -> InReadLoadBidResponseScrollViewFragment()
+            3 -> CustomPrebidIntegrationScrollViewFragment()
             4 -> InReadPluginRendererScrollViewFragment()
             else -> InReadScrollViewFragment()
         }
@@ -151,7 +151,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentInReadPrebid(position: Int): BaseFragment {
         return when (position) {
-            0 -> InReadLoadBidResponseScrollViewFragment()
+            0 -> CustomPrebidIntegrationScrollViewFragment()
             1 -> InReadPluginRendererScrollViewFragment()
             else -> throw IllegalStateException()
         }

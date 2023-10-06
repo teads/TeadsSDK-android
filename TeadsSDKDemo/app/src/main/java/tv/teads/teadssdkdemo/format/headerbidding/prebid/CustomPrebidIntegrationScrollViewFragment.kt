@@ -23,7 +23,7 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
 /**
  * New loadAd entry point + InRead format within a ScrollView
  */
-class InReadLoadBidResponseScrollViewFragment : BaseFragment() {
+class CustomPrebidIntegrationScrollViewFragment : BaseFragment() {
     private lateinit var binding: FragmentInreadScrollviewBinding
     private lateinit var adPlacement: PrebidAdPlacement
     private var inReadAdView: InReadAdView? = null
