@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import tv.teads.adapter.prebid.TeadsPBMStandaloneIntegration
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.sdk.AdPlacementSettings
 import tv.teads.sdk.AdRatio
@@ -44,14 +45,23 @@ class InReadLoadBidResponseScrollViewFragment : BaseFragment() {
             .enableDebug()
             .build()
 
-        // 2. Create the adPlacement
-        adPlacement = TeadsSDK.createPrebidPlacement(requireActivity(), placementSettings)
-
-        // 3. Request the ad and listen its events
         val requestSettings = AdRequestSettings.Builder()
             .pageSlotUrl("http://teads.com")
             .build()
 
+        // 2. Create the adPlacement
+        adPlacement = TeadsSDK.createPrebidPlacement(requireActivity(), placementSettings)
+
+        // *. Get the additional parameters and embed it in your bid request
+        TeadsPBMStandaloneIntegration.getPrebidRequestData(
+            prebidAdPlacement =  adPlacement,
+            adRequestSettings = requestSettings
+        ) { result ->
+            Log.d("getPrebidRequestData", "${result.getOrNull()}")
+        }
+
+
+        // 3. Load the ad
         adPlacement.loadAd(
             FAKE_WINNING_BID_RESPONSE,
             requestSettings,
