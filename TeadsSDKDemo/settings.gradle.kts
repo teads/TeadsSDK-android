@@ -13,7 +13,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(url = "https://teads.jfrog.io/artifactory/SDKAndroid-maven-earlyAccess")
-        maven(url = "https://teads.jfrog.io/artifactory/SDKAndroid-maven-preProd")
         maven(url = "https://teads.jfrog.io/artifactory/SDKAndroid-maven-prod")
         maven(url = "https://maven.google.com")
         maven(url = "https://s3.amazonaws.com/moat-sdk-builds")

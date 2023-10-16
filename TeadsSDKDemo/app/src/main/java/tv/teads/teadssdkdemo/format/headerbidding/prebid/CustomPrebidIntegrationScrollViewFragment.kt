@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import tv.teads.adapter.prebid.TeadsPBMStandaloneIntegration
 import tv.teads.sdk.AdOpportunityTrackerView
+import tv.teads.sdk.AdPlacementExtraKey
 import tv.teads.sdk.AdPlacementSettings
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.AdRequestSettings
@@ -45,16 +45,17 @@ class CustomPrebidIntegrationScrollViewFragment : BaseFragment() {
             .enableDebug()
             .build()
 
+        // *. Add the extra key STANDALONE_PREBID_INTEGRATION to enable your custom integration
         val requestSettings = AdRequestSettings.Builder()
             .pageSlotUrl("http://teads.com")
+            .addExtra(AdPlacementExtraKey.STANDALONE_PREBID_INTEGRATION, "1")
             .build()
 
         // 2. Create the adPlacement
         adPlacement = TeadsSDK.createPrebidPlacement(requireActivity(), placementSettings)
 
         // *. Get the additional parameters and embed it in your bid request
-        TeadsPBMStandaloneIntegration.getPrebidRequestData(
-            prebidAdPlacement =  adPlacement,
+        adPlacement.getPrebidRequestData(
             adRequestSettings = requestSettings
         ) { result ->
             Log.d("getPrebidRequestData", "${result.getOrNull()}")
