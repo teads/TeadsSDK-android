@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import org.prebid.mobile.api.exceptions.AdException
+import org.prebid.mobile.api.rendering.pluginrenderer.PrebidMobilePluginRegister
 import org.prebid.mobile.configuration.AdUnitConfiguration
 import org.prebid.mobile.rendering.bidding.data.bid.BidResponse
 import org.prebid.mobile.rendering.bidding.listeners.DisplayVideoListener
@@ -81,6 +82,10 @@ class InReadPluginRendererScrollViewFragment : BaseFragment(), TeadsPBMEventList
             inReadAdView = it
             binding.adSlotView.addView(inReadAdView)
         }
+
+        // todo dummy prebid sdk usage
+        PrebidMobilePluginRegister.getInstance().registerPlugin(teadsPBMPluginRenderer)
+        PrebidMobilePluginRegister.getInstance().registerEventListener(this, adUnitConfiguration.fingerprint)
     }
 
     override fun onAdRatioUpdate(adRatio: AdRatio) {
