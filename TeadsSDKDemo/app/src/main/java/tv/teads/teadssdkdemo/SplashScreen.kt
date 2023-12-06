@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.applovin.sdk.AppLovinSdk
+import org.prebid.mobile.PrebidMobile
 
 
 class SplashScreen : AppCompatActivity() {
@@ -13,6 +14,7 @@ class SplashScreen : AppCompatActivity() {
 
         AppLovinSdk.getInstance(this).mediationProvider = "max"
         AppLovinSdk.getInstance(this).initializeSdk {}
+        PrebidMobile.initializeSdk(this) {}
 
         val mainIntent = Intent(this@SplashScreen, MainActivity::class.java)
         this@SplashScreen.startActivity(mainIntent)

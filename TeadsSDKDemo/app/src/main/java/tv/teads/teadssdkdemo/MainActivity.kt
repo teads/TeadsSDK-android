@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import org.prebid.mobile.Host
+import org.prebid.mobile.PrebidMobile
 import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.databinding.ActivityMainBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
@@ -35,6 +37,11 @@ class MainActivity : AppCompatActivity() {
         }
         setToolBar(true)
 
+        PrebidMobile.setPrebidServerHost(
+            Host.createCustomHost(
+                "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
+            )
+        )
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
             val fragment = MainFragment()
