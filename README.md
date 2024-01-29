@@ -3,8 +3,7 @@
 Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads from Teads SSP ad server. This sample app includes the Teads Android Library and is showing integration examples.
 
 ## Requirements
-* Android compile SDK version to 28 or higher
-* Android gradle plugin version to v3.2.1 or higher
+* Android compile SDK version version 33 or higher
 * AndroidX support ([Migrate to AndroidX](https://developer.android.com/jetpack/androidx/migrate))
 
 ## Run the sample app and discover how we integrate our SDK
