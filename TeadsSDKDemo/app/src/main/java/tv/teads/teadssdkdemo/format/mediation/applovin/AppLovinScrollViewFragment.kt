@@ -103,8 +103,12 @@ class AppLovinScrollViewFragment : BaseFragment() {
         // 7. Add the settings encoded to the adView using this key
         adView.setLocalExtraParameter("teadsSettings", settingsEncoded)
 
+        // 8. Disable ad auto refresh, if you don't disable it, use it carefully since
+        // if you receive ads that are not displayed too often it will reduce your fill rate
+        adView.setExtraParameter( "allow_pause_auto_refresh_immediately", "true" )
+        adView.stopAutoRefresh()
 
-        // 8. Load the ad after the AppLovin sdk initialized
+        // 9. Load the ad after the AppLovin sdk initialized
         adView.loadAd()
     }
 
