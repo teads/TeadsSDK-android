@@ -357,7 +357,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setMediationIntegrationConstraints() {
-        val limitedProviders = listOf(ProviderType.SMART)
+        val limitedProviders = listOf(ProviderType.SMART, ProviderType.PREBID)
         if (limitedProviders.contains(SessionDataSource.selectedProvider)) {
             containerCreativeSizes.visibility = View.GONE
         } else {

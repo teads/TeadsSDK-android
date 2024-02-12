@@ -15,7 +15,7 @@ object Libs {
     const val SMART_CORE_SDK = "com.smartadserver.android:smart-core-sdk:$smartVersion@aar"
     const val SMART_DISPLAY_SDK = "com.smartadserver.android:smart-display-sdk:$smartVersion@aar"
 
-    const val PREBID_SDK = "org.prebid:prebid-mobile-sdk:2.1.5"
+    const val PREBID_SDK = "org.prebid:prebid-mobile-sdk:2.2.0"
 
     object Teads {
         fun sdk(version: String) = "tv.teads.sdk.android:sdk:$version@aar"

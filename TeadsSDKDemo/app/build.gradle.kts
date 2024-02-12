@@ -54,14 +54,14 @@ dependencies {
     implementation(Libs.MATERIAL)
 
     // Teads SDK
-    implementation(Libs.Teads.sdk("5.1.1-test-helperr")) {
+    implementation(Libs.Teads.sdk(project.versionName)) {
         isTransitive = true
     }
     // Teads Adapters
     implementation(Libs.Teads.admobAdapter(project.versionName))
     implementation(Libs.Teads.applovinAdapter(project.versionName))
     implementation(Libs.Teads.smartAdapter(project.versionName))
-    implementation(Libs.Teads.prebidAdapter("5.1.1-test-helperr"))
+    implementation(Libs.Teads.prebidAdapter(project.versionName))
 
     implementation(Libs.PLAY_SERVICES_ADS)
     implementation(Libs.APPLOVIN_SDK)
