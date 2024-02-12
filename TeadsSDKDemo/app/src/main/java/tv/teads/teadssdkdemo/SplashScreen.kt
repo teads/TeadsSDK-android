@@ -17,7 +17,7 @@ class SplashScreen : AppCompatActivity() {
         AppLovinSdk.getInstance(this).initializeSdk {}
 
         PrebidMobile.initializeSdk(this) {}
-        PrebidMobile.setPrebidServerHost(Host.createCustomHost(FAKE_PREBID_TEST_SERVER))
+        PrebidMobile.setPrebidServerHost(Host.createCustomHost(FAKE_TEADS_PREBID_TEST_SERVER))
 
         val mainIntent = Intent(this@SplashScreen, MainActivity::class.java)
         this@SplashScreen.startActivity(mainIntent)
@@ -26,6 +26,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     companion object {
-        private const val FAKE_PREBID_TEST_SERVER = "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
+        private const val FAKE_TEADS_PREBID_TEST_SERVER =
+            "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
     }
 }

@@ -20,8 +20,8 @@ import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
-import tv.teads.teadssdkdemo.format.headerbidding.prebid.InReadLoadBidResponseScrollViewFragment
-import tv.teads.teadssdkdemo.format.headerbidding.prebid.InReadPluginRendererScrollViewFragment
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.StandaloneIntegrationScrollViewFragment
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.PluginRendererScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
@@ -52,8 +52,8 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     )
 
     private val prebidInReadIntegrationList = listOf(
-        IntegrationType("BidResponseLoading", R.drawable.scrollview),
-        IntegrationType("PluginRenderer", R.drawable.scrollview)
+        IntegrationType("Standalone Integration", R.drawable.scrollview),
+        IntegrationType("Plugin Renderer", R.drawable.scrollview)
     )
 
     override fun onCreateView(
@@ -91,8 +91,8 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             0 -> InReadScrollViewFragment()
             1 -> InReadRecyclerViewFragment()
             2 -> InReadWebViewFragment()
-            3 -> InReadLoadBidResponseScrollViewFragment()
-            4 -> InReadPluginRendererScrollViewFragment()
+            3 -> StandaloneIntegrationScrollViewFragment()
+            4 -> PluginRendererScrollViewFragment()
             else -> InReadScrollViewFragment()
         }
     }
@@ -151,8 +151,8 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentInReadPrebid(position: Int): BaseFragment {
         return when (position) {
-            0 -> InReadLoadBidResponseScrollViewFragment()
-            1 -> InReadPluginRendererScrollViewFragment()
+            0 -> StandaloneIntegrationScrollViewFragment()
+            1 -> PluginRendererScrollViewFragment()
             else -> throw IllegalStateException()
         }
     }

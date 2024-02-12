@@ -20,9 +20,10 @@ import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * New loadAd entry point + InRead format within a ScrollView
+ * Standalone integration where a loadAd entry point receives a bid response in order to
+ * render a InRead format within a ScrollView
  */
-class InReadLoadBidResponseScrollViewFragment : BaseFragment() {
+class StandaloneIntegrationScrollViewFragment : BaseFragment() {
     private lateinit var binding: FragmentInreadScrollviewBinding
     private lateinit var adPlacement: PrebidAdPlacement
     private var inReadAdView: InReadAdView? = null
@@ -47,7 +48,7 @@ class InReadLoadBidResponseScrollViewFragment : BaseFragment() {
         // 2. Create the adPlacement
         adPlacement = TeadsSDK.createPrebidPlacement(requireActivity(), placementSettings)
 
-        // 3. Request the ad and listen its events
+        // 3. Load the ad and listen its events
         val requestSettings = AdRequestSettings.Builder()
             .pageSlotUrl("http://teads.com")
             .build()
@@ -107,7 +108,7 @@ class InReadLoadBidResponseScrollViewFragment : BaseFragment() {
         inReadAdView?.clean()
     }
 
-    override fun getTitle(): String = "Prebid loading API ScrollView"
+    override fun getTitle(): String = "Standalone Integration"
 
     companion object {
         val FAKE_ADM_CONTENT = "{\\\"ads\\\":[{\\\"settings\\\":{\\\"values\\\":{\\\"animations\\\":{\\\"expand\\\":0,\\\"collapse\\\":0.5},\\\"placementId\\\":84242,\\\"adType\\\":\\\"video\\\",\\\"placementFormat\\\":\\\"inread\\\",\\\"allowedPlayer\\\":\\\"any\\\",\\\"threshold\\\":50,\\\"pageId\\\":77781},\\\"components\\\":{\\\"closeButton\\\":{\\\"display\\\":false,\\\"countdown\\\":0},\\\"label\\\":{\\\"display\\\":true,\\\"text\\\":\\\"\\\"},\\\"credits\\\":{\\\"display\\\":false},\\\"soundButton\\\":{\\\"display\\\":true,\\\"countdown\\\":0,\\\"type\\\":\\\"equalizer\\\"},\\\"slider\\\":{\\\"closeButtonDisplay\\\":false}},\\\"behaviors\\\":{\\\"smartPosition\\\":{\\\"top\\\":false,\\\"corner\\\":false,\\\"mustBypassWhitelist\\\":true},\\\"slider\\\":{\\\"enable\\\":false},\\\"playerClick\\\":\\\"fullscreen\\\",\\\"soundStart\\\":{\\\"type\\\":\\\"mute\\\"},\\\"soundMute\\\":\\\"threshold\\\",\\\"soundOver\\\":\\\"over\\\",\\\"launch\\\":\\\"auto\\\",\\\"videoStart\\\":\\\"threshold\\\",\\\"videoPause\\\":\\\"threshold\\\",\\\"secure\\\":false,\\\"friendly\\\":false}},\\\"type\\\":\\\"VastXml\\\",\\\"content\\\":\\\"<VAST version=\\\\\\\"3.0\\\\\\\"><Ad id=\\\\\\\"590162\\\\\\\"><Wrapper><AdSystem>TeadsTechnology</AdSystem><VASTAdTagURI><![CDATA[https://s8t.teads.tv/vast/5766402401632256]]></VASTAdTagURI><Error><![CDATA[https://t.teads.tv/track?action=error-vast&code=[ERRORCODE]&pid=84242&vid=b1aefcc416eb3116e70d52e5ac0618abcf6645f4&pfid=1&mediaFileType=[MEDIAFILETYPE]&auctid=a9995fbe-1cb5-4e1a-858f-266903d7d772&sid=460794&scid=18603&ad_source_id=200&dsp_campaign_id=590162&dsp_creative_id=625187&env=sdk-inapp&p=0r6xhthLFKRsJGsJVuuWLOYhyLJnsPDlD8m-NbKCujYAWg&cts=1694097262390&1694097262390]]></Error><Creatives></Creatives></Wrapper></Ad></VAST>\\\",\\\"connection_id\\\":460794,\\\"scenario_id\\\":18603,\\\"dsp_campaign_id\\\":\\\"590162\\\",\\\"ad_source_id\\\":200,\\\"dsp_creative_id\\\":\\\"625187\\\",\\\"insertion_id\\\":590162,\\\"placement_id\\\":84242,\\\"portfolio_item_id\\\":1,\\\"early_click_protection_duration\\\":0,\\\"exclusiveAdOnScreen\\\":false}],\\\"wigoEnabled\\\":false,\\\"placementMetadata\\\":{\\\"84242\\\":{\\\"auctionId\\\":\\\"a9995fbe-1cb5-4e1a-858f-266903d7d772\\\"}},\\\"viewerId\\\":\\\"b1aefcc416eb3116e70d52e5ac0618abcf6645f4\\\"}"

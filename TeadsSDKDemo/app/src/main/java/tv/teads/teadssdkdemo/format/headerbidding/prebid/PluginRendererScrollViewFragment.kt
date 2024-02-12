@@ -26,7 +26,7 @@ import tv.teads.teadssdkdemo.utils.BaseFragment
 /**
  * PluginRenderer + inRead format within a ScrollView
  */
-class InReadPluginRendererScrollViewFragment : BaseFragment() {
+class PluginRendererScrollViewFragment : BaseFragment() {
     private lateinit var binding: FragmentInreadScrollviewBinding
 
     private lateinit var teadsPluginRenderer: TeadsPBMPluginRenderer
