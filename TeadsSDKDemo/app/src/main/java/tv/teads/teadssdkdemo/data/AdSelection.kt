@@ -9,7 +9,8 @@ enum class ProviderType(val value: Int) {
     DIRECT(0),
     ADMOB(1),
     SMART(2),
-    APPLOVIN(3)
+    APPLOVIN(3),
+    PREBID(4)
 }
 
 enum class RecyclerItemType(val value: Int) {

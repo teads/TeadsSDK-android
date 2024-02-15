@@ -20,6 +20,8 @@ import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.StandaloneIntegrationScrollViewFragment
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.PluginRendererScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
@@ -27,10 +29,6 @@ import tv.teads.teadssdkdemo.format.mediation.smart.*
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.toDefaultPid
 
-
-/**
- * Empty fragment helping opening the navigation drawer
- */
 class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private lateinit var binding: FragmentMainBinding
@@ -44,7 +42,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private val inReadIntegrationList = listOf(
         IntegrationType("ScrollView", R.drawable.scrollview),
         IntegrationType("RecyclerView", R.drawable.tableview),
-        IntegrationType("WebView", R.drawable.webview)
+        IntegrationType("WebView", R.drawable.webview),
     )
 
     private val nativeIntegrationList = listOf(
@@ -53,11 +51,48 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         IntegrationType("RecyclerView Grid", R.drawable.collectionview),
     )
 
+    private val prebidInReadIntegrationList = listOf(
+        IntegrationType("Standalone Integration", R.drawable.scrollview),
+        IntegrationType("Plugin Renderer", R.drawable.scrollview)
+    )
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentMainBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        customPid = binding.customButton
+        customPid.setOnClickListener { changePidDialog() }
+        val containerFormat: RadioGroup = binding.containerFormat
+        radioGroupProvider = binding.containerProvider
+        radioGroupCreativeSizes = binding.radiogroupCreativeSize
+        containerCreativeSizes = binding.containerCreativeSize
+        integrationsRecyclerView = binding.integrationsRecyclerView
+
+        setIntegrationList()
+        setCreativeSizeChecked()
+        setProviderSelected()
+        showCurrentPid()
+        setMediationIntegrationConstraints()
+
+        containerFormat.setOnCheckedChangeListener(this@MainFragment)
+        radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
+        radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
+    }
+
     private fun getFragmentInReadDirect(position: Int): BaseFragment {
         return when (position) {
             0 -> InReadScrollViewFragment()
             1 -> InReadRecyclerViewFragment()
             2 -> InReadWebViewFragment()
+            3 -> StandaloneIntegrationScrollViewFragment()
+            4 -> PluginRendererScrollViewFragment()
             else -> InReadScrollViewFragment()
         }
     }
@@ -101,7 +136,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             1 -> AdMobRecyclerViewFragment()
             2 -> AdMobGridRecyclerViewFragment()
             3 -> AdMobWebViewFragment()
-            else -> AdMobScrollViewFragment()
+            else -> throw IllegalStateException()
         }
     }
 
@@ -110,7 +145,15 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             0 -> SmartScrollViewFragment()
             1 -> SmartRecyclerViewFragment()
             2 -> SmartWebViewFragment()
-            else -> AdMobScrollViewFragment()
+            else -> throw IllegalStateException()
+        }
+    }
+
+    private fun getFragmentInReadPrebid(position: Int): BaseFragment {
+        return when (position) {
+            0 -> StandaloneIntegrationScrollViewFragment()
+            1 -> PluginRendererScrollViewFragment()
+            else -> throw IllegalStateException()
         }
     }
 
@@ -128,47 +171,24 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         return ""
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMainBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        customPid = binding.customButton
-        customPid.setOnClickListener { changePidDialog() }
-        val containerFormat: RadioGroup = binding.containerFormat
-        radioGroupProvider = binding.containerProvider
-        radioGroupCreativeSizes = binding.radiogroupCreativeSize
-        containerCreativeSizes = binding.containerCreativeSize
-        integrationsRecyclerView = binding.integrationsRecyclerView
-
-        initIntegrationItems()
-        setCreativeSizeChecked()
-        setProviderSelected()
-        showCurrentPid()
-        setMediationIntegrationConstraints()
-
-        containerFormat.setOnCheckedChangeListener(this@MainFragment)
-        radioGroupProvider.setOnCheckedChangeListener(this@MainFragment)
-        radioGroupCreativeSizes.setOnCheckedChangeListener(this@MainFragment)
-    }
-
     private fun setIntegrationItems(integratiosList: List<IntegrationType>) {
         integrationsRecyclerView.adapter = IntegrationItemAdapter(integratiosList) { position ->
             onIntegrationClicked(position)
         }
     }
 
-    private fun initIntegrationItems() {
-        val integrationTypeList = when (SessionDataSource.selectedFormat) {
-            FormatType.INREAD -> inReadIntegrationList
-            FormatType.INFEED -> nativeIntegrationList
+    private fun setIntegrationList() {
+        val format = SessionDataSource.selectedFormat
+        val provider = SessionDataSource.selectedProvider
+
+        val integrationTypeList = when {
+            format == FormatType.INREAD && provider == ProviderType.PREBID -> prebidInReadIntegrationList
+            format == FormatType.INFEED && provider == ProviderType.PREBID -> emptyList()
+            format == FormatType.INREAD -> inReadIntegrationList
+            format == FormatType.INFEED -> nativeIntegrationList
+            else -> emptyList()
         }
+
         setIntegrationItems(integrationTypeList)
     }
 
@@ -193,6 +213,9 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.APPLOVIN -> {
                 (activity as MainActivity).changeFragment(getFragmentInReadAppLovin(position))
             }
+            ProviderType.PREBID -> {
+                (activity as MainActivity).changeFragment(getFragmentInReadPrebid(position))
+            }
         }
     }
 
@@ -210,6 +233,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.APPLOVIN -> {
                 (activity as MainActivity).changeFragment(getFragmentAppLovinNative(position))
             }
+            else -> {}
         }
     }
 
@@ -234,6 +258,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         showCurrentPid()
         setDirectIntegrationConstraints()
         setMediationIntegrationConstraints()
+        setIntegrationList()
     }
 
 
@@ -243,6 +268,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
             ProviderType.ADMOB -> radioGroupProvider.check(R.id.admobButton)
             ProviderType.SMART -> radioGroupProvider.check(R.id.smartButton)
             ProviderType.APPLOVIN -> radioGroupProvider.check(R.id.applovinButton)
+            ProviderType.PREBID -> radioGroupProvider.check(R.id.prebidButton)
         }
 
         setDirectIntegrationConstraints()
@@ -331,7 +357,8 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setMediationIntegrationConstraints() {
-        if (SessionDataSource.selectedProvider == ProviderType.SMART) {
+        val limitedProviders = listOf(ProviderType.SMART, ProviderType.PREBID)
+        if (limitedProviders.contains(SessionDataSource.selectedProvider)) {
             containerCreativeSizes.visibility = View.GONE
         } else {
             containerCreativeSizes.visibility = View.VISIBLE
@@ -356,11 +383,13 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
                     R.id.applovinButton -> ProviderType.APPLOVIN
                     R.id.smartButton -> ProviderType.SMART
                     R.id.admobButton -> ProviderType.ADMOB
+                    R.id.prebidButton -> ProviderType.PREBID
                     else -> throw IllegalStateException()
                 }
 
                 setDirectIntegrationConstraints()
                 setMediationIntegrationConstraints()
+                setIntegrationList()
             }
         }
     }

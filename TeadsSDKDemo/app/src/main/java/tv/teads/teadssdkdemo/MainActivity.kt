@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
         setToolBar(true)
 
+
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
             val fragment = MainFragment()
