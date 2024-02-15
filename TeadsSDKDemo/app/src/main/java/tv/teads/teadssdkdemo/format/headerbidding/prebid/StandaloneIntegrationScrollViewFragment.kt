@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import tv.teads.sdk.AdOpportunityTrackerView
+import tv.teads.sdk.AdPlacementExtraKey
 import tv.teads.sdk.AdPlacementSettings
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.AdRequestSettings
@@ -52,6 +53,8 @@ class StandaloneIntegrationScrollViewFragment : BaseFragment() {
         val requestSettings = AdRequestSettings.Builder()
             // Ensure to inform your url for brand safety matters
             .pageSlotUrl("http://teads.com")
+            // Add this extra to enable your standalone integration
+            .addExtra(AdPlacementExtraKey.STANDALONE_PREBID_INTEGRATION, "1")
             .build()
 
         adPlacement.loadAd(
