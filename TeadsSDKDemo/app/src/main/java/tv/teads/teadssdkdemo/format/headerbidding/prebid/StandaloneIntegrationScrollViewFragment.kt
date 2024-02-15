@@ -50,6 +50,7 @@ class StandaloneIntegrationScrollViewFragment : BaseFragment() {
 
         // 3. Load the ad and listen its events
         val requestSettings = AdRequestSettings.Builder()
+            // Ensure to inform your url for brand safety matters
             .pageSlotUrl("http://teads.com")
             .build()
 
