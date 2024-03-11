@@ -63,7 +63,7 @@ class PluginRendererScrollViewFragment : BaseFragment() {
         )
 
         // 5. Add for brand safety purposes the article URL or you domain URL when article is not applied
-        TargetingParams.addExtData("pageUrl", "http://teads.com")
+        TargetingParams.addExtData("contextUrl", "http://teads.com")
 
         // 6 . Listen TeadsPBMEventListener events and manage onAdRatioUpdate to have your view correctly displayed
         bannerView?.setPluginEventListener(object : TeadsPBMEventListener{
