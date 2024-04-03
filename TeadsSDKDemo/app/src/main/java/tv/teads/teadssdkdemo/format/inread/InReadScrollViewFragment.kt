@@ -15,7 +15,9 @@ import tv.teads.sdk.InReadAdViewListener
 import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.VideoPlaybackListener
 import tv.teads.sdk.renderer.InReadAdView
+import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
@@ -42,6 +44,7 @@ class InReadScrollViewFragment : BaseFragment() {
         // 1. Setup the settings
         val placementSettings = AdPlacementSettings.Builder()
                 .enableDebug()
+                .userConsent("1", SessionDataSource.FAKE_GDPR_STR, TCFVersion.V2, 7)
                 .build()
 
         // 2. Create the InReadAdPlacement
