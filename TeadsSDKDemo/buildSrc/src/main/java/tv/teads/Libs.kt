@@ -6,7 +6,7 @@ object Libs {
     const val APPLOVIN_SDK = "com.applovin:applovin-sdk:11.3.0"
 
     const val MATERIAL = "com.google.android.material:material:1.4.0"
-    const val PLAY_SERVICES_ADS = "com.google.android.gms:play-services-ads:20.2.0"
+    const val PLAY_SERVICES_ADS = "com.google.android.gms:play-services-ads:23.0.0"
 
     const val HUAWEI_IDENTIFIER = "com.huawei.hms:ads-identifier:3.4.28.313"
 

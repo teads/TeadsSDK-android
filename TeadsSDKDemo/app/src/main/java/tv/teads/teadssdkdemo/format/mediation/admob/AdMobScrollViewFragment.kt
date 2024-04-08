@@ -43,7 +43,7 @@ class AdMobScrollViewFragment : BaseFragment() {
         // 2. Create AdMob view, setup and add it to view hierarchy
         val adView = AdView(view.context)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
-        adView.adSize = AdSize.MEDIUM_RECTANGLE
+        adView.setAdSize(AdSize.MEDIUM_RECTANGLE)
         binding.adSlotView.addView(adView, 0)
 
         // 3. Attach listener (will include Teads events)

@@ -33,7 +33,7 @@ class AdMobRecyclerViewAdapter(admobBannerId: String, context: Context?, title: 
 
         // 2. Setup the AdMob view
         adView.adUnitId = admobBannerId
-        adView.adSize = AdSize.MEDIUM_RECTANGLE
+        adView.setAdSize(AdSize.MEDIUM_RECTANGLE)
 
         // 3. Subsribe to the listener if needed
         adView.adListener = object : AdListener() {

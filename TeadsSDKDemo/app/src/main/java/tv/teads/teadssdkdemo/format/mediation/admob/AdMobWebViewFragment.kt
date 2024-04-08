@@ -60,7 +60,7 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
 
         webviewHelperSynch.registerAdView(adView)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
-        adView.adSize = AdSize.MEDIUM_RECTANGLE
+        adView.setAdSize(AdSize.MEDIUM_RECTANGLE)
 
         // 4. Create the TeadsAdapterListener
         mListener = object : TeadsAdapterListener {
