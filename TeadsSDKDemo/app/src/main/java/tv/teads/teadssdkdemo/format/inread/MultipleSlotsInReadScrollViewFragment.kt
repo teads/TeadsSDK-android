@@ -41,6 +41,8 @@ class MultipleSlotsInReadScrollViewFragment : BaseFragment() {
 
         view.findViewById<TextView>(R.id.integration_header).text = getTitle()
 
+        binding.closeOverlay.setOnClickListener { binding.overlay.visibility = View.GONE }
+
         // 1. Setup the settings
         val placementSettings = AdPlacementSettings.Builder()
                 .enableDebug()

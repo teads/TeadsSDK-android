@@ -182,4 +182,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <FrameLayout
+        android:id="@+id/overlay"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="#19000000"
+        android:layout_height="300dp">
+        <TextView
+            android:id="@+id/close_overlay"
+            android:text="X Close X"
+            android:textStyle="italic|bold"
+            android:padding="10dp"
+            android:layout_gravity="top|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
