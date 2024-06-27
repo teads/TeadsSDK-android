@@ -44,6 +44,7 @@
             <FrameLayout
                 android:tag="adSlotViewDynamicSize"
                 android:id="@+id/adSlotViewDynamicSize"
+                android:background="#000"
                 app:layout_constraintTop_toBottomOf="@id/header_1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,6 +75,7 @@
             <FrameLayout
                 android:tag="adSlotView300x50"
                 android:id="@+id/adSlotView300x50"
+                android:background="#000"
                 app:layout_constraintTop_toBottomOf="@id/header_2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -104,6 +106,7 @@
             <FrameLayout
                 android:tag="adSlotView300x80"
                 android:id="@+id/adSlotView300x80"
+                android:background="#000"
                 app:layout_constraintTop_toBottomOf="@id/header_3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -134,6 +137,7 @@
             <FrameLayout
                 android:tag="adSlotView300x150"
                 android:id="@+id/adSlotView300x150"
+                android:background="#000"
                 app:layout_constraintTop_toBottomOf="@id/header_4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -164,6 +168,7 @@
             <FrameLayout
                 android:tag="adSlotView300x250"
                 android:id="@+id/adSlotView300x250"
+                android:background="#000"
                 app:layout_constraintTop_toBottomOf="@id/header_5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
