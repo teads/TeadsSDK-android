@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollViewDemoVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/header_row"
+                layout="@layout/article_header_row"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/article_fake_lines_1"
+                layout="@layout/article_fake_lines"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/header_row"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/header_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="match_parent x wrap_content"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/article_fake_lines_1" />
+
+            <FrameLayout
+                android:tag="adSlotViewDynamicSize"
+                android:id="@+id/adSlotViewDynamicSize"
+                app:layout_constraintTop_toBottomOf="@id/header_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <include
+                android:id="@+id/article_fake_lines_2"
+                layout="@layout/article_fake_lines"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/adSlotViewDynamicSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/header_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="300x50"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/article_fake_lines_2" />
+
+            <FrameLayout
+                android:tag="adSlotView300x50"
+                android:id="@+id/adSlotView300x50"
+                app:layout_constraintTop_toBottomOf="@id/header_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <include
+                android:id="@+id/article_fake_lines_3"
+                layout="@layout/article_fake_lines"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/adSlotView300x50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/header_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="300x80"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/article_fake_lines_3" />
+
+            <FrameLayout
+                android:tag="adSlotView300x80"
+                android:id="@+id/adSlotView300x80"
+                app:layout_constraintTop_toBottomOf="@id/header_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+
+            <include
+                android:id="@+id/article_fake_lines_4"
+                layout="@layout/article_fake_lines"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/adSlotView300x80"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/header_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="300x150"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/article_fake_lines_4" />
+
+            <FrameLayout
+                android:tag="adSlotView300x150"
+                android:id="@+id/adSlotView300x150"
+                app:layout_constraintTop_toBottomOf="@id/header_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="300dp"
+                android:layout_height="150dp" />
+
+            <include
+                android:id="@+id/article_fake_lines_5"
+                layout="@layout/article_fake_lines"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/adSlotView300x150"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/header_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="300x250"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/article_fake_lines_5" />
+
+            <FrameLayout
+                android:tag="adSlotView300x250"
+                android:id="@+id/adSlotView300x250"
+                app:layout_constraintTop_toBottomOf="@id/header_5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="300dp"
+                android:layout_height="250dp" />
+
+            <include
+                android:id="@+id/article_fake_lines_x"
+                layout="@layout/article_fake_lines"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/adSlotView300x250"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

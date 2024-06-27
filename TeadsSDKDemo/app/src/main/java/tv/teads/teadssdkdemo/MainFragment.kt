@@ -14,14 +14,14 @@ import tv.teads.teadssdkdemo.data.IntegrationType
 import tv.teads.teadssdkdemo.data.ProviderType
 import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.databinding.FragmentMainBinding
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.PluginRendererScrollViewFragment
+import tv.teads.teadssdkdemo.format.headerbidding.prebid.StandaloneIntegrationScrollViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
-import tv.teads.teadssdkdemo.format.headerbidding.prebid.StandaloneIntegrationScrollViewFragment
-import tv.teads.teadssdkdemo.format.headerbidding.prebid.PluginRendererScrollViewFragment
+import tv.teads.teadssdkdemo.format.inread.MultipleSlotsInReadScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.identifier.DirectIdentifier
 import tv.teads.teadssdkdemo.format.mediation.admob.*
 import tv.teads.teadssdkdemo.format.mediation.applovin.*
@@ -40,9 +40,10 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private lateinit var integrationsRecyclerView: RecyclerView
 
     private val inReadIntegrationList = listOf(
-        IntegrationType("ScrollView", R.drawable.scrollview),
-        IntegrationType("RecyclerView", R.drawable.tableview),
-        IntegrationType("WebView", R.drawable.webview),
+        IntegrationType("Multiple ad slots test", R.drawable.scrollview),
+//        IntegrationType("ScrollView", R.drawable.scrollview),
+//        IntegrationType("RecyclerView", R.drawable.tableview),
+//        IntegrationType("WebView", R.drawable.webview),
     )
 
     private val nativeIntegrationList = listOf(
@@ -88,12 +89,14 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentInReadDirect(position: Int): BaseFragment {
         return when (position) {
-            0 -> InReadScrollViewFragment()
+//            0 -> InReadScrollViewFragment()
+            0 -> MultipleSlotsInReadScrollViewFragment()
             1 -> InReadRecyclerViewFragment()
             2 -> InReadWebViewFragment()
             3 -> StandaloneIntegrationScrollViewFragment()
             4 -> PluginRendererScrollViewFragment()
-            else -> InReadScrollViewFragment()
+//            else -> InReadScrollViewFragment()
+            else -> MultipleSlotsInReadScrollViewFragment()
         }
     }
 
