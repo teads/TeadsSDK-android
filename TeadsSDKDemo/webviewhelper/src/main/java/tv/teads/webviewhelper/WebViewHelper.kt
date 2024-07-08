@@ -58,7 +58,7 @@ private constructor(builder: Builder) : JSInterface.Listener {
             var inputStream: InputStream? = null
             try {
                 inputStream = context.assets.open("bootstrap.js")
-                val buffer = ByteArray(inputStream!!.available())
+                val buffer = ByteArray(inputStream.available())
 
                 inputStream.read(buffer)
                 val encoded = Base64.encodeToString(buffer, Base64.NO_WRAP)

@@ -20,6 +20,7 @@
             android:theme="@style/ThemeTeads"></activity>
 
         <activity
+            android:exported="true"
             android:name=".SplashScreen"
             android:theme="@style/SplashTheme">
             <intent-filter>

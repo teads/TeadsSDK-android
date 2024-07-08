@@ -8,13 +8,14 @@ plugins {
 }
 
 android {
+    namespace = "tv.teads.webviewhelper"
     compileSdk= AndroidLibConfig.compileSdk
 
     resourcePrefix = "teads_"
 
     defaultConfig {
         minSdk = AndroidLibConfig.minSdk
-        targetSdk = AndroidLibConfig.targetSdk
+        lint.targetSdk = AndroidLibConfig.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -35,6 +36,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
