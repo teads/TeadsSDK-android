@@ -41,6 +41,7 @@ class AppLovinNativeRecyclerViewAdapter(
                 TCFVersion.V2,
                 12
             )
+            .enableValidationMode() // here to validate your app
             .build()
             .toJsonEncoded()
 

@@ -22,13 +22,15 @@ object SessionDataSource {
      * Return current selected format type
      *
      */
-    var selectedFormat: FormatType = FormatType.INREAD
+//    var selectedFormat: FormatType = FormatType.INREAD
+    var selectedFormat: FormatType = FormatType.INFEED
 
     /**
      * Return current selected provider type
      *
      */
-    var selectedProvider: ProviderType = ProviderType.DIRECT
+//    var selectedProvider: ProviderType = ProviderType.DIRECT
+    var selectedProvider: ProviderType = ProviderType.APPLOVIN
 
     fun getPid(context: Context, formatType: FormatType? = null): Int {
         val format = formatType ?: selectedFormat

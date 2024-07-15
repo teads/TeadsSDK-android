@@ -68,7 +68,7 @@
     <string name="mediationWebView">Mediation &amp; WebView</string>
     <string name="webview_wrap_example">WebVIew height=wrap_content</string>
     <string name="providers">Providers</string>
-    <string name="nativeS">inFeed</string>
+    <string name="nativeS">Native</string>
     <string name="inread">inRead</string>
     <string name="formats">Formats</string>
     <string name="direct">Direct</string>
