@@ -54,7 +54,11 @@ class InReadScrollViewFragment : BaseFragment() {
         adPlacement.requestAd(requestSettings,
                 object : InReadAdViewListener {
                     override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
-                        val layoutParams = ad.layoutParams
+                        // ensure your layoutParams is not null
+                        val layoutParams = ad.layoutParams ?: ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
                         binding.adSlotView.addView(ad)
                         layoutParams.height = adRatio.calculateHeight(binding.adSlotView.measuredWidth)
                         binding.adSlotView.layoutParams = layoutParams
@@ -62,16 +66,20 @@ class InReadScrollViewFragment : BaseFragment() {
                         inReadAdView = ad
                     }
 
-                    override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                        binding.adSlotView.addView(trackerView)
-                    }
-
                     override fun onAdRatioUpdate(adRatio: AdRatio) {
                         inReadAdView?.let { inReadAdView ->
-                            val layoutParams = inReadAdView.layoutParams
+                            // ensure your layoutParams is not null
+                            val layoutParams = inReadAdView.layoutParams ?: ViewGroup.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT
+                            )
                             layoutParams.height = adRatio.calculateHeight(binding.adSlotView.measuredWidth)
                             binding.adSlotView.layoutParams = layoutParams
                         }
+                    }
+
+                    override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                        binding.adSlotView.addView(trackerView)
                     }
 
                     override fun onAdClicked() {}
