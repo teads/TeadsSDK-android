@@ -58,9 +58,11 @@ class InReadScrollViewFragment : BaseFragment() {
                         // Clean and init inReadAdView
                         inReadAdView?.clean()
                         inReadAdView = ad
-                        // Add add to the container and resize
+                        // Add ad to the container and resize
                         binding.adSlotContainer.addView(ad)
-                        binding.adSlotContainer.resizeAdContainer(adRatio)
+                        binding.adSlotContainer.resizeAdContainer {
+                            adRatio.calculateHeight(binding.adSlotContainer.measuredWidth)
+                        }
                     }
 
                     override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
@@ -70,7 +72,12 @@ class InReadScrollViewFragment : BaseFragment() {
 
                     override fun onAdRatioUpdate(adRatio: AdRatio) {
                         // Resize the ad container
-                        binding.adSlotContainer.resizeAdContainer(adRatio)
+                        inReadAdView?.let { adView ->
+                            binding.adSlotContainer.resizeAdContainer {
+                                adRatio.calculateHeight(adView.measuredWidth)
+                            }
+
+                        }
                     }
 
                     override fun onAdClicked() {}

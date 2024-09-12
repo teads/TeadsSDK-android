@@ -53,16 +53,21 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
 
                     override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
                         // Clean and init inReadAdView
-                        inReadAdView?.clean()
                         inReadAdView = ad
-                        // Add add to the container and resize
+                        // Add ad to the container and resize
                         adSlotContainer.addView(ad, 0)
-                        adSlotContainer.resizeAdContainer(adRatio)
+                        adSlotContainer.resizeAdContainer {
+                            adRatio.calculateHeight(adSlotContainer.measuredWidth)
+                        }
                     }
 
                     override fun onAdRatioUpdate(adRatio: AdRatio) {
-                        // Resize ad container
-                        adSlotContainer.resizeAdContainer(adRatio)
+                        // Resize
+                        inReadAdView?.let { adView ->
+                            adSlotContainer.resizeAdContainer {
+                                adRatio.calculateHeight(adView.measuredWidth)
+                            }
+                        }
                     }
 
                     override fun onAdClicked() {}
