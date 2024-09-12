@@ -8,6 +8,7 @@ import tv.teads.sdk.*
 import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.RecyclerItemType
+import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 
 /**
  * Simple RecyclerView adapter
@@ -41,30 +42,27 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             RecyclerItemType.TYPE_TEADS.value -> {
-                val adViewContainer = holder.itemView as FrameLayout
+                val adSlotContainer = holder.itemView as FrameLayout
                 var inReadAdView: InReadAdView? = null
 
                 // 3. Request the ad and register to the listener in it
                 adPlacement.requestAd(requestSettings, object : InReadAdViewListener {
                     override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                        adViewContainer.addView(trackerView)
+                        adSlotContainer.addView(trackerView)
                     }
 
                     override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
-                        val layoutParams = ad.layoutParams
-                        adViewContainer.addView(ad, 0)
-                        layoutParams.height = adRatio.calculateHeight(adViewContainer.measuredWidth)
-                        adViewContainer.layoutParams = layoutParams
-
+                        // Clean and init inReadAdView
+                        inReadAdView?.clean()
                         inReadAdView = ad
+                        // Add add to the container and resize
+                        adSlotContainer.addView(ad, 0)
+                        adSlotContainer.resizeAdContainer(adRatio)
                     }
 
                     override fun onAdRatioUpdate(adRatio: AdRatio) {
-                        inReadAdView?.let { inReadAdView ->
-                            val layoutParams = inReadAdView.layoutParams
-                            layoutParams.height = adRatio.calculateHeight(adViewContainer.measuredWidth)
-                            adViewContainer.layoutParams = layoutParams
-                        }
+                        // Resize ad container
+                        adSlotContainer.resizeAdContainer(adRatio)
                     }
 
                     override fun onAdClicked() {}

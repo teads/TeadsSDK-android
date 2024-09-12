@@ -43,7 +43,7 @@ class SmartScrollViewFragment : BaseFragment() {
 
         smartAdView.loadAd(bannerPlacement)
 
-        binding.adSlotView.addView(smartAdView)
+        binding.adSlotContainer.addView(smartAdView)
     }
 
     override fun getTitle(): String = "InRead Smart ScrollView"

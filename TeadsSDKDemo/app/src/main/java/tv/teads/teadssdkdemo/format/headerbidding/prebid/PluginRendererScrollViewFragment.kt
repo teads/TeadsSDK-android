@@ -67,13 +67,13 @@ class PluginRendererScrollViewFragment : BaseFragment() {
 
         // 6 . Listen TeadsPBMEventListener events and manage onAdRatioUpdate to have your view correctly displayed
         bannerView?.setPluginEventListener(object : TeadsPBMEventListener{
-            override fun onAdRatioUpdate(adRatio: AdRatio) {
+            override fun onAdRatioUpdate(adRatio: AdRatio) { // todo update logic
                 Log.d("TeadsPBMEventListener", "onAdRatioUpdate")
 
                 bannerView?.let {
-                    val adViewParams = binding.adSlotView.layoutParams
+                    val adViewParams = binding.adSlotContainer.layoutParams
                     adViewParams.height = adRatio.calculateHeight(it.measuredWidth)
-                    binding.adSlotView.layoutParams = adViewParams
+                    binding.adSlotContainer.layoutParams = adViewParams
                 }
             }
 
@@ -114,7 +114,7 @@ class PluginRendererScrollViewFragment : BaseFragment() {
         })
 
         // 8. Add the ad view to its container
-        bannerView?.let { binding.adSlotView.addView(it) }
+        bannerView?.let { binding.adSlotContainer.addView(it) }
 
         // 9. Load the ad
         bannerView?.loadAd()

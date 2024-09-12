@@ -43,7 +43,7 @@ class AppLovinScrollViewFragment : BaseFragment() {
 
         // 2. Create MaxAdView view and add it to view hierarchy
         val adView = MaxAdView(AppLovinIdentifier.getAdUnitFromPid(pid), MaxAdFormat.MREC, context)
-        binding.adSlotView.addView(adView, 0)
+        binding.adSlotContainer.addView(adView, 0)
 
         // 3. Attach listener (will include Teads events)
         adView.setListener(object : MaxAdViewAdListener {
@@ -79,7 +79,7 @@ class AppLovinScrollViewFragment : BaseFragment() {
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                binding.adSlotView.addView(trackerView)
+                binding.adSlotContainer.addView(trackerView)
             }
 
         }

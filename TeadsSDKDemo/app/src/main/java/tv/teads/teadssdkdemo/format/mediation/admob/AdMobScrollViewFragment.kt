@@ -44,7 +44,7 @@ class AdMobScrollViewFragment : BaseFragment() {
         val adView = AdView(view.context)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
         adView.setAdSize(AdSize.MEDIUM_RECTANGLE)
-        binding.adSlotView.addView(adView, 0)
+        binding.adSlotContainer.addView(adView, 0)
 
         // 3. Attach listener (will include Teads events)
         adView.adListener = object : AdListener() {
@@ -72,7 +72,7 @@ class AdMobScrollViewFragment : BaseFragment() {
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                binding.adSlotView.addView(trackerView)
+                binding.adSlotContainer.addView(trackerView)
             }
 
         }

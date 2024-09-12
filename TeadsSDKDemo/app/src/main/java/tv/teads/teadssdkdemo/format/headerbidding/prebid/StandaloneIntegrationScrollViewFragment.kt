@@ -61,24 +61,24 @@ class StandaloneIntegrationScrollViewFragment : BaseFragment() {
             FAKE_WINNING_BID_RESPONSE,
             requestSettings,
             object : InReadAdViewListener {
-                override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
+                override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) { // todo update logic
                     val layoutParams = ad.layoutParams
-                    binding.adSlotView.addView(ad)
-                    layoutParams.height = adRatio.calculateHeight(binding.adSlotView.measuredWidth)
-                    binding.adSlotView.layoutParams = layoutParams
+                    binding.adSlotContainer.addView(ad)
+                    layoutParams.height = adRatio.calculateHeight(binding.adSlotContainer.measuredWidth)
+                    binding.adSlotContainer.layoutParams = layoutParams
 
                     inReadAdView = ad
                 }
 
                 override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                    binding.adSlotView.addView(trackerView)
+                    binding.adSlotContainer.addView(trackerView)
                 }
 
-                override fun onAdRatioUpdate(adRatio: AdRatio) {
+                override fun onAdRatioUpdate(adRatio: AdRatio) { // todo update logic
                     inReadAdView?.let { inReadAdView ->
                         val layoutParams = inReadAdView.layoutParams
-                        layoutParams.height = adRatio.calculateHeight(binding.adSlotView.measuredWidth)
-                        binding.adSlotView.layoutParams = layoutParams
+                        layoutParams.height = adRatio.calculateHeight(binding.adSlotContainer.measuredWidth)
+                        binding.adSlotContainer.layoutParams = layoutParams
                     }
                 }
 
