@@ -11,7 +11,8 @@ import tv.teads.teadssdkdemo.format.mediation.adapter.SmartRecyclerViewAdapter
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * Display inRead as Banner within a RecyclerView using Smart Mediation.
+ * inRead format within a RecyclerView
+ *
  */
 class SmartRecyclerViewFragment : BaseFragment() {
     private lateinit var binding: FragmentRecyclerviewBinding

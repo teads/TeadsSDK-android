@@ -12,6 +12,10 @@ import tv.teads.teadssdkdemo.format.mediation.adapter.SmartNativeRecyclerViewAda
 import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.utils.MarginItemDecoration
 
+/**
+ * Native format within a RecyclerView
+ *
+ */
 class SmartNativeRecyclerViewFragment : BaseFragment() {
     private lateinit var binding: FragmentRecyclerviewBinding
 

@@ -20,6 +20,7 @@ import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.CreativeSize
 import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
+import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.format.mediation.identifier.PrebidIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
@@ -69,12 +70,8 @@ class PluginRendererScrollViewFragment : BaseFragment() {
         bannerView?.setPluginEventListener(object : TeadsPBMEventListener{
             override fun onAdRatioUpdate(adRatio: AdRatio) {
                 Log.d("TeadsPBMEventListener", "onAdRatioUpdate")
-
-                bannerView?.let {
-                    val adViewParams = binding.adSlotView.layoutParams
-                    adViewParams.height = adRatio.calculateHeight(it.measuredWidth)
-                    binding.adSlotView.layoutParams = adViewParams
-                }
+                // Resize
+                binding.adSlotContainer.resizeAdContainer(adRatio)
             }
 
             override fun onAdCollapsedFromFullscreen() {
@@ -114,7 +111,7 @@ class PluginRendererScrollViewFragment : BaseFragment() {
         })
 
         // 8. Add the ad view to its container
-        bannerView?.let { binding.adSlotView.addView(it) }
+        bannerView?.let { binding.adSlotContainer.addView(it) }
 
         // 9. Load the ad
         bannerView?.loadAd()

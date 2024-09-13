@@ -17,6 +17,7 @@ import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
+import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
@@ -44,7 +45,7 @@ class AdMobScrollViewFragment : BaseFragment() {
         val adView = AdView(view.context)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
         adView.setAdSize(AdSize.MEDIUM_RECTANGLE)
-        binding.adSlotView.addView(adView, 0)
+        binding.adSlotContainer.addView(adView, 0)
 
         // 3. Attach listener (will include Teads events)
         adView.adListener = object : AdListener() {
@@ -63,16 +64,11 @@ class AdMobScrollViewFragment : BaseFragment() {
          */
         mListener = object : TeadsAdapterListener {
             override fun onRatioUpdated(adRatio: AdRatio) {
-                val params: ViewGroup.LayoutParams = adView.layoutParams
-
-                // Here the width is MATCH_PARENT
-                params.height = adRatio.calculateHeight(adView.measuredWidth)
-
-                adView.layoutParams = params
+                binding.adSlotContainer.resizeAdContainer(adRatio)
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                binding.adSlotView.addView(trackerView)
+                binding.adSlotContainer.addView(trackerView)
             }
 
         }

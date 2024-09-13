@@ -19,14 +19,15 @@ import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.RecyclerItemType
 import tv.teads.teadssdkdemo.data.SessionDataSource
+import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 
 /**
  * Simple RecyclerView adapter
  */
-class AppLovinRecyclerViewAdapter(appLovinUnitId: String, context: Context?, title: String)
+class AppLovinRecyclerViewAdapter(appLovinUnitId: String, context: Context, title: String)
     : GenericRecyclerViewAdapter(title) {
 
-    private val adView: MaxAdView = MaxAdView(appLovinUnitId, MaxAdFormat.MREC, context!!)
+    private val adView: MaxAdView = MaxAdView(appLovinUnitId, MaxAdFormat.MREC, context)
     private val mListener: TeadsAdapterListener
 
     init {
@@ -65,12 +66,7 @@ class AppLovinRecyclerViewAdapter(appLovinUnitId: String, context: Context?, tit
                 adView.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         adView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        val params: ViewGroup.LayoutParams = adView.layoutParams
-
-                        // Here the width is MATCH_PARENT
-                        params.height = adRatio.calculateHeight(adView.measuredWidth)
-
-                        adView.layoutParams = params
+                        adView.resizeAdContainer(adRatio)
                     }
                 })
             }
