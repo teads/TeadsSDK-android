@@ -20,6 +20,7 @@ import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
+import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.format.mediation.identifier.AppLovinIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
@@ -70,12 +71,7 @@ class AppLovinScrollViewFragment : BaseFragment() {
          */
         mListener = object : TeadsAdapterListener {
             override fun onRatioUpdated(adRatio: AdRatio) {
-                val params: ViewGroup.LayoutParams = adView.layoutParams
-
-                // Here the width is MATCH_PARENT
-                params.height = adRatio.calculateHeight(adView.measuredWidth)
-
-                adView.layoutParams = params
+                adView.resizeAdContainer(adRatio)
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {

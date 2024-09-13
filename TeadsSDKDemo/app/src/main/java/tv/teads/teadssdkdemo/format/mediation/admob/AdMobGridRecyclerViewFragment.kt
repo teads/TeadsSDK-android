@@ -12,7 +12,8 @@ import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
- * Display inRead as Banner within a RecyclerView using AdMob Mediation.
+ * inRead format within a RecyclerView
+ *
  */
 class AdMobGridRecyclerViewFragment : BaseFragment() {
     private lateinit var binding: FragmentRecyclerviewBinding
@@ -32,7 +33,7 @@ class AdMobGridRecyclerViewFragment : BaseFragment() {
 
         val adUnit = AdMobIdentifier.getAdUnitFromPid(pid)
 
-        recyclerView.adapter = AdMobRecyclerViewAdapter(adUnit, context, getTitle())
+        recyclerView.adapter = AdMobRecyclerViewAdapter(adUnit, requireContext(), getTitle())
     }
 
     override fun getTitle(): String = "InRead AdMob RecyclerView Grid"
