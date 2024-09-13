@@ -44,7 +44,6 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
             RecyclerItemType.TYPE_TEADS.value -> {
                 val adSlotContainer = holder.itemView as FrameLayout
                 adSlotContainer.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                var inReadAdView: InReadAdView? = null
 
                 // 3. Request the ad and register to the listener in it
                 adPlacement.requestAd(requestSettings, object : InReadAdViewListener {
@@ -53,8 +52,6 @@ class SimpleRecyclerViewAdapter(private val context: Context?, pid: Int, title: 
                     }
 
                     override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
-                        // Clean and init inReadAdView
-                        inReadAdView = ad
                         // Add ad to the container and resize
                         adSlotContainer.resizeAdContainer(adRatio)
                         adSlotContainer.addView(ad, 0)
