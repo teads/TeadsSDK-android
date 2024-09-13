@@ -42,66 +42,59 @@ class InReadScrollViewFragment : BaseFragment() {
 
         // 1. Setup the settings
         val placementSettings = AdPlacementSettings.Builder()
-                .enableDebug()
-                .build()
+            .enableDebug()
+            .build()
 
         // 2. Create the InReadAdPlacement
         adPlacement = TeadsSDK.createInReadPlacement(requireActivity(), pid, placementSettings)
 
         // 3. Request the ad and listen its events
         val requestSettings = AdRequestSettings.Builder()
-                .pageSlotUrl("http://teads.com")
-                .build()
+            .pageSlotUrl("http://teads.com")
+            .build()
         adPlacement.requestAd(requestSettings,
-                object : InReadAdViewListener {
-                    override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
-                        // Clean and init inReadAdView
-                        inReadAdView?.clean()
-                        inReadAdView = ad
-                        // Add ad to the container and resize
-                        binding.adSlotContainer.addView(ad)
-                        binding.adSlotContainer.resizeAdContainer {
-                            adRatio.calculateHeight(binding.adSlotContainer.measuredWidth)
-                        }
-                    }
-
-                    override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                        // Resize ad container
-                        binding.adSlotContainer.addView(trackerView)
-                    }
-
-                    override fun onAdRatioUpdate(adRatio: AdRatio) {
-                        // Resize the ad container
-                        inReadAdView?.let { adView ->
-                            binding.adSlotContainer.resizeAdContainer {
-                                adRatio.calculateHeight(adView.measuredWidth)
-                            }
-
-                        }
-                    }
-
-                    override fun onAdClicked() {}
-                    override fun onAdClosed() {}
-                    override fun onAdError(code: Int, description: String) {}
-                    override fun onAdImpression() {}
-                    override fun onAdExpandedToFullscreen() {}
-                    override fun onAdCollapsedFromFullscreen() {}
-                    override fun onFailToReceiveAd(failReason: String) {}
-                },
-                object : VideoPlaybackListener {
-                    override fun onVideoComplete() {
-                        Log.d("PlaybackEvent", "complete")
-                    }
-
-                    override fun onVideoPause() {
-                        Log.d("PlaybackEvent", "pause")
-                    }
-
-                    override fun onVideoPlay() {
-                        Log.d("PlaybackEvent", "play")
-                    }
-
+            object : InReadAdViewListener {
+                override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
+                    // Clean and init inReadAdView
+                    inReadAdView?.clean()
+                    inReadAdView = ad
+                    // Add ad to the container and resize
+                    binding.adSlotContainer.addView(ad)
+                    binding.adSlotContainer.resizeAdContainer(adRatio)
                 }
+
+                override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
+                    // Resize ad container
+                    binding.adSlotContainer.addView(trackerView)
+                }
+
+                override fun onAdRatioUpdate(adRatio: AdRatio) {
+                    // Resize the ad container
+                    binding.adSlotContainer.resizeAdContainer(adRatio)
+                }
+
+                override fun onAdClicked() {}
+                override fun onAdClosed() {}
+                override fun onAdError(code: Int, description: String) {}
+                override fun onAdImpression() {}
+                override fun onAdExpandedToFullscreen() {}
+                override fun onAdCollapsedFromFullscreen() {}
+                override fun onFailToReceiveAd(failReason: String) {}
+            },
+            object : VideoPlaybackListener {
+                override fun onVideoComplete() {
+                    Log.d("PlaybackEvent", "complete")
+                }
+
+                override fun onVideoPause() {
+                    Log.d("PlaybackEvent", "pause")
+                }
+
+                override fun onVideoPlay() {
+                    Log.d("PlaybackEvent", "play")
+                }
+
+            }
         )
     }
 

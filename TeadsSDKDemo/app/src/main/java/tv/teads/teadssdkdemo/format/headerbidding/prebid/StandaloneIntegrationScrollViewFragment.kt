@@ -18,6 +18,7 @@ import tv.teads.sdk.VideoPlaybackListener
 import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.databinding.FragmentInreadScrollviewBinding
+import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.utils.BaseFragment
 
 /**
@@ -61,25 +62,22 @@ class StandaloneIntegrationScrollViewFragment : BaseFragment() {
             FAKE_WINNING_BID_RESPONSE,
             requestSettings,
             object : InReadAdViewListener {
-                override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) { // todo update logic
-                    val layoutParams = ad.layoutParams
-                    binding.adSlotContainer.addView(ad)
-                    layoutParams.height = adRatio.calculateHeight(binding.adSlotContainer.measuredWidth)
-                    binding.adSlotContainer.layoutParams = layoutParams
-
+                override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
+                    // Clean and init inReadAdView
+                    inReadAdView?.clean()
                     inReadAdView = ad
+                    // Add ad to the container and resize
+                    binding.adSlotContainer.addView(ad)
+                    binding.adSlotContainer.resizeAdContainer(adRatio)
                 }
 
                 override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
                     binding.adSlotContainer.addView(trackerView)
                 }
 
-                override fun onAdRatioUpdate(adRatio: AdRatio) { // todo update logic
-                    inReadAdView?.let { inReadAdView ->
-                        val layoutParams = inReadAdView.layoutParams
-                        layoutParams.height = adRatio.calculateHeight(binding.adSlotContainer.measuredWidth)
-                        binding.adSlotContainer.layoutParams = layoutParams
-                    }
+                override fun onAdRatioUpdate(adRatio: AdRatio) {
+                    // Resize
+                    binding.adSlotContainer.resizeAdContainer(adRatio)
                 }
 
                 override fun onAdClicked() {}
