@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -137,6 +138,42 @@
         </RadioGroup>
 
         <LinearLayout
+            android:id="@+id/container_placement_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/list_item_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_pid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/placement_id"
+                android:textColor="@color/titleTextColor"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/customButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_radio_button_height"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/custom_button_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:tag="0"
+                android:text="@string/custom"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorNoBg"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/container_creative_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -214,23 +251,6 @@
             </RadioGroup>
 
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/customButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_radio_button_height"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/custom_button_selector"
-            android:button="@android:color/transparent"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:tag="0"
-            android:text="@string/custom"
-            android:textAllCaps="false"
-            android:textColor="@color/textColorNoBg"
-            android:textStyle="normal" />
 
         <TextView
             android:id="@+id/text_integration"

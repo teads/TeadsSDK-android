@@ -81,6 +81,7 @@
     <string name="square">Square</string>
     <string name="vertical">Vertical</string>
     <string name="creative_sizes">Creative Sizes</string>
+    <string name="placement_id">Placemend ID</string>
     <string name="landscape">Landscape</string>
     <string name="custom">Change PID</string>
     <string name="smart">Smart</string>

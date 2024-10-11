@@ -17,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tv.teads.adapter.smart.nativead.TeadsSmartViewBinder
 import tv.teads.sdk.TeadsMediationSettings
-import tv.teads.sdk.renderer.AdScale
 import tv.teads.sdk.utils.userConsent.TCFVersion
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
