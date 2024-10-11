@@ -35,6 +35,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private lateinit var customPid: Button
     private lateinit var containerCreativeSizes: View
+    private lateinit var containerPlacementId: View
     private lateinit var radioGroupCreativeSizes: RadioGroup
     private lateinit var radioGroupProvider: RadioGroup
     private lateinit var integrationsRecyclerView: RecyclerView
@@ -72,6 +73,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         val containerFormat: RadioGroup = binding.containerFormat
         radioGroupProvider = binding.containerProvider
         radioGroupCreativeSizes = binding.radiogroupCreativeSize
+        containerPlacementId = binding.containerPlacementId
         containerCreativeSizes = binding.containerCreativeSize
         integrationsRecyclerView = binding.integrationsRecyclerView
 
@@ -341,10 +343,10 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     private fun setDirectIntegrationConstraints() {
-        customPid.visibility = if (SessionDataSource.selectedProvider == ProviderType.DIRECT) {
+        containerPlacementId.visibility = if (SessionDataSource.selectedProvider == ProviderType.DIRECT) {
             View.VISIBLE
         } else {
-            View.INVISIBLE
+            View.GONE
         }
         when {
             SessionDataSource.selectedProvider != ProviderType.DIRECT && SessionDataSource.selectedFormat == FormatType.INFEED -> {
@@ -360,7 +362,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
         val limitedProviders = listOf(ProviderType.SMART, ProviderType.PREBID)
         if (limitedProviders.contains(SessionDataSource.selectedProvider)) {
             containerCreativeSizes.visibility = View.GONE
-        } else {
+        } else if (SessionDataSource.selectedFormat != FormatType.INFEED) {
             containerCreativeSizes.visibility = View.VISIBLE
         }
     }

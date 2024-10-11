@@ -23,3 +23,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class tv.teads.webviewhelper.SyncAdWebView$Listener { *; }
+-keep class tv.teads.webviewhelper.SyncAdWebView { *; }
+-keep class tv.teads.webviewhelper.baseView.ObservableWebView { *; }
+-dontwarn java.lang.invoke.StringConcatFactory
