@@ -86,6 +86,8 @@ class AdMobScrollViewFragment : BaseFragment() {
                 .pageSlotUrl("https://page.com/article1/")
                 // /!\ You need to add the key to the settings
                 .setMediationListenerKey(key)
+                .enableDebug() // Enable the debug mode
+                .enableValidationMode()  // Enable the validation mode
                 .build()
 
         // 7. Create the AdRequest with the previous settings
