@@ -64,7 +64,6 @@ class InReadScrollViewFragment : BaseFragment() {
                 }
 
                 override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
-                    // Resize ad container
                     binding.adSlotContainer.addView(trackerView)
                 }
 
