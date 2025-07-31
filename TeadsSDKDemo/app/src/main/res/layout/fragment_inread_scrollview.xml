@@ -17,9 +17,11 @@
 
         <include layout="@layout/article_fake_lines" />
 
+        <!-- 💡 We can limit a bit the layout_width, but layout_height is wrap_content -->
         <FrameLayout
             android:id="@+id/adSlotContainer"
-            android:layout_width="match_parent"
+            android:layout_width="350dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content" />
 
         <include layout="@layout/article_fake_lines" />
