@@ -44,6 +44,7 @@ class AdMobScrollViewFragment : BaseFragment() {
         // 2. Create AdMob view, setup and add it to view hierarchy
         val adView = AdView(view.context)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)
+        // 💡 Despite the adSize from admob ad view is MEDIUM_RECTANGLE, Teads will serve different sort of ad sizes
         adView.setAdSize(AdSize.MEDIUM_RECTANGLE)
         binding.adSlotContainer.addView(adView, 0)
 
@@ -66,8 +67,7 @@ class AdMobScrollViewFragment : BaseFragment() {
             override fun onRatioUpdated(adRatio: AdRatio) {
                 val params: ViewGroup.LayoutParams = adView.layoutParams
 
-                // View container (binding.adSlotContainer where adView was added, check line 48)
-                // is height = WRAP_CONTENT
+                // 💡 View container (binding.adSlotContainer) height must be WRAP_CONTENT
                 params.height = adRatio.calculateHeight(adView.measuredWidth)
                 adView.layoutParams = params
             }
