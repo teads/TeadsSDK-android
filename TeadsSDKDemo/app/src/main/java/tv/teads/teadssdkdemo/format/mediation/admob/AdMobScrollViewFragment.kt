@@ -64,7 +64,12 @@ class AdMobScrollViewFragment : BaseFragment() {
          */
         mListener = object : TeadsAdapterListener {
             override fun onRatioUpdated(adRatio: AdRatio) {
-                binding.adSlotContainer.resizeAdContainer(adRatio)
+                val params: ViewGroup.LayoutParams = adView.layoutParams
+
+                // View container (binding.adSlotContainer where adView was added, check line 48)
+                // is height = WRAP_CONTENT
+                params.height = adRatio.calculateHeight(adView.measuredWidth)
+                adView.layoutParams = params
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {
