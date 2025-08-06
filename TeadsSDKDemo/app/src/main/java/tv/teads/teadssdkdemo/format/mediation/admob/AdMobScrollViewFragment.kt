@@ -41,6 +41,9 @@ class AdMobScrollViewFragment : BaseFragment() {
         MobileAds.initialize(requireContext())
         TeadsHelper.initialize()
 
+        // For testing purposes
+        MobileAds.setRequestConfiguration(AdMobIdentifier.TEST_DEVICE_ID_CONFIG)
+
         // 2. Create AdMob view, setup and add it to view hierarchy
         val adView = AdView(view.context)
         adView.adUnitId = AdMobIdentifier.getAdUnitFromPid(pid)

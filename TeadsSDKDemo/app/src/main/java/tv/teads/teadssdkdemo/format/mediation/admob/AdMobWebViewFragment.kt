@@ -52,6 +52,9 @@ class AdMobWebViewFragment : BaseFragment(), SyncAdWebView.Listener {
         MobileAds.initialize(requireContext())
         TeadsHelper.initialize()
 
+        // For testing purposes
+        MobileAds.setRequestConfiguration(AdMobIdentifier.TEST_DEVICE_ID_CONFIG)
+
         // 2. Create WebViewHelper
         webviewHelperSynch = SyncAdWebView(requireContext(), binding.webview, this@AdMobWebViewFragment, "#teads-placement-slot")
 

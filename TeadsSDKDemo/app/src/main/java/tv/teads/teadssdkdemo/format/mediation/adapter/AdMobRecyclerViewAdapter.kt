@@ -17,6 +17,7 @@ import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.RecyclerItemType
 import tv.teads.teadssdkdemo.data.SessionDataSource
 import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 
 /**
  * Simple RecyclerView adapter
@@ -31,6 +32,9 @@ class AdMobRecyclerViewAdapter(admobBannerId: String, context: Context, title: S
         // 1. Initialize AdMob & Teads Helper
         MobileAds.initialize(context)
         TeadsHelper.initialize()
+
+        // For testing purposes
+        MobileAds.setRequestConfiguration(AdMobIdentifier.TEST_DEVICE_ID_CONFIG)
 
         // 2. Setup the AdMob view
         adView.adUnitId = admobBannerId

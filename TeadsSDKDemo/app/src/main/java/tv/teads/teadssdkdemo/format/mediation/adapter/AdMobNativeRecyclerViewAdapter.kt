@@ -23,6 +23,7 @@ import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.component.GenericRecyclerViewAdapter
 import tv.teads.teadssdkdemo.data.FeedItem.Companion.feedItems
 import tv.teads.teadssdkdemo.data.RecyclerItemType
+import tv.teads.teadssdkdemo.format.mediation.identifier.AdMobIdentifier
 
 /**
  * Native RecyclerView adapter
@@ -36,6 +37,9 @@ class AdMobNativeRecyclerViewAdapter(
     init {
         TeadsHelper.initialize()
         MobileAds.initialize(context)
+
+        // For testing purposes
+        MobileAds.setRequestConfiguration(AdMobIdentifier.TEST_DEVICE_ID_CONFIG)
     }
 
     override fun getItemViewType(position: Int): Int {

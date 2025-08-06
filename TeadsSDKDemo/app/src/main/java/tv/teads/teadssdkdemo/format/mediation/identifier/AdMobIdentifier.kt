@@ -1,9 +1,13 @@
 package tv.teads.teadssdkdemo.format.mediation.identifier
 
+import com.google.android.gms.ads.RequestConfiguration
 import tv.teads.teadssdkdemo.data.CreativeSize
 
 object AdMobIdentifier {
-    const val ADMOB_TEADS_APP_ID = "ca-app-pub-3068786746829754~3613028870"
+    val TEST_DEVICE_ID_CONFIG = RequestConfiguration
+        .Builder()
+        .setTestDeviceIds(listOf("BAC58D23C8C5265E2C8A56FE7FBAE2C1"))
+        .build()
 
     private const val AD_UNIT_LANDSCAPE = "ca-app-pub-3068786746829754/3486435166"
     private const val AD_UNIT_VERTICAL = "ca-app-pub-3068786746829754/1731249109"
