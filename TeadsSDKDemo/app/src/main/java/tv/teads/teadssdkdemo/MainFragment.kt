@@ -18,7 +18,7 @@ import tv.teads.teadssdkdemo.format.infeed.InFeedGridRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.format.infeed.InFeedScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadRecyclerViewFragment
-import tv.teads.teadssdkdemo.format.inread.InReadScrollViewFragment
+import tv.teads.teadssdkdemo.format.inread.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.format.inread.InReadWebViewFragment
 import tv.teads.teadssdkdemo.format.headerbidding.prebid.StandaloneIntegrationScrollViewFragment
 import tv.teads.teadssdkdemo.format.headerbidding.prebid.PluginRendererScrollViewFragment
@@ -90,12 +90,12 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
 
     private fun getFragmentInReadDirect(position: Int): BaseFragment {
         return when (position) {
-            0 -> InReadScrollViewFragment()
+            0 -> MediaScrollViewFragment()
             1 -> InReadRecyclerViewFragment()
             2 -> InReadWebViewFragment()
             3 -> StandaloneIntegrationScrollViewFragment()
             4 -> PluginRendererScrollViewFragment()
-            else -> InReadScrollViewFragment()
+            else -> MediaScrollViewFragment()
         }
     }
 

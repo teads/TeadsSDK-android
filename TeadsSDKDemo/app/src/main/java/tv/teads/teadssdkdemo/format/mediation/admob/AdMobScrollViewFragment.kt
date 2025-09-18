@@ -53,7 +53,7 @@ class AdMobScrollViewFragment : BaseFragment() {
         // 3. Attach listener (will include Teads events)
         adView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(error: LoadAdError) {
-                Toast.makeText(context, "Ad loading failed: onAdFailedToLoad(${error.cause?.message})", Toast.LENGTH_SHORT).show()
+                Toast.makeText(view.context, "Ad loading failed: onAdFailedToLoad(${error.cause?.message})", Toast.LENGTH_SHORT).show()
             }
 
             override fun onAdLoaded() { }
