@@ -64,7 +64,7 @@ class CombinedSDKScrollViewFragment : BaseFragment() {
 
         setMediaPlacement()
         setMediaNativePlacement()
-//        setRecommendationsPlacement()
+        setRecommendationsPlacement()
         setFeedPlacement()
     }
 
