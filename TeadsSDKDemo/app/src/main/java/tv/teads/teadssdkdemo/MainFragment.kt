@@ -41,7 +41,7 @@ class MainFragment : BaseFragment(), RadioGroup.OnCheckedChangeListener {
     private lateinit var integrationsRecyclerView: RecyclerView
 
     private val inReadIntegrationList = listOf(
-        IntegrationType("ScrollView", R.drawable.scrollview),
+        IntegrationType("Combined SDK", R.drawable.scrollview),
         IntegrationType("RecyclerView", R.drawable.tableview),
         IntegrationType("WebView", R.drawable.webview),
     )

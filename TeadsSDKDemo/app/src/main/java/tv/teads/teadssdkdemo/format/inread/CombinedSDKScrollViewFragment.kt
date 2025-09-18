@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo.format.inread
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ import tv.teads.teadssdkdemo.views.RecommendationsAdView
  */
 class CombinedSDKScrollViewFragment : BaseFragment() {
     private lateinit var binding: FragmentCombinedSdkScrollviewBinding
+    private var mediaNativeAdView: MediaNativeAdView? = null
 
     private val articleUrl = "https://mobile-demo.outbrain.com/".toUri()
 
@@ -42,6 +44,17 @@ class CombinedSDKScrollViewFragment : BaseFragment() {
             data: Map<String, Any>?
         ) {
             Log.d("TeadsAdPlacementEvents", "Placement: $placement; Event: $event; Data: $data")
+
+            if (placement is TeadsAdPlacementMediaNative
+                && event == TeadsAdPlacementEventName.READY) {
+                mediaNativeAdView?.visibility = View.VISIBLE
+            }
+
+            if (event == TeadsAdPlacementEventName.CLICKED_ORGANIC) {
+                val url = data?.get("url") as? String
+                val intent = Intent(Intent.ACTION_VIEW, url?.toUri())
+                startActivity(intent)
+            }
         }
     }
 
@@ -98,14 +111,14 @@ class CombinedSDKScrollViewFragment : BaseFragment() {
         )
 
         // 3. Create MediaNativeAdView
-        val mediaNativeAdView = MediaNativeAdView(requireContext())
+        mediaNativeAdView = MediaNativeAdView(requireContext())
         binding.mediaNativeAdSlotContainer.addView(mediaNativeAdView)
 
         // 4. Request the ad and bind it to the native ad view
         mediaNative
             ?.loadAd()
             ?.let { binder ->
-                binder(mediaNativeAdView.getNativeAdView())
+                binder(mediaNativeAdView!!.getNativeAdView())
             }
     }
 
