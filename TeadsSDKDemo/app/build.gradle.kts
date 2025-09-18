@@ -53,6 +53,7 @@ dependencies {
     implementation(Libs.AndroidX.CARDVIEW)
     implementation(Libs.AndroidX.WEBKIT)
     implementation(Libs.MATERIAL)
+    implementation("com.squareup.picasso:picasso:2.8")
 
     // Teads SDK
     implementation(Libs.Teads.sdk(project.versionName)) {
