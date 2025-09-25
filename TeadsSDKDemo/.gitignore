@@ -6,3 +6,4 @@
 /build
 .apk
 app/app.iml
+/app/release/

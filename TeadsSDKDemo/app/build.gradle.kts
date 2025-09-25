@@ -27,9 +27,11 @@ android {
             isMinifyEnabled = false
         }
         getByName("release") {
+            // R8 full (optimized) mode + resource shrinking
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -75,7 +77,7 @@ dependencies {
 
     implementation(projects.webviewhelper)
 
-    //Huawei ads identifier sdk
+    // Huawei ads identifier sdk
     implementation(Libs.HUAWEI_IDENTIFIER)
 
     testImplementation(Libs.Test.JUNIT)
