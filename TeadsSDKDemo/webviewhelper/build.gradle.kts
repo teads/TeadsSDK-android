@@ -9,16 +9,14 @@ plugins {
 
 android {
     namespace = "tv.teads.webviewhelper"
-    compileSdk= AndroidLibConfig.compileSdk
+    compileSdk = AndroidLibConfig.compileSdk
 
     resourcePrefix = "teads_"
 
     defaultConfig {
         minSdk = AndroidLibConfig.minSdk
         lint.targetSdk = AndroidLibConfig.targetSdk
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -26,11 +24,12 @@ android {
             isMinifyEnabled = false
         }
         getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
-                "proguard-rules.pro"
-            )
+            // Do not pre-minify the library; let the app's R8 handle it.
+            isMinifyEnabled = false
+
+            // If the library needs rules for the consuming app, ship them as consumer rules:
+            // (Create this file if you don't have it yet)
+//            consumerProguardFiles("consumer-proguard-rules.pro")
         }
     }
 
