@@ -9,14 +9,14 @@ import tv.teads.teadssdkdemo.v6.domain.IntegrationType
  */
 object DemoConfiguration {
 
-    // Current session values
-    var currentFormat: FormatType? = null
-    var currentProvider: ProviderType? = null
-    var currentPlacementId: String = ""
-    var currentWidgetId: String = ""
-    var currentInstallationKey: String = ""
-    var currentArticleUrl: String = ""
-    var currentIntegration: IntegrationType? = null
+    // Current session values (private - accessed via setter methods and getXXXOrDefault methods)
+    private var currentFormat: FormatType? = null
+    private var currentProvider: ProviderType? = null
+    private var currentPlacementId: String = ""
+    private var currentWidgetId: String = ""
+    private var currentInstallationKey: String = ""
+    private var currentArticleUrl: String = ""
+    private var currentIntegration: IntegrationType? = null
 
     val DEFAULT_FORMAT = FormatType.MEDIA
     val DEFAULT_PROVIDER = ProviderType.DIRECT
@@ -87,5 +87,34 @@ object DemoConfiguration {
      */
     fun getInstallationKeyOrDefault(): String {
         return currentInstallationKey.ifBlank { DEFAULT_INSTALLATION_KEY }
+    }
+    
+    // Setter functions
+    fun setFormat(format: FormatType?) {
+        currentFormat = format
+    }
+    
+    fun setProvider(provider: ProviderType?) {
+        currentProvider = provider
+    }
+    
+    fun setPlacementId(placementId: String) {
+        currentPlacementId = placementId
+    }
+    
+    fun setWidgetId(widgetId: String) {
+        currentWidgetId = widgetId
+    }
+    
+    fun setInstallationKey(installationKey: String) {
+        currentInstallationKey = installationKey
+    }
+    
+    fun setArticleUrl(articleUrl: String) {
+        currentArticleUrl = articleUrl
+    }
+    
+    fun setIntegration(integration: IntegrationType?) {
+        currentIntegration = integration
     }
 }

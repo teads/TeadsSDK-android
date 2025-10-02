@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +27,8 @@ import tv.teads.teadssdkdemo.v6.ui.components.Section
 @Composable
 fun DemoScreen(
     modifier: Modifier = Modifier,
-    viewModel: DemoViewModel = viewModel()
+    viewModel: DemoViewModel = viewModel(),
+    onLaunch: () -> Unit = {}
 ) {
     // Collect StateFlow values for reactive text fields
     val placementId by viewModel.placementId.collectAsState()
@@ -198,14 +200,20 @@ fun DemoScreen(
             }
         }
 
-        Spacer(modifier = Modifier.padding(8.dp))
-
         // Integrations Section
         Section(title = "Integrations") {
             ChipGroup(
                 chips = viewModel.getIntegrationChips(),
                 onChipClick = viewModel::onIntegrationChipClick
             )
+        }
+
+        // LAUNCH Button
+        Button(
+            onClick = onLaunch,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("LAUNCH")
         }
     }
 }

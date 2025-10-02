@@ -136,7 +136,7 @@ class DemoViewModel : ViewModel() {
     // Update functions
     private fun updateDefaultsFormat(format: FormatType) {
         selectedFormat = format
-        DemoConfiguration.currentFormat = format
+        DemoConfiguration.setFormat(format)
 
         // Reset provider if current provider is not available for the new format
         val availableProviders = getProviders()
@@ -163,33 +163,33 @@ class DemoViewModel : ViewModel() {
     
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
-        DemoConfiguration.currentProvider = provider
+        DemoConfiguration.setProvider(provider)
     }
     
     
     fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
-        DemoConfiguration.currentIntegration = integration
+        DemoConfiguration.setIntegration(integration)
     }
     
     fun updatePlacementId(pid: String) {
         _placementId.value = pid
-        DemoConfiguration.currentPlacementId = pid
+        DemoConfiguration.setPlacementId(pid)
     }
 
     fun updateWidgetId(widgetId: String) {
         _widgetId.value = widgetId
-        DemoConfiguration.currentWidgetId = widgetId
+        DemoConfiguration.setWidgetId(widgetId)
     }
 
     fun updateInstallationKey(installationKey: String) {
         _installationKey.value = installationKey
-        DemoConfiguration.currentInstallationKey = installationKey
+        DemoConfiguration.setInstallationKey(installationKey)
     }
 
     fun updateArticleUrl(articleUrl: String) {
         _articleUrl.value = articleUrl
-        DemoConfiguration.currentArticleUrl = articleUrl
+        DemoConfiguration.setArticleUrl(articleUrl)
     }
 
     // Chip data helper methods
@@ -284,57 +284,53 @@ class DemoViewModel : ViewModel() {
     fun onMediaPidChipClick(index: Int) {
         if (index in mediaPids.indices) {
             val pid = mediaPids[index].second
-            _placementId.value = pid
+            updatePlacementId(pid)
         }
-
-
     }
 
     fun onMediaNativePidChipClick(index: Int) {
         if (index in mediaNativePids.indices) {
             val pid = mediaNativePids[index].second
-            _placementId.value = pid
+            updatePlacementId(pid)
         }
     }
 
     fun onFeedWidgetIdChipClick(index: Int) {
         if (index in feedWidgetIds.indices) {
             val widgetId = feedWidgetIds[index].second
-            _widgetId.value = widgetId
+            updateWidgetId(widgetId)
         }
     }
 
     fun onRecommendationsWidgetIdChipClick(index: Int) {
         if (index in recommendationsWidgetIds.indices) {
             val widgetId = recommendationsWidgetIds[index].second
-            _widgetId.value = widgetId
+            updateWidgetId(widgetId)
         }
     }
 
     fun onFeedInstallationKeyChipClick(index: Int) {
         if (index in feedInstallationKeys.indices) {
             val installationKey = feedInstallationKeys[index].second
-            _installationKey.value = installationKey
+            updateInstallationKey(installationKey)
         }
     }
 
     fun onRecommendationsInstallationKeyChipClick(index: Int) {
         if (index in recommendationsInstallationKeys.indices) {
             val installationKey = recommendationsInstallationKeys[index].second
-            _installationKey.value = installationKey
+            updateInstallationKey(installationKey)
         }
     }
 
     fun onArticleUrlChange(articleUrl: String) {
-        _articleUrl.value = articleUrl
-        DemoConfiguration.currentArticleUrl = articleUrl
+        updateArticleUrl(articleUrl)
     }
 
     fun onIntegrationChipClick(index: Int) {
         if (index in integrationTypes.indices) {
             val integration = integrationTypes[index]
             updateIntegration(integration)
-            DemoConfiguration.currentIntegration = integration
         }
     }
 }
