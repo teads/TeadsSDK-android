@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import tv.teads.teadssdkdemo.v6.data.CreativeType
 import tv.teads.teadssdkdemo.v6.data.FormatType
 import tv.teads.teadssdkdemo.v6.data.IntegrationType
 import tv.teads.teadssdkdemo.v6.data.ProviderType
@@ -30,11 +29,66 @@ class DemoViewModel : ViewModel() {
         ProviderType.PREBID
     )
     
-    private val creativeTypes = listOf(
-        CreativeType.LANDSCAPE,
-        CreativeType.VERTICAL,
-        CreativeType.SQUARE,
-        CreativeType.CAROUSEL
+    // Provider types available for Media format
+    private val mediaProviders = listOf(
+        ProviderType.DIRECT,
+        ProviderType.ADMOB,
+        ProviderType.SMART,
+        ProviderType.APPLOVIN,
+        ProviderType.PREBID
+    )
+    
+    // Provider types available for Media Native format
+    private val mediaNativeProviders = listOf(
+        ProviderType.DIRECT,
+        ProviderType.ADMOB,
+        ProviderType.SMART,
+        ProviderType.APPLOVIN
+    )
+    
+    // Provider types available for Feed/Recommendations formats
+    private val feedRecommendationsProviders = listOf(
+        ProviderType.DIRECT
+    )
+    
+    
+    // PID presets for Media format
+    private val mediaPids = listOf(
+        "Landscape" to "84242",
+        "Vertical" to "127546",
+        "Square" to "127547",
+        "Carousel" to "128779"
+    )
+    
+    // PID presets for Media Native format
+    private val mediaNativePids = listOf(
+        "Image" to "124859"
+    )
+    
+    // Widget ID presets for Feed format
+    private val feedWidgetIds = listOf(
+        "MB_1" to "MB_1",
+        "MB_2" to "MB_2", 
+        "TEST_FEED" to "TEST_FEED"
+    )
+    
+    // Widget ID presets for Recommendations format
+    private val recommendationsWidgetIds = listOf(
+        "SDK_1" to "SDK_1",
+        "RECS_1" to "RECS_1",
+        "TEST_RECS" to "TEST_RECS"
+    )
+    
+    // Installation Key presets for Feed format
+    private val feedInstallationKeys = listOf(
+        "NANOWDGT01" to "NANOWDGT01",
+        "TESTKEY01" to "TESTKEY01"
+    )
+    
+    // Installation Key presets for Recommendations format
+    private val recommendationsInstallationKeys = listOf(
+        "NANOWDGT01" to "NANOWDGT01",
+        "TESTKEY01" to "TESTKEY01"
     )
     
     private val integrationTypes = listOf(
@@ -45,57 +99,94 @@ class DemoViewModel : ViewModel() {
     )
 
     // Selected states
-    var selectedFormat: FormatType? by mutableStateOf(null)
+    var selectedFormat: FormatType? by mutableStateOf(FormatType.MEDIA)
         private set
     
-    var selectedProvider: ProviderType? by mutableStateOf(null)
+    var selectedProvider: ProviderType? by mutableStateOf(ProviderType.DIRECT)
         private set
     
-    var selectedCreativeType: CreativeType? by mutableStateOf(null)
-        private set
     
     var selectedIntegration: IntegrationType? by mutableStateOf(null)
         private set
 
-    // Custom PID
-    private val _customPid = MutableStateFlow("")
-    val customPid: StateFlow<String> = _customPid.asStateFlow()
+    // Text fields for placement configuration
+    private val _placementId = MutableStateFlow("84242") // Default PID for Media format
+    val placementId: StateFlow<String> = _placementId.asStateFlow()
+
+    private val _widgetId = MutableStateFlow("MB_1") // Default for Feed format  
+    val widgetId: StateFlow<String> = _widgetId.asStateFlow()
+
+    private val _installationKey = MutableStateFlow("")
+    val installationKey: StateFlow<String> = _installationKey.asStateFlow()
+
+    private val _articleUrl = MutableStateFlow("https://mobile-demo.outbrain.com/")
+    val articleUrl: StateFlow<String> = _articleUrl.asStateFlow()
 
     // Functions to get static lists
     fun getFormats() = formatTypes
-    fun getProviders() = providerTypes
-    fun getCreativeTypes() = creativeTypes
     fun getIntegrationTypes() = integrationTypes
     
-    fun getCurrentPid(): String = _customPid.value
+    // Get providers based on selected format
+    fun getProviders(): List<ProviderType> {
+        return when (selectedFormat) {
+            FormatType.MEDIA -> mediaProviders
+            FormatType.MEDIANATIVE -> mediaNativeProviders
+            FormatType.FEED, FormatType.RECOMMENDATIONS -> feedRecommendationsProviders
+            null -> providerTypes // Show all if no format selected
+        }
+    }
+    
 
     // Update functions
     fun updateFormat(format: FormatType) {
         selectedFormat = format
+        
+        // Reset provider if current provider is not available for the new format
+        val availableProviders = getProviders()
+        if (selectedProvider != null && selectedProvider !in availableProviders) {
+            selectedProvider = availableProviders.firstOrNull() // Set to first available provider, or null if empty
+        }
+        
+        // Clear and set default placement values when format changes
+        when (format) {
+            FormatType.MEDIA -> {
+                _placementId.value = "84242" // Landscape
+            }
+            FormatType.MEDIANATIVE -> {
+                _placementId.value = "124859" // Image
+            }
+            FormatType.FEED -> {
+                _widgetId.value = "MB_1"
+            }
+            FormatType.RECOMMENDATIONS -> {
+                _widgetId.value = "SDK_1"
+            }
+        }
     }
     
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
     }
     
-    fun updateCreativeType(creativeType: CreativeType) {
-        selectedCreativeType = creativeType
-        // Update PID based on creative type
-        val pid = when (creativeType) {
-            CreativeType.LANDSCAPE -> "landscape-pid"
-            CreativeType.VERTICAL -> "vertical-pid" 
-            CreativeType.SQUARE -> "square-pid"
-            CreativeType.CAROUSEL -> "carousel-pid"
-        }
-        _customPid.value = pid
-    }
     
     fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
     }
     
     fun updateCustomPid(pid: String) {
-        _customPid.value = pid
+        _placementId.value = pid
+    }
+
+    fun updateWidgetId(widgetId: String) {
+        _widgetId.value = widgetId
+    }
+
+    fun updateInstallationKey(installationKey: String) {
+        _installationKey.value = installationKey
+    }
+
+    fun updateArticleUrl(articleUrl: String) {
+        _articleUrl.value = articleUrl
     }
 
     // Chip data helper methods
@@ -107,7 +198,7 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getProviderChips(): List<ChipData> = providerTypes.mapIndexed { index, provider ->
+    fun getProviderChips(): List<ChipData> = getProviders().mapIndexed { index, provider ->
         ChipData(
             id = index,
             text = provider.displayName,
@@ -115,11 +206,19 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getCreativeTypeChips(): List<ChipData> = creativeTypes.mapIndexed { index, creativeType ->
+    fun getMediaPidChips(): List<ChipData> = mediaPids.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
-            text = creativeType.displayName,
-            isSelected = selectedCreativeType == creativeType
+            text = label,
+            isSelected = _placementId.value == mediaPids[index].second
+        )
+    }
+
+    fun getMediaNativePidChips(): List<ChipData> = mediaNativePids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == mediaNativePids[index].second
         )
     }
 
@@ -131,28 +230,94 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    fun getFeedWidgetIdChips(): List<ChipData> = feedWidgetIds.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _widgetId.value == feedWidgetIds[index].second
+        )
+    }
+
+    fun getRecommendationsWidgetIdChips(): List<ChipData> = recommendationsWidgetIds.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _widgetId.value == recommendationsWidgetIds[index].second
+        )
+    }
+
+    fun getFeedInstallationKeyChips(): List<ChipData> = feedInstallationKeys.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _installationKey.value == feedInstallationKeys[index].second
+        )
+    }
+
+    fun getRecommendationsInstallationKeyChips(): List<ChipData> = recommendationsInstallationKeys.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _installationKey.value == recommendationsInstallationKeys[index].second
+        )
+    }
+
     // Chip click handlers
     fun onFormatChipClick(index: Int) {
         if (index in formatTypes.indices) {
-            selectedFormat = formatTypes[index]
+            updateFormat(formatTypes[index])
         }
     }
 
     fun onProviderChipClick(index: Int) {
-        if (index in providerTypes.indices) {
-            selectedProvider = providerTypes[index]
+        val availableProviders = getProviders()
+        if (index in availableProviders.indices) {
+            updateProvider(availableProviders[index])
         }
     }
 
-    fun onCreativeTypeChipClick(index: Int) {
-        if (index in creativeTypes.indices) {
-            updateCreativeType(creativeTypes[index])
+    fun onMediaPidChipClick(index: Int) {
+        if (index in mediaPids.indices) {
+            _placementId.value = mediaPids[index].second
+        }
+
+
+    }
+
+    fun onMediaNativePidChipClick(index: Int) {
+        if (index in mediaNativePids.indices) {
+            _placementId.value = mediaNativePids[index].second
         }
     }
 
     fun onIntegrationChipClick(index: Int) {
         if (index in integrationTypes.indices) {
-            selectedIntegration = integrationTypes[index]
+            updateIntegration(integrationTypes[index])
+        }
+    }
+
+    fun onFeedWidgetIdChipClick(index: Int) {
+        if (index in feedWidgetIds.indices) {
+            _widgetId.value = feedWidgetIds[index].second
+        }
+    }
+
+    fun onRecommendationsWidgetIdChipClick(index: Int) {
+        if (index in recommendationsWidgetIds.indices) {
+            _widgetId.value = recommendationsWidgetIds[index].second
+        }
+    }
+
+    fun onFeedInstallationKeyChipClick(index: Int) {
+        if (index in feedInstallationKeys.indices) {
+            _installationKey.value = feedInstallationKeys[index].second
+        }
+    }
+
+    fun onRecommendationsInstallationKeyChipClick(index: Int) {
+        if (index in recommendationsInstallationKeys.indices) {
+            _installationKey.value = recommendationsInstallationKeys[index].second
         }
     }
 }
+

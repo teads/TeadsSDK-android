@@ -8,8 +8,5 @@ enum class ProviderType(val displayName: String) {
     ADMOB("AdMob"),
     SMART("Smart"),
     APPLOVIN("AppLovin"),
-    PREBID("Prebid"),
-    MEDIATION("Mediation"),
-    IRONSOURCE("IronSource"),
-    UNITY("Unity Ads")
+    PREBID("Prebid")
 }
