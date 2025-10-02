@@ -15,6 +15,7 @@ import tv.teads.teadssdkdemo.v6.ui.components.ChipGroup
 import tv.teads.teadssdkdemo.v6.ui.components.Section
 import tv.teads.teadssdkdemo.v6.ui.components.TeadsButton
 
+@androidx.compose.foundation.ExperimentalFoundationApi
 @Composable
 fun DemoScreen(
     modifier: Modifier = Modifier,
