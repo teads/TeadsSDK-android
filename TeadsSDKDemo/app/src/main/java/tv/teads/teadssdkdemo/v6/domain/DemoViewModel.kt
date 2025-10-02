@@ -7,23 +7,49 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import tv.teads.teadssdkdemo.v6.data.DemoConfiguration
 import tv.teads.teadssdkdemo.v6.ui.components.ChipData
 
 class DemoViewModel : ViewModel() {
+
+    // Selected states
+    var selectedFormat: FormatType? by mutableStateOf(null)
+        private set
+
+    private var selectedProvider: ProviderType? by mutableStateOf(null)
+
+
+    private var selectedIntegration: IntegrationType? by mutableStateOf(null)
+
+    // Text fields for placement configuration
+    private val _placementId = MutableStateFlow("")
+    val placementId: StateFlow<String> = _placementId.asStateFlow()
+
+    private val _widgetId = MutableStateFlow("")
+    val widgetId: StateFlow<String> = _widgetId.asStateFlow()
+
+    private val _installationKey = MutableStateFlow("")
+    val installationKey: StateFlow<String> = _installationKey.asStateFlow()
+
+    private val _articleUrl = MutableStateFlow("")
+    val articleUrl: StateFlow<String> = _articleUrl.asStateFlow()
+
+    init {
+        // Initialize with defaults and sync with DemoConfiguration
+        selectedFormat = DemoConfiguration.getFormatOrDefault()
+        selectedProvider = DemoConfiguration.getProviderOrDefault()
+        _placementId.value = DemoConfiguration.getPlacementIdOrDefault()
+        _widgetId.value = DemoConfiguration.getWidgetIdOrDefault()
+        _installationKey.value = DemoConfiguration.getInstallationKeyOrDefault()
+        _articleUrl.value = DemoConfiguration.getArticleUrlOrDefault()
+    }
+
     // Static lists
     private val formatTypes = listOf(
         FormatType.MEDIA,
         FormatType.MEDIANATIVE,
         FormatType.FEED,
         FormatType.RECOMMENDATIONS
-    )
-    
-    private val providerTypes = listOf(
-        ProviderType.DIRECT,
-        ProviderType.ADMOB,
-        ProviderType.SMART,
-        ProviderType.APPLOVIN,
-        ProviderType.PREBID
     )
     
     // Provider types available for Media format
@@ -94,75 +120,49 @@ class DemoViewModel : ViewModel() {
         IntegrationType.SCROLLVIEW,
         IntegrationType.RECYCLERVIEW
     )
-
-    // Selected states
-    var selectedFormat: FormatType? by mutableStateOf(FormatType.MEDIA)
-        private set
-    
-    var selectedProvider: ProviderType? by mutableStateOf(ProviderType.DIRECT)
-        private set
-    
-    
-    var selectedIntegration: IntegrationType? by mutableStateOf(null)
-        private set
-
-    // Text fields for placement configuration
-    private val _placementId = MutableStateFlow("84242") // Default PID for Media format
-    val placementId: StateFlow<String> = _placementId.asStateFlow()
-
-    private val _widgetId = MutableStateFlow("MB_1") // Default for Feed format  
-    val widgetId: StateFlow<String> = _widgetId.asStateFlow()
-
-    private val _installationKey = MutableStateFlow("")
-    val installationKey: StateFlow<String> = _installationKey.asStateFlow()
-
-    private val _articleUrl = MutableStateFlow("https://mobile-demo.outbrain.com/")
-    val articleUrl: StateFlow<String> = _articleUrl.asStateFlow()
-
-    // Functions to get static lists
-    fun getFormats() = formatTypes
-    fun getIntegrationTypes() = integrationTypes
     
     // Get providers based on selected format
-    fun getProviders(): List<ProviderType> {
+    private fun getProviders(): List<ProviderType> {
         return when (selectedFormat) {
             FormatType.MEDIA -> mediaProviders
             FormatType.MEDIANATIVE -> mediaNativeProviders
             FormatType.FEED, FormatType.RECOMMENDATIONS -> feedRecommendationsProviders
-            null -> providerTypes // Show all if no format selected
+            else -> throw IllegalAccessException("selectedFormat is null")
         }
     }
     
 
     // Update functions
-    fun updateFormat(format: FormatType) {
+    private fun updateDefaultsFormat(format: FormatType) {
         selectedFormat = format
-        
+        DemoConfiguration.currentFormat = format
+
         // Reset provider if current provider is not available for the new format
         val availableProviders = getProviders()
         if (selectedProvider != null && selectedProvider !in availableProviders) {
             selectedProvider = availableProviders.firstOrNull() // Set to first available provider, or null if empty
         }
         
-        // Clear and set default placement values when format changes
+        // Set appropriate values when format changes (no empty checks!)
         when (format) {
             FormatType.MEDIA -> {
-                _placementId.value = "84242" // Landscape
+                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_PID
             }
             FormatType.MEDIANATIVE -> {
-                _placementId.value = "124859" // Image
+                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_NATIVE_PID
             }
             FormatType.FEED -> {
-                _widgetId.value = "MB_1"
+                _widgetId.value = DemoConfiguration.DEFAULT_FEED_WIDGET_ID
             }
             FormatType.RECOMMENDATIONS -> {
-                _widgetId.value = "SDK_1"
+                _widgetId.value = DemoConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID
             }
         }
     }
     
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
+        DemoConfiguration.currentProvider = provider
     }
     
     
@@ -170,20 +170,24 @@ class DemoViewModel : ViewModel() {
         selectedIntegration = integration
     }
     
-    fun updateCustomPid(pid: String) {
+    fun updatePlacementId(pid: String) {
         _placementId.value = pid
+        DemoConfiguration.currentPlacementId = pid
     }
 
     fun updateWidgetId(widgetId: String) {
         _widgetId.value = widgetId
+        DemoConfiguration.currentWidgetId = widgetId
     }
 
     fun updateInstallationKey(installationKey: String) {
         _installationKey.value = installationKey
+        DemoConfiguration.currentInstallationKey = installationKey
     }
 
     fun updateArticleUrl(articleUrl: String) {
         _articleUrl.value = articleUrl
+        DemoConfiguration.currentArticleUrl = articleUrl
     }
 
     // Chip data helper methods
@@ -262,20 +266,23 @@ class DemoViewModel : ViewModel() {
     // Chip click handlers
     fun onFormatChipClick(index: Int) {
         if (index in formatTypes.indices) {
-            updateFormat(formatTypes[index])
+            val format = formatTypes[index]
+            updateDefaultsFormat(format)
         }
     }
 
     fun onProviderChipClick(index: Int) {
         val availableProviders = getProviders()
         if (index in availableProviders.indices) {
-            updateProvider(availableProviders[index])
+            val provider = availableProviders[index]
+            updateProvider(provider)
         }
     }
 
     fun onMediaPidChipClick(index: Int) {
         if (index in mediaPids.indices) {
-            _placementId.value = mediaPids[index].second
+            val pid = mediaPids[index].second
+            _placementId.value = pid
         }
 
 
@@ -283,37 +290,46 @@ class DemoViewModel : ViewModel() {
 
     fun onMediaNativePidChipClick(index: Int) {
         if (index in mediaNativePids.indices) {
-            _placementId.value = mediaNativePids[index].second
-        }
-    }
-
-    fun onIntegrationChipClick(index: Int) {
-        if (index in integrationTypes.indices) {
-            updateIntegration(integrationTypes[index])
+            val pid = mediaNativePids[index].second
+            _placementId.value = pid
         }
     }
 
     fun onFeedWidgetIdChipClick(index: Int) {
         if (index in feedWidgetIds.indices) {
-            _widgetId.value = feedWidgetIds[index].second
+            val widgetId = feedWidgetIds[index].second
+            _widgetId.value = widgetId
         }
     }
 
     fun onRecommendationsWidgetIdChipClick(index: Int) {
         if (index in recommendationsWidgetIds.indices) {
-            _widgetId.value = recommendationsWidgetIds[index].second
+            val widgetId = recommendationsWidgetIds[index].second
+            _widgetId.value = widgetId
         }
     }
 
     fun onFeedInstallationKeyChipClick(index: Int) {
         if (index in feedInstallationKeys.indices) {
-            _installationKey.value = feedInstallationKeys[index].second
+            val installationKey = feedInstallationKeys[index].second
+            _installationKey.value = installationKey
         }
     }
 
     fun onRecommendationsInstallationKeyChipClick(index: Int) {
         if (index in recommendationsInstallationKeys.indices) {
-            _installationKey.value = recommendationsInstallationKeys[index].second
+            val installationKey = recommendationsInstallationKeys[index].second
+            _installationKey.value = installationKey
+        }
+    }
+
+    fun onArticleUrlChange(articleUrl: String) {
+        updateArticleUrl(articleUrl)
+    }
+
+    fun onIntegrationChipClick(index: Int) {
+        if (index in integrationTypes.indices) {
+            updateIntegration(integrationTypes[index])
         }
     }
 }

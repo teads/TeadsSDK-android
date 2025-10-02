@@ -68,7 +68,7 @@ fun DemoScreen(
                         // Article URL Text Field (first)
                         OutlinedTextField(
                             value = articleUrl,
-                            onValueChange = viewModel::updateArticleUrl,
+                            onValueChange = viewModel::onArticleUrlChange,
                             label = { androidx.compose.material3.Text("Article URL") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -76,7 +76,7 @@ fun DemoScreen(
                         // Placement ID Text Field
                         OutlinedTextField(
                             value = placementId,
-                            onValueChange = viewModel::updateCustomPid,
+                            onValueChange = viewModel::updatePlacementId,
                             label = { androidx.compose.material3.Text("Placement ID") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier.fillMaxWidth()
@@ -92,7 +92,7 @@ fun DemoScreen(
                         // Article URL Text Field (first)
                         OutlinedTextField(
                             value = articleUrl,
-                            onValueChange = viewModel::updateArticleUrl,
+                            onValueChange = viewModel::onArticleUrlChange,
                             label = { androidx.compose.material3.Text("Article URL") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -100,7 +100,7 @@ fun DemoScreen(
                         // Placement ID Text Field
                         OutlinedTextField(
                             value = placementId,
-                            onValueChange = viewModel::updateCustomPid,
+                            onValueChange = viewModel::updatePlacementId,
                             label = { androidx.compose.material3.Text("Placement ID") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier.fillMaxWidth()
@@ -116,7 +116,7 @@ fun DemoScreen(
                         // Article URL Text Field (first)
                         OutlinedTextField(
                             value = articleUrl,
-                            onValueChange = viewModel::updateArticleUrl,
+                            onValueChange = viewModel::onArticleUrlChange,
                             label = { androidx.compose.material3.Text("Article URL") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -154,7 +154,7 @@ fun DemoScreen(
                         // Article URL Text Field (first)
                         OutlinedTextField(
                             value = articleUrl,
-                            onValueChange = viewModel::updateArticleUrl,
+                            onValueChange = viewModel::onArticleUrlChange,
                             label = { androidx.compose.material3.Text("Article URL") },
                             modifier = Modifier.fillMaxWidth()
                         )
