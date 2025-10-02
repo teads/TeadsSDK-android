@@ -7,9 +7,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import tv.teads.teadssdkdemo.v6.data.FormatType
-import tv.teads.teadssdkdemo.v6.data.IntegrationType
-import tv.teads.teadssdkdemo.v6.data.ProviderType
 import tv.teads.teadssdkdemo.v6.ui.components.ChipData
 
 class DemoViewModel : ViewModel() {

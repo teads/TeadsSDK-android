@@ -21,7 +21,7 @@
 
         <activity
             android:exported="true"
-            android:name=".v6.MainActivityV6"
+            android:name=".v6.ui.MainActivityV6"
             android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"

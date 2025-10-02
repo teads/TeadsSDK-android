@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6
+package tv.teads.teadssdkdemo.v6.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

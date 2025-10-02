@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.data
+package tv.teads.teadssdkdemo.v6.domain
 
 /**
  * Represents the different integration types available in the demo

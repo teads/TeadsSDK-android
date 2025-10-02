@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import tv.teads.teadssdkdemo.v6.data.FormatType
+import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.DemoViewModel
 import tv.teads.teadssdkdemo.v6.ui.components.ChipGroup
 import tv.teads.teadssdkdemo.v6.ui.components.Section
