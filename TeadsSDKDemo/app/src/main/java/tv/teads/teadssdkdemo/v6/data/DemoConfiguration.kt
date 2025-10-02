@@ -2,6 +2,7 @@ package tv.teads.teadssdkdemo.v6.data
 
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 
 /**
  * Configuration object that holds default values and current session values
@@ -15,9 +16,11 @@ object DemoConfiguration {
     var currentWidgetId: String = ""
     var currentInstallationKey: String = ""
     var currentArticleUrl: String = ""
+    var currentIntegration: IntegrationType? = null
 
     val DEFAULT_FORMAT = FormatType.MEDIA
     val DEFAULT_PROVIDER = ProviderType.DIRECT
+    val DEFAULT_INTEGRATION = IntegrationType.COLUMN
     val DEFAULT_MEDIA_PID = "84242" // Landscape
     val DEFAULT_MEDIA_NATIVE_PID = "124859" // Image
     val DEFAULT_FEED_WIDGET_ID = "MB_1"
@@ -37,6 +40,13 @@ object DemoConfiguration {
      */
     fun getProviderOrDefault(): ProviderType {
         return currentProvider ?: DEFAULT_PROVIDER
+    }
+
+    /**
+     * Get current or default integration
+     */
+    fun getIntegrationOrDefault(): IntegrationType {
+        return currentIntegration ?: DEFAULT_INTEGRATION
     }
     
     /**

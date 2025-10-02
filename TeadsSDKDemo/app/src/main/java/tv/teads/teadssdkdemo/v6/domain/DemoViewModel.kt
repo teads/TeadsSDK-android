@@ -38,6 +38,7 @@ class DemoViewModel : ViewModel() {
         // Initialize with defaults and sync with DemoConfiguration
         selectedFormat = DemoConfiguration.getFormatOrDefault()
         selectedProvider = DemoConfiguration.getProviderOrDefault()
+        selectedIntegration = DemoConfiguration.getIntegrationOrDefault()
         _placementId.value = DemoConfiguration.getPlacementIdOrDefault()
         _widgetId.value = DemoConfiguration.getWidgetIdOrDefault()
         _installationKey.value = DemoConfiguration.getInstallationKeyOrDefault()
@@ -168,6 +169,7 @@ class DemoViewModel : ViewModel() {
     
     fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
+        DemoConfiguration.currentIntegration = integration
     }
     
     fun updatePlacementId(pid: String) {
@@ -324,12 +326,15 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onArticleUrlChange(articleUrl: String) {
-        updateArticleUrl(articleUrl)
+        _articleUrl.value = articleUrl
+        DemoConfiguration.currentArticleUrl = articleUrl
     }
 
     fun onIntegrationChipClick(index: Int) {
         if (index in integrationTypes.indices) {
-            updateIntegration(integrationTypes[index])
+            val integration = integrationTypes[index]
+            updateIntegration(integration)
+            DemoConfiguration.currentIntegration = integration
         }
     }
 }
