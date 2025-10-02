@@ -11,6 +11,7 @@ import tv.teads.teadssdkdemo.v6.data.CreativeType
 import tv.teads.teadssdkdemo.v6.data.FormatType
 import tv.teads.teadssdkdemo.v6.data.IntegrationType
 import tv.teads.teadssdkdemo.v6.data.ProviderType
+import tv.teads.teadssdkdemo.v6.ui.components.ChipData
 
 class DemoViewModel : ViewModel() {
     // Static lists
@@ -95,5 +96,63 @@ class DemoViewModel : ViewModel() {
     
     fun updateCustomPid(pid: String) {
         _customPid.value = pid
+    }
+
+    // Chip data helper methods
+    fun getFormatChips(): List<ChipData> = formatTypes.mapIndexed { index, format ->
+        ChipData(
+            id = index,
+            text = format.displayName,
+            isSelected = selectedFormat == format
+        )
+    }
+
+    fun getProviderChips(): List<ChipData> = providerTypes.mapIndexed { index, provider ->
+        ChipData(
+            id = index,
+            text = provider.displayName,
+            isSelected = selectedProvider == provider
+        )
+    }
+
+    fun getCreativeTypeChips(): List<ChipData> = creativeTypes.mapIndexed { index, creativeType ->
+        ChipData(
+            id = index,
+            text = creativeType.displayName,
+            isSelected = selectedCreativeType == creativeType
+        )
+    }
+
+    fun getIntegrationChips(): List<ChipData> = integrationTypes.mapIndexed { index, integration ->
+        ChipData(
+            id = index,
+            text = integration.displayName,
+            isSelected = selectedIntegration == integration
+        )
+    }
+
+    // Chip click handlers
+    fun onFormatChipClick(index: Int) {
+        if (index in formatTypes.indices) {
+            selectedFormat = formatTypes[index]
+        }
+    }
+
+    fun onProviderChipClick(index: Int) {
+        if (index in providerTypes.indices) {
+            selectedProvider = providerTypes[index]
+        }
+    }
+
+    fun onCreativeTypeChipClick(index: Int) {
+        if (index in creativeTypes.indices) {
+            updateCreativeType(creativeTypes[index])
+        }
+    }
+
+    fun onIntegrationChipClick(index: Int) {
+        if (index in integrationTypes.indices) {
+            selectedIntegration = integrationTypes[index]
+        }
     }
 }

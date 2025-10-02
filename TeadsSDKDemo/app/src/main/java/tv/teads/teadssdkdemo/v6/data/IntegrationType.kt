@@ -5,7 +5,7 @@ package tv.teads.teadssdkdemo.v6.data
  */
 enum class IntegrationType(val displayName: String) {
     COLUMN("Column"),
-    LAZY_COLUMN("Lazy Column"),
-    SCROLL_VIEW("ScrollView"),
-    RECYCLER_VIEW("RecyclerView")
+    LAZYCOLUMN("Lazy Column"),
+    SCROLLVIEW("ScrollView"),
+    RECYCLERVIEW("RecyclerView")
 }

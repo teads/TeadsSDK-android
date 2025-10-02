@@ -5,7 +5,7 @@ package tv.teads.teadssdkdemo.v6.data
  */
 enum class FormatType(val displayName: String) {
     MEDIA("Media"),
-    MEDIA_NATIVE("Media Native"),
+    MEDIANATIVE("Media Native"),
     FEED("Feed"),
     RECOMMENDATIONS("Recommendations")
 }
