@@ -44,22 +44,17 @@ class IntegrationActivity : BaseActivity() {
     }
 
     private fun setupToolbar() {
-        // Setup toolbar to match MediaColumnScreen TopAppBar styling
         findViewById<Toolbar>(R.id.toolbar).apply {
             title = currentRoute?.javaClass?.simpleName ?: "Integration Sample"
             
-            // Set colors to match Material 3 theme
             setTitleTextColor(getColor(R.color.titleTextColor))
             
-            // Set as support action bar (like TopAppBar in MainActivityV6)
             setSupportActionBar(this)
             supportActionBar?.apply {
                 setDisplayHomeAsUpEnabled(true)
                 setDisplayShowHomeEnabled(true)
-                // Use default arrow - it will be themed automatically
             }
             
-            // Handle navigation click (same as onBackClick in MediaColumnScreen)
             setNavigationOnClickListener {
                 handleBackPress()
             }
@@ -85,10 +80,8 @@ class IntegrationActivity : BaseActivity() {
                     .replace(R.id.content_container, fragment, route.getFragmentTag())
                     .commit()
                 
-                // Update toolbar title
                 supportActionBar?.title = route.javaClass.simpleName
             } catch (e: Exception) {
-                // Handle fragment loading error
                 finish()
             }
         } ?: run {
