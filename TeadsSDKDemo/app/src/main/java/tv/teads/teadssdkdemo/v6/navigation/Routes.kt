@@ -14,6 +14,7 @@ sealed class Route {
     data object Demo : Route()
     data object MediaScrollView : Route()
     data object MediaColumn : Route()
+    data object MediaLazyColumn : Route()
     data object MediaRecyclerView : Route()
     data object MediaNativeScrollView : Route()
     data object MediaNativeColumn : Route()
@@ -42,7 +43,7 @@ object RouteFactory {
                     IntegrationType.SCROLLVIEW -> Route.MediaScrollView
                     IntegrationType.RECYCLERVIEW -> Route.MediaRecyclerView
                     IntegrationType.COLUMN -> Route.MediaColumn
-                    else -> throw IllegalAccessException("Impossible route")
+                    IntegrationType.LAZYCOLUMN -> Route.MediaLazyColumn
                 }
             }
             else -> throw IllegalAccessException("Impossible route")

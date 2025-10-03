@@ -30,6 +30,7 @@ import tv.teads.teadssdkdemo.v6.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.screens.DemoScreen
 import tv.teads.teadssdkdemo.v6.ui.screens.MediaColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.screens.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.theme.TeadsSDKDemoTheme
 
 class MainActivityV6 : ComponentActivity() {
@@ -63,6 +64,7 @@ class MainActivityV6 : ComponentActivity() {
                                 Text(
                                     when (currentRoute) {
                                         Route.MediaColumn -> "Media Column Screen"
+                                        Route.MediaLazyColumn -> "Media LazyColumn Screen"
                                         Route.Demo -> "Teads SDK Demo V6"
                                         else -> "Teads SDK Demo V6"
                                     }
@@ -74,7 +76,7 @@ class MainActivityV6 : ComponentActivity() {
                             ),
                             navigationIcon = {
                                 when (currentRoute) {
-                                    Route.MediaColumn -> {
+                                    Route.MediaColumn, Route.MediaLazyColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
                                             Icon(
                                                 imageVector = Icons.Filled.ArrowBack,
@@ -95,7 +97,7 @@ class MainActivityV6 : ComponentActivity() {
                             // Set up navigation callback
                             viewModel.setOnNavigateCallback { route ->
                                 when (route) {
-                                    Route.MediaColumn -> {
+                                    Route.MediaColumn, Route.MediaLazyColumn -> {
                                         currentRoute = route
                                     }
                                     else -> {
@@ -113,30 +115,11 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.MediaColumn -> {
                             MediaColumnScreen(
-                                modifier = Modifier.padding(paddingValues),
-                                onBackClick = { currentRoute = Route.Demo }
+                                modifier = Modifier.padding(paddingValues)
                             )
                         }
-
-                        Route.Demo -> {
-                            val viewModel: DemoViewModel = viewModel()  
-                            
-                            // Set up navigation callback
-                            viewModel.setOnNavigateCallback { route ->
-                                when (route) {
-                                    Route.MediaColumn -> {
-                                        currentRoute = route
-                                    }
-                                    else -> {
-                                        NavigationHandler.navigateToRoute(
-                                            fromActivity = this@MainActivityV6,
-                                            route = route
-                                        )
-                                    }
-                                }
-                            }
-                            
-                            DemoScreen(
+                        Route.MediaLazyColumn -> {
+                            MediaLazyColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

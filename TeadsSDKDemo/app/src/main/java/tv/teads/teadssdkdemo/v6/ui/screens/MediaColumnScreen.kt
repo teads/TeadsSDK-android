@@ -18,8 +18,7 @@ import tv.teads.teadssdkdemo.v6.ui.components.ArticleTitle
 
 @Composable
 fun MediaColumnScreen(
-    modifier: Modifier = Modifier,
-    onBackClick: () -> Unit = {}
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -39,11 +38,8 @@ fun MediaColumnScreen(
         ArticleSpacing()
         ArticleBody()
         ArticleSpacing()
-        // Ad container
         AdContainer(
-            onAdContainerClick = {
-                // Placeholder for ad interaction
-            }
+            // Ad view
         )
         ArticleSpacing()
         ArticleBody()
