@@ -83,8 +83,8 @@ class DemoViewModel : ViewModel() {
     private val mediaProviders = listOf(
         ProviderType.DIRECT,
         ProviderType.ADMOB,
-        ProviderType.SMART,
         ProviderType.APPLOVIN,
+        ProviderType.SMART,
         ProviderType.PREBID
     )
 
@@ -92,8 +92,8 @@ class DemoViewModel : ViewModel() {
     private val mediaNativeProviders = listOf(
         ProviderType.DIRECT,
         ProviderType.ADMOB,
-        ProviderType.SMART,
-        ProviderType.APPLOVIN
+        ProviderType.APPLOVIN,
+        ProviderType.SMART
     )
 
     // Provider types available for Feed/Recommendations formats
@@ -219,8 +219,6 @@ class DemoViewModel : ViewModel() {
 
             ProviderType.DIRECT to FormatType.RECOMMENDATIONS ->
                 _widgetId.value = DemoConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID
-
-            else -> throw IllegalAccessException("Impossible combination")
         }
     }
 
@@ -271,6 +269,10 @@ class DemoViewModel : ViewModel() {
             text = provider.displayName,
             isSelected = selectedProvider == provider
         )
+    }
+
+    fun hasPlacementId(): Boolean {
+        return listOf(ProviderType.DIRECT, ProviderType.ADMOB, ProviderType.APPLOVIN).contains(selectedProvider)
     }
 
     fun getInputMethod(): KeyboardType = when (selectedProvider to selectedFormat) {

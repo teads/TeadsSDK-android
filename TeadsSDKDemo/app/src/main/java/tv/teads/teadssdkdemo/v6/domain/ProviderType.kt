@@ -6,7 +6,7 @@ package tv.teads.teadssdkdemo.v6.domain
 enum class ProviderType(val displayName: String) {
     DIRECT("Direct"),
     ADMOB("AdMob"),
-    SMART("Smart"),
     APPLOVIN("AppLovin"),
+    SMART("Smart"),
     PREBID("Prebid")
 }

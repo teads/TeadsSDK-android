@@ -82,7 +82,7 @@ fun DemoScreen(
                 Column {
                     when (viewModel.selectedFormat) {
                         FormatType.MEDIA, FormatType.MEDIANATIVE -> {
-                            // Article URL Text Field (first)
+                            // Article URL Text Field
                             DemoTextField(
                                 value = articleUrl,
                                 onValueChange = viewModel::onArticleUrlChange,
@@ -90,23 +90,25 @@ fun DemoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
 
-                            // Placement ID Text Field
-                            DemoTextField(
-                                value = placementId,
-                                onValueChange = viewModel::updatePlacementId,
-                                label = "Placement ID",
-                                keyboardType = viewModel.getInputMethod(),
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                            if (viewModel.hasPlacementId()) {
+                                // Placement ID Text Field
+                                DemoTextField(
+                                    value = placementId,
+                                    onValueChange = viewModel::updatePlacementId,
+                                    label = "Placement ID",
+                                    keyboardType = viewModel.getInputMethod(),
+                                    modifier = Modifier.fillMaxWidth()
+                                )
 
-                            // Media PID Chips below Placement ID
-                            ChipGroup(
-                                chips = viewModel.getPidChips(),
-                                onChipClick = viewModel::onPidChipClick
-                            )
+                                // PID Chips
+                                ChipGroup(
+                                    chips = viewModel.getPidChips(),
+                                    onChipClick = viewModel::onPidChipClick
+                                )
+                            }
                         }
                         FormatType.FEED -> {
-                            // Article URL Text Field (first)
+                            // Article URL Text Field
                             DemoTextField(
                                 value = articleUrl,
                                 onValueChange = viewModel::onArticleUrlChange,
@@ -122,7 +124,7 @@ fun DemoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
 
-                            // Feed Widget ID Chips below Widget ID
+                            // Feed Widget ID Chips
                             ChipGroup(
                                 chips = viewModel.getFeedWidgetIdChips(),
                                 onChipClick = viewModel::onFeedWidgetIdChipClick
@@ -136,15 +138,14 @@ fun DemoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
 
-                            // Feed Installation Key Chips below Installation Key
-
+                            // Feed Installation Key Chips
                             ChipGroup(
                                 chips = viewModel.getFeedInstallationKeyChips(),
                                 onChipClick = viewModel::onFeedInstallationKeyChipClick
                             )
                         }
                         FormatType.RECOMMENDATIONS -> {
-                            // Article URL Text Field (first)
+                            // Article URL Text Field
                             DemoTextField(
                                 value = articleUrl,
                                 onValueChange = viewModel::onArticleUrlChange,
@@ -160,7 +161,7 @@ fun DemoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
 
-                            // Recommendations Widget ID Chips below Widget ID
+                            // Recommendations Widget ID Chips
                             ChipGroup(
                                 chips = viewModel.getRecommendationsWidgetIdChips(),
                                 onChipClick = viewModel::onRecommendationsWidgetIdChipClick
@@ -174,7 +175,7 @@ fun DemoScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
 
-                            // Recommendations Installation Key Chips below Installation Key
+                            // Recommendations Installation Key Chips
                             ChipGroup(
                                 chips = viewModel.getRecommendationsInstallationKeyChips(),
                                 onChipClick = viewModel::onRecommendationsInstallationKeyChipClick
