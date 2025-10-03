@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.applovin.sdk.AppLovinSdk
 import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
+import tv.teads.teadssdkdemo.v6.utils.AnimationHelper
 
 
 class SplashScreen : AppCompatActivity() {
@@ -22,7 +23,7 @@ class SplashScreen : AppCompatActivity() {
         val mainIntent = Intent(this@SplashScreen, MainActivity::class.java)
         this@SplashScreen.startActivity(mainIntent)
         this@SplashScreen.finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        AnimationHelper.applyFadeCloseTransition(this)
     }
 
     companion object {

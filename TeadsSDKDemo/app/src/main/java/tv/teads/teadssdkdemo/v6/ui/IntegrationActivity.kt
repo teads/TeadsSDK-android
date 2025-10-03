@@ -4,14 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.v6.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.navigation.Route
 import tv.teads.teadssdkdemo.v6.navigation.getFragmentClass
 import tv.teads.teadssdkdemo.v6.navigation.getFragmentTag
+import tv.teads.teadssdkdemo.v6.utils.AnimationHelper
 
-class IntegrationActivity : BaseActivity() {
+class IntegrationActivity : AppCompatActivity() {
     
     companion object {
         const val EXTRA_ROUTE = "route"
@@ -31,6 +35,7 @@ class IntegrationActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupBackButtonHandling()
         enableEdgeToEdge()
         window.statusBarColor = getColor(R.color.background)
         
@@ -61,6 +66,21 @@ class IntegrationActivity : BaseActivity() {
         }
     }
 
+    private fun setupBackButtonHandling() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackPress()
+            }
+        })
+    }
+
+    /**
+     * Handle back button press - navigate back to demo
+     */
+    private fun handleBackPress() {
+        NavigationHandler.navigateBackToDemo(this)
+    }
+
     private fun loadRouteFromIntent() {
         val routeName = intent.getStringExtra(EXTRA_ROUTE)
         currentRoute = when (routeName) {
@@ -74,7 +94,7 @@ class IntegrationActivity : BaseActivity() {
         currentRoute?.let { route ->
             try {
                 val fragmentClass = route.getFragmentClass()
-                val fragment = fragmentClass.newInstance()
+                val fragment = fragmentClass.getDeclaredConstructor().newInstance()
                 
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.content_container, fragment, route.getFragmentTag())
@@ -106,10 +126,6 @@ class IntegrationActivity : BaseActivity() {
 
     override fun finish() {
         super.finish()
-        // Add exit animation when activity finishes
-        overridePendingTransition(
-            android.R.anim.fade_in,
-            android.R.anim.fade_out
-        )
+        AnimationHelper.applyFadeCloseTransition(this)
     }
 }

@@ -3,6 +3,7 @@ package tv.teads.teadssdkdemo.v6.navigation
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import tv.teads.teadssdkdemo.v6.ui.IntegrationActivity
+import tv.teads.teadssdkdemo.v6.utils.AnimationHelper
 
 /**
  * Navigation handler responsible for navigating to the specified route
@@ -31,11 +32,7 @@ object NavigationHandler {
      */
     private fun navigateToIntegrationActivity(fromActivity: ComponentActivity, route: Route) {
         IntegrationActivity.launch(fromActivity, route)
-        // Add exit animation
-        fromActivity.overridePendingTransition(
-            android.R.anim.fade_in, 
-            android.R.anim.fade_out
-        )
+        AnimationHelper.applyFadeOpenTransition(fromActivity)
     }
 
     /**
@@ -45,9 +42,6 @@ object NavigationHandler {
         val intent = Intent(fromActivity, tv.teads.teadssdkdemo.v6.ui.MainActivityV6::class.java)
         fromActivity.startActivity(intent)
         fromActivity.finish()
-        fromActivity.overridePendingTransition(
-            android.R.anim.fade_in, 
-            android.R.anim.fade_out
-        )
+        AnimationHelper.applyFadeCloseTransition(fromActivity)
     }
 }
