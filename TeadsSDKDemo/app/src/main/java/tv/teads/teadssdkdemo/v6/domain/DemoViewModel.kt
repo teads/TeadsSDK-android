@@ -9,8 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import tv.teads.teadssdkdemo.v6.data.DemoConfiguration
 import tv.teads.teadssdkdemo.v6.ui.components.ChipData
+import tv.teads.teadssdkdemo.v6.navigation.Route
+import tv.teads.teadssdkdemo.v6.navigation.RouteFactory
 
 class DemoViewModel : ViewModel() {
+
+    // Navigation callback
+    private var onNavigateCallback: ((Route) -> Unit)? = null
 
     // Selected states
     var selectedFormat: FormatType? by mutableStateOf(null)
@@ -44,6 +49,26 @@ class DemoViewModel : ViewModel() {
         _installationKey.value = DemoConfiguration.getInstallationKeyOrDefault()
         _articleUrl.value = DemoConfiguration.getArticleUrlOrDefault()
     }
+
+    /**
+     * Set navigation callback  
+     */
+    fun setOnNavigateCallback(callback: (Route) -> Unit) {
+        onNavigateCallback = callback
+    }
+
+    /**
+     * Trigger navigation based on current configuration
+     */
+    fun launchNavigation() {
+        val route = RouteFactory.createRoute(
+            format = DemoConfiguration.getFormatOrDefault(),
+            provider = DemoConfiguration.getProviderOrDefault(),
+            integration = DemoConfiguration.getIntegrationOrDefault()
+        )
+        onNavigateCallback?.invoke(route)
+    }
+
 
     // Static lists
     private val formatTypes = listOf(
