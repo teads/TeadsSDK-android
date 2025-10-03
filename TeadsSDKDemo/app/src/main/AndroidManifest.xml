@@ -36,10 +36,10 @@
 
         <activity
             android:exported="false"
-            android:name=".v6.ui.MediaScrollViewActivity"
+            android:name=".v6.ui.IntegrationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|uiMode|locale|smallestScreenSize|colorMode|density"
             android:hardwareAccelerated="true"
-            android:label="Media ScrollView"
+            android:label="Integration Sample"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         </activity>
 

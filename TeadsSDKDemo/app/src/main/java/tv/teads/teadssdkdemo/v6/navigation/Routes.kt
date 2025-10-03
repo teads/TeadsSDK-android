@@ -1,8 +1,10 @@
 package tv.teads.teadssdkdemo.v6.navigation
 
+import androidx.fragment.app.Fragment
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.ui.fragments.MediaScrollViewFragment
 
 /**
  * Sealed class representing all possible navigation routes
@@ -105,5 +107,24 @@ object RouteFactory {
 //            }
             else -> Route.Default
         }
+    }
+}
+
+/**
+ * Extension functions for Route utilities
+ */
+fun Route.getFragmentClass(): Class<out Fragment> {
+    return when (this) {
+        Route.MediaScrollView -> MediaScrollViewFragment::class.java
+        // TODO: Add more fragment classes as we create them
+        else -> throw IllegalArgumentException("No fragment defined for route: $this")
+    }
+}
+
+fun Route.getFragmentTag(): String {
+    return when (this) {
+        Route.MediaScrollView -> "MediaScrollViewFragment"
+        // TODO: Add more fragment tags as we create them
+        else -> throw IllegalArgumentException("No fragment tag defined for route: $this")
     }
 }
