@@ -1,20 +1,29 @@
 package tv.teads.teadssdkdemo.v6.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
+import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementMedia
+import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaConfig
+import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
+import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.v6.data.DemoConfiguration
 
-class MediaScrollViewFragment : Fragment() {
-    
+class MediaScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
+
+    private lateinit var mediaAd: TeadsAdPlacementMedia
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Use modular article scroll view template
         return inflater.inflate(R.layout.article_scroll_view_template, container, false)
     }
 
@@ -24,12 +33,40 @@ class MediaScrollViewFragment : Fragment() {
     }
 
     private fun setupContent() {
-        // Content is already set up from article_template.xml
-        // Customize ad container for ScrollView integration
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
-        adContainer?.let { container ->
-            // The container is ready for Teads SDK ScrollView integration
-            // This is where you would add your Teads ScrollView
-        }
+
+        // 1 Init configuration
+        val config = TeadsAdPlacementMediaConfig(
+            pid = DemoConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
+            articleUrl = DemoConfiguration.getArticleUrlOrDefault().toUri() // Your article url
+        )
+
+        // 2. Create placement
+        mediaAd = TeadsAdPlacementMedia(
+            context = requireContext(),
+            config = config,
+            delegate = this // events listener
+        )
+
+        // 3. Request ad
+        val adView = mediaAd.loadAd()
+
+        // 4. Add in the ad container
+        adContainer.addView(adView)
+    }
+
+    override fun onPlacementEvent(
+        placement: TeadsAdPlacement<*, *>,
+        event: TeadsAdPlacementEventName,
+        data: Map<String, Any>?
+    ) {
+        // 5. Stay tuned to lifecycle events
+        Log.d("", "$placement - $event: $data")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 6. Clean from memory
+        mediaAd.clean()
     }
 }
