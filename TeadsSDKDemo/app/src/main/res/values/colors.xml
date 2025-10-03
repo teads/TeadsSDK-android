@@ -22,6 +22,12 @@
 
     <color name="background">#FFFFFF</color>
     <color name="backgrouffnd">#385075</color>
+    
+    <!-- Compatible with Compose colors -->
+    <color name="compose_primary">#1976D2</color>
+    <color name="compose_surface_variant">#F5F5F5</color>
+    <color name="compose_on_surface_variant">#49454F</color>
+    <color name="compose_on_background">@android:color/black</color>
 
 
 

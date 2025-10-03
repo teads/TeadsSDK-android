@@ -78,7 +78,7 @@ fun DemoScreen(
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            Section(title = "Placement ID Configuration") {
+            Section(title = "Placement Configuration") {
                 Column {
                     when (viewModel.selectedFormat) {
                         FormatType.MEDIA -> {
