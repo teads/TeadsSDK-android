@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ad_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/article_small_margin"
-    android:layout_marginHorizontal="40dp"
-    android:background="@color/compose_surface_variant"
-    android:padding="24dp"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:alpha="0.5">
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ad Container"
-        android:textColor="@color/compose_on_surface_variant"
-        android:textSize="14sp"
-        android:fontFamily="sans-serif-medium"
-        android:textStyle="normal" />
-        
-</LinearLayout>
+    android:gravity="center" />

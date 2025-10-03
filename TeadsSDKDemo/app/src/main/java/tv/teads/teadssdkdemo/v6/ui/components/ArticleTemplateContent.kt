@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import android.view.ViewGroup
 
 /**
  * Article image placeholder
@@ -69,32 +71,25 @@ fun ArticleBody(
 }
 
 /**
- * Ad container
+ * Ad container - flexible container for Android Views
  */
 @Composable
 fun AdContainer(
     modifier: Modifier = Modifier,
-    onAdContainerClick: (() -> Unit)? = null
+    adView: ViewGroup? = null
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(40.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
-            .let { modifier ->
-                onAdContainerClick?.let { onClick ->
-                    modifier.clickable { onClick() }
-                } ?: modifier
-            },
+            .wrapContentHeight(),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Ad Container",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontWeight = FontWeight.Medium
-        )
+        if (adView != null) {
+            AndroidView(
+                factory = { adView },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
