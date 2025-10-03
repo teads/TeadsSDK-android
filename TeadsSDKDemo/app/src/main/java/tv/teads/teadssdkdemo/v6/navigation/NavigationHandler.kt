@@ -21,9 +21,10 @@ object NavigationHandler {
     ) {
         when (route) {
             Route.MediaScrollView -> navigateToIntegrationActivity(fromActivity, route)
+            Route.MediaRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
             Route.MediaNativeScrollView -> navigateToIntegrationActivity(fromActivity, route)
-            Route.Default -> navigateToIntegrationActivity(fromActivity, Route.MediaScrollView)
-            else -> throw IllegalStateException("$route should be handled by MainActivityV6 as composable")
+            Route.MediaColumn -> navigateToIntegrationActivity(fromActivity, route)
+            else -> throw IllegalAccessException("Impossible route")
         }
     }
 

@@ -85,6 +85,7 @@ class IntegrationActivity : AppCompatActivity() {
         val routeName = intent.getStringExtra(EXTRA_ROUTE)
         currentRoute = when (routeName) {
             "MediaScrollView" -> Route.MediaScrollView
+            "MediaRecyclerView" -> Route.MediaRecyclerView
             "MediaColumn" -> Route.MediaColumn
             else -> null
         }
