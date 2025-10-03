@@ -3,6 +3,7 @@ package tv.teads.teadssdkdemo.v6.domain
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -125,6 +126,17 @@ class DemoViewModel : ViewModel() {
         "Google Test Ad" to "ca-app-pub-3940256099942544/2247696110"
     )
 
+    private val mediaApplovinPids = listOf(
+        "Landscape" to "3359d5bcb0cf612b",
+        "Vertical" to "74481c0cee5c73b1",
+        "Square" to "accecf03a9e0a672",
+        "Carousel" to "d1fb90cd8eeb350e"
+    )
+
+    private val mediaNativeApplovinPids = listOf(
+        "Image" to "a416d5d67e65ddcd"
+    )
+
     // Widget ID presets for Feed format
     private val feedWidgetIds = listOf(
         "MB_1" to "MB_1",
@@ -196,6 +208,12 @@ class DemoViewModel : ViewModel() {
             ProviderType.ADMOB to FormatType.MEDIANATIVE ->
                 _placementId.value = DemoConfiguration.DEFAULT_MEDIANATIVE_ADMOB_PID
 
+            ProviderType.APPLOVIN to FormatType.MEDIA ->
+                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_APPLOVIN_PID
+
+            ProviderType.APPLOVIN to FormatType.MEDIANATIVE ->
+                _placementId.value = DemoConfiguration.DEFAULT_MEDIANATIVE_APPLOVIN_PID
+
             ProviderType.DIRECT to FormatType.FEED ->
                 _widgetId.value = DemoConfiguration.DEFAULT_FEED_WIDGET_ID
 
@@ -255,15 +273,18 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    fun getInputMethod(): KeyboardType = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.MEDIA, ProviderType.DIRECT to FormatType.MEDIANATIVE -> KeyboardType.Number
+        else -> KeyboardType.Text
+    }
+
     fun getPidChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.MEDIA -> getMediaPidChips()
         ProviderType.DIRECT to FormatType.MEDIANATIVE -> getMediaNativePidChips()
         ProviderType.ADMOB  to FormatType.MEDIA -> getMediaAdmobPidChips()
         ProviderType.ADMOB  to FormatType.MEDIANATIVE -> getMediaNativeAdmobPidChips()
-        ProviderType.SMART  to FormatType.MEDIA -> TODO("wip")
-        ProviderType.SMART  to FormatType.MEDIANATIVE -> TODO("wip")
-        ProviderType.APPLOVIN  to FormatType.MEDIA -> TODO("wip")
-        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> TODO("wip")
+        ProviderType.APPLOVIN  to FormatType.MEDIA -> getMediaApplovinPidChips()
+        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> getMediaNativeApplovinPidChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -297,6 +318,22 @@ class DemoViewModel : ViewModel() {
             id = index,
             text = label,
             isSelected = _placementId.value == mediaNativeAdmobPids[index].second
+        )
+    }
+
+    private fun getMediaApplovinPidChips(): List<ChipData> = mediaApplovinPids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == mediaApplovinPids[index].second
+        )
+    }
+
+    private fun getMediaNativeApplovinPidChips(): List<ChipData> = mediaNativeApplovinPids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == mediaNativeApplovinPids[index].second
         )
     }
 
@@ -362,10 +399,12 @@ class DemoViewModel : ViewModel() {
         ProviderType.DIRECT to FormatType.MEDIANATIVE -> onMediaNativePidChipClick(index)
         ProviderType.ADMOB  to FormatType.MEDIA -> onMediaAdmobPidChipClick(index)
         ProviderType.ADMOB  to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
+        ProviderType.APPLOVIN  to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
+        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
         ProviderType.SMART  to FormatType.MEDIA -> TODO("wip")
         ProviderType.SMART  to FormatType.MEDIANATIVE -> TODO("wip")
-        ProviderType.APPLOVIN  to FormatType.MEDIA -> TODO("wip")
-        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> TODO("wip")
+        ProviderType.PREBID  to FormatType.MEDIA -> TODO("wip")
+        ProviderType.PREBID  to FormatType.MEDIANATIVE -> TODO("wip")
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -394,6 +433,20 @@ class DemoViewModel : ViewModel() {
     private fun onMediaNativeAdmobPidChipClick(index: Int) {
         if (index in mediaNativeAdmobPids.indices) {
             val pid = mediaNativeAdmobPids[index].second
+            updatePlacementId(pid)
+        }
+    }
+
+    private fun onMediaApplovinPidChipClick(index: Int) {
+        if (index in mediaApplovinPids.indices) {
+            val pid = mediaApplovinPids[index].second
+            updatePlacementId(pid)
+        }
+    }
+
+    private fun onMediaNativeApplovinPidChipClick(index: Int) {
+        if (index in mediaNativeApplovinPids.indices) {
+            val pid = mediaNativeApplovinPids[index].second
             updatePlacementId(pid)
         }
     }

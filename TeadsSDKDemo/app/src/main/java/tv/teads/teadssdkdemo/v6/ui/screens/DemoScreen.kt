@@ -95,7 +95,7 @@ fun DemoScreen(
                                 value = placementId,
                                 onValueChange = viewModel::updatePlacementId,
                                 label = "Placement ID",
-                                keyboardType = KeyboardType.Number,
+                                keyboardType = viewModel.getInputMethod(),
                                 modifier = Modifier.fillMaxWidth()
                             )
 
