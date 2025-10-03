@@ -5,4 +5,10 @@
     <dimen name="main_radio_button_height">35dp</dimen>
     <dimen name="main_radio_button_radius">12dp</dimen>
     <dimen name="item_margin">6dp</dimen>
+
+    <!-- Article template dimensions -->
+    <dimen name="article_small_margin">8dp</dimen>
+    <dimen name="article_image_height">200dp</dimen>
+    <dimen name="article_title_text_size">20sp</dimen>
+    <dimen name="article_body_text_size">16sp</dimen>
 </resources>

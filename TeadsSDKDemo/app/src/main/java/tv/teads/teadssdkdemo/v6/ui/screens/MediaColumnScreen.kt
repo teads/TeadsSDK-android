@@ -4,14 +4,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import tv.teads.teadssdkdemo.v6.ui.components.TeadsButton
+import tv.teads.teadssdkdemo.v6.ui.components.AdContainer
+import tv.teads.teadssdkdemo.v6.ui.components.ArticleBody
+import tv.teads.teadssdkdemo.v6.ui.components.ArticleImage
+import tv.teads.teadssdkdemo.v6.ui.components.ArticleSpacing
+import tv.teads.teadssdkdemo.v6.ui.components.ArticleTitle
 
 @Composable
 fun MediaColumnScreen(
@@ -21,28 +24,28 @@ fun MediaColumnScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Media Column Integration",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+        ArticleImage()
+        ArticleSpacing()
+        ArticleTitle()
+        ArticleSpacing()
+        ArticleBody()
+        ArticleSpacing()
+        ArticleBody()
+        ArticleSpacing()
+        ArticleBody()
+        ArticleSpacing()
+        // Ad container
+        AdContainer(
+            onAdContainerClick = {
+                // Placeholder for ad interaction
+            }
         )
-        
-        Text(
-            text = "This would contain media content in a column layout",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-        
-        TeadsButton(
-            text = "Back to Demo",
-            onClick = onBackClick,
-            modifier = Modifier.padding(top = 32.dp)
-        )
+        ArticleSpacing()
+        ArticleBody()
     }
 }

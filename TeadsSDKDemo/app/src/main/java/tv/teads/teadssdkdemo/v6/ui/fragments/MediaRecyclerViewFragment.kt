@@ -1,19 +1,23 @@
 package tv.teads.teadssdkdemo.v6.ui.fragments
 
-import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tv.teads.teadssdkdemo.R
 
 class MediaRecyclerViewFragment : Fragment() {
+
+    private enum class ArticleLayoutType(val layoutRes: Int) {
+        IMAGE(R.layout.item_article_image),
+        TITLE(R.layout.item_article_title),
+        BODY(R.layout.item_article_body),
+        AD_CONTAINER(R.layout.item_ad_container)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,75 +32,52 @@ class MediaRecyclerViewFragment : Fragment() {
     }
 
     private fun setupRecyclerViewContent(view: View) {
-        // Get the content container
-        val contentContainer = view.findViewById<LinearLayout>(R.id.content_container)
-
-        val titleText = TextView(requireContext()).apply {
-            text = "Media RecyclerView Integration"
-            textSize = 24f
-            setTypeface(null, Typeface.BOLD)
-            gravity = Gravity.CENTER
-            setPadding(64, 32, 64, 32)
-            setTextColor(requireContext().getColor(R.color.primaryDef))
-        }
-
-        val descriptionText = TextView(requireContext()).apply {
-            text = "This would contain media content in a recyclerview layout with sample items"
-            textSize = 16f
-            gravity = Gravity.CENTER
-            setPadding(64, 0, 64, 32)
-            setTextColor(requireContext().getColor(R.color.accent))
-        }
-
-        // Create RecyclerView
         val recyclerView = RecyclerView(requireContext()).apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = SampleRecyclerViewAdapter(getSampleData())
-            setPadding(32, 0, 32, 64)
+            adapter = ArticleRecyclerViewAdapter()
         }
 
-        // Add sample items to demonstrate RecyclerView
-        contentContainer.addView(titleText)
-        contentContainer.addView(descriptionText)
-        contentContainer.addView(recyclerView)
+        view.findViewById<LinearLayout>(R.id.content_container)?.apply {
+            addView(recyclerView)
+        }
     }
 
-    private fun getSampleData(): List<String> {
-        return listOf(
-            "Sample Item 1",
-            "Sample Item 2", 
-            "Sample Item 3",
-            "Sample Item 4",
-            "Sample Item 5"
+    class ArticleRecyclerViewAdapter : RecyclerView.Adapter<ArticleViewHolder>() {
+
+        private val articleLayoutOrder = listOf(
+            ArticleLayoutType.IMAGE,
+            ArticleLayoutType.TITLE,
+            ArticleLayoutType.BODY,
+            ArticleLayoutType.BODY,
+            ArticleLayoutType.BODY,
+            ArticleLayoutType.AD_CONTAINER,
+            ArticleLayoutType.BODY
         )
-    }
 
-    /**
-     * Simple RecyclerView adapter for demonstration
-     */
-    class SampleRecyclerViewAdapter(private val items: List<String>) : RecyclerView.Adapter<SampleViewHolder>() {
-        
-        override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): SampleViewHolder {
-            val itemView = LayoutInflater.from(parent.context)
-                .inflate(android.R.layout.simple_list_item_1, parent, false)
-            return SampleViewHolder(itemView)
+        override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): ArticleViewHolder {
+            val linearLayout = LinearLayout(parent.context).apply {
+                orientation = LinearLayout.VERTICAL
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
+            
+            val inflater = LayoutInflater.from(parent.context)
+            
+            articleLayoutOrder.forEach { layoutType ->
+                inflater.inflate(layoutType.layoutRes, linearLayout, true)
+            }
+            
+            return ArticleViewHolder(linearLayout)
         }
 
-        override fun onBindViewHolder(holder: SampleViewHolder, position: Int) {
-            holder.bind(items[position])
+        override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+            // No binding needed - all text comes from layouts
         }
 
-        override fun getItemCount(): Int = items.size
+        override fun getItemCount(): Int = 1
     }
 
-    /**
-     * Simple ViewHolder for demonstration
-     */
-    class SampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textView: TextView = itemView as TextView
-
-        fun bind(text: String) {
-            textView.text = text
-        }
-    }
+    class ArticleViewHolder(private val containerView: LinearLayout) : RecyclerView.ViewHolder(containerView)
 }

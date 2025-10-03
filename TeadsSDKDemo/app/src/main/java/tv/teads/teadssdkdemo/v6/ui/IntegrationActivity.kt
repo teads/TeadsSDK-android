@@ -113,15 +113,6 @@ class IntegrationActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        
-        // Update status bar color when theme changes
-        window.statusBarColor = getColor(R.color.background)
-        
-        // Refresh toolbar colors
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setTitleTextColor(getColor(R.color.titleTextColor))
-        
-        // Recreate activity to apply new theme completely
         recreate()
     }
 
