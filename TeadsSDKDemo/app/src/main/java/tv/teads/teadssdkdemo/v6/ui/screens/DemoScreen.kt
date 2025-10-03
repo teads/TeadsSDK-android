@@ -81,7 +81,7 @@ fun DemoScreen(
             Section(title = "Placement Configuration") {
                 Column {
                     when (viewModel.selectedFormat) {
-                        FormatType.MEDIA -> {
+                        FormatType.MEDIA, FormatType.MEDIANATIVE -> {
                             // Article URL Text Field (first)
                             DemoTextField(
                                 value = articleUrl,
@@ -101,32 +101,8 @@ fun DemoScreen(
 
                             // Media PID Chips below Placement ID
                             ChipGroup(
-                                chips = viewModel.getMediaPidChips(),
-                                onChipClick = viewModel::onMediaPidChipClick
-                            )
-                        }
-                        FormatType.MEDIANATIVE -> {
-                            // Article URL Text Field (first)
-                            DemoTextField(
-                                value = articleUrl,
-                                onValueChange = viewModel::onArticleUrlChange,
-                                label = "Article URL",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            // Placement ID Text Field
-                            DemoTextField(
-                                value = placementId,
-                                onValueChange = viewModel::updatePlacementId,
-                                label = "Placement ID",
-                                keyboardType = KeyboardType.Number,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            // Media Native PID Chips below Placement ID
-                            ChipGroup(
-                                chips = viewModel.getMediaNativePidChips(),
-                                onChipClick = viewModel::onMediaNativePidChipClick
+                                chips = viewModel.getPidChips(),
+                                onChipClick = viewModel::onPidChipClick
                             )
                         }
                         FormatType.FEED -> {
@@ -239,7 +215,7 @@ fun DemoScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             TeadsButton(
-                text = "LAUNCH",
+                text = "LAUNCH ARTICLE",
                 onClick = { viewModel.launchNavigation() },
                 modifier = Modifier.fillMaxWidth()
             )

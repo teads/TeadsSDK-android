@@ -23,6 +23,8 @@ object DemoConfiguration {
     val DEFAULT_INTEGRATION = IntegrationType.COLUMN
     val DEFAULT_MEDIA_PID = "84242" // Landscape
     val DEFAULT_MEDIA_NATIVE_PID = "124859" // Image
+    val DEFAULT_MEDIA_ADMOB_PID = "ca-app-pub-3068786746829754/3486435166" // Landscape
+    val DEFAULT_MEDIANATIVE_ADMOB_PID = "ca-app-pub-3068786746829754/9820813147" // Landscape
     val DEFAULT_FEED_WIDGET_ID = "MB_1"
     val DEFAULT_RECOMMENDATIONS_WIDGET_ID = "SDK_1"
     val DEFAULT_ARTICLE_URL = "https://mobile-demo.outbrain.com/"

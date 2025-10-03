@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import tv.teads.teadssdkdemo.v6.data.DemoConfiguration
-import tv.teads.teadssdkdemo.v6.ui.components.ChipData
 import tv.teads.teadssdkdemo.v6.navigation.Route
 import tv.teads.teadssdkdemo.v6.navigation.RouteFactory
+import tv.teads.teadssdkdemo.v6.ui.components.ChipData
 
 class DemoViewModel : ViewModel() {
 
@@ -51,7 +51,7 @@ class DemoViewModel : ViewModel() {
     }
 
     /**
-     * Set navigation callback  
+     * Set navigation callback
      */
     fun setOnNavigateCallback(callback: (Route) -> Unit) {
         onNavigateCallback = callback
@@ -77,7 +77,7 @@ class DemoViewModel : ViewModel() {
         FormatType.FEED,
         FormatType.RECOMMENDATIONS
     )
-    
+
     // Provider types available for Media format
     private val mediaProviders = listOf(
         ProviderType.DIRECT,
@@ -86,7 +86,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.APPLOVIN,
         ProviderType.PREBID
     )
-    
+
     // Provider types available for Media Native format
     private val mediaNativeProviders = listOf(
         ProviderType.DIRECT,
@@ -94,13 +94,12 @@ class DemoViewModel : ViewModel() {
         ProviderType.SMART,
         ProviderType.APPLOVIN
     )
-    
+
     // Provider types available for Feed/Recommendations formats
     private val feedRecommendationsProviders = listOf(
         ProviderType.DIRECT
     )
-    
-    
+
     // PID presets for Media format
     private val mediaPids = listOf(
         "Landscape" to "84242",
@@ -108,55 +107,66 @@ class DemoViewModel : ViewModel() {
         "Square" to "127547",
         "Carousel" to "128779"
     )
-    
+
     // PID presets for Media Native format
     private val mediaNativePids = listOf(
         "Image" to "124859"
     )
-    
+
+    private val mediaAdmobPids = listOf(
+        "Landscape" to "ca-app-pub-3068786746829754/3486435166",
+        "Vertical" to "ca-app-pub-3068786746829754/1731249109",
+        "Square" to "ca-app-pub-3068786746829754/5867288248",
+        "Carousel" to "ca-app-pub-3068786746829754/1761017118"
+    )
+
+    private val mediaNativeAdmobPids = listOf(
+        "Image" to "ca-app-pub-3068786746829754/9820813147",
+        "Google Test Ad" to "ca-app-pub-3940256099942544/2247696110"
+    )
+
     // Widget ID presets for Feed format
     private val feedWidgetIds = listOf(
         "MB_1" to "MB_1",
-        "MB_2" to "MB_2", 
+        "MB_2" to "MB_2",
         "TEST_FEED" to "TEST_FEED"
     )
-    
+
     // Widget ID presets for Recommendations format
     private val recommendationsWidgetIds = listOf(
         "SDK_1" to "SDK_1",
         "RECS_1" to "RECS_1",
         "TEST_RECS" to "TEST_RECS"
     )
-    
+
     // Installation Key presets for Feed format
     private val feedInstallationKeys = listOf(
         "NANOWDGT01" to "NANOWDGT01",
         "TESTKEY01" to "TESTKEY01"
     )
-    
+
     // Installation Key presets for Recommendations format
     private val recommendationsInstallationKeys = listOf(
         "NANOWDGT01" to "NANOWDGT01",
         "TESTKEY01" to "TESTKEY01"
     )
-    
+
     private val integrationTypes = listOf(
         IntegrationType.COLUMN,
         IntegrationType.LAZYCOLUMN,
         IntegrationType.SCROLLVIEW,
         IntegrationType.RECYCLERVIEW
     )
-    
+
     // Get providers based on selected format
     private fun getProviders(): List<ProviderType> {
         return when (selectedFormat) {
             FormatType.MEDIA -> mediaProviders
             FormatType.MEDIANATIVE -> mediaNativeProviders
             FormatType.FEED, FormatType.RECOMMENDATIONS -> feedRecommendationsProviders
-            else -> throw IllegalAccessException("selectedFormat is null")
+            else -> throw IllegalAccessException("Impossible format")
         }
     }
-    
 
     // Update functions
     private fun updateDefaultsFormat(format: FormatType) {
@@ -166,37 +176,48 @@ class DemoViewModel : ViewModel() {
         // Reset provider if current provider is not available for the new format
         val availableProviders = getProviders()
         if (selectedProvider != null && selectedProvider !in availableProviders) {
-            selectedProvider = availableProviders.firstOrNull() // Set to first available provider, or null if empty
+            selectedProvider = availableProviders.firstOrNull()
         }
-        
-        // Set appropriate values when format changes (no empty checks!)
-        when (format) {
-            FormatType.MEDIA -> {
+
+        updatePlacementConfiguration()
+    }
+
+    private fun updatePlacementConfiguration() {
+        when (selectedProvider to selectedFormat) {
+            ProviderType.DIRECT to FormatType.MEDIA ->
                 _placementId.value = DemoConfiguration.DEFAULT_MEDIA_PID
-            }
-            FormatType.MEDIANATIVE -> {
+
+            ProviderType.DIRECT to FormatType.MEDIANATIVE ->
                 _placementId.value = DemoConfiguration.DEFAULT_MEDIA_NATIVE_PID
-            }
-            FormatType.FEED -> {
+
+            ProviderType.ADMOB to FormatType.MEDIA ->
+                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_ADMOB_PID
+
+            ProviderType.ADMOB to FormatType.MEDIANATIVE ->
+                _placementId.value = DemoConfiguration.DEFAULT_MEDIANATIVE_ADMOB_PID
+
+            ProviderType.DIRECT to FormatType.FEED ->
                 _widgetId.value = DemoConfiguration.DEFAULT_FEED_WIDGET_ID
-            }
-            FormatType.RECOMMENDATIONS -> {
+
+            ProviderType.DIRECT to FormatType.RECOMMENDATIONS ->
                 _widgetId.value = DemoConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID
-            }
+
+            else -> throw IllegalAccessException("Impossible combination")
         }
     }
-    
+
+
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
         DemoConfiguration.setProvider(provider)
     }
-    
-    
+
+
     fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
         DemoConfiguration.setIntegration(integration)
     }
-    
+
     fun updatePlacementId(pid: String) {
         _placementId.value = pid
         DemoConfiguration.setPlacementId(pid)
@@ -234,7 +255,20 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getMediaPidChips(): List<ChipData> = mediaPids.mapIndexed { index, (label, _) ->
+    fun getPidChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.MEDIA -> getMediaPidChips()
+        ProviderType.DIRECT to FormatType.MEDIANATIVE -> getMediaNativePidChips()
+        ProviderType.ADMOB  to FormatType.MEDIA -> getMediaAdmobPidChips()
+        ProviderType.ADMOB  to FormatType.MEDIANATIVE -> getMediaNativeAdmobPidChips()
+        ProviderType.SMART  to FormatType.MEDIA -> TODO("wip")
+        ProviderType.SMART  to FormatType.MEDIANATIVE -> TODO("wip")
+        ProviderType.APPLOVIN  to FormatType.MEDIA -> TODO("wip")
+        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> TODO("wip")
+        else -> throw IllegalAccessException("Impossible combination")
+    }
+
+
+    private fun getMediaPidChips(): List<ChipData> = mediaPids.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
             text = label,
@@ -242,11 +276,27 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getMediaNativePidChips(): List<ChipData> = mediaNativePids.mapIndexed { index, (label, _) ->
+    private fun getMediaNativePidChips(): List<ChipData> = mediaNativePids.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
             text = label,
             isSelected = _placementId.value == mediaNativePids[index].second
+        )
+    }
+
+    private fun getMediaAdmobPidChips(): List<ChipData> = mediaPids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == mediaAdmobPids[index].second
+        )
+    }
+
+    private fun getMediaNativeAdmobPidChips(): List<ChipData> = mediaNativeAdmobPids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == mediaNativeAdmobPids[index].second
         )
     }
 
@@ -303,19 +353,47 @@ class DemoViewModel : ViewModel() {
         if (index in availableProviders.indices) {
             val provider = availableProviders[index]
             updateProvider(provider)
+            updatePlacementConfiguration()
         }
     }
 
-    fun onMediaPidChipClick(index: Int) {
+    fun onPidChipClick(index: Int) = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.MEDIA -> onMediaPidChipClick(index)
+        ProviderType.DIRECT to FormatType.MEDIANATIVE -> onMediaNativePidChipClick(index)
+        ProviderType.ADMOB  to FormatType.MEDIA -> onMediaAdmobPidChipClick(index)
+        ProviderType.ADMOB  to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
+        ProviderType.SMART  to FormatType.MEDIA -> TODO("wip")
+        ProviderType.SMART  to FormatType.MEDIANATIVE -> TODO("wip")
+        ProviderType.APPLOVIN  to FormatType.MEDIA -> TODO("wip")
+        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> TODO("wip")
+        else -> throw IllegalAccessException("Impossible combination")
+    }
+
+
+    private fun onMediaPidChipClick(index: Int) {
         if (index in mediaPids.indices) {
             val pid = mediaPids[index].second
             updatePlacementId(pid)
         }
     }
 
-    fun onMediaNativePidChipClick(index: Int) {
+    private fun onMediaNativePidChipClick(index: Int) {
         if (index in mediaNativePids.indices) {
             val pid = mediaNativePids[index].second
+            updatePlacementId(pid)
+        }
+    }
+
+    private fun onMediaAdmobPidChipClick(index: Int) {
+        if (index in mediaAdmobPids.indices) {
+            val pid = mediaAdmobPids[index].second
+            updatePlacementId(pid)
+        }
+    }
+
+    private fun onMediaNativeAdmobPidChipClick(index: Int) {
+        if (index in mediaNativeAdmobPids.indices) {
+            val pid = mediaNativeAdmobPids[index].second
             updatePlacementId(pid)
         }
     }
