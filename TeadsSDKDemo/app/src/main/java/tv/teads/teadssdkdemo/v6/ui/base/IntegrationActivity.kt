@@ -14,6 +14,7 @@ import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentClass
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentTag
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getRouteFromTag
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.getTitle
 import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 class IntegrationActivity : AppCompatActivity() {
@@ -97,7 +98,7 @@ class IntegrationActivity : AppCompatActivity() {
                     .replace(R.id.content_container, fragment, route.getFragmentTag())
                     .commit()
                 
-                supportActionBar?.title = route.javaClass.simpleName
+                supportActionBar?.title = route.getTitle()
             } catch (e: Exception) {
                 finish()
             }

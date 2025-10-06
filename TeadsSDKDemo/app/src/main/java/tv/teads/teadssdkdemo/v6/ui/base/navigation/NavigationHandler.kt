@@ -41,8 +41,6 @@ object NavigationHandler {
      * Navigate back to Demo from any activity
      */
     fun navigateBackToDemo(fromActivity: ComponentActivity) {
-        val intent = Intent(fromActivity, MainActivityV6::class.java)
-        fromActivity.startActivity(intent)
         fromActivity.finish()
         AnimationHelper.applyFadeCloseTransition(fromActivity)
     }
