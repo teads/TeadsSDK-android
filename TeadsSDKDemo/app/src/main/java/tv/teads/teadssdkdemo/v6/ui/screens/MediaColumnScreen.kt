@@ -9,7 +9,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.ui.components.AdContainer
 import tv.teads.teadssdkdemo.v6.ui.components.ArticleBody
 import tv.teads.teadssdkdemo.v6.ui.components.ArticleImage
@@ -32,16 +34,16 @@ fun MediaColumnScreen(
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody()
+        ArticleBody(text = stringResource(R.string.article_template_body))
         ArticleSpacing()
-        ArticleBody()
+        ArticleBody(text = stringResource(R.string.article_template_body_2))
         ArticleSpacing()
-        ArticleBody()
+        ArticleBody(text = stringResource(R.string.article_template_body_3))
         ArticleSpacing()
         AdContainer(
             // Ad view
         )
         ArticleSpacing()
-        ArticleBody()
+        ArticleBody(text = stringResource(R.string.article_template_body_4))
     }
 }
