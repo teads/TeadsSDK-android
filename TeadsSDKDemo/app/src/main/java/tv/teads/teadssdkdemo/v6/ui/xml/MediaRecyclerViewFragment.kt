@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.fragments
+package tv.teads.teadssdkdemo.v6.ui.xml
 
 import android.os.Bundle
 import android.view.LayoutInflater

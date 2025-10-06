@@ -21,7 +21,7 @@
 
         <activity
             android:exported="true"
-            android:name=".v6.ui.MainActivityV6"
+            android:name=".v6.ui.base.MainActivityV6"
             android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
             android:hardwareAccelerated="true"
             android:label="@string/app_name"
@@ -36,7 +36,7 @@
 
         <activity
             android:exported="false"
-            android:name=".v6.ui.IntegrationActivity"
+            android:name=".v6.ui.base.IntegrationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|uiMode|locale|smallestScreenSize|colorMode|density"
             android:hardwareAccelerated="true"
             android:label="Integration Sample"

@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.theme
+package tv.teads.teadssdkdemo.v6.ui.base.theme
 
 import androidx.compose.ui.graphics.Color
 

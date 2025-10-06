@@ -7,7 +7,7 @@ import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 /**
  * Configuration object that holds default values and current session values
  */
-object DemoConfiguration {
+object DemoSessionConfiguration {
 
     // Current session values (private - accessed via setter methods and getXXXOrDefault methods)
     private var currentFormat: FormatType? = null

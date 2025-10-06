@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui
+package tv.teads.teadssdkdemo.v6.ui.base
 
 import android.content.Context
 import android.content.Intent
@@ -9,11 +9,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.v6.navigation.NavigationHandler
-import tv.teads.teadssdkdemo.v6.navigation.Route
-import tv.teads.teadssdkdemo.v6.navigation.getFragmentClass
-import tv.teads.teadssdkdemo.v6.navigation.getFragmentTag
-import tv.teads.teadssdkdemo.v6.utils.AnimationHelper
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentClass
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentTag
+import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 class IntegrationActivity : AppCompatActivity() {
     

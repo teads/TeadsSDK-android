@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.screens
+package tv.teads.teadssdkdemo.v6.ui.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,15 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import tv.teads.teadssdkdemo.v6.domain.DemoViewModel
+import tv.teads.teadssdkdemo.v6.ui.base.DemoViewModel
 import tv.teads.teadssdkdemo.v6.domain.FormatType
-import tv.teads.teadssdkdemo.v6.ui.components.ChipGroup
-import tv.teads.teadssdkdemo.v6.ui.components.DemoTextField
-import tv.teads.teadssdkdemo.v6.ui.components.Section
-import tv.teads.teadssdkdemo.v6.ui.components.TeadsButton
+import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
+import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField
+import tv.teads.teadssdkdemo.v6.ui.base.components.Section
+import tv.teads.teadssdkdemo.v6.ui.base.components.TeadsButton
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.fragments
+package tv.teads.teadssdkdemo.v6.ui.xml
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,7 @@ import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.v6.data.DemoConfiguration
+import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 
 class MediaScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
@@ -37,8 +37,8 @@ class MediaScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
         // 1 Init configuration
         val config = TeadsAdPlacementMediaConfig(
-            pid = DemoConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
-            articleUrl = DemoConfiguration.getArticleUrlOrDefault().toUri() // Your article url
+            pid = DemoSessionConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
+            articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url
         )
 
         // 2. Create placement

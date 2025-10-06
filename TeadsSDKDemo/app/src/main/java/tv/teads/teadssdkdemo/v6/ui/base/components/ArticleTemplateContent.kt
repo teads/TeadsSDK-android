@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.components
+package tv.teads.teadssdkdemo.v6.ui.base.components
 
 import android.view.ViewGroup
 import androidx.compose.foundation.Image

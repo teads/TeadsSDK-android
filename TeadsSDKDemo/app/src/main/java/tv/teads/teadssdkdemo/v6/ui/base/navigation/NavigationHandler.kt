@@ -1,9 +1,10 @@
-package tv.teads.teadssdkdemo.v6.navigation
+package tv.teads.teadssdkdemo.v6.ui.base.navigation
 
 import android.content.Intent
 import androidx.activity.ComponentActivity
-import tv.teads.teadssdkdemo.v6.ui.IntegrationActivity
-import tv.teads.teadssdkdemo.v6.utils.AnimationHelper
+import tv.teads.teadssdkdemo.v6.ui.base.IntegrationActivity
+import tv.teads.teadssdkdemo.v6.ui.base.MainActivityV6
+import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 /**
  * Navigation handler responsible for navigating to the specified route
@@ -40,7 +41,7 @@ object NavigationHandler {
      * Navigate back to Demo from any activity
      */
     fun navigateBackToDemo(fromActivity: ComponentActivity) {
-        val intent = Intent(fromActivity, tv.teads.teadssdkdemo.v6.ui.MainActivityV6::class.java)
+        val intent = Intent(fromActivity, MainActivityV6::class.java)
         fromActivity.startActivity(intent)
         fromActivity.finish()
         AnimationHelper.applyFadeCloseTransition(fromActivity)

@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.components
+package tv.teads.teadssdkdemo.v6.ui.base.components
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults

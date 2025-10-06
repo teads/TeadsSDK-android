@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui
+package tv.teads.teadssdkdemo.v6.ui.base
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,13 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import tv.teads.teadssdkdemo.v6.domain.DemoViewModel
-import tv.teads.teadssdkdemo.v6.navigation.NavigationHandler
-import tv.teads.teadssdkdemo.v6.navigation.Route
-import tv.teads.teadssdkdemo.v6.ui.screens.DemoScreen
-import tv.teads.teadssdkdemo.v6.ui.screens.MediaColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.screens.MediaLazyColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.theme.TeadsSDKDemoTheme
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
+import tv.teads.teadssdkdemo.v6.ui.compose.DemoScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
 
 class MainActivityV6 : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -92,7 +91,7 @@ class MainActivityV6 : ComponentActivity() {
                 ) { paddingValues ->
                     when (currentRoute) {
                         Route.Demo -> {
-                            val viewModel: DemoViewModel = viewModel()  
+                            val viewModel: DemoViewModel = viewModel()
                             
                             // Set up navigation callback
                             viewModel.setOnNavigateCallback { route ->

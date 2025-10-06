@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.utils
+package tv.teads.teadssdkdemo.v6.ui.base.utils
 
 import android.app.Activity
 

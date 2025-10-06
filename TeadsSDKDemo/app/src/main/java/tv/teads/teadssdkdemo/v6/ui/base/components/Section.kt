@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package tv.teads.teadssdkdemo.v6.ui.components
+package tv.teads.teadssdkdemo.v6.ui.base.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement

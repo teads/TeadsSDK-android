@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.screens
+package tv.teads.teadssdkdemo.v6.ui.compose
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.v6.ui.components.AdContainer
-import tv.teads.teadssdkdemo.v6.ui.components.ArticleBody
-import tv.teads.teadssdkdemo.v6.ui.components.ArticleImage
-import tv.teads.teadssdkdemo.v6.ui.components.ArticleLazyItem
-import tv.teads.teadssdkdemo.v6.ui.components.ArticleTitle
+import tv.teads.teadssdkdemo.v6.ui.base.components.AdContainer
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleImage
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLazyItem
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
 
 @Composable
 fun MediaLazyColumnScreen(

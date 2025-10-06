@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.theme
+package tv.teads.teadssdkdemo.v6.ui.base.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme

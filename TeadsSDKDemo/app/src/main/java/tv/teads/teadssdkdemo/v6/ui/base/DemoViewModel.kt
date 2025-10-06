@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.domain
+package tv.teads.teadssdkdemo.v6.ui.base
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,10 +8,13 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import tv.teads.teadssdkdemo.v6.data.DemoConfiguration
-import tv.teads.teadssdkdemo.v6.navigation.Route
-import tv.teads.teadssdkdemo.v6.navigation.RouteFactory
-import tv.teads.teadssdkdemo.v6.ui.components.ChipData
+import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
+import tv.teads.teadssdkdemo.v6.domain.FormatType
+import tv.teads.teadssdkdemo.v6.domain.IntegrationType
+import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.RouteFactory
+import tv.teads.teadssdkdemo.v6.ui.base.components.ChipData
 
 class DemoViewModel : ViewModel() {
 
@@ -42,13 +45,13 @@ class DemoViewModel : ViewModel() {
 
     init {
         // Initialize with defaults and sync with DemoConfiguration
-        selectedFormat = DemoConfiguration.getFormatOrDefault()
-        selectedProvider = DemoConfiguration.getProviderOrDefault()
-        selectedIntegration = DemoConfiguration.getIntegrationOrDefault()
-        _placementId.value = DemoConfiguration.getPlacementIdOrDefault()
-        _widgetId.value = DemoConfiguration.getWidgetIdOrDefault()
-        _installationKey.value = DemoConfiguration.getInstallationKeyOrDefault()
-        _articleUrl.value = DemoConfiguration.getArticleUrlOrDefault()
+        selectedFormat = DemoSessionConfiguration.getFormatOrDefault()
+        selectedProvider = DemoSessionConfiguration.getProviderOrDefault()
+        selectedIntegration = DemoSessionConfiguration.getIntegrationOrDefault()
+        _placementId.value = DemoSessionConfiguration.getPlacementIdOrDefault()
+        _widgetId.value = DemoSessionConfiguration.getWidgetIdOrDefault()
+        _installationKey.value = DemoSessionConfiguration.getInstallationKeyOrDefault()
+        _articleUrl.value = DemoSessionConfiguration.getArticleUrlOrDefault()
     }
 
     /**
@@ -63,9 +66,9 @@ class DemoViewModel : ViewModel() {
      */
     fun launchNavigation() {
         val route = RouteFactory.createRoute(
-            format = DemoConfiguration.getFormatOrDefault(),
-            provider = DemoConfiguration.getProviderOrDefault(),
-            integration = DemoConfiguration.getIntegrationOrDefault()
+            format = DemoSessionConfiguration.getFormatOrDefault(),
+            provider = DemoSessionConfiguration.getProviderOrDefault(),
+            integration = DemoSessionConfiguration.getIntegrationOrDefault()
         )
         onNavigateCallback?.invoke(route)
     }
@@ -183,7 +186,7 @@ class DemoViewModel : ViewModel() {
     // Update functions
     private fun updateDefaultsFormat(format: FormatType) {
         selectedFormat = format
-        DemoConfiguration.setFormat(format)
+        DemoSessionConfiguration.setFormat(format)
 
         // Reset provider if current provider is not available for the new format
         val availableProviders = getProviders()
@@ -197,61 +200,61 @@ class DemoViewModel : ViewModel() {
     private fun updatePlacementConfiguration() {
         when (selectedProvider to selectedFormat) {
             ProviderType.DIRECT to FormatType.MEDIA ->
-                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_PID
+                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_PID
 
             ProviderType.DIRECT to FormatType.MEDIANATIVE ->
-                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_NATIVE_PID
+                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_NATIVE_PID
 
             ProviderType.ADMOB to FormatType.MEDIA ->
-                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_ADMOB_PID
+                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_ADMOB_PID
 
             ProviderType.ADMOB to FormatType.MEDIANATIVE ->
-                _placementId.value = DemoConfiguration.DEFAULT_MEDIANATIVE_ADMOB_PID
+                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIANATIVE_ADMOB_PID
 
             ProviderType.APPLOVIN to FormatType.MEDIA ->
-                _placementId.value = DemoConfiguration.DEFAULT_MEDIA_APPLOVIN_PID
+                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_APPLOVIN_PID
 
             ProviderType.APPLOVIN to FormatType.MEDIANATIVE ->
-                _placementId.value = DemoConfiguration.DEFAULT_MEDIANATIVE_APPLOVIN_PID
+                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIANATIVE_APPLOVIN_PID
 
             ProviderType.DIRECT to FormatType.FEED ->
-                _widgetId.value = DemoConfiguration.DEFAULT_FEED_WIDGET_ID
+                _widgetId.value = DemoSessionConfiguration.DEFAULT_FEED_WIDGET_ID
 
             ProviderType.DIRECT to FormatType.RECOMMENDATIONS ->
-                _widgetId.value = DemoConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID
+                _widgetId.value = DemoSessionConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID
         }
     }
 
 
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
-        DemoConfiguration.setProvider(provider)
+        DemoSessionConfiguration.setProvider(provider)
     }
 
 
     fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
-        DemoConfiguration.setIntegration(integration)
+        DemoSessionConfiguration.setIntegration(integration)
     }
 
     fun updatePlacementId(pid: String) {
         _placementId.value = pid
-        DemoConfiguration.setPlacementId(pid)
+        DemoSessionConfiguration.setPlacementId(pid)
     }
 
     fun updateWidgetId(widgetId: String) {
         _widgetId.value = widgetId
-        DemoConfiguration.setWidgetId(widgetId)
+        DemoSessionConfiguration.setWidgetId(widgetId)
     }
 
     fun updateInstallationKey(installationKey: String) {
         _installationKey.value = installationKey
-        DemoConfiguration.setInstallationKey(installationKey)
+        DemoSessionConfiguration.setInstallationKey(installationKey)
     }
 
     fun updateArticleUrl(articleUrl: String) {
         _articleUrl.value = articleUrl
-        DemoConfiguration.setArticleUrl(articleUrl)
+        DemoSessionConfiguration.setArticleUrl(articleUrl)
     }
 
     // Chip data helper methods
@@ -283,10 +286,10 @@ class DemoViewModel : ViewModel() {
     fun getPidChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.MEDIA -> getMediaPidChips()
         ProviderType.DIRECT to FormatType.MEDIANATIVE -> getMediaNativePidChips()
-        ProviderType.ADMOB  to FormatType.MEDIA -> getMediaAdmobPidChips()
-        ProviderType.ADMOB  to FormatType.MEDIANATIVE -> getMediaNativeAdmobPidChips()
-        ProviderType.APPLOVIN  to FormatType.MEDIA -> getMediaApplovinPidChips()
-        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> getMediaNativeApplovinPidChips()
+        ProviderType.ADMOB to FormatType.MEDIA -> getMediaAdmobPidChips()
+        ProviderType.ADMOB to FormatType.MEDIANATIVE -> getMediaNativeAdmobPidChips()
+        ProviderType.APPLOVIN to FormatType.MEDIA -> getMediaApplovinPidChips()
+        ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> getMediaNativeApplovinPidChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -399,14 +402,14 @@ class DemoViewModel : ViewModel() {
     fun onPidChipClick(index: Int) = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.MEDIA -> onMediaPidChipClick(index)
         ProviderType.DIRECT to FormatType.MEDIANATIVE -> onMediaNativePidChipClick(index)
-        ProviderType.ADMOB  to FormatType.MEDIA -> onMediaAdmobPidChipClick(index)
-        ProviderType.ADMOB  to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
-        ProviderType.APPLOVIN  to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
-        ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
-        ProviderType.SMART  to FormatType.MEDIA -> TODO("wip")
-        ProviderType.SMART  to FormatType.MEDIANATIVE -> TODO("wip")
-        ProviderType.PREBID  to FormatType.MEDIA -> TODO("wip")
-        ProviderType.PREBID  to FormatType.MEDIANATIVE -> TODO("wip")
+        ProviderType.ADMOB to FormatType.MEDIA -> onMediaAdmobPidChipClick(index)
+        ProviderType.ADMOB to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
+        ProviderType.APPLOVIN to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
+        ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
+        ProviderType.SMART to FormatType.MEDIA -> TODO("wip")
+        ProviderType.SMART to FormatType.MEDIANATIVE -> TODO("wip")
+        ProviderType.PREBID to FormatType.MEDIA -> TODO("wip")
+        ProviderType.PREBID to FormatType.MEDIANATIVE -> TODO("wip")
         else -> throw IllegalAccessException("Impossible combination")
     }
 

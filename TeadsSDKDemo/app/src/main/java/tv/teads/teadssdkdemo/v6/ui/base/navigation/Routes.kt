@@ -1,11 +1,11 @@
-package tv.teads.teadssdkdemo.v6.navigation
+package tv.teads.teadssdkdemo.v6.ui.base.navigation
 
 import androidx.fragment.app.Fragment
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
-import tv.teads.teadssdkdemo.v6.ui.fragments.MediaScrollViewFragment
-import tv.teads.teadssdkdemo.v6.ui.fragments.MediaRecyclerViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 
 /**
  * Sealed class representing all possible navigation routes
