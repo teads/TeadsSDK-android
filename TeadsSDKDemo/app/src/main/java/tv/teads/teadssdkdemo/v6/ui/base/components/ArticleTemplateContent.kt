@@ -52,7 +52,9 @@ fun ArticleTitle(
             fontWeight = FontWeight.ExtraBold
         ),
         color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
     )
 }
 
@@ -68,7 +70,9 @@ fun ArticleBody(
         text = text,
         style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onBackground,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
     )
 }
 

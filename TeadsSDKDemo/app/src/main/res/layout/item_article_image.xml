@@ -3,10 +3,8 @@
     android:id="@+id/article_image"
     android:layout_width="match_parent"
     android:layout_height="@dimen/article_image_height"
-    android:background="@color/compose_surface_variant"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:alpha="0.5">
+    android:orientation="horizontal">
     
     <ImageView
         android:layout_width="match_parent"

@@ -43,7 +43,6 @@ fun MediaColumnScreen(
     var adView by remember { mutableStateOf<ViewGroup?>(null) }
     var mediaAd by remember { mutableStateOf<TeadsAdPlacementMedia?>(null) }
 
-    // Ad loading logic
     LaunchedEffect(Unit) {
         // 1. Init configuration
         TeadsSDK.testMode = true
@@ -85,8 +84,7 @@ fun MediaColumnScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 8.dp),
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

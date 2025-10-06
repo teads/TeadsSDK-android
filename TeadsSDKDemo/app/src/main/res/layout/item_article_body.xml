@@ -8,4 +8,5 @@
     android:textColor="@color/compose_on_background"
     android:textSize="16sp"
     android:fontFamily="sans-serif"
+    android:paddingHorizontal="@dimen/activity_horizontal_margin"
     android:lineSpacingExtra="4dp" />

@@ -79,7 +79,6 @@ fun MediaLazyColumnScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 8.dp)
     ) {
         item {
             ArticleImage()

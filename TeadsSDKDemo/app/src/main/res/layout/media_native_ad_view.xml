@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/native_root_ad_view"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
+            android:background="@color/background"
             android:orientation="vertical">
 
             <!-- Media View -->
@@ -41,8 +42,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="#EAEAEA" />
+                    android:scaleType="centerCrop" />
 
                 <!-- Text Content -->
                 <LinearLayout
@@ -56,20 +56,19 @@
                         android:id="@+id/teads_native_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/textTitle"
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:maxLines="2"
                         android:ellipsize="end"
                         android:layout_marginBottom="4dp"
-                        android:text="Sample Native Ad Title" />
+                        tools:text="Sample Native Ad Title" />
 
-                    <!-- Advertiser -->
                     <TextView
                         android:id="@+id/teads_native_advertiser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#C9C9C9"
+                        android:textColor="@color/textBody"
                         android:textSize="14sp"
                         android:maxLines="1"
                         android:ellipsize="end"
@@ -84,12 +83,12 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-                    android:backgroundTint="#EE7205"
+                    android:backgroundTint="@color/primaryDef"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="Learn More" />
+                    tools:text="Learn More" />
 
             </LinearLayout>
 

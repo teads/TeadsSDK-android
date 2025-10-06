@@ -9,4 +9,5 @@
     android:textSize="32sp"
     android:fontFamily="sans-serif-medium"
     android:textStyle="bold"
+    android:paddingHorizontal="@dimen/activity_horizontal_margin"
     android:lineSpacingExtra="4dp" />
