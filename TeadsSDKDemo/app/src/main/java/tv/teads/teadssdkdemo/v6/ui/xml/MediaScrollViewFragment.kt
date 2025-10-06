@@ -35,7 +35,7 @@ class MediaScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     private fun setupContent() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
-        // 1 Init configuration
+        // 1. Init configuration
         val config = TeadsAdPlacementMediaConfig(
             pid = DemoSessionConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
             articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url

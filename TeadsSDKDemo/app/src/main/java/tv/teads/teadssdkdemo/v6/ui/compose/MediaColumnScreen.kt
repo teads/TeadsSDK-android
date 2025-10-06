@@ -34,16 +34,16 @@ fun MediaColumnScreen(
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body))
+        ArticleBody(text = stringResource(R.string.article_template_body_a))
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_2))
+        ArticleBody(text = stringResource(R.string.article_template_body_b))
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_3))
+        ArticleBody(text = stringResource(R.string.article_template_body_c))
         ArticleSpacing()
         AdContainer(
             // Ad view
         )
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_4))
+        ArticleBody(text = stringResource(R.string.article_template_body_d))
     }
 }

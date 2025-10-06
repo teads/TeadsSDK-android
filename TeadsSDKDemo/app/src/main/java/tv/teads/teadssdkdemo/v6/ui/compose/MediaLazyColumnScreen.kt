@@ -35,19 +35,19 @@ fun MediaLazyColumnScreen(
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body))
+                ArticleBody(text = stringResource(R.string.article_template_body_a))
             }
         }
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body_2))
+                ArticleBody(text = stringResource(R.string.article_template_body_b))
             }
         }
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body_3))
+                ArticleBody(text = stringResource(R.string.article_template_body_c))
             }
         }
         
@@ -60,7 +60,7 @@ fun MediaLazyColumnScreen(
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body_4))
+                ArticleBody(text = stringResource(R.string.article_template_body_d))
             }
         }
     }
