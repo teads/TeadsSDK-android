@@ -23,18 +23,7 @@ import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 
 class MediaRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
-    // 1. Init configuration
-    private val config = TeadsAdPlacementMediaConfig(
-        pid = DemoSessionConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
-        articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url
-    )
-
-    // 2. Create placement
-    private val mediaAd = TeadsAdPlacementMedia(
-        context = requireContext(),
-        config = config,
-        delegate = this // events listener
-    )
+    private lateinit var mediaAd: TeadsAdPlacementMedia
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +34,20 @@ class MediaRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 1. Init configuration
+        val config = TeadsAdPlacementMediaConfig(
+            pid = DemoSessionConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
+            articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url
+        )
+
+        // 2. Create placement
+        mediaAd = TeadsAdPlacementMedia(
+            context = requireContext(),
+            config = config,
+            delegate = this // events listener
+        )
+
         setupRecyclerViewContent(view)
     }
 
@@ -71,7 +74,9 @@ class MediaRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     override fun onDestroy() {
         super.onDestroy()
         // 4. Clean from memory
-        mediaAd.clean()
+        if (::mediaAd.isInitialized) {
+            mediaAd.clean()
+        }
     }
 
     class ArticleRecyclerViewAdapter(
