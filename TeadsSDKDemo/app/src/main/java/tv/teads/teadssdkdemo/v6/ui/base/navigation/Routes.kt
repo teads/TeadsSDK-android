@@ -13,15 +13,21 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 sealed class Route {
     data object Demo : Route()
     data object MediaScrollView : Route()
+    data object MediaRecyclerView : Route()
     data object MediaColumn : Route()
     data object MediaLazyColumn : Route()
-    data object MediaRecyclerView : Route()
     data object MediaNativeScrollView : Route()
+    data object MediaNativeRecyclerView : Route()
     data object MediaNativeColumn : Route()
+    data object MediaNativeLazyColumn : Route()
+    data object FeedScrollView : Route()
+    data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
     data object FeedLazyColumn : Route()
-    data object RecommendationsColumn : Route()
+    data object RecommendationsScrollView : Route()
     data object RecommendationsRecyclerView : Route()
+    data object RecommendationsColumn : Route()
+    data object RecommendationsLazyColumn : Route()
 }
 
 /**
@@ -58,16 +64,38 @@ fun Route.getFragmentClass(): Class<out Fragment> {
     return when (this) {
         Route.MediaScrollView -> MediaScrollViewFragment::class.java
         Route.MediaRecyclerView -> MediaRecyclerViewFragment::class.java
-        // TODO: Add more fragment classes as we create them
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
 
-fun Route.getFragmentTag(): String {
+fun Route.getFragmentTag(): String = this.getTitle().filter { !it.isWhitespace() }
+
+fun String.getRouteFromTag(): Route {
     return when (this) {
-        Route.MediaScrollView -> "MediaScrollViewFragment"
-        Route.MediaRecyclerView -> "MediaRecyclerViewFragment"
-        // TODO: Add more fragment tags as we create them
-        else -> throw IllegalArgumentException("No fragment tag defined for route: $this")
+        "MediaScrollViewFragment" -> Route.MediaScrollView
+        "MediaRecyclerViewFragment" -> Route.MediaRecyclerView
+        else -> throw IllegalArgumentException("No fragment found for tag: $this")
+    }
+}
+
+fun Route.getTitle(): String {
+    return when (this) {
+        Route.Demo -> "Teads SDK Demo"
+        Route.MediaScrollView -> "Media ScrollView Fragment"
+        Route.MediaRecyclerView -> "Media RecyclerView Fragment"
+        Route.MediaColumn -> "Media Column Screen"
+        Route.MediaLazyColumn -> "Media LazyColumn Screen"
+        Route.MediaNativeScrollView -> "Media Native ScrollView Fragment"
+        Route.MediaNativeRecyclerView -> "Media Native RecyclerView Fragment"
+        Route.MediaNativeColumn -> "Media Native Column Screen"
+        Route.MediaNativeLazyColumn -> "Media Native LazyColumn Screen"
+        Route.FeedScrollView -> "Feed ScrollView Fragment"
+        Route.FeedRecyclerView -> "Feed RecyclerView Fragment"
+        Route.FeedColumn -> "Feed Column Screen"
+        Route.FeedLazyColumn -> "Feed LazyColumn Screen"
+        Route.RecommendationsScrollView -> "Recommendations ScrollView Fragment"
+        Route.RecommendationsRecyclerView -> "Recommendations RecyclerView Fragment"
+        Route.RecommendationsColumn -> "Recommendations Column Screen"
+        Route.RecommendationsLazyColumn -> "Recommendations LazyColumn Screen"
     }
 }

@@ -13,6 +13,7 @@ import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentClass
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentTag
+import tv.teads.teadssdkdemo.v6.ui.base.navigation.getRouteFromTag
 import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 class IntegrationActivity : AppCompatActivity() {
@@ -25,7 +26,7 @@ class IntegrationActivity : AppCompatActivity() {
          */
         fun launch(context: Context, route : Route) {
             val intent = Intent(context, IntegrationActivity::class.java).apply {
-                putExtra(EXTRA_ROUTE, route::class.java.simpleName)
+                putExtra(EXTRA_ROUTE, route.getFragmentTag())
             }
             context.startActivity(intent)
         }
@@ -82,13 +83,8 @@ class IntegrationActivity : AppCompatActivity() {
     }
 
     private fun loadRouteFromIntent() {
-        val routeName = intent.getStringExtra(EXTRA_ROUTE)
-        currentRoute = when (routeName) {
-            "MediaScrollView" -> Route.MediaScrollView
-            "MediaRecyclerView" -> Route.MediaRecyclerView
-            "MediaColumn" -> Route.MediaColumn
-            else -> null
-        }
+        val fragmentTag = intent.getStringExtra(EXTRA_ROUTE)
+        currentRoute = fragmentTag?.getRouteFromTag()
     }
 
     private fun loadFragment() {
