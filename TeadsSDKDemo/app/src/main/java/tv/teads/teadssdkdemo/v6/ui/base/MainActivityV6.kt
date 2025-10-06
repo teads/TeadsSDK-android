@@ -27,8 +27,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
-import tv.teads.teadssdkdemo.v6.ui.compose.DemoScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.screens.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
 

@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.compose
+package tv.teads.teadssdkdemo.v6.ui.base
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -16,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import tv.teads.teadssdkdemo.v6.ui.base.DemoViewModel
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
 import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField

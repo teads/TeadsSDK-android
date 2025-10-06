@@ -82,18 +82,11 @@ fun AdContainer(
     modifier: Modifier = Modifier,
     adView: ViewGroup? = null
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        contentAlignment = Alignment.Center
-    ) {
-        if (adView != null) {
-            AndroidView(
-                factory = { adView },
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+    if (adView != null) {
+        AndroidView(
+            factory = { adView },
+            modifier = modifier.fillMaxWidth()
+        )
     }
 }
 
