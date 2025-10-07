@@ -95,11 +95,10 @@ fun FeedColumnScreen(
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_c))
         ArticleSpacing()
+        ArticleBody(text = stringResource(R.string.article_template_body_d))
+        ArticleSpacing()
         
         // 5. Add in the ad container
         AdContainer(adView = adView)
-        
-        ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_d))
     }
 }

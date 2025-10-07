@@ -150,14 +150,14 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
                     viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_c)
                 }
                 5 -> {
+                    val viewHolder = holder as TextItemViewHolder
+                    viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_d)
+                }
+                6 -> {
                     val viewHolder = holder as TeadsPlacementViewHolder
                     if (viewHolder.container.isEmpty()) {
                         createTeadsPlacement(viewHolder.container)
                     }
-                }
-                6 -> {
-                    val viewHolder = holder as TextItemViewHolder
-                    viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_d)
                 }
                 else -> {}
             }

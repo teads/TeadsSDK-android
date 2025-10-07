@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementFeed
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementFeedConfig
@@ -60,6 +61,20 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         adContainer.addView(adView)
     }
 
+    private fun initTeadsSDK() {
+        TeadsSDK.configure(
+            applicationContext = requireContext().applicationContext,
+            appKey = "AndroidSampleApp2014" // Your unique application key
+        )
+
+
+        // For testing purposes
+        if (BuildConfig.DEBUG) {
+            TeadsSDK.testMode = true // Enable more logging visibility
+            TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
+        }
+    }
+
     override fun onPlacementEvent(
         placement: TeadsAdPlacement<*, *>,
         event: TeadsAdPlacementEventName,
@@ -67,7 +82,7 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     ) {
         // 5. Stay tuned to lifecycle events
         Log.d("FeedScrollViewFragment", "$placement - $event: $data")
-        
+
         if (event == TeadsAdPlacementEventName.CLICKED_ORGANIC) {
             val url = data?.get("url") as? String
             url?.let {

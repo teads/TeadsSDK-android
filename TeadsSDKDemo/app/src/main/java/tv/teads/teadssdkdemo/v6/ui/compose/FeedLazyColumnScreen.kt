@@ -108,14 +108,14 @@ fun FeedLazyColumnScreen(
         
         item {
             ArticleLazyItem {
-                // 5. Add in the ad container
-                AdContainer(adView = adView)
+                ArticleBody(text = stringResource(R.string.article_template_body_d))
             }
         }
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body_d))
+                // 5. Add in the ad container
+                AdContainer(adView = adView)
             }
         }
     }
