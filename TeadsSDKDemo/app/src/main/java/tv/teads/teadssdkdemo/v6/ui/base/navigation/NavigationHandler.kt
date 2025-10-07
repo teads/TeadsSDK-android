@@ -34,7 +34,7 @@ object NavigationHandler {
      */
     private fun navigateToIntegrationActivity(fromActivity: ComponentActivity, route: Route) {
         IntegrationActivity.launch(fromActivity, route)
-        AnimationHelper.applyFadeOpenTransition(fromActivity)
+        AnimationHelper.applySlideOpenTransition(fromActivity)
     }
 
     /**
@@ -42,6 +42,6 @@ object NavigationHandler {
      */
     fun navigateBackToDemo(fromActivity: ComponentActivity) {
         fromActivity.finish()
-        AnimationHelper.applyFadeCloseTransition(fromActivity)
+        AnimationHelper.applySlideCloseTransition(fromActivity)
     }
 }

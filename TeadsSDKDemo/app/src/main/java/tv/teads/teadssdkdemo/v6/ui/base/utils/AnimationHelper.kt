@@ -1,27 +1,29 @@
 package tv.teads.teadssdkdemo.v6.ui.base.utils
 
 import android.app.Activity
+import tv.teads.teadssdkdemo.R
 
 /**
  * Helper class for handling activity transition animations
+ * Provides slide animations that enter from the right and exit to the right
  * Provides backward compatibility with deprecated overridePendingTransition
  */
 object AnimationHelper {
     
     /**
-     * Apply fade transition animation for activity open
+     * Apply slide transition animation for activity open (enter from right)
      * @param activity the activity to apply transition to
      */
-    fun applyFadeOpenTransition(activity: Activity) {
-        applyTransition(activity, Activity.OVERRIDE_TRANSITION_OPEN)
+    fun applySlideOpenTransition(activity: Activity) {
+        applyTransition(activity, 0)
     }
     
     /**
-     * Apply fade transition animation for activity close
+     * Apply slide transition animation for activity close (exit to right)
      * @param activity the activity to apply transition to
      */
-    fun applyFadeCloseTransition(activity: Activity) {
-        applyTransition(activity, Activity.OVERRIDE_TRANSITION_CLOSE)
+    fun applySlideCloseTransition(activity: Activity) {
+        applyTransition(activity, 1)
     }
     
     /**
@@ -33,15 +35,15 @@ object AnimationHelper {
         if (android.os.Build.VERSION.SDK_INT >= 34) { // Android 14+
             activity.overrideActivityTransition(
                 transitionType,
-                android.R.anim.fade_in,
-                android.R.anim.fade_out,
+                R.anim.slide_in_right,
+                R.anim.slide_out_right,
                 0 // synchronized transition
             )
         } else {
             @Suppress("DEPRECATION")
             activity.overridePendingTransition(
-                android.R.anim.fade_in,
-                android.R.anim.fade_out
+                R.anim.slide_in_right,
+                R.anim.slide_out_right
             )
         }
     }

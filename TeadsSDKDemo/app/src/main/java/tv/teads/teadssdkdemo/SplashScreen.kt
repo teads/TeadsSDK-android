@@ -23,7 +23,6 @@ class SplashScreen : AppCompatActivity() {
         val mainIntent = Intent(this@SplashScreen, MainActivity::class.java)
         this@SplashScreen.startActivity(mainIntent)
         this@SplashScreen.finish()
-        AnimationHelper.applyFadeCloseTransition(this)
     }
 
     companion object {

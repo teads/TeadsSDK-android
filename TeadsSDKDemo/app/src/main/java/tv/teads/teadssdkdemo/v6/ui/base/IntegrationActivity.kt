@@ -15,7 +15,6 @@ import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentClass
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getFragmentTag
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getRouteFromTag
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.getTitle
-import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 class IntegrationActivity : AppCompatActivity() {
     
@@ -111,10 +110,5 @@ class IntegrationActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         recreate()
-    }
-
-    override fun finish() {
-        super.finish()
-        AnimationHelper.applyFadeCloseTransition(this)
     }
 }
