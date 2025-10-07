@@ -54,7 +54,7 @@
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
             android:lineSpacingExtra="4dp" />
 
-        <!-- Ad Container -->
+        <!-- Middle Ad Container -->
         <include layout="@layout/item_ad_container" />
 
         <!-- Fourth Body Paragraph -->

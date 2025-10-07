@@ -8,6 +8,8 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.FeedRecyclerViewFragment
 
 /**
  * Sealed class representing all possible navigation routes
@@ -62,6 +64,14 @@ object RouteFactory {
                     IntegrationType.LAZYCOLUMN -> Route.MediaNativeLazyColumn
                 }
             }
+            format == FormatType.FEED && provider == ProviderType.DIRECT -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.FeedScrollView
+                    IntegrationType.RECYCLERVIEW -> Route.FeedRecyclerView
+                    IntegrationType.COLUMN -> Route.FeedColumn
+                    IntegrationType.LAZYCOLUMN -> Route.FeedLazyColumn
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -76,6 +86,8 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaRecyclerView -> MediaRecyclerViewFragment::class.java
         Route.MediaNativeScrollView -> MediaNativeScrollViewFragment::class.java
         Route.MediaNativeRecyclerView -> MediaNativeRecyclerViewFragment::class.java
+        Route.FeedScrollView -> FeedScrollViewFragment::class.java
+        Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -84,10 +96,12 @@ fun Route.getFragmentTag(): String = this.getTitle().filter { !it.isWhitespace()
 
 fun String.getRouteFromTag(): Route {
     return when (this) {
-        "MediaScrollViewFragment" -> Route.MediaScrollView
-        "MediaRecyclerViewFragment" -> Route.MediaRecyclerView
-        "MediaNativeScrollViewFragment" -> Route.MediaNativeScrollView
-        "MediaNativeRecyclerViewFragment" -> Route.MediaNativeRecyclerView
+        "MediaScrollView" -> Route.MediaScrollView
+        "MediaRecyclerView" -> Route.MediaRecyclerView
+        "MediaNativeScrollView" -> Route.MediaNativeScrollView
+        "MediaNativeRecyclerView" -> Route.MediaNativeRecyclerView
+        "FeedScrollView" -> Route.FeedScrollView
+        "FeedRecyclerView" -> Route.FeedRecyclerView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
@@ -95,21 +109,21 @@ fun String.getRouteFromTag(): Route {
 fun Route.getTitle(): String {
     return when (this) {
         Route.Demo -> "Teads SDK Demo"
-        Route.MediaScrollView -> "Media ScrollView Fragment"
-        Route.MediaRecyclerView -> "Media RecyclerView Fragment"
-        Route.MediaColumn -> "Media Column Screen"
-        Route.MediaLazyColumn -> "Media LazyColumn Screen"
-        Route.MediaNativeScrollView -> "Media Native ScrollView Fragment"
-        Route.MediaNativeRecyclerView -> "Media Native RecyclerView Fragment"
-        Route.MediaNativeColumn -> "Media Native Column Screen"
-        Route.MediaNativeLazyColumn -> "Media Native LazyColumn Screen"
-        Route.FeedScrollView -> "Feed ScrollView Fragment"
-        Route.FeedRecyclerView -> "Feed RecyclerView Fragment"
-        Route.FeedColumn -> "Feed Column Screen"
-        Route.FeedLazyColumn -> "Feed LazyColumn Screen"
-        Route.RecommendationsScrollView -> "Recommendations ScrollView Fragment"
-        Route.RecommendationsRecyclerView -> "Recommendations RecyclerView Fragment"
-        Route.RecommendationsColumn -> "Recommendations Column Screen"
-        Route.RecommendationsLazyColumn -> "Recommendations LazyColumn Screen"
+        Route.MediaScrollView -> "Media ScrollView"
+        Route.MediaRecyclerView -> "Media RecyclerView"
+        Route.MediaColumn -> "Media Column"
+        Route.MediaLazyColumn -> "Media LazyColumn"
+        Route.MediaNativeScrollView -> "Media Native ScrollView"
+        Route.MediaNativeRecyclerView -> "Media Native RecyclerView"
+        Route.MediaNativeColumn -> "Media Native Column"
+        Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
+        Route.FeedScrollView -> "Feed ScrollView"
+        Route.FeedRecyclerView -> "Feed RecyclerView"
+        Route.FeedColumn -> "Feed Column"
+        Route.FeedLazyColumn -> "Feed LazyColumn"
+        Route.RecommendationsScrollView -> "Recommendations ScrollView"
+        Route.RecommendationsRecyclerView -> "Recommendations RecyclerView"
+        Route.RecommendationsColumn -> "Recommendations Column"
+        Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
     }
 }

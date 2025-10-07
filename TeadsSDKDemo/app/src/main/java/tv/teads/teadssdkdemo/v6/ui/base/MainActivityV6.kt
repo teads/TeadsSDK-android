@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,11 +27,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
+import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
+import tv.teads.teadssdkdemo.v6.ui.compose.FeedColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.FeedLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
 
 class MainActivityV6 : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -67,6 +69,8 @@ class MainActivityV6 : ComponentActivity() {
                                         Route.MediaLazyColumn -> "Media LazyColumn"
                                         Route.MediaNativeColumn -> "Media Native Column"
                                         Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
+                                        Route.FeedColumn -> "Feed Column"
+                                        Route.FeedLazyColumn -> "Feed LazyColumn"
                                         Route.Demo -> "Teads SDK Demo V6"
                                         else -> "Teads SDK Demo V6"
                                     }
@@ -79,10 +83,11 @@ class MainActivityV6 : ComponentActivity() {
                             navigationIcon = {
                                 when (currentRoute) {
                                     Route.MediaColumn, Route.MediaLazyColumn, 
-                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn -> {
+                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
+                                    Route.FeedColumn, Route.FeedLazyColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
                                             Icon(
-                                                imageVector = Icons.Filled.ArrowBack,
+                                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                                 contentDescription = "Back to Demo"
                                             )
                                         }
@@ -101,7 +106,8 @@ class MainActivityV6 : ComponentActivity() {
                             viewModel.setOnNavigateCallback { navRoute ->
                                 when (navRoute) {
                                     Route.MediaColumn, Route.MediaLazyColumn,
-                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn -> {
+                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
+                                    Route.FeedColumn, Route.FeedLazyColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
@@ -135,6 +141,16 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.MediaNativeLazyColumn -> {
                             MediaNativeLazyColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.FeedColumn -> {
+                            FeedColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.FeedLazyColumn -> {
+                            FeedLazyColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

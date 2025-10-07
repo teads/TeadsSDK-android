@@ -26,7 +26,7 @@ class MediaNativeScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.article_scroll_view_template, container, false)
+        return inflater.inflate(R.layout.article_scroll_view_template_middle_ad, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
