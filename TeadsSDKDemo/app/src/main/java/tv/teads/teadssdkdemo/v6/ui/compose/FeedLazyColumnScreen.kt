@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
+import tv.teads.teadssdkdemo.BuildConfig
+import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementFeed
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementFeedConfig
@@ -38,6 +40,9 @@ fun FeedLazyColumnScreen(
     var feedAd by remember { mutableStateOf<TeadsAdPlacementFeed?>(null) }
 
     LaunchedEffect(Unit) {
+        // 0. Init SDK
+        initTeadsSDK(context)
+        
         // 1. Init configuration
         val config = TeadsAdPlacementFeedConfig(
             widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique widget id
@@ -118,5 +123,19 @@ fun FeedLazyColumnScreen(
                 AdContainer(adView = adView)
             }
         }
+    }
+}
+
+private fun initTeadsSDK(context: android.content.Context) {
+    // Mandatory for placements [Feed, Recommendations]
+    TeadsSDK.configure(
+        applicationContext = context.applicationContext,
+        appKey = "AndroidSampleApp2014" // Your unique application key
+    )
+
+    // For testing purposes
+    if (BuildConfig.DEBUG) {
+        TeadsSDK.testMode = true // Enable more logging visibility
+        TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
     }
 }

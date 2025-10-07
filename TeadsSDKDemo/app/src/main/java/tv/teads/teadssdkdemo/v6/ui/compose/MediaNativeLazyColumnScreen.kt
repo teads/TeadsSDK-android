@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
+import tv.teads.teadssdkdemo.BuildConfig
+import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementMediaNative
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaNativeConfig
@@ -37,6 +39,9 @@ fun MediaNativeLazyColumnScreen(
     var mediaNativeAd by remember { mutableStateOf<TeadsAdPlacementMediaNative?>(null) }
 
     LaunchedEffect(Unit) {
+        // 0. Enable more logging visibility for testing purposes
+        TeadsSDK.testMode = BuildConfig.DEBUG
+        
         // 1. Init configuration
         val config = TeadsAdPlacementMediaNativeConfig(
             pid = DemoSessionConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id

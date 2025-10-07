@@ -13,6 +13,7 @@ import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementFeed
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementFeedConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
+import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.utils.BrowserNavigationHelper
@@ -38,6 +39,9 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     private fun setupContent() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
+        // 0. Init SDK
+        initTeadsSDK()
+
         // 1. Init configuration
         val config = TeadsAdPlacementFeedConfig(
             widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique widget id
@@ -62,6 +66,7 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     }
 
     private fun initTeadsSDK() {
+        // Mandatory for placements [Feed, Recommendations]
         TeadsSDK.configure(
             applicationContext = requireContext().applicationContext,
             appKey = "AndroidSampleApp2014" // Your unique application key

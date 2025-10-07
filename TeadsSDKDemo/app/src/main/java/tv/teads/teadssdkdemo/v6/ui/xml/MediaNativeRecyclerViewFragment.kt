@@ -13,6 +13,8 @@ import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import tv.teads.teadssdkdemo.BuildConfig
+import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementMediaNative
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaNativeConfig
@@ -35,6 +37,9 @@ class MediaNativeRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelega
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 0. Enable more logging visibility for testing purposes
+        TeadsSDK.testMode = BuildConfig.DEBUG
 
         // 1. Init configuration
         val config = TeadsAdPlacementMediaNativeConfig(

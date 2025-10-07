@@ -13,6 +13,8 @@ import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import tv.teads.teadssdkdemo.BuildConfig
+import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementFeed
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementFeedConfig
@@ -21,6 +23,7 @@ import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.utils.BrowserNavigationHelper
+import tv.teads.teadssdkdemo.v6.utils.ThemeUtils
 
 class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
@@ -36,12 +39,16 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 0. Init SDK
+        initTeadsSDK()
+
         // 1. Init configuration
         val config = TeadsAdPlacementFeedConfig(
             widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique widget id
             articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri(), // Your article url
             installationKey = DemoSessionConfiguration.getInstallationKeyOrDefault(), // Your unique installation key
-            widgetIndex = 0 // Position of the ad within your article content. Increment the number by 1 for each additional ad
+            widgetIndex = 0, // Position of the ad within your article content. Increment the number by 1 for each additional ad
+            darkMode = ThemeUtils.isDarkModeEnabled(requireContext())
         )
 
         // 2. Create placement
@@ -52,6 +59,20 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         )
 
         setupRecyclerViewContent(view)
+    }
+
+    private fun initTeadsSDK() {
+        // Mandatory for placements [Feed, Recommendations]
+        TeadsSDK.configure(
+            applicationContext = requireContext().applicationContext,
+            appKey = "AndroidSampleApp2014" // Your unique application key
+        )
+
+        // For testing purposes
+        if (BuildConfig.DEBUG) {
+            TeadsSDK.testMode = true // Enable more logging visibility
+            TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
+        }
     }
 
     private fun setupRecyclerViewContent(view: View) {
