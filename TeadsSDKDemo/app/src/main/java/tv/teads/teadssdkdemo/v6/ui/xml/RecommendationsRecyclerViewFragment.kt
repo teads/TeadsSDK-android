@@ -11,17 +11,18 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementRecommendations
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementRecommendationsConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
+import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.ui.base.recommendations.RecommendationsAdView
@@ -185,17 +186,16 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
             container.addView(recommendationsAdView)
 
             // 6. Load the recommendations asynchronously and bind to view
-            val fragment = container.context as? Fragment
-            fragment?.lifecycleScope?.launch {
-            try {
-                val response = recommendationsAd.loadAdSuspend()
-                recommendationsAdView.bind(
-                    recommendations = response,
-                    articleUrl = recommendationsAd.config.articleUrl
-                )
-            } catch (e: Exception) {
-                Log.e("RecommendationsRecyclerViewFragment", "Recommendations failed to load", e)
-            }
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val response = recommendationsAd.loadAdSuspend()
+                    recommendationsAdView.bind(
+                        recommendations = response,
+                        articleUrl = recommendationsAd.config.articleUrl
+                    )
+                } catch (e: Exception) {
+                    Log.e("RecommendationsRecyclerViewFragment", "Recommendations failed to load", e)
+                }
             }
         }
 
