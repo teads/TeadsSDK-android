@@ -11,23 +11,24 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
-import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementFeed
-import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementFeedConfig
+import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementRecommendations
+import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementRecommendationsConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
-import tv.teads.teadssdkdemo.v6.utils.BrowserNavigationHelper
-import tv.teads.teadssdkdemo.v6.utils.ThemeUtils
+import tv.teads.teadssdkdemo.v6.ui.base.recommendations.RecommendationsAdView
 
-class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
+class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
-    private lateinit var feedAd: TeadsAdPlacementFeed
+    private lateinit var recommendationsAd: TeadsAdPlacementRecommendations
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,21 +40,17 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 0. Init SDK
-        initTeadsSDK()
+        // 0. Enable more logging visibility for testing purposes
+        TeadsSDK.testMode = BuildConfig.DEBUG
 
         // 1. Init configuration
-        val config = TeadsAdPlacementFeedConfig(
-            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique widget id
+        val config = TeadsAdPlacementRecommendationsConfig(
             articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri(), // Your article url
-            installationKey = DemoSessionConfiguration.getInstallationKeyOrDefault(), // Your unique installation key
-            widgetIndex = 0, // Position of the ad within your article content. Increment the number by 1 for each additional ad
-            darkMode = ThemeUtils.isDarkModeEnabled(requireContext())
+            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault() // Your widget id
         )
 
         // 2. Create placement
-        feedAd = TeadsAdPlacementFeed(
-            context = requireContext(),
+        recommendationsAd = TeadsAdPlacementRecommendations(
             config = config,
             delegate = this // events listener
         )
@@ -61,24 +58,10 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         setupRecyclerViewContent(view)
     }
 
-    private fun initTeadsSDK() {
-        // Mandatory for placements [Feed, Recommendations]
-        TeadsSDK.configure(
-            applicationContext = requireContext().applicationContext,
-            appKey = "AndroidSampleApp2014" // Your unique application key
-        )
-
-        // For testing purposes
-        if (BuildConfig.DEBUG) {
-            TeadsSDK.testMode = true // Enable more logging visibility
-            TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
-        }
-    }
-
     private fun setupRecyclerViewContent(view: View) {
         val recyclerView = RecyclerView(requireContext()).apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ArticleRecyclerViewAdapter(feedAd)
+            adapter = ArticleRecyclerViewAdapter(recommendationsAd)
         }
 
         view.findViewById<LinearLayout>(R.id.content_container)?.apply {
@@ -92,18 +75,11 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         data: Map<String, Any>?
     ) {
         // 3. Stay tuned to lifecycle events
-        Log.d("FeedRecyclerViewFragment", "$placement - $event: $data")
-        
-        if (event == TeadsAdPlacementEventName.CLICKED_ORGANIC) {
-            val url = data?.get("url") as? String
-            url?.let {
-                BrowserNavigationHelper.openInnerBrowser(requireContext(), it)
-            }
-        }
+        Log.d("RecommendationsRecyclerViewFragment", "$placement - $event: $data")
     }
 
     class ArticleRecyclerViewAdapter(
-        private val feedAd: TeadsAdPlacementFeed,
+        private val recommendationsAd: TeadsAdPlacementRecommendations,
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         // ViewHolder for article image
@@ -119,7 +95,7 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
             var textView: TextView = layout.findViewById(R.id.article_body)
         }
 
-        // ViewHolder for Teads Feed placement
+        // ViewHolder for Teads Recommendations placement
         class TeadsPlacementViewHolder internal constructor(var layout: View) : RecyclerView.ViewHolder(layout) {
             var container: FrameLayout = layout.findViewById(R.id.ad_container)
         }
@@ -185,11 +161,25 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         }
 
         private fun createTeadsPlacement(container: FrameLayout) {
-            // 4. Request ad
-            val adView = feedAd.loadAd()
+            // 4. Create your custom recommendations ad view
+            val recommendationsAdView = RecommendationsAdView(container.context)
 
-            // 5. Add in the ad container
-            container.addView(adView)
+            // 5. Add to container
+            container.addView(recommendationsAdView)
+
+            // 6. Load the recommendations asynchronously and bind to view
+            val fragment = container.context as? Fragment
+            fragment?.lifecycleScope?.launch {
+            try {
+                val response = recommendationsAd.loadAdSuspend()
+                recommendationsAdView.bind(
+                    recommendations = response,
+                    articleUrl = recommendationsAd.config.articleUrl
+                )
+            } catch (e: Exception) {
+                Log.e("RecommendationsRecyclerViewFragment", "Recommendations failed to load", e)
+            }
+            }
         }
 
         override fun getItemCount(): Int {

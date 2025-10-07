@@ -34,21 +34,23 @@ import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsLazyColumnScreen
 
 class MainActivityV6 : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
+
         setContent {
             TeadsSDKDemoTheme {
                 var currentRoute by remember { mutableStateOf<Route>(Route.Demo) }
-                
+
                 // Handle device back button
                 val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
                 val lifecycleOwner = LocalLifecycleOwner.current
-                
+
                 DisposableEffect(currentRoute) {
                     val callback = object : OnBackPressedCallback(currentRoute != Route.Demo) {
                         override fun handleOnBackPressed() {
@@ -58,11 +60,11 @@ class MainActivityV6 : ComponentActivity() {
                     backDispatcher?.addCallback(lifecycleOwner, callback)
                     onDispose { callback.remove() }
                 }
-                
+
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { 
+                            title = {
                                 Text(
                                     when (currentRoute) {
                                         Route.MediaColumn -> "Media Column"
@@ -71,10 +73,11 @@ class MainActivityV6 : ComponentActivity() {
                                         Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
                                         Route.FeedColumn -> "Feed Column"
                                         Route.FeedLazyColumn -> "Feed LazyColumn"
-                                        Route.Demo -> "Teads SDK Demo V6"
-                                        else -> "Teads SDK Demo V6"
+                                        Route.RecommendationsColumn -> "Recommendations Column"
+                                        Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
+                                        else -> "Teads SDK Demo"
                                     }
-                                ) 
+                                )
                             },
                             colors = TopAppBarDefaults.topAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.surface,
@@ -82,9 +85,10 @@ class MainActivityV6 : ComponentActivity() {
                             ),
                             navigationIcon = {
                                 when (currentRoute) {
-                                    Route.MediaColumn, Route.MediaLazyColumn, 
+                                    Route.MediaColumn, Route.MediaLazyColumn,
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
-                                    Route.FeedColumn, Route.FeedLazyColumn -> {
+                                    Route.FeedColumn, Route.FeedLazyColumn,
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -101,13 +105,14 @@ class MainActivityV6 : ComponentActivity() {
                     when (currentRoute) {
                         Route.Demo -> {
                             val viewModel: DemoViewModel = viewModel()
-                            
+
                             // Set up navigation callback
                             viewModel.setOnNavigateCallback { navRoute ->
                                 when (navRoute) {
                                     Route.MediaColumn, Route.MediaLazyColumn,
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
-                                    Route.FeedColumn, Route.FeedLazyColumn -> {
+                                    Route.FeedColumn, Route.FeedLazyColumn,
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
@@ -118,7 +123,7 @@ class MainActivityV6 : ComponentActivity() {
                                     }
                                 }
                             }
-                            
+
                             DemoScreen(
                                 modifier = Modifier.padding(paddingValues),
                                 viewModel = viewModel
@@ -151,6 +156,16 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.FeedLazyColumn -> {
                             FeedLazyColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.RecommendationsColumn -> {
+                            RecommendationsColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.RecommendationsLazyColumn -> {
+                            RecommendationsLazyColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

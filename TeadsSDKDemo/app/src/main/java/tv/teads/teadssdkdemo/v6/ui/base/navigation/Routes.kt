@@ -10,6 +10,8 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedRecyclerViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsRecyclerViewFragment
 
 /**
  * Sealed class representing all possible navigation routes
@@ -72,6 +74,14 @@ object RouteFactory {
                     IntegrationType.LAZYCOLUMN -> Route.FeedLazyColumn
                 }
             }
+            format == FormatType.RECOMMENDATIONS && provider == ProviderType.DIRECT -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.RecommendationsScrollView
+                    IntegrationType.RECYCLERVIEW -> Route.RecommendationsRecyclerView
+                    IntegrationType.COLUMN -> Route.RecommendationsColumn
+                    IntegrationType.LAZYCOLUMN -> Route.RecommendationsLazyColumn
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -88,6 +98,8 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaNativeRecyclerView -> MediaNativeRecyclerViewFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
+        Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
+        Route.RecommendationsRecyclerView -> RecommendationsRecyclerViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -102,6 +114,8 @@ fun String.getRouteFromTag(): Route {
         "MediaNativeRecyclerView" -> Route.MediaNativeRecyclerView
         "FeedScrollView" -> Route.FeedScrollView
         "FeedRecyclerView" -> Route.FeedRecyclerView
+        "RecommendationsScrollView" -> Route.RecommendationsScrollView
+        "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }

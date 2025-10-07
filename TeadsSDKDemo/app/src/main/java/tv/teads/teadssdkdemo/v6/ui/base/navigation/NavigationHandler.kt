@@ -18,12 +18,14 @@ object NavigationHandler {
         route: Route
     ) {
         when (route) {
-            Route.MediaScrollView -> navigateToIntegrationActivity(fromActivity, route)
-            Route.MediaRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
-            Route.MediaNativeScrollView -> navigateToIntegrationActivity(fromActivity, route)
-            Route.MediaNativeRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
-            Route.FeedScrollView -> navigateToIntegrationActivity(fromActivity, route)
-            Route.FeedRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
+            Route.MediaScrollView,
+            Route.MediaRecyclerView,
+            Route.MediaNativeScrollView,
+            Route.MediaNativeRecyclerView,
+            Route.FeedScrollView,
+            Route.FeedRecyclerView,
+            Route.RecommendationsScrollView,
+            Route.RecommendationsRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
             else -> throw IllegalAccessException("Impossible route")
         }
     }
