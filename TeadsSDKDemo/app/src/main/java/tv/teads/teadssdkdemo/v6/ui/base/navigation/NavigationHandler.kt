@@ -1,9 +1,7 @@
 package tv.teads.teadssdkdemo.v6.ui.base.navigation
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import tv.teads.teadssdkdemo.v6.ui.base.IntegrationActivity
-import tv.teads.teadssdkdemo.v6.ui.base.MainActivityV6
 
 /**
  * Navigation handler responsible for navigating to the specified route

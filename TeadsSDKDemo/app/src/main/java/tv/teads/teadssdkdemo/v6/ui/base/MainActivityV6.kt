@@ -108,7 +108,8 @@ class MainActivityV6 : ComponentActivity() {
                             }
                             
                             DemoScreen(
-                                modifier = Modifier.padding(paddingValues)
+                                modifier = Modifier.padding(paddingValues),
+                                viewModel = viewModel
                             )
                         }
                         Route.MediaColumn -> {

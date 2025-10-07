@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo.v6.ui.base
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -20,6 +21,11 @@ class DemoViewModel : ViewModel() {
 
     // Navigation callback
     private var onNavigateCallback: ((Route) -> Unit)? = null
+
+    // Scroll state persistence for DemoScreen
+    private var _scrollState: ScrollState? = null
+    val scrollState: ScrollState
+        get() = _scrollState ?: ScrollState(0).also { _scrollState = it }
 
     // Selected states
     var selectedFormat: FormatType? by mutableStateOf(null)
