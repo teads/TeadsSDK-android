@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 
@@ -52,6 +53,14 @@ object RouteFactory {
                     IntegrationType.LAZYCOLUMN -> Route.MediaLazyColumn
                 }
             }
+            format == FormatType.MEDIANATIVE && provider == ProviderType.DIRECT -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.MediaNativeScrollView
+                    IntegrationType.RECYCLERVIEW -> Route.MediaNativeRecyclerView
+                    IntegrationType.COLUMN -> Route.MediaNativeColumn
+                    IntegrationType.LAZYCOLUMN -> Route.MediaNativeLazyColumn
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -64,6 +73,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
     return when (this) {
         Route.MediaScrollView -> MediaScrollViewFragment::class.java
         Route.MediaRecyclerView -> MediaRecyclerViewFragment::class.java
+        Route.MediaNativeScrollView -> MediaNativeScrollViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -74,6 +84,7 @@ fun String.getRouteFromTag(): Route {
     return when (this) {
         "MediaScrollViewFragment" -> Route.MediaScrollView
         "MediaRecyclerViewFragment" -> Route.MediaRecyclerView
+        "MediaNativeScrollViewFragment" -> Route.MediaNativeScrollView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
