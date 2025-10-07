@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
+import tv.teads.teadssdkdemo.v6.ui.compose.AnimatedScreenTransition
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
@@ -88,41 +89,43 @@ class MainActivityV6 : ComponentActivity() {
                         )
                     }
                 ) { paddingValues ->
-                    when (currentRoute) {
-                        Route.Demo -> {
-                            val viewModel: DemoViewModel = viewModel()
-                            
-                            // Set up navigation callback
-                            viewModel.setOnNavigateCallback { route ->
-                                when (route) {
-                                    Route.MediaColumn, Route.MediaLazyColumn -> {
-                                        currentRoute = route
-                                    }
-                                    else -> {
-                                        NavigationHandler.navigateToRoute(
-                                            fromActivity = this@MainActivityV6,
-                                            route = route
-                                        )
+                    AnimatedScreenTransition(currentRoute = currentRoute) { route ->
+                        when (route) {
+                            Route.Demo -> {
+                                val viewModel: DemoViewModel = viewModel()
+                                
+                                // Set up navigation callback
+                                viewModel.setOnNavigateCallback { navRoute ->
+                                    when (navRoute) {
+                                        Route.MediaColumn, Route.MediaLazyColumn -> {
+                                            currentRoute = navRoute
+                                        }
+                                        else -> {
+                                            NavigationHandler.navigateToRoute(
+                                                fromActivity = this@MainActivityV6,
+                                                route = navRoute
+                                            )
+                                        }
                                     }
                                 }
+                                
+                                DemoScreen(
+                                    modifier = Modifier.padding(paddingValues)
+                                )
                             }
-                            
-                            DemoScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaColumn -> {
-                            MediaColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaLazyColumn -> {
-                            MediaLazyColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
+                            Route.MediaColumn -> {
+                                MediaColumnScreen(
+                                    modifier = Modifier.padding(paddingValues)
+                                )
+                            }
+                            Route.MediaLazyColumn -> {
+                                MediaLazyColumnScreen(
+                                    modifier = Modifier.padding(paddingValues)
+                                )
+                            }
 
-                        else -> {}
+                            else -> {}
+                        }
                     }
                 }
             }
