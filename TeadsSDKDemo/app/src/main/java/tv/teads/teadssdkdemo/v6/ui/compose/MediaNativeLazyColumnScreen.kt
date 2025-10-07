@@ -28,7 +28,7 @@ import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleImage
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLazyItem
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
-import tv.teads.teadssdkdemo.views.MediaNativeAdView
+import tv.teads.teadssdkdemo.v6.ui.base.medianative.MediaNativeAdView
 
 @Composable
 fun MediaNativeLazyColumnScreen(

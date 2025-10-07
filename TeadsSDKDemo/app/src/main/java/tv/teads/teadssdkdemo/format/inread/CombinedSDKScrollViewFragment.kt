@@ -25,8 +25,8 @@ import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.databinding.FragmentCombinedSdkScrollviewBinding
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.teadssdkdemo.views.MediaNativeAdView
-import tv.teads.teadssdkdemo.views.RecommendationsAdView
+import tv.teads.teadssdkdemo.v6.ui.base.medianative.MediaNativeAdView
+import tv.teads.teadssdkdemo.v6.ui.base.recommendations.RecommendationsAdView
 
 /**
  * Media format within a ScrollView

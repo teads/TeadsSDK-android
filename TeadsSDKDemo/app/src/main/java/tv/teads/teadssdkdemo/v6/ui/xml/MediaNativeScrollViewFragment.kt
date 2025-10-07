@@ -16,7 +16,7 @@ import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDel
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
-import tv.teads.teadssdkdemo.views.MediaNativeAdView
+import tv.teads.teadssdkdemo.v6.ui.base.medianative.MediaNativeAdView
 
 class MediaNativeScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 

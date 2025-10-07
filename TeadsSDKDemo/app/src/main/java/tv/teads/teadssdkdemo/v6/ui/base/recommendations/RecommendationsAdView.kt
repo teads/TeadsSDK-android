@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.views
+package tv.teads.teadssdkdemo.v6.ui.base.recommendations
 
 import android.content.Context
 import android.net.Uri
@@ -13,12 +13,13 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.outbrain.OBSDK.Entities.OBRecommendation
 import com.outbrain.OBSDK.Entities.OBRecommendationsResponse
 import com.outbrain.OBSDK.Viewability.OBFrameLayout
+import tv.teads.teadssdkdemo.R
 import com.squareup.picasso.Picasso
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementRecommendations
-import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.v6.utils.BrowserNavigationHelper
 
 /**
- * Custom view for displaying Outbrain recommendations.
+ * Custom view for displaying recommendations.
  * Extends LinearLayout and provides a bind method to populate with recommendations data.
  */
 class RecommendationsAdView @JvmOverloads constructor(
@@ -37,21 +38,28 @@ class RecommendationsAdView @JvmOverloads constructor(
      * @param recommendations The OBRecommendationsResponse containing the recommendations to display
      * @param articleUrl The article URL for disclosure icon click handling
      */
-    fun bind(recommendations: OBRecommendationsResponse, articleUrl: Uri) {
+    fun bind(
+        recommendations: OBRecommendationsResponse,
+        articleUrl: Uri
+    ) {
         removeAllViews()
         
         if (recommendations.all.isNotEmpty()) {
-            // Add header view
+            // 0. Inflate your custom layout
             val inflater = LayoutInflater.from(context)
-            val headerView = inflater.inflate(R.layout.outbrain_classic_recommendation_header_view, this, false)
+            val headerView = inflater.inflate(R.layout.recommendation_header_view, this, false)
             addView(headerView)
-            
-            val whatIsOutbrainIV = headerView.findViewById<ImageView>(R.id.recommended_by_image)
-            whatIsOutbrainIV.setOnClickListener {
-                openURLInBrowser(TeadsAdPlacementRecommendations.getOutbrainAboutURL(), context)
+
+            // 1. Define click for ad choices icon using url returned by TeadsAdPlacementRecommendations.getOutbrainAboutURL()
+            val adChoicesIcon = headerView.findViewById<ImageView>(R.id.rec_ad_choices_icon)
+            adChoicesIcon.setOnClickListener {
+                BrowserNavigationHelper.openInnerBrowser(
+                    context = this.context,
+                    url = TeadsAdPlacementRecommendations.getOutbrainAboutURL()
+                )
             }
             
-            // Add recommendation views
+            // 2. Iterate each item of the ad response
             for (item in recommendations.all) {
                 addClassicRecommendationView(item, articleUrl)
             }
@@ -62,18 +70,18 @@ class RecommendationsAdView @JvmOverloads constructor(
         recommendation: OBRecommendation,
         articleUrl: Uri
     ) {
+        // 3. Inflate your custom layout for ad items
         val inflater = LayoutInflater.from(context)
-        val child = inflater.inflate(R.layout.outbrain_classic_recommendation_view, this, false)
-        val recContainer = child.findViewById<View>(R.id.outbrain_rec_container) as OBFrameLayout
-        val title = child.findViewById<TextView>(R.id.outbrain_layouts_title_text_label)
-        val desc = child.findViewById<TextView>(R.id.outbrain_layouts_author_text_label)
-        val imageView = child.findViewById<ImageView>(R.id.outbrain_rec_image_view)
-        val disclosureImageView = child.findViewById<ImageView>(R.id.outbrain_rec_disclosure_image_view)
-        
+        val child = inflater.inflate(R.layout.recommendation_view, this, false)
+        val recContainer = child.findViewById<View>(R.id.rec_container) as OBFrameLayout
+        val title = child.findViewById<TextView>(R.id.rec_layouts_title_text_label)
+        val desc = child.findViewById<TextView>(R.id.rec_layouts_author_text_label)
+        val imageView = child.findViewById<ImageView>(R.id.rec_image_view)
+        val disclosureImageView = child.findViewById<ImageView>(R.id.rec_disclosure_image_view)
+
+        // 4. Set the RTB disclosure icon image and click handler
         if (recommendation.isPaid && recommendation.shouldDisplayDisclosureIcon()) {
-            // Set the RTB disclosure icon image and click handler
             disclosureImageView.visibility = View.VISIBLE
-            // Load disclosure icon using Picasso
             Picasso.get().load(recommendation.disclosure.iconUrl).into(disclosureImageView)
             disclosureImageView.setOnClickListener {
                 val builder = CustomTabsIntent.Builder()
@@ -83,36 +91,27 @@ class RecommendationsAdView @JvmOverloads constructor(
         } else {
             disclosureImageView.visibility = View.GONE
         }
-        
-        val recommendationContainer = child.findViewById<RelativeLayout>(R.id.outbrain_classic_recommendation_view_container)
-        
+
+        // 5. Add items to container
+        val recommendationContainer = child.findViewById<RelativeLayout>(R.id.recommendation_view_container)
         title.text = recommendation.content
         desc.text = "By ${recommendation.sourceName}"
-        
         addView(child)
         
-        // Load recommendation thumbnail using Picasso
+        // 6. Load media with the image loading library of your preference
         if (imageView != null) {
             Picasso.get().load(recommendation.thumbnail.url).into(imageView)
         }
-        
+
+        // 7. Implement ad click getting the url using TeadsAdPlacementRecommendations.getUrl(recommendation: OBRecommendation)
         recommendationContainer.setOnClickListener {
-            openURLInBrowser(TeadsAdPlacementRecommendations.getUrl(recommendation), context)
-        }
-
-        // Viewability setup
-        TeadsAdPlacementRecommendations.configureViewabilityPerListingFor(recContainer, recommendation)
-    }
-
-    private fun openURLInBrowser(url: String?, context: Context) {
-        url?.let {
-            try {
-                val customTabsIntent = CustomTabsIntent.Builder().build()
-                customTabsIntent.launchUrl(context, Uri.parse(it))
-            } catch (e: Exception) {
-                // Handle error silently
+            TeadsAdPlacementRecommendations.getUrl(recommendation)?.let { url ->
+                BrowserNavigationHelper.openInnerBrowser(this.context, url)
             }
         }
+
+        // 8. Setup the viewability for each recommendation using
+        // TeadsAdPlacementRecommendations.configureViewabilityPerListingFor(viewContainer: OBFrameLayout, rec: OBRecommendation)
+        TeadsAdPlacementRecommendations.configureViewabilityPerListingFor(recContainer, recommendation)
     }
 }
-

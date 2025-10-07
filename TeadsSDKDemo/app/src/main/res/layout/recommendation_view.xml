@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.outbrain.OBSDK.Viewability.OBFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outbrain_rec_container"
+    android:id="@+id/rec_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/outbrain_classic_recommendation_view_container"
+        android:id="@+id/recommendation_view_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">
@@ -31,12 +31,12 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/outbrain_rec_image_view"
+                        android:id="@+id/rec_image_view"
                         android:layout_width="80dp"
                         android:layout_height="80dp" />
 
                     <ImageView
-                        android:id="@+id/outbrain_rec_disclosure_image_view"
+                        android:id="@+id/rec_disclosure_image_view"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="top|right"
@@ -54,7 +54,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/outbrain_layouts_title_text_label"
+                        android:id="@+id/rec_layouts_title_text_label"
                         android:background="@android:color/transparent"
                         android:textColor="@android:color/black"
                         android:layout_width="fill_parent"
@@ -67,7 +67,7 @@
                         android:clickable="false" />
 
                     <TextView
-                        android:id="@+id/outbrain_layouts_author_text_label"
+                        android:id="@+id/rec_layouts_author_text_label"
                         android:background="@android:color/transparent"
                         android:textColor="#C9C9C9"
                         android:layout_width="fill_parent"
