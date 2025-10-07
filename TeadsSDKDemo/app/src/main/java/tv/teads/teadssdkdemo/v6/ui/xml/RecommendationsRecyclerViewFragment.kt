@@ -40,8 +40,8 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 0. Enable more logging visibility for testing purposes
-        TeadsSDK.testMode = BuildConfig.DEBUG
+        // 0. Init SDK
+        initTeadsSDK()
 
         // 1. Init configuration
         val config = TeadsAdPlacementRecommendationsConfig(
@@ -66,6 +66,23 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
 
         view.findViewById<LinearLayout>(R.id.content_container)?.apply {
             addView(recyclerView)
+        }
+    }
+
+    /**
+     * Initialize TeadsSDK - can be init once on the start of the app
+     */
+    private fun initTeadsSDK() {
+        // Mandatory for placements [Feed, Recommendations]
+        TeadsSDK.configure(
+            applicationContext = requireContext().applicationContext,
+            appKey = "AndroidSampleApp2014" // Your unique application key
+        )
+
+        // For testing purposes
+        if (BuildConfig.DEBUG) {
+            TeadsSDK.testMode = true // Enable more logging visibility
+            TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
         }
     }
 

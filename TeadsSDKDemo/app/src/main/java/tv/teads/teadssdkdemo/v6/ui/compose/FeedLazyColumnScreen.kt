@@ -126,6 +126,9 @@ fun FeedLazyColumnScreen(
     }
 }
 
+/**
+ * Initialize TeadsSDK - can be init once on the start of the app
+ */
 private fun initTeadsSDK(context: android.content.Context) {
     // Mandatory for placements [Feed, Recommendations]
     TeadsSDK.configure(

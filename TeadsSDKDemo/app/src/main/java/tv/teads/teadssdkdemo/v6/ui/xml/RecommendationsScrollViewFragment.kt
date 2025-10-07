@@ -41,8 +41,8 @@ class RecommendationsScrollViewFragment : Fragment(), TeadsAdPlacementEventsDele
     private fun setupContent() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
-        // 0. Enable more logging visibility for testing purposes
-        TeadsSDK.testMode = BuildConfig.DEBUG
+        // 0. Init SDK
+        initTeadsSDK()
 
         // 1. Create your custom recommendations ad view
         recommendationsAdView = RecommendationsAdView(requireContext())
@@ -73,6 +73,24 @@ class RecommendationsScrollViewFragment : Fragment(), TeadsAdPlacementEventsDele
             } catch (e: Exception) {
                 Log.e("RecommendationsScrollViewFragment", "Recommendations failed to load", e)
             }
+        }
+    }
+
+    /**
+     * Initialize TeadsSDK - can be init once on the start of the app
+     */
+    private fun initTeadsSDK() {
+        // Mandatory for placements [Feed, Recommendations]
+        TeadsSDK.configure(
+            applicationContext = requireContext().applicationContext,
+            appKey = "AndroidSampleApp2014" // Your unique application key
+        )
+
+
+        // For testing purposes
+        if (BuildConfig.DEBUG) {
+            TeadsSDK.testMode = true // Enable more logging visibility
+            TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
         }
     }
 

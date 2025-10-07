@@ -38,8 +38,8 @@ fun RecommendationsLazyColumnScreen(
     var recommendationsAd by remember { mutableStateOf<TeadsAdPlacementRecommendations?>(null) }
 
     LaunchedEffect(Unit) {
-        // 0. Enable more logging visibility for testing purposes
-        TeadsSDK.testMode = BuildConfig.DEBUG
+        // 0. Init SDK
+        initTeadsSDK(context)
         
         // 1. Init configuration
         val config = TeadsAdPlacementRecommendationsConfig(
@@ -122,5 +122,22 @@ fun RecommendationsLazyColumnScreen(
                 AdContainer(adView = recommendationsAdView)
             }
         }
+    }
+}
+
+/**
+ * Initialize TeadsSDK - can be init once on the start of the app
+ */
+private fun initTeadsSDK(context: android.content.Context) {
+    // Mandatory for placements [Feed, Recommendations]
+    TeadsSDK.configure(
+        applicationContext = context.applicationContext,
+        appKey = "AndroidSampleApp2014" // Your unique application key
+    )
+
+    // For testing purposes
+    if (BuildConfig.DEBUG) {
+        TeadsSDK.testMode = true // Enable more logging visibility
+        TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
     }
 }
