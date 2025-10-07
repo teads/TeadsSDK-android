@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.applovin.sdk.AppLovinSdk
 import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
-import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 
 class SplashScreen : AppCompatActivity() {

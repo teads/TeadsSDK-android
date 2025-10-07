@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import tv.teads.teadssdkdemo.v6.ui.base.IntegrationActivity
 import tv.teads.teadssdkdemo.v6.ui.base.MainActivityV6
-import tv.teads.teadssdkdemo.v6.ui.base.utils.AnimationHelper
 
 /**
  * Navigation handler responsible for navigating to the specified route
@@ -34,7 +33,6 @@ object NavigationHandler {
      */
     private fun navigateToIntegrationActivity(fromActivity: ComponentActivity, route: Route) {
         IntegrationActivity.launch(fromActivity, route)
-        AnimationHelper.applySlideOpenTransition(fromActivity)
     }
 
     /**
@@ -42,6 +40,5 @@ object NavigationHandler {
      */
     fun navigateBackToDemo(fromActivity: ComponentActivity) {
         fromActivity.finish()
-        AnimationHelper.applySlideCloseTransition(fromActivity)
     }
 }
