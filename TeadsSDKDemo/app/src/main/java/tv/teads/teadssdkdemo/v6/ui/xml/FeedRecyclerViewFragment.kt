@@ -128,7 +128,7 @@ class FeedRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
             return when (position) {
                 0 -> IMAGE_VIEW_TYPE
                 1 -> TITLE_VIEW_TYPE
-                5 -> TEADS_PLACEMENT_VIEW_TYPE
+                6 -> TEADS_PLACEMENT_VIEW_TYPE
                 else -> TEXT_VIEW_TYPE
             }
         }
