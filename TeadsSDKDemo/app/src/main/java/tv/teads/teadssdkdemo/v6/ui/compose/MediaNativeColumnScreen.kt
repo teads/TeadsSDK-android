@@ -1,7 +1,6 @@
 package tv.teads.teadssdkdemo.v6.ui.compose
 
 import android.util.Log
-import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,8 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
-import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementMedia
-import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaConfig
+import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementMediaNative
+import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaNativeConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.R
@@ -31,24 +30,25 @@ import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleImage
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleSpacing
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
+import tv.teads.teadssdkdemo.views.MediaNativeAdView
 
 @Composable
-fun MediaColumnScreen(
+fun MediaNativeColumnScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    var adView by remember { mutableStateOf<ViewGroup?>(null) }
-    var mediaAd by remember { mutableStateOf<TeadsAdPlacementMedia?>(null) }
+    var mediaNativeAdView by remember { mutableStateOf<MediaNativeAdView?>(null) }
+    var mediaNativeAd by remember { mutableStateOf<TeadsAdPlacementMediaNative?>(null) }
 
     LaunchedEffect(Unit) {
         // 1. Init configuration
-        val config = TeadsAdPlacementMediaConfig(
+        val config = TeadsAdPlacementMediaNativeConfig(
             pid = DemoSessionConfiguration.getPlacementIdOrDefault().toInt(), // Your unique placement id
             articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url
         )
 
         // 2. Create placement
-        mediaAd = TeadsAdPlacementMedia(
+        mediaNativeAd = TeadsAdPlacementMediaNative(
             context = context,
             config = config,
             delegate = object : TeadsAdPlacementEventsDelegate {
@@ -58,21 +58,30 @@ fun MediaColumnScreen(
                     data: Map<String, Any>?
                 ) {
                     // 5. Stay tuned to lifecycle events
-                    Log.d("MediaColumnScreen", "$placement - $event: $data")
+                    Log.d("MediaNativeColumnScreen", "$placement - $event: $data")
+                    
+                    if (event == TeadsAdPlacementEventName.READY) {
+                        mediaNativeAdView?.isVisible(true)
+                    }
                 }
             }
         )
 
-        // 3. Request ad
-        val loadedAdView = mediaAd?.loadAd()
-        adView = loadedAdView
+        // 3. Create your custom media native ad view
+        mediaNativeAdView = MediaNativeAdView(context)
+
+        // 4. Load the ad and bind it to the native ad view
+        mediaNativeAd
+            ?.loadAd()
+            ?.let { binder ->
+                binder(mediaNativeAdView!!.getNativeAdView())
+            }
     }
 
-    // Cleanup when composable is disposed
     DisposableEffect(Unit) {
         onDispose {
-            // 4. Clean from memory
-            mediaAd?.clean()
+            // 6. Clean from memory
+            mediaNativeAd?.clean()
         }
     }
 
@@ -94,8 +103,8 @@ fun MediaColumnScreen(
         ArticleBody(text = stringResource(R.string.article_template_body_c))
         ArticleSpacing()
         
-        // 5. Add in the ad container
-        AdContainer(adView = adView)
+        // 7. Add in the ad container
+        AdContainer(adView = mediaNativeAdView)
         
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_d))

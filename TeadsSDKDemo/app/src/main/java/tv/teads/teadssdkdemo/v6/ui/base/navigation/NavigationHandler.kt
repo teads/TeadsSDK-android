@@ -21,6 +21,7 @@ object NavigationHandler {
             Route.MediaScrollView -> navigateToIntegrationActivity(fromActivity, route)
             Route.MediaRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
             Route.MediaNativeScrollView -> navigateToIntegrationActivity(fromActivity, route)
+            Route.MediaNativeRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
             Route.MediaColumn -> navigateToIntegrationActivity(fromActivity, route)
             else -> throw IllegalAccessException("Impossible route")
         }

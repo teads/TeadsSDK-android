@@ -29,6 +29,8 @@ import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
 
 class MainActivityV6 : ComponentActivity() {
@@ -61,8 +63,10 @@ class MainActivityV6 : ComponentActivity() {
                             title = { 
                                 Text(
                                     when (currentRoute) {
-                                        Route.MediaColumn -> "Media Column Screen"
-                                        Route.MediaLazyColumn -> "Media LazyColumn Screen"
+                                        Route.MediaColumn -> "Media Column"
+                                        Route.MediaLazyColumn -> "Media LazyColumn"
+                                        Route.MediaNativeColumn -> "Media Native Column"
+                                        Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
                                         Route.Demo -> "Teads SDK Demo V6"
                                         else -> "Teads SDK Demo V6"
                                     }
@@ -74,7 +78,8 @@ class MainActivityV6 : ComponentActivity() {
                             ),
                             navigationIcon = {
                                 when (currentRoute) {
-                                    Route.MediaColumn, Route.MediaLazyColumn -> {
+                                    Route.MediaColumn, Route.MediaLazyColumn, 
+                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
                                             Icon(
                                                 imageVector = Icons.Filled.ArrowBack,
@@ -95,7 +100,8 @@ class MainActivityV6 : ComponentActivity() {
                             // Set up navigation callback
                             viewModel.setOnNavigateCallback { navRoute ->
                                 when (navRoute) {
-                                    Route.MediaColumn, Route.MediaLazyColumn -> {
+                                    Route.MediaColumn, Route.MediaLazyColumn,
+                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
@@ -119,6 +125,16 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.MediaLazyColumn -> {
                             MediaLazyColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.MediaNativeColumn -> {
+                            MediaNativeColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.MediaNativeLazyColumn -> {
+                            MediaNativeLazyColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

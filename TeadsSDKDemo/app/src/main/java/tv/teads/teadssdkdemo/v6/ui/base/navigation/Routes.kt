@@ -5,6 +5,7 @@ import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 
@@ -74,6 +75,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaScrollView -> MediaScrollViewFragment::class.java
         Route.MediaRecyclerView -> MediaRecyclerViewFragment::class.java
         Route.MediaNativeScrollView -> MediaNativeScrollViewFragment::class.java
+        Route.MediaNativeRecyclerView -> MediaNativeRecyclerViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -85,6 +87,7 @@ fun String.getRouteFromTag(): Route {
         "MediaScrollViewFragment" -> Route.MediaScrollView
         "MediaRecyclerViewFragment" -> Route.MediaRecyclerView
         "MediaNativeScrollViewFragment" -> Route.MediaNativeScrollView
+        "MediaNativeRecyclerViewFragment" -> Route.MediaNativeRecyclerView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
