@@ -7,6 +7,7 @@ import tv.teads.teadssdkdemo.v6.domain.ProviderType
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaAdmobScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAdmobScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
@@ -27,6 +28,9 @@ sealed class Route {
     data object MediaNativeRecyclerView : Route()
     data object MediaNativeColumn : Route()
     data object MediaNativeLazyColumn : Route()
+    data object MediaAdMobScrollView : Route()
+    data object MediaNativeAdMobScrollView : Route()
+    data object MediaAdMobColumn : Route()
     data object FeedScrollView : Route()
     data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
@@ -35,8 +39,6 @@ sealed class Route {
     data object RecommendationsRecyclerView : Route()
     data object RecommendationsColumn : Route()
     data object RecommendationsLazyColumn : Route()
-    data object MediaAdMobScrollView : Route()
-    data object MediaAdMobColumn : Route()
 }
 
 /**
@@ -92,6 +94,12 @@ object RouteFactory {
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
+            format == FormatType.MEDIANATIVE && provider == ProviderType.ADMOB -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.MediaNativeAdMobScrollView
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -106,11 +114,12 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaRecyclerView -> MediaRecyclerViewFragment::class.java
         Route.MediaNativeScrollView -> MediaNativeScrollViewFragment::class.java
         Route.MediaNativeRecyclerView -> MediaNativeRecyclerViewFragment::class.java
+        Route.MediaAdMobScrollView -> MediaAdmobScrollViewFragment::class.java
+        Route.MediaNativeAdMobScrollView -> MediaNativeAdmobScrollViewFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
         Route.RecommendationsRecyclerView -> RecommendationsRecyclerViewFragment::class.java
-        Route.MediaAdMobScrollView -> MediaAdmobScrollViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -123,11 +132,12 @@ fun String.getRouteFromTag(): Route {
         "MediaRecyclerView" -> Route.MediaRecyclerView
         "MediaNativeScrollView" -> Route.MediaNativeScrollView
         "MediaNativeRecyclerView" -> Route.MediaNativeRecyclerView
+        "MediaAdMobScrollView" -> Route.MediaAdMobScrollView
+        "MediaNativeAdMobScrollView" -> Route.MediaNativeAdMobScrollView
         "FeedScrollView" -> Route.FeedScrollView
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
         "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
-        "MediaAdMobScrollView" -> Route.MediaAdMobScrollView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
@@ -143,6 +153,8 @@ fun Route.getTitle(): String {
         Route.MediaNativeRecyclerView -> "Media Native RecyclerView"
         Route.MediaNativeColumn -> "Media Native Column"
         Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
+        Route.MediaAdMobColumn -> "Media AdMob Column"
+        Route.MediaNativeAdMobScrollView -> "Media Native AdMob ScrollView"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"
         Route.FeedColumn -> "Feed Column"
@@ -152,6 +164,5 @@ fun Route.getTitle(): String {
         Route.RecommendationsColumn -> "Recommendations Column"
         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
         Route.MediaAdMobScrollView -> "Media AdMob ScrollView"
-        Route.MediaAdMobColumn -> "Media AdMob Column"
     }
 }

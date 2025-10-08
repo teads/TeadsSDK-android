@@ -54,7 +54,7 @@ class AdMobNativeRecyclerViewAdapter(
         return when (viewType) {
             RecyclerItemType.TYPE_NATIVE_AD.value -> {
                 val nativeView = LayoutInflater.from(parent.context).inflate(
-                    if (isGrid) R.layout.item_admob_native_ad_grid else R.layout.item_admob_native_ad,
+                    if (isGrid) R.layout.item_admob_native_ad_grid else R.layout.admob_native_ad_view,
                     parent,
                     false
                 )
