@@ -52,14 +52,22 @@ fun MediaNativeAppLovinColumnScreen(
         AppLovinSdk.getInstance(context).initializeSdk { }
         TeadsHelper.initialize()
 
-        // 2. Create your AppLovin Native AdView
-        maxNativeAdView = LayoutInflater.from(context)
-            .inflate(R.layout.applovin_native_ad_view, null, false) as MaxNativeAdView
+        // 2. Create native ad view binder
+        val binder: MaxNativeAdViewBinder = MaxNativeAdViewBinder
+            .Builder(R.layout.applovin_native_ad_view)
+            .setTitleTextViewId(R.id.ad_title)
+            .setBodyTextViewId(R.id.ad_body)
+            .setMediaContentViewGroupId(R.id.teads_mediaview)
+            .setOptionsContentViewGroupId(R.id.ad_options_view)
+            .build()
 
-        // 3. Create MaxNativeAdLoader for native ads
+        // 3. Create your AppLovin Native AdView
+        maxNativeAdView = MaxNativeAdView(binder, context)
+
+        // 4. Create MaxNativeAdLoader for native ads
         nativeAdLoader = MaxNativeAdLoader(DemoSessionConfiguration.getPlacementIdOrDefault(), context)
 
-        // 4. Create TeadsAdapterListener
+        // 5. Create TeadsAdapterListener
         val teadsListener = object : TeadsAdapterListener {
             override fun onRatioUpdated(adRatio: AdRatio) {
                 // Not required
@@ -70,10 +78,10 @@ fun MediaNativeAppLovinColumnScreen(
             }
         }
 
-        // 5. Attach the listener to TeadsHelper and save the key to add on TeadsMediationSettings
+        // 6. Attach the listener to TeadsHelper and save the key to add on TeadsMediationSettings
         val key = TeadsHelper.attachListener(teadsListener)
 
-        // 6. Create the mediation settings
+        // 7. Create the mediation settings
         val settingsEncoded = TeadsMediationSettings.Builder()
             .enableDebug() // Enable more logging visibility
             .pageSlotUrl(DemoSessionConfiguration.getArticleUrlOrDefault()) // Your article url
@@ -81,12 +89,12 @@ fun MediaNativeAppLovinColumnScreen(
             .build()
             .toJsonEncoded()
 
-        // 7. Add the settings encoded to the nativeAdLoader using this key
+        // 8. Add the settings encoded to the nativeAdLoader using this key
         nativeAdLoader?.setLocalExtraParameter("teadsSettings", settingsEncoded)
 
-        // 8. Set native ad listener
+        // 9. Set native ad listener
         nativeAdLoader?.setNativeAdListener(object : MaxNativeAdListener() {
-            override fun onNativeAdLoaded(maxNativeAdView: MaxNativeAdView?, ad: MaxAd) {
+            override fun onNativeAdLoaded(nativeAdView: MaxNativeAdView?, ad: MaxAd) {
                 Log.d("MediaNativeAppLovinColumnScreen", "onNativeAdLoaded")
             }
 
@@ -99,17 +107,8 @@ fun MediaNativeAppLovinColumnScreen(
             }
         })
 
-        // 9. Create native ad view binder
-        val binder: MaxNativeAdViewBinder = MaxNativeAdViewBinder
-            .Builder(R.layout.applovin_native_ad_view)
-            .setTitleTextViewId(R.id.ad_title)
-            .setBodyTextViewId(R.id.ad_body)
-            .setMediaContentViewGroupId(R.id.teads_mediaview)
-            .setOptionsContentViewGroupId(R.id.ad_options_view)
-            .build()
-
         // 10. Load the native ad
-        nativeAdLoader?.loadAd(MaxNativeAdView(binder, context))
+        nativeAdLoader?.loadAd(maxNativeAdView)
     }
 
     // Cleanup when composable is disposed
