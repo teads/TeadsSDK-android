@@ -7,101 +7,85 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp"
-        card_view:cardCornerRadius="4dp">
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/background">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/native_media_card"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <!-- Media View -->
+            <com.google.android.gms.ads.nativead.MediaView
+                android:id="@+id/ad_mob_media"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                <com.google.android.gms.ads.nativead.MediaView
-                    android:id="@+id/ad_mob_media"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
-
-            </androidx.cardview.widget.CardView>
-
+            <!-- Title -->
             <TextView
                 android:id="@+id/ad_mob_headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="40dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="@color/titleTextColor"
-                android:textSize="16sp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/textBody"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/ad_mob_body"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/native_media_card"
-                app:layout_constraintTop_toTopOf="@id/native_media_card"
-                tools:text="'Sed porta sapien ut placerat venenatis'" />
+                android:textSize="16sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="Sample Native Ad Title"
+                app:layout_constraintTop_toBottomOf="@id/ad_mob_media"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sponsor_more" />
 
+            <!-- Advertiser -->
             <TextView
                 android:id="@+id/ad_mob_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp"
+                android:textColor="@color/textBody"
+                android:textSize="14sp"
+                android:maxLines="1"
                 android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="@color/titleTextColor"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/sponsor_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/ad_mob_headline"
+                tools:text="Sponsored"
                 app:layout_constraintTop_toBottomOf="@id/ad_mob_headline"
-                tools:text="Nulla est purus, fringilla eget nunc a, rutrum vehicula leo. Nulla sed tortor dictum. Nulla est purus, fringilla eget nunc a, rutrum vehicula leo." />
-
-            <TextView
-                android:id="@+id/sponsor_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:text="Sponsored"
-                android:textColor="@color/primaryGrey"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/native_media_card"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/sponsor_more"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/native_media_card"
-                app:layout_constraintTop_toBottomOf="@id/ad_mob_body" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
+            <!-- Call to Action Button -->
+            <Button
                 android:id="@+id/sponsor_more"
-                android:layout_width="60dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/custom_button_selector"
-                android:gravity="center"
-                android:text="more"
-                android:textColor="@color/textColorNoBg"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/button_primary_background"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:minWidth="80dp"
+                android:stateListAnimator="@null"
+                android:text="Learn More"
+                app:layout_constraintTop_toBottomOf="@id/ad_mob_media"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ad_mob_body" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
