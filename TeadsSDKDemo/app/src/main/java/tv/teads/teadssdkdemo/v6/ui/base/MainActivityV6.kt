@@ -33,6 +33,7 @@ import tv.teads.teadssdkdemo.v6.ui.compose.FeedLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
@@ -112,9 +113,9 @@ class MainActivityV6 : ComponentActivity() {
                                 when (navRoute) {
                                     Route.MediaColumn, Route.MediaLazyColumn,
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
+                                    Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
-                                    Route.MediaAdMobColumn -> {
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
@@ -171,13 +172,16 @@ class MainActivityV6 : ComponentActivity() {
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }
-
                         Route.MediaAdMobColumn -> {
                             MediaAdmobColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }
-
+                        Route.MediaNativeAdMobColumn -> {
+                            MediaNativeAdmobColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
                         else -> {}
                     }
                 }

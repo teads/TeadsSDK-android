@@ -108,8 +108,7 @@ class MediaNativeAdmobScrollViewFragment : Fragment() {
         // 4. Create TeadsAdapterListener
         val teadsListener = object : TeadsAdapterListener {
             override fun onRatioUpdated(adRatio: AdRatio) {
-                // For native ads, ratio updates are typically handled by the ad itself
-                Log.d("MediaNativeAdmobScrollViewFragment", "onRatioUpdated: $adRatio")
+                // not required
             }
 
             override fun adOpportunityTrackerView(trackerView: AdOpportunityTrackerView) {

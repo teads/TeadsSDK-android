@@ -31,6 +31,7 @@ sealed class Route {
     data object MediaAdMobScrollView : Route()
     data object MediaNativeAdMobScrollView : Route()
     data object MediaAdMobColumn : Route()
+    data object MediaNativeAdMobColumn : Route()
     data object FeedScrollView : Route()
     data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
@@ -97,6 +98,7 @@ object RouteFactory {
             format == FormatType.MEDIANATIVE && provider == ProviderType.ADMOB -> {
                 when (integration) {
                     IntegrationType.SCROLLVIEW -> Route.MediaNativeAdMobScrollView
+                    IntegrationType.COLUMN -> Route.MediaNativeAdMobColumn
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
@@ -134,6 +136,7 @@ fun String.getRouteFromTag(): Route {
         "MediaNativeRecyclerView" -> Route.MediaNativeRecyclerView
         "MediaAdMobScrollView" -> Route.MediaAdMobScrollView
         "MediaNativeAdMobScrollView" -> Route.MediaNativeAdMobScrollView
+        "MediaNativeAdMobColumn" -> Route.MediaNativeAdMobColumn
         "FeedScrollView" -> Route.FeedScrollView
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
@@ -155,6 +158,7 @@ fun Route.getTitle(): String {
         Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
         Route.MediaAdMobColumn -> "Media AdMob Column"
         Route.MediaNativeAdMobScrollView -> "Media Native AdMob ScrollView"
+        Route.MediaNativeAdMobColumn -> "Media Native AdMob Column"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"
         Route.FeedColumn -> "Feed Column"
