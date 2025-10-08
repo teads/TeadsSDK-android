@@ -4,14 +4,15 @@ import androidx.fragment.app.Fragment
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedRecyclerViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewAdMobFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsRecyclerViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsScrollViewFragment
 
 /**
  * Sealed class representing all possible navigation routes
@@ -34,6 +35,8 @@ sealed class Route {
     data object RecommendationsRecyclerView : Route()
     data object RecommendationsColumn : Route()
     data object RecommendationsLazyColumn : Route()
+    data object MediaAdMobScrollView : Route()
+    data object MediaAdMobColumn : Route()
 }
 
 /**
@@ -82,6 +85,13 @@ object RouteFactory {
                     IntegrationType.LAZYCOLUMN -> Route.RecommendationsLazyColumn
                 }
             }
+            format == FormatType.MEDIA && provider == ProviderType.ADMOB -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.MediaAdMobScrollView
+                    IntegrationType.COLUMN -> Route.MediaAdMobColumn
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -100,6 +110,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
         Route.RecommendationsRecyclerView -> RecommendationsRecyclerViewFragment::class.java
+        Route.MediaAdMobScrollView -> MediaScrollViewAdMobFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -116,6 +127,7 @@ fun String.getRouteFromTag(): Route {
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
         "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
+        "MediaAdMobScrollView" -> Route.MediaAdMobScrollView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
@@ -139,5 +151,7 @@ fun Route.getTitle(): String {
         Route.RecommendationsRecyclerView -> "Recommendations RecyclerView"
         Route.RecommendationsColumn -> "Recommendations Column"
         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
+        Route.MediaAdMobScrollView -> "Media AdMob ScrollView"
+        Route.MediaAdMobColumn -> "Media AdMob Column"
     }
 }

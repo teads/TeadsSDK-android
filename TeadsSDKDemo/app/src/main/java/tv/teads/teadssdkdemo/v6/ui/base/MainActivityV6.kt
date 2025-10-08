@@ -112,7 +112,8 @@ class MainActivityV6 : ComponentActivity() {
                                     Route.MediaColumn, Route.MediaLazyColumn,
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
+                                    Route.MediaAdMobColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
