@@ -30,6 +30,7 @@ import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
 import tv.teads.teadssdkdemo.v6.ui.compose.FeedColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.FeedLazyColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
@@ -167,6 +168,12 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.RecommendationsLazyColumn -> {
                             RecommendationsLazyColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+
+                        Route.MediaAdMobColumn -> {
+                            MediaAdmobColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }
