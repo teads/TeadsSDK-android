@@ -172,7 +172,12 @@ class DemoViewModel : ViewModel() {
         "TESTKEY01" to "TESTKEY01"
     )
 
-    private val integrationTypes = listOf(
+    private val partialIntegrationTypes = listOf(
+        IntegrationType.COLUMN,
+        IntegrationType.SCROLLVIEW,
+    )
+
+    private val fullIntegrationTypes = listOf(
         IntegrationType.COLUMN,
         IntegrationType.LAZYCOLUMN,
         IntegrationType.SCROLLVIEW,
@@ -347,12 +352,19 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getIntegrationChips(): List<ChipData> = integrationTypes.mapIndexed { index, integration ->
-        ChipData(
-            id = index,
-            text = integration.displayName,
-            isSelected = selectedIntegration == integration
-        )
+    fun getIntegrationChips(): List<ChipData> {
+        val integrationList = when (selectedProvider) {
+            ProviderType.ADMOB, ProviderType.SMART, ProviderType.APPLOVIN, ProviderType.PREBID -> partialIntegrationTypes
+            else -> fullIntegrationTypes
+        }
+
+        return integrationList.mapIndexed { index, integration ->
+            ChipData(
+                id = index,
+                text = integration.displayName,
+                isSelected = selectedIntegration == integration
+            )
+        }
     }
 
     fun getFeedWidgetIdChips(): List<ChipData> = feedWidgetIds.mapIndexed { index, (label, _) ->
@@ -494,8 +506,13 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onIntegrationChipClick(index: Int) {
-        if (index in integrationTypes.indices) {
-            val integration = integrationTypes[index]
+        val integrationList = when (selectedProvider) {
+            ProviderType.ADMOB, ProviderType.SMART, ProviderType.APPLOVIN, ProviderType.PREBID -> partialIntegrationTypes
+            else -> fullIntegrationTypes
+        }
+
+        if (index in integrationList.indices) {
+            val integration = integrationList[index]
             updateIntegration(integration)
         }
     }
