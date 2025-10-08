@@ -23,7 +23,7 @@ import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 
-class MediaScrollViewAdMobFragment : Fragment() {
+class MediaAdmobScrollViewFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

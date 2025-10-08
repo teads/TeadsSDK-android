@@ -6,10 +6,10 @@ import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaAdmobScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewAdMobFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsScrollViewFragment
@@ -110,7 +110,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
         Route.RecommendationsRecyclerView -> RecommendationsRecyclerViewFragment::class.java
-        Route.MediaAdMobScrollView -> MediaScrollViewAdMobFragment::class.java
+        Route.MediaAdMobScrollView -> MediaAdmobScrollViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }

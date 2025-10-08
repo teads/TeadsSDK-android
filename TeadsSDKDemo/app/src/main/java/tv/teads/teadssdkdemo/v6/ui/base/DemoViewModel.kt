@@ -206,31 +206,30 @@ class DemoViewModel : ViewModel() {
     private fun updatePlacementConfiguration() {
         when (selectedProvider to selectedFormat) {
             ProviderType.DIRECT to FormatType.MEDIA ->
-                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_PID
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIA_PID)
 
             ProviderType.DIRECT to FormatType.MEDIANATIVE ->
-                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_NATIVE_PID
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIA_NATIVE_PID)
 
             ProviderType.ADMOB to FormatType.MEDIA ->
-                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_ADMOB_PID
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIA_ADMOB_PID)
 
             ProviderType.ADMOB to FormatType.MEDIANATIVE ->
-                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIANATIVE_ADMOB_PID
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIANATIVE_ADMOB_PID)
 
             ProviderType.APPLOVIN to FormatType.MEDIA ->
-                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIA_APPLOVIN_PID
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIA_APPLOVIN_PID)
 
             ProviderType.APPLOVIN to FormatType.MEDIANATIVE ->
-                _placementId.value = DemoSessionConfiguration.DEFAULT_MEDIANATIVE_APPLOVIN_PID
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIANATIVE_APPLOVIN_PID)
 
             ProviderType.DIRECT to FormatType.FEED ->
-                _widgetId.value = DemoSessionConfiguration.DEFAULT_FEED_WIDGET_ID
+                updateWidgetId(DemoSessionConfiguration.DEFAULT_FEED_WIDGET_ID)
 
             ProviderType.DIRECT to FormatType.RECOMMENDATIONS ->
-                _widgetId.value = DemoSessionConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID
+                updateWidgetId(DemoSessionConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID)
         }
     }
-
 
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider

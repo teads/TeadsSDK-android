@@ -1,8 +1,8 @@
 package tv.teads.teadssdkdemo.v6.data
 
 import tv.teads.teadssdkdemo.v6.domain.FormatType
-import tv.teads.teadssdkdemo.v6.domain.ProviderType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
+import tv.teads.teadssdkdemo.v6.domain.ProviderType
 
 /**
  * Configuration object that holds default values and current session values
@@ -58,10 +58,17 @@ object DemoSessionConfiguration {
      */
     fun getPlacementIdOrDefault(): String {
         if (currentPlacementId.isNotBlank()) return currentPlacementId
-        
-        return when (getFormatOrDefault()) {
-            FormatType.MEDIA -> DEFAULT_MEDIA_PID
-            FormatType.MEDIANATIVE -> DEFAULT_MEDIA_NATIVE_PID
+
+        val format = getFormatOrDefault()
+        val provider = getProviderOrDefault()
+
+        return when (format to provider) {
+            ProviderType.DIRECT to FormatType.MEDIA -> DEFAULT_MEDIA_PID
+            ProviderType.DIRECT to FormatType.MEDIANATIVE -> DEFAULT_MEDIA_NATIVE_PID
+            ProviderType.ADMOB  to FormatType.MEDIA -> DEFAULT_MEDIA_ADMOB_PID
+            ProviderType.ADMOB  to FormatType.MEDIANATIVE -> DEFAULT_MEDIANATIVE_ADMOB_PID
+            ProviderType.APPLOVIN  to FormatType.MEDIA -> DEFAULT_MEDIA_APPLOVIN_PID
+            ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> DEFAULT_MEDIANATIVE_APPLOVIN_PID
             else -> ""
         }
     }
