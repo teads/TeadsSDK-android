@@ -12,8 +12,10 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAdmobScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeSmartScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaSmartScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsScrollViewFragment
 
@@ -38,6 +40,10 @@ sealed class Route {
     data object MediaNativeAppLovinScrollView : Route()
     data object MediaAppLovinColumn : Route()
     data object MediaNativeAppLovinColumn : Route()
+    data object MediaSmartScrollView : Route()
+    data object MediaNativeSmartScrollView : Route()
+    data object MediaSmartColumn : Route()
+    data object MediaNativeSmartColumn : Route()
     data object FeedScrollView : Route()
     data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
@@ -122,6 +128,20 @@ object RouteFactory {
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
+            format == FormatType.MEDIA && provider == ProviderType.SMART -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.MediaSmartScrollView
+                    IntegrationType.COLUMN -> Route.MediaSmartColumn
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
+            format == FormatType.MEDIANATIVE && provider == ProviderType.SMART -> {
+                when (integration) {
+                    IntegrationType.SCROLLVIEW -> Route.MediaNativeSmartScrollView
+                    IntegrationType.COLUMN -> Route.MediaNativeSmartColumn
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -140,6 +160,8 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaNativeAdMobScrollView -> MediaNativeAdmobScrollViewFragment::class.java
         Route.MediaAppLovinScrollView -> MediaAppLovinScrollViewFragment::class.java
         Route.MediaNativeAppLovinScrollView -> MediaNativeAppLovinScrollViewFragment::class.java
+        Route.MediaSmartScrollView -> MediaSmartScrollViewFragment::class.java
+        Route.MediaNativeSmartScrollView -> MediaNativeSmartScrollViewFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
@@ -163,6 +185,10 @@ fun String.getRouteFromTag(): Route {
         "MediaNativeAppLovinScrollView" -> Route.MediaNativeAppLovinScrollView
         "MediaAppLovinColumn" -> Route.MediaAppLovinColumn
         "MediaNativeAppLovinColumn" -> Route.MediaNativeAppLovinColumn
+        "MediaSmartScrollView" -> Route.MediaSmartScrollView
+        "MediaNativeSmartScrollView" -> Route.MediaNativeSmartScrollView
+        "MediaSmartColumn" -> Route.MediaSmartColumn
+        "MediaNativeSmartColumn" -> Route.MediaNativeSmartColumn
         "FeedScrollView" -> Route.FeedScrollView
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
@@ -189,6 +215,10 @@ fun Route.getTitle(): String {
         Route.MediaNativeAppLovinScrollView -> "Media Native AppLovin ScrollView"
         Route.MediaAppLovinColumn -> "Media AppLovin Column"
         Route.MediaNativeAppLovinColumn -> "Media Native AppLovin Column"
+        Route.MediaSmartScrollView -> "Media Smart ScrollView"
+        Route.MediaNativeSmartScrollView -> "Media Native Smart ScrollView"
+        Route.MediaSmartColumn -> "Media Smart Column"
+        Route.MediaNativeSmartColumn -> "Media Native Smart Column"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"
         Route.FeedColumn -> "Feed Column"

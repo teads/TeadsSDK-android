@@ -62,7 +62,7 @@ object DemoSessionConfiguration {
         val format = getFormatOrDefault()
         val provider = getProviderOrDefault()
 
-        return when (format to provider) {
+        return when (provider to format) {
             ProviderType.DIRECT to FormatType.MEDIA -> DEFAULT_MEDIA_PID
             ProviderType.DIRECT to FormatType.MEDIANATIVE -> DEFAULT_MEDIA_NATIVE_PID
             ProviderType.ADMOB  to FormatType.MEDIA -> DEFAULT_MEDIA_ADMOB_PID

@@ -38,6 +38,8 @@ import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAppLovinColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeSmartColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaSmartColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsLazyColumnScreen
 
@@ -79,6 +81,8 @@ class MainActivityV6 : ComponentActivity() {
                                         Route.MediaNativeAdMobColumn -> "Media Native AdMob Column"
                                         Route.MediaAppLovinColumn -> "Media AppLovin Column"
                                         Route.MediaNativeAppLovinColumn -> "Media Native AppLovin Column"
+                                        Route.MediaSmartColumn -> "Media Smart Column"
+                                        Route.MediaNativeSmartColumn -> "Media Native Smart Column"
                                         Route.FeedColumn -> "Feed Column"
                                         Route.FeedLazyColumn -> "Feed LazyColumn"
                                         Route.RecommendationsColumn -> "Recommendations Column"
@@ -97,6 +101,7 @@ class MainActivityV6 : ComponentActivity() {
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
                                     Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
+                                    Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
                                     Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
@@ -123,6 +128,7 @@ class MainActivityV6 : ComponentActivity() {
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
                                     Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
+                                    Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
                                     Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         currentRoute = navRoute
@@ -198,6 +204,16 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.MediaNativeAppLovinColumn -> {
                             MediaNativeAppLovinColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.MediaSmartColumn -> {
+                            MediaSmartColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.MediaNativeSmartColumn -> {
+                            MediaNativeSmartColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }
