@@ -3,6 +3,7 @@ package tv.teads.teadssdkdemo.v6.data
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.domain.DisplayMode
 
 /**
  * Configuration object that holds default values and current session values
@@ -17,6 +18,7 @@ object DemoSessionConfiguration {
     private var currentInstallationKey: String = ""
     private var currentArticleUrl: String = ""
     private var currentIntegration: IntegrationType? = null
+    private var currentDisplayMode: DisplayMode? = null
 
     val DEFAULT_FORMAT = FormatType.MEDIA
     val DEFAULT_PROVIDER = ProviderType.DIRECT
@@ -51,6 +53,23 @@ object DemoSessionConfiguration {
      */
     fun getIntegrationOrDefault(): IntegrationType {
         return currentIntegration ?: DEFAULT_INTEGRATION
+    }
+    
+    /**
+     * Get current or default display mode
+     */
+    fun getDisplayModeOrDefault(): DisplayMode {
+        if (currentDisplayMode != null) return currentDisplayMode!!
+
+        val format = getFormatOrDefault()
+        val provider = getProviderOrDefault()
+
+        return when (provider to format) {
+            ProviderType.PREBID to FormatType.MEDIA -> DisplayMode.STANDARD
+            ProviderType.DIRECT to FormatType.MEDIA -> DisplayMode.MEDIA_ONLY
+            ProviderType.DIRECT to FormatType.FEED -> DisplayMode.FEED_ONLY
+            else -> throw IllegalAccessException("Impossible display mode")
+        }
     }
     
     /**
@@ -127,5 +146,9 @@ object DemoSessionConfiguration {
     
     fun setIntegration(integration: IntegrationType?) {
         currentIntegration = integration
+    }
+    
+    fun setDisplayMode(displayMode: DisplayMode?) {
+        currentDisplayMode = displayMode
     }
 }

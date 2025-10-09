@@ -10,12 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
+import tv.teads.teadssdkdemo.v6.domain.DisplayMode
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.ui.base.components.ChipData
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.RouteFactory
-import tv.teads.teadssdkdemo.v6.ui.base.components.ChipData
 
 class DemoViewModel : ViewModel() {
 
@@ -34,6 +35,8 @@ class DemoViewModel : ViewModel() {
     var selectedProvider: ProviderType? by mutableStateOf(null)
         private set
 
+    var selectedDisplayMode: DisplayMode? by mutableStateOf(null)
+        private set
 
     private var selectedIntegration: IntegrationType? by mutableStateOf(null)
 
@@ -54,6 +57,7 @@ class DemoViewModel : ViewModel() {
         // Initialize with defaults and sync with DemoConfiguration
         selectedFormat = DemoSessionConfiguration.getFormatOrDefault()
         selectedProvider = DemoSessionConfiguration.getProviderOrDefault()
+        selectedDisplayMode = DemoSessionConfiguration.getDisplayModeOrDefault()
         selectedIntegration = DemoSessionConfiguration.getIntegrationOrDefault()
         _placementId.value = DemoSessionConfiguration.getPlacementIdOrDefault()
         _widgetId.value = DemoSessionConfiguration.getWidgetIdOrDefault()
@@ -185,6 +189,24 @@ class DemoViewModel : ViewModel() {
         IntegrationType.RECYCLERVIEW
     )
 
+    // Display mode options for Prebid provider
+    private val prebidDisplayModes = listOf(
+        DisplayMode.STANDARD,
+        DisplayMode.STANDALONE
+    )
+
+    // Display mode options for Media provider
+    private val mediaDisplayModes = listOf(
+        DisplayMode.MEDIA_ONLY,
+        DisplayMode.MEDIA_WITH_FEED
+    )
+
+    // Display mode options for Feed provider
+    private val feedDisplayModes = listOf(
+        DisplayMode.FEED_ONLY,
+        DisplayMode.FEED_WITH_MEDIA
+    )
+
     // Get providers based on selected format
     private fun getProviders(): List<ProviderType> {
         return when (selectedFormat) {
@@ -192,6 +214,25 @@ class DemoViewModel : ViewModel() {
             FormatType.MEDIANATIVE -> mediaNativeProviders
             FormatType.FEED, FormatType.RECOMMENDATIONS -> feedRecommendationsProviders
             else -> throw IllegalAccessException("Impossible format")
+        }
+    }
+
+    // Get display mode options based on selected provider and format
+    private fun getDisplayModes(): List<DisplayMode> {
+        return when (selectedProvider to selectedFormat) {
+            ProviderType.PREBID to FormatType.MEDIA -> prebidDisplayModes
+            ProviderType.DIRECT to FormatType.MEDIA -> mediaDisplayModes
+            ProviderType.DIRECT to FormatType.FEED -> feedDisplayModes
+            else -> emptyList()
+        }
+    }
+
+    // Check if display mode section should be shown
+    fun shouldShowDisplayModeSection(): Boolean {
+        return when (selectedProvider) {
+            ProviderType.PREBID -> true
+            ProviderType.DIRECT -> selectedFormat in listOf(FormatType.MEDIA, FormatType.FEED)
+            else -> false
         }
     }
 
@@ -204,6 +245,12 @@ class DemoViewModel : ViewModel() {
         val availableProviders = getProviders()
         if (selectedProvider != null && selectedProvider !in availableProviders) {
             updateProvider(availableProviders.first())
+        }
+
+        // Reset type if current type is not available for the new format/provider combination
+        val availableDisplayModes = getDisplayModes()
+        if (selectedDisplayMode != null && selectedDisplayMode !in availableDisplayModes) {
+            updateDisplayMode(availableDisplayModes.first())
         }
 
         updatePlacementConfiguration()
@@ -240,12 +287,23 @@ class DemoViewModel : ViewModel() {
     fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
         DemoSessionConfiguration.setProvider(provider)
+
+        // Reset type if current type is not available for the new provider/format combination
+        val availableTypes = getDisplayModes()
+        if (selectedDisplayMode != null && selectedDisplayMode !in availableTypes) {
+            updateDisplayMode(availableTypes.first())
+        }
     }
 
 
     fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
         DemoSessionConfiguration.setIntegration(integration)
+    }
+
+    fun updateDisplayMode(type: DisplayMode) {
+        selectedDisplayMode = type
+        DemoSessionConfiguration.setDisplayMode(type)
     }
 
     fun updatePlacementId(pid: String) {
@@ -282,6 +340,14 @@ class DemoViewModel : ViewModel() {
             id = index,
             text = provider.displayName,
             isSelected = selectedProvider == provider
+        )
+    }
+
+    fun getDisplayModeChips(): List<ChipData> = getDisplayModes().mapIndexed { index, type ->
+        ChipData(
+            id = index,
+            text = type.displayName,
+            isSelected = selectedDisplayMode == type
         )
     }
 
@@ -414,6 +480,14 @@ class DemoViewModel : ViewModel() {
             val provider = availableProviders[index]
             updateProvider(provider)
             updatePlacementConfiguration()
+        }
+    }
+
+    fun onDisplayModeChipClick(index: Int) {
+        val availableTypes = getDisplayModes()
+        if (index in availableTypes.indices) {
+            val type = availableTypes[index]
+            updateDisplayMode(type)
         }
     }
 

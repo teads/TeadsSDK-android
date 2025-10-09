@@ -115,6 +115,19 @@ fun DemoScreen(
                                     onChipClick = viewModel::onPidChipClick
                                 )
                             }
+
+                            // Display Mode Section (for Prebid provider or Media/Feed with Direct)
+                            if (viewModel.shouldShowDisplayModeSection()) {
+                                Section(
+                                    title = "Display Mode",
+                                    modifier = Modifier.padding(top = 18.dp)
+                                ) {
+                                    ChipGroup(
+                                        chips = viewModel.getDisplayModeChips(),
+                                        onChipClick = viewModel::onDisplayModeChipClick
+                                    )
+                                }
+                            }
                         }
                         FormatType.FEED -> {
                             // Article URL Text Field
@@ -152,6 +165,19 @@ fun DemoScreen(
                                 chips = viewModel.getFeedInstallationKeyChips(),
                                 onChipClick = viewModel::onFeedInstallationKeyChipClick
                             )
+
+                            // Display Mode Section (for Prebid provider or Media/Feed with Direct)
+                            if (viewModel.shouldShowDisplayModeSection()) {
+                                Section(
+                                    title = "Display Mode",
+                                    modifier = Modifier.padding(top = 18.dp)
+                                ) {
+                                    ChipGroup(
+                                        chips = viewModel.getDisplayModeChips(),
+                                        onChipClick = viewModel::onDisplayModeChipClick
+                                    )
+                                }
+                            }
                         }
                         FormatType.RECOMMENDATIONS -> {
                             // Article URL Text Field
