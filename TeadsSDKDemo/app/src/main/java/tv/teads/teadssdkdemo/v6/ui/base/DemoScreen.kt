@@ -19,6 +19,7 @@ import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
 import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField
 import tv.teads.teadssdkdemo.v6.ui.base.components.FormatDescription
+import tv.teads.teadssdkdemo.v6.ui.base.components.ProviderDescription
 import tv.teads.teadssdkdemo.v6.ui.base.components.Section
 import tv.teads.teadssdkdemo.v6.ui.base.components.TeadsButton
 
@@ -70,6 +71,11 @@ fun DemoScreen(
                 ChipGroup(
                     chips = viewModel.getProviderChips(),
                     onChipClick = viewModel::onProviderChipClick
+                )
+                
+                // Provider Description
+                ProviderDescription(
+                    selectedProvider = viewModel.selectedProvider
                 )
             }
         }

@@ -31,7 +31,8 @@ class DemoViewModel : ViewModel() {
     var selectedFormat: FormatType? by mutableStateOf(null)
         private set
 
-    private var selectedProvider: ProviderType? by mutableStateOf(null)
+    var selectedProvider: ProviderType? by mutableStateOf(null)
+        private set
 
 
     private var selectedIntegration: IntegrationType? by mutableStateOf(null)
@@ -195,14 +196,14 @@ class DemoViewModel : ViewModel() {
     }
 
     // Update functions
-    private fun updateDefaultsFormat(format: FormatType) {
+    private fun updateDefaultsByFormat(format: FormatType) {
         selectedFormat = format
         DemoSessionConfiguration.setFormat(format)
 
         // Reset provider if current provider is not available for the new format
         val availableProviders = getProviders()
         if (selectedProvider != null && selectedProvider !in availableProviders) {
-            selectedProvider = availableProviders.firstOrNull()
+            updateProvider(availableProviders.first())
         }
 
         updatePlacementConfiguration()
@@ -403,7 +404,7 @@ class DemoViewModel : ViewModel() {
     fun onFormatChipClick(index: Int) {
         if (index in formatTypes.indices) {
             val format = formatTypes[index]
-            updateDefaultsFormat(format)
+            updateDefaultsByFormat(format)
         }
     }
 
