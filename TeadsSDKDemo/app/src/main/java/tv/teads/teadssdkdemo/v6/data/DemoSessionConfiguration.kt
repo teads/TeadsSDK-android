@@ -58,7 +58,7 @@ object DemoSessionConfiguration {
     /**
      * Get current or default display mode
      */
-    fun getDisplayModeOrDefault(): DisplayMode {
+    fun getDisplayModeOrNull(): DisplayMode? {
         if (currentDisplayMode != null) return currentDisplayMode!!
 
         val format = getFormatOrDefault()
@@ -68,7 +68,7 @@ object DemoSessionConfiguration {
             ProviderType.PREBID to FormatType.MEDIA -> DisplayMode.STANDARD
             ProviderType.DIRECT to FormatType.MEDIA -> DisplayMode.MEDIA_ONLY
             ProviderType.DIRECT to FormatType.FEED -> DisplayMode.FEED_ONLY
-            else -> throw IllegalAccessException("Impossible display mode")
+            else -> null
         }
     }
     

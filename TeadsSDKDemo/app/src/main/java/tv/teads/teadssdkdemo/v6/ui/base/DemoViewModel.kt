@@ -56,7 +56,7 @@ class DemoViewModel : ViewModel() {
         // Initialize with defaults and sync with DemoConfiguration
         selectedFormat = DemoSessionConfiguration.getFormatOrDefault()
         selectedProvider = DemoSessionConfiguration.getProviderOrDefault()
-        selectedDisplayMode = DemoSessionConfiguration.getDisplayModeOrDefault()
+        selectedDisplayMode = DemoSessionConfiguration.getDisplayModeOrNull()
         selectedIntegration = DemoSessionConfiguration.getIntegrationOrDefault()
         _placementId.value = DemoSessionConfiguration.getPlacementIdOrDefault()
         _widgetId.value = DemoSessionConfiguration.getWidgetIdOrDefault()
@@ -78,7 +78,8 @@ class DemoViewModel : ViewModel() {
         val route = RouteFactory.createRoute(
             format = DemoSessionConfiguration.getFormatOrDefault(),
             provider = DemoSessionConfiguration.getProviderOrDefault(),
-            integration = DemoSessionConfiguration.getIntegrationOrDefault()
+            integration = DemoSessionConfiguration.getIntegrationOrDefault(),
+            displayMode = DemoSessionConfiguration.getDisplayModeOrNull()
         )
         onNavigateCallback?.invoke(route)
     }
