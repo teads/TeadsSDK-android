@@ -21,6 +21,7 @@ import org.prebid.mobile.AdSize
 import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
 import org.prebid.mobile.TargetingParams
+import org.prebid.mobile.api.data.InitializationStatus
 import org.prebid.mobile.api.exceptions.AdException
 import org.prebid.mobile.api.rendering.BannerView
 import org.prebid.mobile.api.rendering.listeners.BannerViewListener
@@ -42,17 +43,24 @@ import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
 fun MediaPrebidStandardColumnScreen(
     modifier: Modifier = Modifier
 ) {
-
     val fakeTeadsPrebidServer =
         "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
 
     val context = LocalContext.current
     var bannerView by remember { mutableStateOf<BannerView?>(null) }
     var teadsPluginRenderer by remember { mutableStateOf<TeadsPBMPluginRenderer?>(null) }
+    var isPrebidSDKInitialized by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         // 0. Init Prebid SDK - can be init once on the start of the app
-        PrebidMobile.initializeSdk(context) {}
+        PrebidMobile.initializeSdk(context) { status ->
+            isPrebidSDKInitialized = status == InitializationStatus.SUCCEEDED
+        }
+    }
+
+    LaunchedEffect(isPrebidSDKInitialized) {
+        if (!isPrebidSDKInitialized) return@LaunchedEffect
+
         PrebidMobile.setPrebidServerHost(Host.createCustomHost(fakeTeadsPrebidServer)) // Your unique prebid server host
 
         // 1. Setup the settings
@@ -149,10 +157,10 @@ fun MediaPrebidStandardColumnScreen(
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_c))
         ArticleSpacing()
-        
+
         // 10. Add the ad view to its container
         AdContainer(adView = bannerView)
-        
+
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_d))
     }
