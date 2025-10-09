@@ -18,7 +18,7 @@
         android:background="@color/background">
 
         <!-- Media View -->
-        <FrameLayout
+        <tv.teads.sdk.renderer.MediaView
             android:id="@+id/teads_mediaview"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -95,12 +95,10 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <!-- Ad Choice -->
-        <ImageView
+        <FrameLayout
             android:id="@+id/ad_choice"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_info_details"
             app:layout_constraintTop_toTopOf="@id/teads_mediaview"
             app:layout_constraintEnd_toEndOf="@id/teads_mediaview" />

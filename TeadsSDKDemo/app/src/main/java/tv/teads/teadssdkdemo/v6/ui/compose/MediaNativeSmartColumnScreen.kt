@@ -23,6 +23,9 @@ import com.smartadserver.android.library.model.SASAdPlacement
 import com.smartadserver.android.library.model.SASNativeAdElement
 import com.smartadserver.android.library.model.SASNativeAdManager
 import com.smartadserver.android.library.util.SASConfiguration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tv.teads.adapter.smart.nativead.TeadsSmartViewBinder
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.sdk.AdRatio
@@ -42,7 +45,7 @@ fun MediaNativeSmartColumnScreen(
 ) {
     val siteId = 385317 // Your unique site id
     val pageName = "1399205" // Your unique page name
-    val formatId = 96445L // Your unique format id
+    val formatId = 102803L // Your unique format id
     val teadsExtraKey = "teadsAdSettingsKey"
 
     val context = LocalContext.current
@@ -54,7 +57,7 @@ fun MediaNativeSmartColumnScreen(
         // 1. Initialize Teads Helper and Smart SDK
         TeadsHelper.initialize()
         SASConfiguration.getSharedInstance().configure(context, siteId)
-        SASConfiguration.getSharedInstance().isLoggingEnabled = true // Enable more logging visibility
+        SASConfiguration.getSharedInstance().isLoggingEnabled = true
 
         // 2. Create TeadsAdapterListener
         val teadsListener = object : TeadsAdapterListener {
@@ -90,22 +93,25 @@ fun MediaNativeSmartColumnScreen(
         // 6. Create native ad manager
         val smartNativeAdManager = SASNativeAdManager(context, adPlacement)
 
-        // 7. Set native ad listener
+        // 7. Set native ad listener and add the ad to container
         smartNativeAdManager.nativeAdListener = object : SASNativeAdManager.NativeAdListener {
             override fun onNativeAdLoaded(ad: SASNativeAdElement) {
                 Log.d("MediaNativeSmartColumnScreen", "onNativeAdLoaded")
 
-                // Create the native ad view
-                smartNativeAdView = TeadsSmartViewBinder(context, R.layout.smart_native_ad_view, ad)
-                    .title(R.id.ad_title)
-                    .body(R.id.ad_body)
-                    .iconImage(R.id.teads_icon)
-                    .callToAction(R.id.teads_cta)
-                    .mediaLayout(R.id.teads_mediaview)
-                    .adChoice(R.id.ad_choice)
-                    .bind()
+                // Ensure UI operations happen on main thread (same as working adapter)
+                CoroutineScope(Dispatchers.Main).launch {
+                    // Create the native ad view using the correct layout
+                    smartNativeAdView = TeadsSmartViewBinder(context, R.layout.smart_native_ad_view, ad)
+                        .title(R.id.ad_title)
+                        .body(R.id.ad_body)
+                        .iconImage(R.id.teads_icon)
+                        .callToAction(R.id.teads_cta)
+                        .mediaLayout(R.id.teads_mediaview)
+                        .adChoice(R.id.ad_choice)
+                        .bind()
 
-                smartAdContainer.addView(smartNativeAdView)
+                    smartAdContainer.addView(smartNativeAdView)
+                }
             }
 
             override fun onNativeAdFailedToLoad(e: Exception) {

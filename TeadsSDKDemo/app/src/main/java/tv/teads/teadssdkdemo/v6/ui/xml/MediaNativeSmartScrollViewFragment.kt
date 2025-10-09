@@ -11,12 +11,15 @@ import com.smartadserver.android.library.model.SASNativeAdElement
 import com.smartadserver.android.library.model.SASNativeAdManager
 import com.smartadserver.android.library.util.SASConfiguration
 import tv.teads.adapter.smart.nativead.TeadsSmartViewBinder
+import tv.teads.sdk.TeadsMediationSettings
+import tv.teads.teadssdkdemo.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tv.teads.sdk.AdOpportunityTrackerView
 import tv.teads.sdk.AdRatio
-import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
-import tv.teads.teadssdkdemo.R
 
 class MediaNativeSmartScrollViewFragment : Fragment() {
 
@@ -25,7 +28,7 @@ class MediaNativeSmartScrollViewFragment : Fragment() {
     companion object {
         private const val SITE_ID = 385317 // Your unique site id
         private const val PAGE_NAME = "1399205" // Your unique page name
-        private const val FORMAT_ID = 96445L // Your unique format id
+        private const val FORMAT_ID = 102803L // Your unique format id
         private const val TEADS_EXTRA_KEY = "teadsAdSettingsKey"
     }
 
@@ -46,7 +49,6 @@ class MediaNativeSmartScrollViewFragment : Fragment() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
         // 1. Initialize Teads Helper and Smart SDK
-        TeadsHelper.initialize()
         SASConfiguration.getSharedInstance().configure(requireContext(), SITE_ID)
         SASConfiguration.getSharedInstance().isLoggingEnabled = true
 
@@ -83,14 +85,24 @@ class MediaNativeSmartScrollViewFragment : Fragment() {
         // 6. Create native ad manager
         nativeAdManager = SASNativeAdManager(requireContext(), adPlacement)
 
-        // 7. Set native ad listener
+        // 7. Set native ad listener and add the ad to container
         nativeAdManager.nativeAdListener = object : SASNativeAdManager.NativeAdListener {
             override fun onNativeAdLoaded(ad: SASNativeAdElement) {
                 Log.d("MediaNativeSmartScrollViewFragment", "onNativeAdLoaded")
                 
-                // Create and add the native ad view
-                val nativeAdView = createMediaView(ad)
-                adContainer.addView(nativeAdView)
+                // Ensure UI operations happen on main thread (same as working adapter)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val nativeAdView = TeadsSmartViewBinder(requireContext(), R.layout.smart_native_ad_view, ad)
+                        .title(R.id.ad_title)
+                        .body(R.id.ad_body)
+                        .iconImage(R.id.teads_icon)
+                        .callToAction(R.id.teads_cta)
+                        .mediaLayout(R.id.teads_mediaview)
+                        .adChoice(R.id.ad_choice)
+                        .bind()
+
+                    adContainer.addView(nativeAdView)
+                }
             }
 
             override fun onNativeAdFailedToLoad(e: Exception) {
@@ -101,16 +113,6 @@ class MediaNativeSmartScrollViewFragment : Fragment() {
         // 8. Load the native ad
         nativeAdManager.loadNativeAd()
     }
-
-    private fun createMediaView(ad: SASNativeAdElement): View =
-        TeadsSmartViewBinder(requireContext(), R.layout.smart_native_ad_view, ad)
-            .title(R.id.ad_title)
-            .body(R.id.ad_body)
-            .iconImage(R.id.teads_icon)
-            .callToAction(R.id.teads_cta)
-            .mediaLayout(R.id.teads_mediaview)
-            .adChoice(R.id.ad_choice)
-            .bind()
 
     override fun onDestroy() {
         super.onDestroy()
