@@ -35,8 +35,7 @@ class DemoViewModel : ViewModel() {
     var selectedProvider: ProviderType? by mutableStateOf(null)
         private set
 
-    var selectedDisplayMode: DisplayMode? by mutableStateOf(null)
-        private set
+    private var selectedDisplayMode: DisplayMode? by mutableStateOf(null)
 
     private var selectedIntegration: IntegrationType? by mutableStateOf(null)
 
@@ -177,6 +176,10 @@ class DemoViewModel : ViewModel() {
         "TESTKEY01" to "TESTKEY01"
     )
 
+    private val singleIntegrationType = listOf(
+        IntegrationType.COLUMN
+    )
+
     private val partialIntegrationTypes = listOf(
         IntegrationType.COLUMN,
         IntegrationType.SCROLLVIEW,
@@ -250,7 +253,7 @@ class DemoViewModel : ViewModel() {
         // Reset type if current type is not available for the new format/provider combination
         val availableDisplayModes = getDisplayModes()
         if (selectedDisplayMode != null && selectedDisplayMode !in availableDisplayModes) {
-            updateDisplayMode(availableDisplayModes.first())
+            availableDisplayModes.firstOrNull()?.let { updateDisplayMode(it) }
         }
 
         updatePlacementConfiguration()
@@ -284,24 +287,24 @@ class DemoViewModel : ViewModel() {
         }
     }
 
-    fun updateProvider(provider: ProviderType) {
+    private fun updateProvider(provider: ProviderType) {
         selectedProvider = provider
         DemoSessionConfiguration.setProvider(provider)
 
         // Reset type if current type is not available for the new provider/format combination
-        val availableTypes = getDisplayModes()
-        if (selectedDisplayMode != null && selectedDisplayMode !in availableTypes) {
-            updateDisplayMode(availableTypes.first())
+        val availableDisplayModes = getDisplayModes()
+        if (selectedDisplayMode != null && selectedDisplayMode !in availableDisplayModes) {
+            availableDisplayModes.firstOrNull()?.let { updateDisplayMode(it) }
         }
     }
 
 
-    fun updateIntegration(integration: IntegrationType) {
+    private fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
         DemoSessionConfiguration.setIntegration(integration)
     }
 
-    fun updateDisplayMode(type: DisplayMode) {
+    private fun updateDisplayMode(type: DisplayMode) {
         selectedDisplayMode = type
         DemoSessionConfiguration.setDisplayMode(type)
     }
@@ -321,7 +324,7 @@ class DemoViewModel : ViewModel() {
         DemoSessionConfiguration.setInstallationKey(installationKey)
     }
 
-    fun updateArticleUrl(articleUrl: String) {
+    private fun updateArticleUrl(articleUrl: String) {
         _articleUrl.value = articleUrl
         DemoSessionConfiguration.setArticleUrl(articleUrl)
     }
@@ -420,17 +423,28 @@ class DemoViewModel : ViewModel() {
     }
 
     fun getIntegrationChips(): List<ChipData> {
-        val integrationList = when (selectedProvider) {
-            ProviderType.ADMOB, ProviderType.SMART, ProviderType.APPLOVIN, ProviderType.PREBID -> partialIntegrationTypes
-            else -> fullIntegrationTypes
-        }
 
-        return integrationList.mapIndexed { index, integration ->
+        return getFilteredIntegrationList().mapIndexed { index, integration ->
             ChipData(
                 id = index,
                 text = integration.displayName,
                 isSelected = selectedIntegration == integration
             )
+        }
+    }
+
+    private fun getFilteredIntegrationList(): List<IntegrationType> {
+        return when {
+            selectedProvider == ProviderType.DIRECT
+                    && selectedFormat in listOf(FormatType.FEED, FormatType.MEDIA)
+                    && selectedDisplayMode in listOf(DisplayMode.FEED_WITH_MEDIA, DisplayMode.MEDIA_WITH_FEED) -> singleIntegrationType
+
+            selectedProvider == ProviderType.ADMOB
+                    || selectedProvider == ProviderType.SMART
+                    || selectedProvider == ProviderType.APPLOVIN
+                    || selectedProvider == ProviderType.PREBID -> partialIntegrationTypes
+
+            else -> fullIntegrationTypes
         }
     }
 
@@ -581,10 +595,7 @@ class DemoViewModel : ViewModel() {
     }
 
     fun onIntegrationChipClick(index: Int) {
-        val integrationList = when (selectedProvider) {
-            ProviderType.ADMOB, ProviderType.SMART, ProviderType.APPLOVIN, ProviderType.PREBID -> partialIntegrationTypes
-            else -> fullIntegrationTypes
-        }
+        val integrationList = getFilteredIntegrationList()
 
         if (index in integrationList.indices) {
             val integration = integrationList[index]
