@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import org.prebid.mobile.AdSize
 import org.prebid.mobile.PrebidMobile
 import org.prebid.mobile.TargetingParams
@@ -18,16 +19,16 @@ import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
-import tv.teads.teadssdkdemo.utils.BaseFragment
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration.PREBID_AD_CONFIG_ID
 
 /**
  * Media Prebid Standard format within a ScrollView
  */
-class MediaPrebidStandardFragment : BaseFragment() {
+class MediaPrebidStandardFragment : Fragment() {
     private lateinit var teadsPluginRenderer: TeadsPBMPluginRenderer
     private var bannerView: BannerView? = null
+    private var adContainer: ViewGroup? = null
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -52,23 +53,25 @@ class MediaPrebidStandardFragment : BaseFragment() {
         // 3. Register Teads Plugin Renderer on Prebid SDK
         PrebidMobile.registerPluginRenderer(teadsPluginRenderer)
 
-        // 4. Init your Prebid BannerView
+        // 4. Bind the ad container view once for reuse
+        adContainer = view.findViewById(R.id.ad_container)
+
+        // 5. Init your Prebid BannerView
         bannerView = BannerView(
             requireContext(),
             PREBID_AD_CONFIG_ID,
             AdSize(300, 250)
         )
 
-        // 5. Add your article url
+        // 6. Add your article url
         TargetingParams.addExtData("contextUrl", DemoSessionConfiguration.getArticleUrlOrDefault())
 
-        // 6. Stay tuned to Plugin lifecycle events
+        // 7. Stay tuned to Plugin lifecycle events
         bannerView?.setPluginEventListener(object : TeadsPBMEventListener{
             override fun onAdRatioUpdate(adRatio: AdRatio) {
                 Log.d("TeadsPBMEventListener", "onAdRatioUpdate")
-                // Resize
-                val adContainer = view.findViewById<ViewGroup>(R.id.ad_container)
-                adContainer.resizeAdContainer(adRatio)
+                // Important: Resize container to comply with different ad formats and proper rendering
+                adContainer?.resizeAdContainer(adRatio)
             }
 
             override fun onAdCollapsedFromFullscreen() {
@@ -80,11 +83,11 @@ class MediaPrebidStandardFragment : BaseFragment() {
             }
 
             override fun onFailToReceiveAd(failReason: String) {
-                Log.d("TeadsPBMEventListener", "onFailToReceiveAd $failReason")
+                Log.d("TeadsPBMEventListener", "onFailToReceiveAd: $failReason")
             }
         })
 
-        // 7. Stay tuned to BannerView lifecycle events
+        // 8. Stay tuned to BannerView lifecycle events
         bannerView?.setBannerListener(object : BannerViewListener {
             override fun onAdLoaded(bannerView: BannerView?) {
                 Log.d("BannerViewListener", "onAdLoaded")
@@ -95,7 +98,7 @@ class MediaPrebidStandardFragment : BaseFragment() {
             }
 
             override fun onAdFailed(bannerView: BannerView?, exception: AdException?) {
-                Log.d("BannerViewListener", "onAdFailed")
+                Log.d("BannerViewListener", "onAdFailed: ${exception?.message}")
             }
 
             override fun onAdClicked(bannerView: BannerView?) {
@@ -107,19 +110,16 @@ class MediaPrebidStandardFragment : BaseFragment() {
             }
         })
 
-        // 8. Add the ad view to its container
-        val adContainer = view.findViewById<ViewGroup>(R.id.ad_container)
-        bannerView?.let { adContainer.addView(it) }
+        // 9. Add the ad view to its container
+        bannerView?.let { adContainer?.addView(it) }
 
-        // 9. Load the ad
+        // 10. Load the ad
         bannerView?.loadAd()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // 10. Clean from memory
+        // 11. Clean from memory
         bannerView = null
     }
-
-    override fun getTitle(): String = "Media Prebid Standard"
 }
