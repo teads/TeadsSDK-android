@@ -8,7 +8,7 @@ import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
 import org.prebid.mobile.api.data.InitializationStatus
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration.FAKE_TEADS_PREBID_TEST_SERVER
-import tv.teads.teadssdkdemo.v6.ui.base.MainActivityV6
+import tv.teads.teadssdkdemo.v6.ui.base.MainActivity
 
 
 class SplashScreen : AppCompatActivity() {
@@ -24,7 +24,7 @@ class SplashScreen : AppCompatActivity() {
             }
         }
 
-        val mainIntent = Intent(this@SplashScreen, MainActivityV6::class.java)
+        val mainIntent = Intent(this@SplashScreen, MainActivity::class.java)
         this@SplashScreen.startActivity(mainIntent)
         this@SplashScreen.finish()
     }

@@ -25,10 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
@@ -49,7 +47,7 @@ import tv.teads.teadssdkdemo.v6.ui.compose.MediaSmartColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsLazyColumnScreen
 
-class MainActivityV6 : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,7 +145,7 @@ class MainActivityV6 : ComponentActivity() {
                                     }
                                     else -> {
                                         NavigationHandler.navigateToRoute(
-                                            fromActivity = this@MainActivityV6,
+                                            fromActivity = this@MainActivity,
                                             route = navRoute
                                         )
                                     }
