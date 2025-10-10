@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.core.net.toUri
 import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.sdk.TeadsSDK
@@ -92,7 +93,7 @@ fun MediaColumnScreen(
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_a))
+        ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_b))
         ArticleSpacing()
@@ -104,5 +105,7 @@ fun MediaColumnScreen(
         
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_d))
+        ArticleSpacing()
+        ArticleBody(text = stringResource(R.string.article_template_body_e))
     }
 }

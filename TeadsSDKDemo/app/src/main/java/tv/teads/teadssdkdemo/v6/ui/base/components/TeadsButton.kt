@@ -31,8 +31,7 @@ fun TeadsButton(
             text = text,
             style = MaterialTheme.typography.titleMedium.copy(
                 fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 16.sp
+                fontWeight = FontWeight.ExtraBold
             )
         )
     }

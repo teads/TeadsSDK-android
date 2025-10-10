@@ -28,11 +28,10 @@ fun Section(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = title,
+            text = title.uppercase(),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 20.sp
             ),
             color = MaterialTheme.colorScheme.onBackground
         )

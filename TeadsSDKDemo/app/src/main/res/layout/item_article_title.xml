@@ -7,7 +7,7 @@
     android:text="@string/article_template_title"
     android:textColor="@color/compose_primary"
     android:textSize="32sp"
-    android:fontFamily="sans-serif-medium"
+    android:fontFamily="sans-serif"
     android:textStyle="bold"
     android:paddingHorizontal="@dimen/activity_horizontal_margin"
     android:lineSpacingExtra="4dp" />

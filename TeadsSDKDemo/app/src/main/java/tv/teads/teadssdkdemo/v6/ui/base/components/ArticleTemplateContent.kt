@@ -67,7 +67,8 @@ fun ArticleTitle(
 @Composable
 fun ArticleBody(
     modifier: Modifier = Modifier,
-    text: String = stringResource(R.string.article_template_body_a)
+    text: String = stringResource(R.string.article_template_body_a),
+    isBold: Boolean = false
 ) {
     Text(
         text = text,
@@ -76,6 +77,7 @@ fun ArticleBody(
             fontFamily = FontFamily.SansSerif,
             fontSize = 20.sp
         ),
+        fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
         color = MaterialTheme.colorScheme.onBackground,
         modifier = modifier
             .fillMaxWidth()

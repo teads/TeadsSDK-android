@@ -96,10 +96,8 @@ class MainActivityV6 : ComponentActivity() {
                                         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
                                         else -> "Teads SDK Demo"
                                     },
-                                    style = MaterialTheme.typography.bodyLarge.copy(
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontSize = 24.sp
+                                    style = MaterialTheme.typography.titleLarge.copy(
+                                        fontWeight = FontWeight.Bold,
                                     ),
                                     textAlign = if (currentRoute == Route.Demo) TextAlign.Center else TextAlign.Left,
                                     modifier = Modifier.fillMaxWidth()

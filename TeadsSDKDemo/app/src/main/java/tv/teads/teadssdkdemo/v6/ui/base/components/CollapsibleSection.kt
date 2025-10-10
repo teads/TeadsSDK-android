@@ -50,11 +50,10 @@ fun CollapsibleSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = title,
+                text = title.uppercase(),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 20.sp
+                    fontWeight = FontWeight.ExtraBold
                 ),
                 color = MaterialTheme.colorScheme.onBackground
             )

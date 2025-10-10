@@ -23,10 +23,12 @@
             android:layout_marginTop="@dimen/article_small_margin"
             android:text="@string/article_template_body_a"
             android:textColor="@color/compose_on_background"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
-            android:lineSpacingExtra="4dp" />
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
 
         <!-- Second Body Paragraph -->
         <TextView
@@ -36,10 +38,12 @@
             android:layout_marginTop="@dimen/article_small_margin"
             android:text="@string/article_template_body_b"
             android:textColor="@color/compose_on_background"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
-            android:lineSpacingExtra="4dp" />
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
 
         <!-- Third Body Paragraph -->
         <TextView
@@ -49,10 +53,12 @@
             android:layout_marginTop="@dimen/article_small_margin"
             android:text="@string/article_template_body_c"
             android:textColor="@color/compose_on_background"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
-            android:lineSpacingExtra="4dp" />
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
 
         <!-- Middle Ad Container -->
         <include layout="@layout/item_ad_container" />
@@ -65,10 +71,12 @@
             android:layout_marginTop="@dimen/article_small_margin"
             android:text="@string/article_template_body_d"
             android:textColor="@color/compose_on_background"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:fontFamily="sans-serif"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
-            android:lineSpacingExtra="4dp" />
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
 
     </LinearLayout>
 
