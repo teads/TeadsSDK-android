@@ -23,7 +23,11 @@ fun TeadsChip(
 ) {
     FilterChip(
         onClick = { onSelectedChange(!isSelected) },
-        label = { Text(text) },
+        label = {
+            Text(
+                text = text
+            )
+        },
         selected = isSelected,
         modifier = modifier,
         enabled = enabled
@@ -40,17 +44,17 @@ private fun TeadsChipPreview() {
                 isSelected = true,
                 onSelectedChange = {}
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             TeadsChip(
                 text = "Unselected Chip",
                 isSelected = false,
                 onSelectedChange = {}
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             TeadsChip(
                 text = "Disabled Chip",
                 isSelected = false,

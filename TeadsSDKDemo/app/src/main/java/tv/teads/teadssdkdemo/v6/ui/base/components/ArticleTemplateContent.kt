@@ -16,7 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import tv.teads.teadssdkdemo.R
 
@@ -49,7 +51,8 @@ fun ArticleTitle(
         text = title,
         style = MaterialTheme.typography.headlineLarge.copy(
             fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.ExtraBold
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 32.sp
         ),
         color = MaterialTheme.colorScheme.primary,
         modifier = modifier
@@ -68,7 +71,11 @@ fun ArticleBody(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.bodyLarge,
+        textAlign = TextAlign.Justify,
+        style = MaterialTheme.typography.bodyLarge.copy(
+            fontFamily = FontFamily.SansSerif,
+            fontSize = 20.sp
+        ),
         color = MaterialTheme.colorScheme.onBackground,
         modifier = modifier
             .fillMaxWidth()

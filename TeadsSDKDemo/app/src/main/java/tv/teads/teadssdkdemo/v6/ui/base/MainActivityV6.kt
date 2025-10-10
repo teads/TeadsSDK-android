@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -24,6 +25,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
@@ -73,7 +78,7 @@ class MainActivityV6 : ComponentActivity() {
                         TopAppBar(
                             title = {
                                 Text(
-                                    when (currentRoute) {
+                                    text = when (currentRoute) {
                                         Route.MediaColumn -> "Media Column"
                                         Route.MediaFeedColumn -> "Media Feed Column"
                                         Route.MediaLazyColumn -> "Media LazyColumn"
@@ -90,7 +95,14 @@ class MainActivityV6 : ComponentActivity() {
                                         Route.RecommendationsColumn -> "Recommendations Column"
                                         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
                                         else -> "Teads SDK Demo"
-                                    }
+                                    },
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        fontFamily = FontFamily.SansSerif,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        fontSize = 24.sp
+                                    ),
+                                    textAlign = if (currentRoute == Route.Demo) TextAlign.Center else TextAlign.Left,
+                                    modifier = Modifier.fillMaxWidth()
                                 )
                             },
                             colors = TopAppBarDefaults.topAppBarColors(

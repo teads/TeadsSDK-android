@@ -52,6 +52,9 @@ class DemoViewModel : ViewModel() {
     private val _articleUrl = MutableStateFlow("")
     val articleUrl: StateFlow<String> = _articleUrl.asStateFlow()
 
+    var isPlacementConfigurationExpanded: Boolean by mutableStateOf(false)
+        private set
+
     init {
         // Initialize with defaults and sync with DemoConfiguration
         selectedFormat = DemoSessionConfiguration.getFormatOrDefault()
@@ -332,6 +335,10 @@ class DemoViewModel : ViewModel() {
     private fun updateArticleUrl(articleUrl: String) {
         _articleUrl.value = articleUrl
         DemoSessionConfiguration.setArticleUrl(articleUrl)
+    }
+
+    fun togglePlacementConfigurationExpanded() {
+        isPlacementConfigurationExpanded = !isPlacementConfigurationExpanded
     }
 
     // Chip data helper methods

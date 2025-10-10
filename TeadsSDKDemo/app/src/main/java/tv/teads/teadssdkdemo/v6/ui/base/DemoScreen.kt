@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
+import tv.teads.teadssdkdemo.v6.ui.base.components.CollapsibleSection
 import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField
 import tv.teads.teadssdkdemo.v6.ui.base.components.FormatDescription
 import tv.teads.teadssdkdemo.v6.ui.base.components.ProviderDescription
@@ -85,78 +86,76 @@ fun DemoScreen(
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            Section(title = "Placement Configuration") {
+            CollapsibleSection(
+                title = "Placement Configurations",
+                isExpanded = viewModel.isPlacementConfigurationExpanded,
+                onToggleExpanded = viewModel::togglePlacementConfigurationExpanded
+            ) {
+                // Article URL Text Field
+                DemoTextField(
+                    value = articleUrl,
+                    onValueChange = viewModel::onArticleUrlChange,
+                    label = "Article URL",
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-                // ##### init collapsable area
-                Column {
-                    // Article URL Text Field
+                if (viewModel.hasPlacementId()) {
+                    // Placement ID Text Field
                     DemoTextField(
-                        value = articleUrl,
-                        onValueChange = viewModel::onArticleUrlChange,
-                        label = "Article URL",
+                        value = placementId,
+                        onValueChange = viewModel::updatePlacementId,
+                        label = "Placement ID",
+                        keyboardType = viewModel.getInputMethod(),
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    if (viewModel.hasPlacementId()) {
-                        // Placement ID Text Field
-                        DemoTextField(
-                            value = placementId,
-                            onValueChange = viewModel::updatePlacementId,
-                            label = "Placement ID",
-                            keyboardType = viewModel.getInputMethod(),
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                    // PID Chips
+                    ChipGroup(
+                        chips = viewModel.getPidChips(),
+                        onChipClick = viewModel::onPidChipClick
+                    )
+                }
 
-                        // PID Chips
-                        ChipGroup(
-                            chips = viewModel.getPidChips(),
-                            onChipClick = viewModel::onPidChipClick
-                        )
-                    }
+                if (viewModel.hasWidgetId()) {
+                    // Widget ID Text Field
+                    DemoTextField(
+                        value = widgetId,
+                        onValueChange = viewModel::updateWidgetId,
+                        label = "Widget ID",
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-                    if (viewModel.hasWidgetId()) {
-                        // Widget ID Text Field
-                        DemoTextField(
-                            value = widgetId,
-                            onValueChange = viewModel::updateWidgetId,
-                            label = "Widget ID",
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                    // Widget ID Chips
+                    ChipGroup(
+                        chips = viewModel.getWidgetChips(),
+                        onChipClick = viewModel::onWidgetChipClick
+                    )
 
-                        // Widget ID Chips
-                        ChipGroup(
-                            chips = viewModel.getWidgetChips(),
-                            onChipClick = viewModel::onWidgetChipClick
-                        )
+                    DemoTextField(
+                        value = installationKey,
+                        onValueChange = viewModel::updateInstallationKey,
+                        label = "Installation Key",
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-                        DemoTextField(
-                            value = installationKey,
-                            onValueChange = viewModel::updateInstallationKey,
-                            label = "Installation Key",
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                    // Feed Installation Key Chips
+                    ChipGroup(
+                        chips = viewModel.getInstallationKeyChips(),
+                        onChipClick = viewModel::onInstallationKeyChipClick
+                    )
+                }
+            }
 
-                        // Feed Installation Key Chips
-                        ChipGroup(
-                            chips = viewModel.getInstallationKeyChips(),
-                            onChipClick = viewModel::onInstallationKeyChipClick
-                        )
-                    }
-
-                    // ##### finish collapsable area
-
-                    // Display Mode Section (for Prebid provider or Media/Feed with Direct)
-                    if (viewModel.shouldShowDisplayModeSection()) {
-                        Section(
-                            title = "Display Mode",
-                            modifier = Modifier.padding(top = 18.dp)
-                        ) {
-                            ChipGroup(
-                                chips = viewModel.getDisplayModeChips(),
-                                onChipClick = viewModel::onDisplayModeChipClick
-                            )
-                        }
-                    }
+            // Display Mode Section (for Prebid provider or Media/Feed with Direct)
+            if (viewModel.shouldShowDisplayModeSection()) {
+                Section(
+                    title = "Display Mode",
+                    modifier = Modifier.padding(top = 18.dp)
+                ) {
+                    ChipGroup(
+                        chips = viewModel.getDisplayModeChips(),
+                        onChipClick = viewModel::onDisplayModeChipClick
+                    )
                 }
             }
         }

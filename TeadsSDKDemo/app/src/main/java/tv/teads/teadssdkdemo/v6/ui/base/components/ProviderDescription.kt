@@ -4,8 +4,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
 
 /**
@@ -30,7 +32,9 @@ fun ProviderDescription(
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium.copy(
+                fontFamily = FontFamily.SansSerif,
                 fontStyle = FontStyle.Italic,
+                fontSize = 16.sp
             ),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
             textAlign = TextAlign.Start,
