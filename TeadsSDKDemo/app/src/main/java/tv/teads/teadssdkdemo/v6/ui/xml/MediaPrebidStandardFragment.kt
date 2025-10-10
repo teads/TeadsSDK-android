@@ -17,10 +17,10 @@ import tv.teads.sdk.AdPlacementSettings
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.data.CreativeSize
 import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
-import tv.teads.teadssdkdemo.format.mediation.identifier.PrebidIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
+import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
+import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration.PREBID_AD_CONFIG_ID
 
 /**
  * Media Prebid Standard format within a ScrollView
@@ -38,6 +38,8 @@ class MediaPrebidStandardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 0. Ensure to init Prebid SDK beforehand, check ./teadssdkdemo/SplashScreen.kt
+
         // 1. Setup AdPlacementSettings
         val placementSettings = AdPlacementSettings.Builder()
             .enableDebug()
@@ -53,12 +55,12 @@ class MediaPrebidStandardFragment : BaseFragment() {
         // 4. Init your Prebid BannerView
         bannerView = BannerView(
             requireContext(),
-            PrebidIdentifier.getAdUnitFromPid(CreativeSize.LANDSCAPE),
+            PREBID_AD_CONFIG_ID,
             AdSize(300, 250)
         )
 
         // 5. Add your article url
-        TargetingParams.addExtData("contextUrl", "http://teads.com")
+        TargetingParams.addExtData("contextUrl", DemoSessionConfiguration.getArticleUrlOrDefault())
 
         // 6. Stay tuned to Plugin lifecycle events
         bannerView?.setPluginEventListener(object : TeadsPBMEventListener{

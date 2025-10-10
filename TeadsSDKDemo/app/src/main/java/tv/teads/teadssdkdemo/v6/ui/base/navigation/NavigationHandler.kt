@@ -29,6 +29,7 @@ object NavigationHandler {
             Route.MediaSmartScrollView,
             Route.MediaNativeSmartScrollView,
             Route.MediaPrebidStandardScrollView,
+            Route.MediaPrebidStandaloneScrollView,
             Route.FeedScrollView,
             Route.FeedRecyclerView,
             Route.RecommendationsScrollView,

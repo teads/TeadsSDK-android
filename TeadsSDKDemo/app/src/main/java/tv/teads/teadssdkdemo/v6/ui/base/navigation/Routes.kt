@@ -14,6 +14,7 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeSmartScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaPrebidStandaloneFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaPrebidStandardFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
@@ -47,7 +48,7 @@ sealed class Route {
     data object MediaSmartColumn : Route()
     data object MediaNativeSmartColumn : Route()
     data object MediaPrebidStandardScrollView : Route()
-    data object MediaPrebidStandaloneScrollview : Route()
+    data object MediaPrebidStandaloneScrollView : Route()
     data object FeedScrollView : Route()
     data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
@@ -149,8 +150,8 @@ object RouteFactory {
             }
             format == FormatType.MEDIA && provider == ProviderType.PREBID -> {
                 when (integration to displayMode) {
-                    IntegrationType.SCROLLVIEW to DisplayMode.STANDARD -> Route.MediaPrebidStandaloneScrollview
-                    IntegrationType.SCROLLVIEW to DisplayMode.STANDALONE -> Route.MediaPrebidStandaloneScrollview
+                    IntegrationType.SCROLLVIEW to DisplayMode.STANDARD -> Route.MediaPrebidStandardScrollView
+                    IntegrationType.SCROLLVIEW to DisplayMode.STANDALONE -> Route.MediaPrebidStandaloneScrollView
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
@@ -175,6 +176,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaSmartScrollView -> MediaSmartScrollViewFragment::class.java
         Route.MediaNativeSmartScrollView -> MediaNativeSmartScrollViewFragment::class.java
         Route.MediaPrebidStandardScrollView -> MediaPrebidStandardFragment::class.java
+        Route.MediaPrebidStandaloneScrollView -> MediaPrebidStandaloneFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
@@ -201,6 +203,7 @@ fun String.getRouteFromTag(): Route {
         "MediaSmartScrollView" -> Route.MediaSmartScrollView
         "MediaNativeSmartScrollView" -> Route.MediaNativeSmartScrollView
         "MediaPrebidStandardScrollView" -> Route.MediaPrebidStandardScrollView
+        "MediaPrebidStandaloneScrollView" -> Route.MediaPrebidStandaloneScrollView
         "MediaSmartColumn" -> Route.MediaSmartColumn
         "MediaNativeSmartColumn" -> Route.MediaNativeSmartColumn
         "FeedScrollView" -> Route.FeedScrollView
@@ -234,7 +237,7 @@ fun Route.getTitle(): String {
         Route.MediaSmartColumn -> "Media Smart Column"
         Route.MediaNativeSmartColumn -> "Media Native Smart Column"
         Route.MediaPrebidStandardScrollView -> "Media Prebid Standard ScrollView"
-        Route.MediaPrebidStandaloneScrollview -> "Media Prebid Standalone ScrollView"
+        Route.MediaPrebidStandaloneScrollView -> "Media Prebid Standalone ScrollView"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"
         Route.FeedColumn -> "Feed Column"

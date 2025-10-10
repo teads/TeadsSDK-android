@@ -437,6 +437,7 @@ class DemoViewModel : ViewModel() {
                 isSelected = if (integrationList.contains(selectedIntegration)) {
                     integration == selectedIntegration
                 } else {
+                    updateIntegration(integration)
                     index == 0
                 }
             )

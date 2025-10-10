@@ -23,16 +23,20 @@ object DemoSessionConfiguration {
     val DEFAULT_FORMAT = FormatType.MEDIA
     val DEFAULT_PROVIDER = ProviderType.DIRECT
     val DEFAULT_INTEGRATION = IntegrationType.COLUMN
-    val DEFAULT_MEDIA_PID = "84242" // Landscape
-    val DEFAULT_MEDIA_NATIVE_PID = "124859" // Image
-    val DEFAULT_MEDIA_ADMOB_PID = "ca-app-pub-3068786746829754/3486435166" // Landscape
-    val DEFAULT_MEDIANATIVE_ADMOB_PID = "ca-app-pub-3068786746829754/9820813147" // Image
-    val DEFAULT_MEDIA_APPLOVIN_PID = "3359d5bcb0cf612b" // Landscape
-    val DEFAULT_MEDIANATIVE_APPLOVIN_PID = "a416d5d67e65ddcd" // Image
-    val DEFAULT_FEED_WIDGET_ID = "MB_1"
-    val DEFAULT_RECOMMENDATIONS_WIDGET_ID = "SDK_1"
-    val DEFAULT_ARTICLE_URL = "https://mobile-demo.outbrain.com/"
-    val DEFAULT_INSTALLATION_KEY = "NANOWDGT01"
+    const val DEFAULT_MEDIA_PID = "84242" // Landscape
+    const val DEFAULT_MEDIA_NATIVE_PID = "124859" // Image
+    const val DEFAULT_MEDIA_ADMOB_PID = "ca-app-pub-3068786746829754/3486435166" // Landscape
+    const val DEFAULT_MEDIANATIVE_ADMOB_PID = "ca-app-pub-3068786746829754/9820813147" // Image
+    const val DEFAULT_MEDIA_APPLOVIN_PID = "3359d5bcb0cf612b" // Landscape
+    const val DEFAULT_MEDIANATIVE_APPLOVIN_PID = "a416d5d67e65ddcd" // Image
+    const val DEFAULT_FEED_WIDGET_ID = "MB_1"
+    const val DEFAULT_RECOMMENDATIONS_WIDGET_ID = "SDK_1"
+    const val DEFAULT_ARTICLE_URL = "https://mobile-demo.outbrain.com/"
+    const val DEFAULT_INSTALLATION_KEY = "NANOWDGT01"
+
+    const val FAKE_TEADS_PREBID_TEST_SERVER =
+        "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
+    const val PREBID_AD_CONFIG_ID = "imp-video-300x250"
     
     /**
      * Get current or default format
