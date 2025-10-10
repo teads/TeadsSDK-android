@@ -1,7 +1,6 @@
 package tv.teads.teadssdkdemo.v6.ui.base.navigation
 
 import androidx.fragment.app.Fragment
-import tv.teads.teadssdkdemo.format.headerbidding.prebid.PluginRendererScrollViewFragment
 import tv.teads.teadssdkdemo.v6.domain.DisplayMode
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
@@ -15,6 +14,7 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeSmartScrollViewFragment
+import tv.teads.teadssdkdemo.v6.ui.xml.MediaPrebidStandardFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaSmartScrollViewFragment
@@ -47,6 +47,7 @@ sealed class Route {
     data object MediaSmartColumn : Route()
     data object MediaNativeSmartColumn : Route()
     data object MediaPrebidStandardColumn : Route()
+    data object MediaPrebidStandardScrollView : Route()
     data object MediaPrebidStandaloneColumn : Route()
     data object FeedScrollView : Route()
     data object FeedRecyclerView : Route()
@@ -150,6 +151,7 @@ object RouteFactory {
             format == FormatType.MEDIA && provider == ProviderType.PREBID -> {
                 when (integration to displayMode) {
                     IntegrationType.COLUMN to DisplayMode.STANDARD -> Route.MediaPrebidStandardColumn
+                    IntegrationType.SCROLLVIEW to DisplayMode.STANDARD -> Route.MediaPrebidStandardScrollView
                     IntegrationType.COLUMN to DisplayMode.STANDALONE -> Route.MediaPrebidStandaloneColumn
                     else -> throw IllegalAccessException("Impossible route")
                 }
@@ -164,8 +166,7 @@ object RouteFactory {
  */
 fun Route.getFragmentClass(): Class<out Fragment> {
     return when (this) {
-//        Route.MediaScrollView -> MediaScrollViewFragment::class.java
-        Route.MediaScrollView -> PluginRendererScrollViewFragment::class.java
+        Route.MediaScrollView -> MediaScrollViewFragment::class.java
         Route.MediaRecyclerView -> MediaRecyclerViewFragment::class.java
         Route.MediaNativeScrollView -> MediaNativeScrollViewFragment::class.java
         Route.MediaNativeRecyclerView -> MediaNativeRecyclerViewFragment::class.java
@@ -175,6 +176,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaNativeAppLovinScrollView -> MediaNativeAppLovinScrollViewFragment::class.java
         Route.MediaSmartScrollView -> MediaSmartScrollViewFragment::class.java
         Route.MediaNativeSmartScrollView -> MediaNativeSmartScrollViewFragment::class.java
+        Route.MediaPrebidStandardScrollView -> MediaPrebidStandardFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
@@ -200,6 +202,7 @@ fun String.getRouteFromTag(): Route {
         "MediaNativeAppLovinColumn" -> Route.MediaNativeAppLovinColumn
         "MediaSmartScrollView" -> Route.MediaSmartScrollView
         "MediaNativeSmartScrollView" -> Route.MediaNativeSmartScrollView
+        "MediaPrebidStandardScrollView" -> Route.MediaPrebidStandardScrollView
         "MediaSmartColumn" -> Route.MediaSmartColumn
         "MediaNativeSmartColumn" -> Route.MediaNativeSmartColumn
         "FeedScrollView" -> Route.FeedScrollView
@@ -233,6 +236,7 @@ fun Route.getTitle(): String {
         Route.MediaSmartColumn -> "Media Smart Column"
         Route.MediaNativeSmartColumn -> "Media Native Smart Column"
         Route.MediaPrebidStandardColumn -> "Media Prebid Standard Column"
+        Route.MediaPrebidStandardScrollView -> "Media Prebid Standard ScrollView"
         Route.MediaPrebidStandaloneColumn -> "Media Prebid Standalone Column"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"

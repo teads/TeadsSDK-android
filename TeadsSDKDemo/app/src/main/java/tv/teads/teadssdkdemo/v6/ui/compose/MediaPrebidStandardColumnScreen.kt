@@ -46,6 +46,8 @@ fun MediaPrebidStandardColumnScreen(
     val fakeTeadsPrebidServer =
         "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
 
+    val fakeConfigId = "imp-video-300x250"
+
     val context = LocalContext.current
     var bannerView by remember { mutableStateOf<BannerView?>(null) }
     var teadsPluginRenderer by remember { mutableStateOf<TeadsPBMPluginRenderer?>(null) }
@@ -78,7 +80,7 @@ fun MediaPrebidStandardColumnScreen(
         // 4. Init your Prebid BannerView
         bannerView = BannerView(
             context,
-            DemoSessionConfiguration.DEFAULT_MEDIA_PID, // Your unique placement id
+            fakeConfigId, // Your unique config id
             AdSize(300, 0)
         )
 

@@ -2,10 +2,11 @@ package tv.teads.teadssdkdemo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.applovin.sdk.AppLovinSdk
 import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
+import org.prebid.mobile.api.data.InitializationStatus
 
 
 class SplashScreen : AppCompatActivity() {
@@ -13,11 +14,13 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppLovinSdk.getInstance(this).mediationProvider = "max"
-        AppLovinSdk.getInstance(this).initializeSdk {}
-
-        PrebidMobile.initializeSdk(this) {}
-        PrebidMobile.setPrebidServerHost(Host.createCustomHost(FAKE_TEADS_PREBID_TEST_SERVER))
+        // Init Prebid SDK
+        PrebidMobile.initializeSdk(this) { status ->
+            Log.d("PrebidMobile", "initializeSdk result: $status")
+            if (status == InitializationStatus.SUCCEEDED) {
+                PrebidMobile.setPrebidServerHost(Host.createCustomHost(FAKE_TEADS_PREBID_TEST_SERVER))
+            }
+        }
 
         val mainIntent = Intent(this@SplashScreen, MainActivity::class.java)
         this@SplashScreen.startActivity(mainIntent)
