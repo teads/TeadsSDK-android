@@ -11,6 +11,7 @@
     <color name="colorPrimaryTransparency">#CC215798</color>
 
     <color name="titleTextColor">#FFFFFF</color>
+    <color name="textColorBg">@android:color/black</color>
     <color name="textColorNoBg">#FFFFFF</color>
     <color name="basicDayNight">#FFFFFF</color>
 
