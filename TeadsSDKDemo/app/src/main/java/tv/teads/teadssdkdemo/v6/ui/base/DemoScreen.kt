@@ -46,10 +46,10 @@ fun DemoScreen(
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            Section(title = "Format") {
+            Section(title = "Format", modifier = Modifier.padding(top = 12.dp)) {
                 ChipGroup(
                     chips = viewModel.getFormatChips(),
-                    onChipClick = viewModel::onFormatChipClick
+                    onChipClick = viewModel::onFormatChipClick,
                 )
 
                 // Format Description

@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <!-- Article Image -->
-        <include layout="@layout/item_article_image" />
+        <include layout="@layout/item_article_label" />
 
         <!-- Article Title -->
         <include layout="@layout/item_article_title" />
@@ -25,7 +25,6 @@
             android:textColor="@color/compose_on_background"
             android:textSize="20sp"
             android:fontFamily="sans-serif"
-            android:textStyle="bold"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
             android:lineSpacingExtra="4dp"
             android:textAlignment="viewStart"

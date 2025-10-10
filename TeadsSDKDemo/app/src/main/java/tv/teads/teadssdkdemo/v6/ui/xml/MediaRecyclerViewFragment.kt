@@ -120,7 +120,7 @@ class MediaRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
             val v: View
             return when (viewType) {
                 IMAGE_VIEW_TYPE -> {
-                    v = inflater.inflate(R.layout.item_article_image, parent, false)
+                    v = inflater.inflate(R.layout.item_article_label, parent, false)
                     ImageItemViewHolder(v)
                 }
                 TITLE_VIEW_TYPE -> {
@@ -143,17 +143,14 @@ class MediaRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
                 2-> {
                     val viewHolder = holder as TextItemViewHolder
                     viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_a)
-                    viewHolder.textView.setTypeface(viewHolder.textView.typeface, android.graphics.Typeface.BOLD)
                 }
                 3 -> {
                     val viewHolder = holder as TextItemViewHolder
                     viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_b)
-                    viewHolder.textView.setTypeface(viewHolder.textView.typeface, android.graphics.Typeface.NORMAL)
                 }
                 4 -> {
                     val viewHolder = holder as TextItemViewHolder
                     viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_c)
-                    viewHolder.textView.setTypeface(viewHolder.textView.typeface, android.graphics.Typeface.NORMAL)
                 }
                 5 -> {
                     val viewHolder = holder as TeadsPlacementViewHolder
@@ -164,7 +161,6 @@ class MediaRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
                 6 -> {
                     val viewHolder = holder as TextItemViewHolder
                     viewHolder.textView.text = viewHolder.textView.context.resources.getString(R.string.article_template_body_d)
-                    viewHolder.textView.setTypeface(viewHolder.textView.typeface, android.graphics.Typeface.NORMAL)
                 }
                 else -> {}
             }

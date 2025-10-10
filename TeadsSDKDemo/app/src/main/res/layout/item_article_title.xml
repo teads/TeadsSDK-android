@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/article_small_margin"
     android:text="@string/article_template_title"
-    android:textColor="@color/compose_primary"
+    android:textColor="@color/compose_on_background"
     android:textSize="32sp"
     android:fontFamily="sans-serif"
     android:textStyle="bold"

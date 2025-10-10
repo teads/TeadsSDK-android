@@ -24,7 +24,7 @@ import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.ui.base.components.AdContainer
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
-import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleImage
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLabel
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLazyItem
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
 import tv.teads.teadssdkdemo.v6.ui.base.recommendations.RecommendationsAdView
@@ -83,7 +83,7 @@ fun RecommendationsLazyColumnScreen(
             .fillMaxSize()
     ) {
         item {
-            ArticleImage()
+            ArticleLabel()
         }
         
         item {
@@ -94,7 +94,7 @@ fun RecommendationsLazyColumnScreen(
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
+                ArticleBody(text = stringResource(R.string.article_template_body_a))
             }
         }
         

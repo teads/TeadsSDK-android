@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -35,7 +34,7 @@ import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.ui.base.components.AdContainer
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
-import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleImage
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLabel
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleSpacing
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
 
@@ -133,13 +132,12 @@ fun MediaAdmobColumnScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ArticleImage()
+        ArticleLabel()
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
+        ArticleBody(text = stringResource(R.string.article_template_body_a))
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_b))
         ArticleSpacing()

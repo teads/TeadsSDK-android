@@ -54,7 +54,7 @@ fun ArticleTitle(
             fontWeight = FontWeight.ExtraBold,
             fontSize = 32.sp
         ),
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.onBackground,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp)

@@ -13,23 +13,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
-import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementFeed
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementFeedConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
+import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.ui.base.components.AdContainer
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
-import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleImage
+import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLabel
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleSpacing
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleTitle
 import tv.teads.teadssdkdemo.v6.utils.BrowserNavigationHelper
@@ -88,13 +87,12 @@ fun FeedColumnScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ArticleImage()
+        ArticleLabel()
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
+        ArticleBody(text = stringResource(R.string.article_template_body_a))
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_b))
         ArticleSpacing()
