@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.format.inread.extensions
+package tv.teads.teadssdkdemo.v6.ui.base.extensions
 
 import android.view.View
 import tv.teads.sdk.AdRatio

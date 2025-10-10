@@ -14,7 +14,7 @@ import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.sdk.mediation.TeadsAdapterListener
 import tv.teads.sdk.mediation.TeadsHelper
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
+import tv.teads.teadssdkdemo.v6.ui.base.extensions.resizeAdContainer
 
 class MediaSmartScrollViewFragment : Fragment() {
 

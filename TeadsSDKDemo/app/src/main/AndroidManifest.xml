@@ -13,7 +13,7 @@
 
         <activity
             android:exported="true"
-            android:name=".SplashScreen">
+            android:name=".v6.ui.base.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -17,7 +17,7 @@ import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.VideoPlaybackListener
 import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
+import tv.teads.teadssdkdemo.v6.ui.base.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 
 class MediaPrebidStandaloneFragment : Fragment() {

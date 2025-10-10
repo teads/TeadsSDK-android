@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo
+package tv.teads.teadssdkdemo.v6.ui.base
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
 import org.prebid.mobile.api.data.InitializationStatus
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration.FAKE_TEADS_PREBID_TEST_SERVER
-import tv.teads.teadssdkdemo.v6.ui.base.MainActivity
 
 
 class SplashScreen : AppCompatActivity() {

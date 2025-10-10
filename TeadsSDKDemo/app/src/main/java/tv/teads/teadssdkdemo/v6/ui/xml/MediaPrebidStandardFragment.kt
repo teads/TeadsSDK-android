@@ -18,7 +18,7 @@ import tv.teads.sdk.AdPlacementSettings
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
-import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
+import tv.teads.teadssdkdemo.v6.ui.base.extensions.resizeAdContainer
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration.PREBID_AD_CONFIG_ID
 
