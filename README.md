@@ -1,19 +1,18 @@
 # TeadsSDK-android
 
-Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads from Teads SSP ad server. This sample app includes the Teads Android Library and is showing integration examples.
+Teads allows you to integrate a single SDK into your app, and serve premium branded "outstream" video ads (and more) from Teads SSP ad server. This sample app includes the Teads Android Library and is showing integration examples.
 
 ## Requirements
-* Android minimum SDK version 19 or higher
-* Android compile SDK version 28 or higher
-* Android Gradle plugin version 4.2.2 or higher
+* Android minimum SDK version 21 or higher
+* Android Gradle plugin version 7.0 or higher
 * AndroidX support ([Migrate to AndroidX](https://developer.android.com/jetpack/androidx/migrate))
 
 ## Run the sample app and discover how we integrate our SDK
-The best way to see the working integration is to clone this repository, open it with Android Studio. The sample contains multiples kinds of integrations from direct integration to integrations using mediations partners such as AdMob and Mopub.
+The best way to see the working integration is to clone this repository, open it with Android Studio. The sample contains multiples kinds of integrations from direct integration to integrations using mediations partners such as Admob and AppLovin MAX.
 
 ## Download the Teads SDK Android library
 
-The Teads SDK is distributed as a gradle dependencie that you have to add to your gradle file. It include everything you need to serve "outstream" video ads.
+The Teads SDK is distributed as a gradle dependencie that you have to add to your gradle file. It include everything you need to serve our ads.
 
 **Short integration using gradle :**
 Add our Maven Repository and the dependency: 
@@ -25,7 +24,7 @@ repositories{
     }
 }
 dependencies {
-    implementation("tv.teads.sdk.android:sdk:5.1.14@aar") {
+    implementation("tv.teads.sdk.android:sdk:6.0.0@aar") {
         transitive = true
     }
 }
@@ -33,7 +32,7 @@ dependencies {
 
 
 ## Integration Documentation
-Integration instructions are available on [Teads SDK Documentation](https://support.teads.tv/support/solutions/articles/36000314755).
+Integration instructions are available on [Teads SDK Documentation](https://developers.teads.com/docs/Android-SDK/Getting-Started/).
 
 ## Certifications
 
