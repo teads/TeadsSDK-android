@@ -428,12 +428,17 @@ class DemoViewModel : ViewModel() {
     }
 
     fun getIntegrationChips(): List<ChipData> {
+        val integrationList = getFilteredIntegrationList()
 
-        return getFilteredIntegrationList().mapIndexed { index, integration ->
+        return integrationList.mapIndexed { index, integration ->
             ChipData(
                 id = index,
                 text = integration.displayName,
-                isSelected = selectedIntegration == integration
+                isSelected = if (integrationList.contains(selectedIntegration)) {
+                    integration == selectedIntegration
+                } else {
+                    index == 0
+                }
             )
         }
     }
@@ -518,10 +523,6 @@ class DemoViewModel : ViewModel() {
         ProviderType.ADMOB to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
-        ProviderType.SMART to FormatType.MEDIA -> TODO("wip")
-        ProviderType.SMART to FormatType.MEDIANATIVE -> TODO("wip")
-        ProviderType.PREBID to FormatType.MEDIA -> TODO("wip")
-        ProviderType.PREBID to FormatType.MEDIANATIVE -> TODO("wip")
         else -> throw IllegalAccessException("Impossible combination")
     }
 

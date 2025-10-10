@@ -40,7 +40,6 @@ import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeSmartColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaSmartColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaPrebidStandardColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsLazyColumnScreen
 
@@ -84,8 +83,6 @@ class MainActivityV6 : ComponentActivity() {
                                         Route.MediaNativeAppLovinColumn -> "Media Native AppLovin Column"
                                         Route.MediaSmartColumn -> "Media Smart Column"
                                         Route.MediaNativeSmartColumn -> "Media Native Smart Column"
-                                        Route.MediaPrebidStandardColumn -> "Media Prebid Standard Column"
-                                        Route.MediaPrebidStandaloneColumn -> "Media Prebid Standalone Column"
                                         Route.FeedColumn -> "Feed Column"
                                         Route.FeedLazyColumn -> "Feed LazyColumn"
                                         Route.RecommendationsColumn -> "Recommendations Column"
@@ -105,7 +102,6 @@ class MainActivityV6 : ComponentActivity() {
                                     Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
                                     Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
-                                    Route.MediaPrebidStandardColumn, Route.MediaPrebidStandaloneColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
                                     Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
@@ -133,7 +129,6 @@ class MainActivityV6 : ComponentActivity() {
                                     Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
                                     Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
-                                    Route.MediaPrebidStandardColumn, Route.MediaPrebidStandaloneColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
                                     Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
                                         currentRoute = navRoute
@@ -219,11 +214,6 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.MediaNativeSmartColumn -> {
                             MediaNativeSmartColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaPrebidStandardColumn -> {
-                            MediaPrebidStandardColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

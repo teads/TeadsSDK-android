@@ -46,9 +46,8 @@ sealed class Route {
     data object MediaNativeSmartScrollView : Route()
     data object MediaSmartColumn : Route()
     data object MediaNativeSmartColumn : Route()
-    data object MediaPrebidStandardColumn : Route()
     data object MediaPrebidStandardScrollView : Route()
-    data object MediaPrebidStandaloneColumn : Route()
+    data object MediaPrebidStandaloneScrollview : Route()
     data object FeedScrollView : Route()
     data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
@@ -150,9 +149,8 @@ object RouteFactory {
             }
             format == FormatType.MEDIA && provider == ProviderType.PREBID -> {
                 when (integration to displayMode) {
-                    IntegrationType.COLUMN to DisplayMode.STANDARD -> Route.MediaPrebidStandardColumn
-                    IntegrationType.SCROLLVIEW to DisplayMode.STANDARD -> Route.MediaPrebidStandardScrollView
-                    IntegrationType.COLUMN to DisplayMode.STANDALONE -> Route.MediaPrebidStandaloneColumn
+                    IntegrationType.SCROLLVIEW to DisplayMode.STANDARD -> Route.MediaPrebidStandaloneScrollview
+                    IntegrationType.SCROLLVIEW to DisplayMode.STANDALONE -> Route.MediaPrebidStandaloneScrollview
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
@@ -235,9 +233,8 @@ fun Route.getTitle(): String {
         Route.MediaNativeSmartScrollView -> "Media Native Smart ScrollView"
         Route.MediaSmartColumn -> "Media Smart Column"
         Route.MediaNativeSmartColumn -> "Media Native Smart Column"
-        Route.MediaPrebidStandardColumn -> "Media Prebid Standard Column"
         Route.MediaPrebidStandardScrollView -> "Media Prebid Standard ScrollView"
-        Route.MediaPrebidStandaloneColumn -> "Media Prebid Standalone Column"
+        Route.MediaPrebidStandaloneScrollview -> "Media Prebid Standalone ScrollView"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"
         Route.FeedColumn -> "Feed Column"
