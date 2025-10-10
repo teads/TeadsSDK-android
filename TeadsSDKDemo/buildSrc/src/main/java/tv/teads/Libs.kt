@@ -1,22 +1,30 @@
 package tv.teads
 
+/**
+ * Centralized dependency declarations for the project.
+ * All dependencies are defined here using versions from the Versions object.
+ */
 object Libs {
-    const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
+    // Coroutines
+    const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
 
-    const val APPLOVIN_SDK = "com.applovin:applovin-sdk:11.3.0"
+    // Third-party SDKs
+    const val APPLOVIN_SDK = "com.applovin:applovin-sdk:${Versions.applovinSdk}"
+    const val SMART_CORE_SDK = "com.smartadserver.android:smart-core-sdk:${Versions.smartVersion}@aar"
+    const val SMART_DISPLAY_SDK = "com.smartadserver.android:smart-display-sdk:${Versions.smartVersion}@aar"
+    const val PREBID_SDK = "org.prebid:prebid-mobile-sdk:${Versions.prebidSdk}"
+    const val HUAWEI_IDENTIFIER = "com.huawei.hms:ads-identifier:${Versions.huaweiIdentifier}"
 
-    const val MATERIAL = "com.google.android.material:material:1.4.0"
-    const val PLAY_SERVICES_ADS = "com.google.android.gms:play-services-ads:23.0.0"
+    // Google Services
+    const val MATERIAL = "com.google.android.material:material:${Versions.material}"
+    const val PLAY_SERVICES_ADS = "com.google.android.gms:play-services-ads:${Versions.playServicesAds}"
 
-    const val HUAWEI_IDENTIFIER = "com.huawei.hms:ads-identifier:3.4.28.313"
+    // Image loading
+    const val PICASSO = "com.squareup.picasso:picasso:${Versions.picasso}"
 
-    private const val smartVersion = "7.14.0"
-
-    const val SMART_CORE_SDK = "com.smartadserver.android:smart-core-sdk:$smartVersion@aar"
-    const val SMART_DISPLAY_SDK = "com.smartadserver.android:smart-display-sdk:$smartVersion@aar"
-
-    const val PREBID_SDK = "org.prebid:prebid-mobile-sdk:2.2.1"
-
+    /**
+     * Teads SDK dependencies with version parameter
+     */
     object Teads {
         fun sdk(version: String) = "tv.teads.sdk.android:sdk:$version@aar"
         fun admobAdapter(version: String) = "tv.teads.sdk.android:admobadapter:$version@aar"
@@ -25,14 +33,36 @@ object Libs {
         fun prebidAdapter(version: String) = "tv.teads.sdk.android:prebidadapter:$version@aar"
     }
 
+    /**
+     * AndroidX dependencies
+     */
     object AndroidX {
-        const val APPCOMPAT = "androidx.appcompat:appcompat:1.3.0"
-        const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.0.4"
-        const val CARDVIEW = "androidx.cardview:cardview:1.0.0"
-        const val WEBKIT = "androidx.webkit:webkit:1.4.0"
+        const val APPCOMPAT = "androidx.appcompat:appcompat:${Versions.appcompat}"
+        const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+        const val CARDVIEW = "androidx.cardview:cardview:${Versions.cardview}"
+        const val WEBKIT = "androidx.webkit:webkit:${Versions.webkit}"
     }
 
+    /**
+     * Compose dependencies
+     */
+    object Compose {
+        const val BOM = "androidx.compose:compose-bom:${Versions.composeBom}"
+        const val UI = "androidx.compose.ui:ui"
+        const val UI_GRAPHICS = "androidx.compose.ui:ui-graphics"
+        const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview"
+        const val MATERIAL3 = "androidx.compose.material3:material3"
+        const val MATERIAL_ICONS_EXTENDED = "androidx.compose.material:material-icons-extended"
+        const val FOUNDATION = "androidx.compose.foundation:foundation"
+        const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:${Versions.activityCompose}"
+        const val LIFECYCLE_VIEWMODEL_COMPOSE = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleViewmodelCompose}"
+        const val LIFECYCLE_RUNTIME_COMPOSE = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycleRuntimeCompose}"
+    }
+
+    /**
+     * Testing dependencies
+     */
     object Test {
-        const val JUNIT = "junit:junit:4.12"
+        const val JUNIT = "junit:junit:${Versions.junit}"
     }
 }

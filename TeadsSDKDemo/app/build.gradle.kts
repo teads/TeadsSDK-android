@@ -43,6 +43,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     buildFeatures {
         viewBinding = true
         buildConfig = true
@@ -51,13 +55,21 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    
+    // AndroidX dependencies
     implementation(Libs.AndroidX.APPCOMPAT)
     implementation(Libs.AndroidX.CONSTRAINT_LAYOUT)
-    implementation(Libs.COROUTINES_CORE)
     implementation(Libs.AndroidX.CARDVIEW)
     implementation(Libs.AndroidX.WEBKIT)
+    
+    // Coroutines
+    implementation(Libs.COROUTINES_CORE)
+    
+    // Material Design
     implementation(Libs.MATERIAL)
-    implementation("com.squareup.picasso:picasso:2.8")
+    
+    // Image loading
+    implementation(Libs.PICASSO)
 
     // Teads SDK
     implementation(Libs.Teads.sdk(project.versionName)) {
@@ -69,6 +81,7 @@ dependencies {
     implementation(Libs.Teads.smartAdapter(project.versionName))
     implementation(Libs.Teads.prebidAdapter(project.versionName))
 
+    // Third-party SDKs
     implementation(Libs.PLAY_SERVICES_ADS)
     implementation(Libs.APPLOVIN_SDK)
     implementation(Libs.SMART_CORE_SDK)
@@ -76,24 +89,22 @@ dependencies {
         isTransitive = true
     }
     implementation(Libs.PREBID_SDK)
-
-    // Huawei ads identifier sdk
     implementation(Libs.HUAWEI_IDENTIFIER)
 
     // Compose BOM
-    implementation(platform("androidx.compose:compose-bom:2025.09.01"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.activity:activity-compose:1.9.2")
-    implementation("androidx.compose.foundation:foundation")
+    implementation(platform(Libs.Compose.BOM))
+    implementation(Libs.Compose.UI)
+    implementation(Libs.Compose.UI_GRAPHICS)
+    implementation(Libs.Compose.UI_TOOLING_PREVIEW)
+    implementation(Libs.Compose.MATERIAL3)
+    implementation(Libs.Compose.MATERIAL_ICONS_EXTENDED)
+    implementation(Libs.Compose.ACTIVITY_COMPOSE)
+    implementation(Libs.Compose.FOUNDATION)
     
     // ViewModel for Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation(Libs.Compose.LIFECYCLE_VIEWMODEL_COMPOSE)
+    implementation(Libs.Compose.LIFECYCLE_RUNTIME_COMPOSE)
 
-
+    // Testing
     testImplementation(Libs.Test.JUNIT)
 }
