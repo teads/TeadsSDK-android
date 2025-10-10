@@ -25,6 +25,7 @@
             android:textColor="@color/compose_on_background"
             android:textSize="20sp"
             android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
             android:lineSpacingExtra="4dp"
             android:textAlignment="viewStart"

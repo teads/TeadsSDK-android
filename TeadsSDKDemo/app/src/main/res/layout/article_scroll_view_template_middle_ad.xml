@@ -25,6 +25,7 @@
             android:textColor="@color/compose_on_background"
             android:textSize="20sp"
             android:fontFamily="sans-serif"
+            android:textStyle="bold"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
             android:lineSpacingExtra="4dp"
             android:textAlignment="viewStart"
@@ -70,6 +71,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/article_small_margin"
             android:text="@string/article_template_body_d"
+            android:textColor="@color/compose_on_background"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
+
+        <!-- Fifth Body Paragraph -->
+        <TextView
+            android:id="@+id/article_body_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/article_small_margin"
+            android:text="@string/article_template_body_e"
             android:textColor="@color/compose_on_background"
             android:textSize="20sp"
             android:fontFamily="sans-serif"

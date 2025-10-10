@@ -94,7 +94,7 @@ fun RecommendationsLazyColumnScreen(
         
         item {
             ArticleLazyItem {
-                ArticleBody(text = stringResource(R.string.article_template_body_a))
+                ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
             }
         }
         

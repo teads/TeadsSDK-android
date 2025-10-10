@@ -139,7 +139,7 @@ fun MediaAdmobColumnScreen(
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_a))
+        ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_b))
         ArticleSpacing()
@@ -151,5 +151,7 @@ fun MediaAdmobColumnScreen(
         
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_d))
+        ArticleSpacing()
+        ArticleBody(text = stringResource(R.string.article_template_body_e))
     }
 }

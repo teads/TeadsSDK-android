@@ -143,7 +143,7 @@ fun MediaFeedColumnScreen(
         ArticleSpacing()
         ArticleTitle()
         ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_a))
+        ArticleBody(text = stringResource(R.string.article_template_body_a), isBold = true)
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_b))
         ArticleSpacing()
@@ -155,7 +155,8 @@ fun MediaFeedColumnScreen(
         
         ArticleSpacing()
         ArticleBody(text = stringResource(R.string.article_template_body_d))
-        ArticleBody(text = stringResource(R.string.article_template_body_d))
+        ArticleSpacing()
+        ArticleBody(text = stringResource(R.string.article_template_body_e))
 
         // Add feed in the ad container
         AdContainer(adView = feedAdView)
