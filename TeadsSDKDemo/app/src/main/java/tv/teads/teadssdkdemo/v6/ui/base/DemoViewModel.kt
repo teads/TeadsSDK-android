@@ -177,8 +177,12 @@ class DemoViewModel : ViewModel() {
         "TESTKEY01" to "TESTKEY01"
     )
 
-    private val singleIntegrationType = listOf(
+    private val singleColumnIntegrationType = listOf(
         IntegrationType.COLUMN
+    )
+
+    private val singleScrollViewIntegrationType = listOf(
+        IntegrationType.SCROLLVIEW
     )
 
     private val partialIntegrationTypes = listOf(
@@ -438,12 +442,13 @@ class DemoViewModel : ViewModel() {
         return when {
             selectedProvider == ProviderType.DIRECT
                     && selectedFormat in listOf(FormatType.FEED, FormatType.MEDIA)
-                    && selectedDisplayMode in listOf(DisplayMode.FEED_WITH_MEDIA, DisplayMode.MEDIA_WITH_FEED) -> singleIntegrationType
+                    && selectedDisplayMode in listOf(DisplayMode.FEED_WITH_MEDIA, DisplayMode.MEDIA_WITH_FEED) -> singleColumnIntegrationType
+
+            selectedProvider == ProviderType.PREBID -> singleScrollViewIntegrationType
 
             selectedProvider == ProviderType.ADMOB
                     || selectedProvider == ProviderType.SMART
-                    || selectedProvider == ProviderType.APPLOVIN
-                    || selectedProvider == ProviderType.PREBID -> partialIntegrationTypes
+                    || selectedProvider == ProviderType.APPLOVIN -> partialIntegrationTypes
 
             else -> fullIntegrationTypes
         }

@@ -5,16 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import org.prebid.mobile.AdSize
-import org.prebid.mobile.Host
 import org.prebid.mobile.PrebidMobile
 import org.prebid.mobile.TargetingParams
-import org.prebid.mobile.api.data.InitializationStatus
 import org.prebid.mobile.api.exceptions.AdException
 import org.prebid.mobile.api.rendering.BannerView
 import org.prebid.mobile.api.rendering.listeners.BannerViewListener
@@ -24,10 +17,10 @@ import tv.teads.sdk.AdPlacementSettings
 import tv.teads.sdk.AdRatio
 import tv.teads.sdk.TeadsMediationSettings
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.data.CreativeSize
 import tv.teads.teadssdkdemo.format.inread.extensions.resizeAdContainer
+import tv.teads.teadssdkdemo.format.mediation.identifier.PrebidIdentifier
 import tv.teads.teadssdkdemo.utils.BaseFragment
-import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
-import kotlin.coroutines.resume
 
 /**
  * Media Prebid Standard format within a ScrollView
@@ -35,56 +28,17 @@ import kotlin.coroutines.resume
 class MediaPrebidStandardFragment : BaseFragment() {
     private lateinit var teadsPluginRenderer: TeadsPBMPluginRenderer
     private var bannerView: BannerView? = null
-    private var isPrebidSDKInitialized = false
 
-    companion object {
-        private const val FAKE_CONFIG_ID = "imp-video-300x250"
-        private const val FAKE_PREBID_SERVER = "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.article_scroll_view_template_middle_ad, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupContent()
-    }
 
-    private fun setupContent() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                try {
-                    // 0. Init Prebid SDK and wait for callback
-                    val isInitialized = initializePrebidSdk()
-                    if (isInitialized) {
-                        setupPrebidAd()
-                    }
-                } catch (e: Exception) {
-                    Log.e("MediaPrebidStandardFragment", "Failed to initialize Prebid SDK", e)
-                }
-            }
-        }
-    }
-
-    private suspend fun initializePrebidSdk(): Boolean = suspendCancellableCoroutine { continuation ->
-        PrebidMobile.initializeSdk(requireContext()) { status ->
-            val isInitialized = status == InitializationStatus.SUCCEEDED
-            Log.d("MediaPrebidStandardFragment", "Prebid SDK initialization status: $status")
-            continuation.resume(isInitialized)
-        }
-    }
-
-    private fun setupPrebidAd() {
-        PrebidMobile.setPrebidServerHost(Host.createCustomHost(FAKE_PREBID_SERVER)) // Your unique prebid server host
-
-        val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
-
-        // 1. Setup the settings
+        // 1. Setup AdPlacementSettings
         val placementSettings = AdPlacementSettings.Builder()
             .enableDebug()
             .build()
@@ -99,18 +53,19 @@ class MediaPrebidStandardFragment : BaseFragment() {
         // 4. Init your Prebid BannerView
         bannerView = BannerView(
             requireContext(),
-            FAKE_CONFIG_ID, // Your unique configuration id
+            PrebidIdentifier.getAdUnitFromPid(CreativeSize.LANDSCAPE),
             AdSize(300, 250)
         )
 
         // 5. Add your article url
-        TargetingParams.addExtData("contextUrl", DemoSessionConfiguration.getArticleUrlOrDefault())
+        TargetingParams.addExtData("contextUrl", "http://teads.com")
 
         // 6. Stay tuned to Plugin lifecycle events
-        bannerView?.setPluginEventListener(object : TeadsPBMEventListener {
+        bannerView?.setPluginEventListener(object : TeadsPBMEventListener{
             override fun onAdRatioUpdate(adRatio: AdRatio) {
                 Log.d("TeadsPBMEventListener", "onAdRatioUpdate")
                 // Resize
+                val adContainer = view.findViewById<ViewGroup>(R.id.ad_container)
                 adContainer.resizeAdContainer(adRatio)
             }
 
@@ -151,7 +106,8 @@ class MediaPrebidStandardFragment : BaseFragment() {
         })
 
         // 8. Add the ad view to its container
-        adContainer.addView(bannerView)
+        val adContainer = view.findViewById<ViewGroup>(R.id.ad_container)
+        bannerView?.let { adContainer.addView(it) }
 
         // 9. Load the ad
         bannerView?.loadAd()
@@ -160,7 +116,7 @@ class MediaPrebidStandardFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         // 10. Clean from memory
-        bannerView?.destroy()
+        bannerView = null
     }
 
     override fun getTitle(): String = "Media Prebid Standard"
