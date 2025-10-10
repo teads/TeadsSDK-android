@@ -361,6 +361,12 @@ class DemoViewModel : ViewModel() {
 
     fun hasPlacementId(): Boolean {
         return listOf(ProviderType.DIRECT, ProviderType.ADMOB, ProviderType.APPLOVIN).contains(selectedProvider)
+                && listOf(FormatType.MEDIA, FormatType.MEDIANATIVE).contains(selectedFormat)
+    }
+
+    fun hasWidgetId(): Boolean {
+        return listOf(ProviderType.DIRECT).contains(selectedProvider)
+                && listOf(FormatType.FEED, FormatType.RECOMMENDATIONS).contains(selectedFormat)
     }
 
     fun getInputMethod(): KeyboardType = when (selectedProvider to selectedFormat) {
@@ -378,6 +384,11 @@ class DemoViewModel : ViewModel() {
         else -> throw IllegalAccessException("Impossible combination")
     }
 
+    fun getWidgetChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.FEED -> getFeedWidgetIdChips()
+        ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsWidgetIdChips()
+        else -> throw IllegalAccessException("Impossible combination")
+    }
 
     private fun getMediaPidChips(): List<ChipData> = mediaPids.mapIndexed { index, (label, _) ->
         ChipData(
@@ -460,7 +471,7 @@ class DemoViewModel : ViewModel() {
         }
     }
 
-    fun getFeedWidgetIdChips(): List<ChipData> = feedWidgetIds.mapIndexed { index, (label, _) ->
+    private fun getFeedWidgetIdChips(): List<ChipData> = feedWidgetIds.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
             text = label,
@@ -468,7 +479,7 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getRecommendationsWidgetIdChips(): List<ChipData> = recommendationsWidgetIds.mapIndexed { index, (label, _) ->
+    private fun getRecommendationsWidgetIdChips(): List<ChipData> = recommendationsWidgetIds.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
             text = label,
@@ -476,7 +487,13 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getFeedInstallationKeyChips(): List<ChipData> = feedInstallationKeys.mapIndexed { index, (label, _) ->
+    fun getInstallationKeyChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.FEED -> getFeedInstallationKeyChips()
+        ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsInstallationKeyChips()
+        else -> throw IllegalAccessException("Impossible combination")
+    }
+
+    private fun getFeedInstallationKeyChips(): List<ChipData> = feedInstallationKeys.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
             text = label,
@@ -484,7 +501,7 @@ class DemoViewModel : ViewModel() {
         )
     }
 
-    fun getRecommendationsInstallationKeyChips(): List<ChipData> = recommendationsInstallationKeys.mapIndexed { index, (label, _) ->
+    private fun getRecommendationsInstallationKeyChips(): List<ChipData> = recommendationsInstallationKeys.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
             text = label,
@@ -524,6 +541,12 @@ class DemoViewModel : ViewModel() {
         ProviderType.ADMOB to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
+        else -> throw IllegalAccessException("Impossible combination")
+    }
+
+    fun onWidgetChipClick(index: Int) = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.FEED -> onFeedWidgetIdChipClick(index)
+        ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> onRecommendationsWidgetIdChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -570,28 +593,34 @@ class DemoViewModel : ViewModel() {
         }
     }
 
-    fun onFeedWidgetIdChipClick(index: Int) {
+    private fun onFeedWidgetIdChipClick(index: Int) {
         if (index in feedWidgetIds.indices) {
             val widgetId = feedWidgetIds[index].second
             updateWidgetId(widgetId)
         }
     }
 
-    fun onRecommendationsWidgetIdChipClick(index: Int) {
+    private fun onRecommendationsWidgetIdChipClick(index: Int) {
         if (index in recommendationsWidgetIds.indices) {
             val widgetId = recommendationsWidgetIds[index].second
             updateWidgetId(widgetId)
         }
     }
 
-    fun onFeedInstallationKeyChipClick(index: Int) {
+    fun onInstallationKeyChipClick(index: Int) = when (selectedProvider to selectedFormat) {
+        ProviderType.DIRECT to FormatType.FEED -> onFeedInstallationKeyChipClick(index)
+        ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> onRecommendationsInstallationKeyChipClick(index)
+        else -> throw IllegalAccessException("Impossible combination")
+    }
+
+    private fun onFeedInstallationKeyChipClick(index: Int) {
         if (index in feedInstallationKeys.indices) {
             val installationKey = feedInstallationKeys[index].second
             updateInstallationKey(installationKey)
         }
     }
 
-    fun onRecommendationsInstallationKeyChipClick(index: Int) {
+    private fun onRecommendationsInstallationKeyChipClick(index: Int) {
         if (index in recommendationsInstallationKeys.indices) {
             val installationKey = recommendationsInstallationKeys[index].second
             updateInstallationKey(installationKey)

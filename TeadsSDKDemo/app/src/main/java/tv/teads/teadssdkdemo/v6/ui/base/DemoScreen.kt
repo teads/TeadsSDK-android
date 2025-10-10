@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
 import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField
 import tv.teads.teadssdkdemo.v6.ui.base.components.FormatDescription
@@ -52,7 +50,7 @@ fun DemoScreen(
                     chips = viewModel.getFormatChips(),
                     onChipClick = viewModel::onFormatChipClick
                 )
-                
+
                 // Format Description
                 FormatDescription(
                     selectedFormat = viewModel.selectedFormat
@@ -72,7 +70,7 @@ fun DemoScreen(
                     chips = viewModel.getProviderChips(),
                     onChipClick = viewModel::onProviderChipClick
                 )
-                
+
                 // Provider Description
                 ProviderDescription(
                     selectedProvider = viewModel.selectedProvider
@@ -88,139 +86,74 @@ fun DemoScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Section(title = "Placement Configuration") {
+
+                // ##### init collapsable area
                 Column {
-                    when (viewModel.selectedFormat) {
-                        FormatType.MEDIA, FormatType.MEDIANATIVE -> {
-                            // Article URL Text Field
-                            DemoTextField(
-                                value = articleUrl,
-                                onValueChange = viewModel::onArticleUrlChange,
-                                label = "Article URL",
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                    // Article URL Text Field
+                    DemoTextField(
+                        value = articleUrl,
+                        onValueChange = viewModel::onArticleUrlChange,
+                        label = "Article URL",
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-                            if (viewModel.hasPlacementId()) {
-                                // Placement ID Text Field
-                                DemoTextField(
-                                    value = placementId,
-                                    onValueChange = viewModel::updatePlacementId,
-                                    label = "Placement ID",
-                                    keyboardType = viewModel.getInputMethod(),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
+                    if (viewModel.hasPlacementId()) {
+                        // Placement ID Text Field
+                        DemoTextField(
+                            value = placementId,
+                            onValueChange = viewModel::updatePlacementId,
+                            label = "Placement ID",
+                            keyboardType = viewModel.getInputMethod(),
+                            modifier = Modifier.fillMaxWidth()
+                        )
 
-                                // PID Chips
-                                ChipGroup(
-                                    chips = viewModel.getPidChips(),
-                                    onChipClick = viewModel::onPidChipClick
-                                )
-                            }
+                        // PID Chips
+                        ChipGroup(
+                            chips = viewModel.getPidChips(),
+                            onChipClick = viewModel::onPidChipClick
+                        )
+                    }
 
-                            // Display Mode Section (for Prebid provider or Media/Feed with Direct)
-                            if (viewModel.shouldShowDisplayModeSection()) {
-                                Section(
-                                    title = "Display Mode",
-                                    modifier = Modifier.padding(top = 18.dp)
-                                ) {
-                                    ChipGroup(
-                                        chips = viewModel.getDisplayModeChips(),
-                                        onChipClick = viewModel::onDisplayModeChipClick
-                                    )
-                                }
-                            }
-                        }
-                        FormatType.FEED -> {
-                            // Article URL Text Field
-                            DemoTextField(
-                                value = articleUrl,
-                                onValueChange = viewModel::onArticleUrlChange,
-                                label = "Article URL",
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                    if (viewModel.hasWidgetId()) {
+                        // Widget ID Text Field
+                        DemoTextField(
+                            value = widgetId,
+                            onValueChange = viewModel::updateWidgetId,
+                            label = "Widget ID",
+                            modifier = Modifier.fillMaxWidth()
+                        )
 
-                            // Widget ID Text Field
-                            DemoTextField(
-                                value = widgetId,
-                                onValueChange = viewModel::updateWidgetId,
-                                label = "Widget ID",
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                        // Widget ID Chips
+                        ChipGroup(
+                            chips = viewModel.getWidgetChips(),
+                            onChipClick = viewModel::onWidgetChipClick
+                        )
 
-                            // Feed Widget ID Chips
+                        DemoTextField(
+                            value = installationKey,
+                            onValueChange = viewModel::updateInstallationKey,
+                            label = "Installation Key",
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        // Feed Installation Key Chips
+                        ChipGroup(
+                            chips = viewModel.getInstallationKeyChips(),
+                            onChipClick = viewModel::onInstallationKeyChipClick
+                        )
+                    }
+
+                    // ##### finish collapsable area
+
+                    // Display Mode Section (for Prebid provider or Media/Feed with Direct)
+                    if (viewModel.shouldShowDisplayModeSection()) {
+                        Section(
+                            title = "Display Mode",
+                            modifier = Modifier.padding(top = 18.dp)
+                        ) {
                             ChipGroup(
-                                chips = viewModel.getFeedWidgetIdChips(),
-                                onChipClick = viewModel::onFeedWidgetIdChipClick
-                            )
-
-                            // Installation Key Text Field
-                            DemoTextField(
-                                value = installationKey,
-                                onValueChange = viewModel::updateInstallationKey,
-                                label = "Installation Key",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            // Feed Installation Key Chips
-                            ChipGroup(
-                                chips = viewModel.getFeedInstallationKeyChips(),
-                                onChipClick = viewModel::onFeedInstallationKeyChipClick
-                            )
-
-                            // Display Mode Section (for Prebid provider or Media/Feed with Direct)
-                            if (viewModel.shouldShowDisplayModeSection()) {
-                                Section(
-                                    title = "Display Mode",
-                                    modifier = Modifier.padding(top = 18.dp)
-                                ) {
-                                    ChipGroup(
-                                        chips = viewModel.getDisplayModeChips(),
-                                        onChipClick = viewModel::onDisplayModeChipClick
-                                    )
-                                }
-                            }
-                        }
-                        FormatType.RECOMMENDATIONS -> {
-                            // Article URL Text Field
-                            DemoTextField(
-                                value = articleUrl,
-                                onValueChange = viewModel::onArticleUrlChange,
-                                label = "Article URL",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            // Widget ID Text Field
-                            DemoTextField(
-                                value = widgetId,
-                                onValueChange = viewModel::updateWidgetId,
-                                label = "Widget ID",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            // Recommendations Widget ID Chips
-                            ChipGroup(
-                                chips = viewModel.getRecommendationsWidgetIdChips(),
-                                onChipClick = viewModel::onRecommendationsWidgetIdChipClick
-                            )
-
-                            // Installation Key Text Field
-                            DemoTextField(
-                                value = installationKey,
-                                onValueChange = viewModel::updateInstallationKey,
-                                label = "Installation Key",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-
-                            // Recommendations Installation Key Chips
-                            ChipGroup(
-                                chips = viewModel.getRecommendationsInstallationKeyChips(),
-                                onChipClick = viewModel::onRecommendationsInstallationKeyChipClick
-                            )
-                        }
-                        else -> {
-                            // No format selected
-                            Text(
-                                text = "Select a format to see placement configuration options",
-                                modifier = Modifier.fillMaxWidth()
+                                chips = viewModel.getDisplayModeChips(),
+                                onChipClick = viewModel::onDisplayModeChipClick
                             )
                         }
                     }
