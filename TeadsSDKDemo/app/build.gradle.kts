@@ -77,8 +77,6 @@ dependencies {
     }
     implementation(Libs.PREBID_SDK)
 
-    implementation(projects.webviewhelper)
-
     // Huawei ads identifier sdk
     implementation(Libs.HUAWEI_IDENTIFIER)
 
