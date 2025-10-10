@@ -80,6 +80,8 @@ object DemoSessionConfiguration {
      * Get current or default placement ID based on format
      */
     fun getPlacementIdOrDefault(): String {
+        if (currentDisplayMode == DisplayMode.FEED_WITH_MEDIA) return DEFAULT_MEDIA_PID
+
         if (currentPlacementId.isNotBlank()) return currentPlacementId
 
         val format = getFormatOrDefault()
@@ -100,6 +102,8 @@ object DemoSessionConfiguration {
      * Get current or default widget ID based on format
      */
     fun getWidgetIdOrDefault(): String {
+        if (currentDisplayMode == DisplayMode.MEDIA_WITH_FEED) return DEFAULT_FEED_WIDGET_ID
+
         if (currentWidgetId.isNotBlank()) return currentWidgetId
         
         return when (getFormatOrDefault()) {

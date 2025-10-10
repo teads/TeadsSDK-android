@@ -30,6 +30,7 @@ sealed class Route {
     data object MediaScrollView : Route()
     data object MediaRecyclerView : Route()
     data object MediaColumn : Route()
+    data object MediaFeedColumn : Route()
     data object MediaLazyColumn : Route()
     data object MediaNativeScrollView : Route()
     data object MediaNativeRecyclerView : Route()
@@ -63,7 +64,7 @@ sealed class Route {
  * Route factory that creates routes based on configuration
  */
 object RouteFactory {
-    
+
     /**
      * Create route based on format, provider and integration configuration
      */
@@ -74,6 +75,14 @@ object RouteFactory {
         displayMode: DisplayMode?
     ): Route {
         return when {
+            format in listOf(FormatType.MEDIA, FormatType.FEED)
+                    && displayMode in listOf(DisplayMode.MEDIA_WITH_FEED, DisplayMode.FEED_WITH_MEDIA) -> {
+                when (integration) {
+                    IntegrationType.COLUMN -> Route.MediaFeedColumn
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
+
             format == FormatType.MEDIA && provider == ProviderType.DIRECT -> {
                 when (integration) {
                     IntegrationType.SCROLLVIEW -> Route.MediaScrollView
@@ -220,6 +229,7 @@ fun Route.getTitle(): String {
         Route.MediaScrollView -> "Media ScrollView"
         Route.MediaRecyclerView -> "Media RecyclerView"
         Route.MediaColumn -> "Media Column"
+        Route.MediaFeedColumn -> "Media Feed Column"
         Route.MediaLazyColumn -> "Media LazyColumn"
         Route.MediaNativeScrollView -> "Media Native ScrollView"
         Route.MediaNativeRecyclerView -> "Media Native RecyclerView"

@@ -33,6 +33,7 @@ import tv.teads.teadssdkdemo.v6.ui.compose.FeedLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaAppLovinColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
+import tv.teads.teadssdkdemo.v6.ui.compose.MediaFeedColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAppLovinColumnScreen
@@ -74,6 +75,7 @@ class MainActivityV6 : ComponentActivity() {
                                 Text(
                                     when (currentRoute) {
                                         Route.MediaColumn -> "Media Column"
+                                        Route.MediaFeedColumn -> "Media Feed Column"
                                         Route.MediaLazyColumn -> "Media LazyColumn"
                                         Route.MediaNativeColumn -> "Media Native Column"
                                         Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
@@ -97,7 +99,7 @@ class MainActivityV6 : ComponentActivity() {
                             ),
                             navigationIcon = {
                                 when (currentRoute) {
-                                    Route.MediaColumn, Route.MediaLazyColumn,
+                                    Route.MediaColumn, Route.MediaFeedColumn, Route.MediaLazyColumn,
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
                                     Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
@@ -124,7 +126,7 @@ class MainActivityV6 : ComponentActivity() {
                             // Set up navigation callback
                             viewModel.setOnNavigateCallback { navRoute ->
                                 when (navRoute) {
-                                    Route.MediaColumn, Route.MediaLazyColumn,
+                                    Route.MediaColumn, Route.MediaFeedColumn, Route.MediaLazyColumn,
                                     Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
                                     Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
@@ -149,6 +151,11 @@ class MainActivityV6 : ComponentActivity() {
                         }
                         Route.MediaColumn -> {
                             MediaColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.MediaFeedColumn -> {
+                            MediaFeedColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }
