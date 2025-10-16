@@ -50,12 +50,12 @@ class RecommendationsAdView @JvmOverloads constructor(
             val headerView = inflater.inflate(R.layout.recommendation_header_view, this, false)
             addView(headerView)
 
-            // 1. Define click for ad choices icon using url returned by TeadsAdPlacementRecommendations.getOutbrainAboutURL()
+            // 1. Define click for ad choices icon using url returned by TeadsAdPlacementRecommendations.getAdChoicesURL()
             val adChoicesIcon = headerView.findViewById<ImageView>(R.id.rec_ad_choices_icon)
             adChoicesIcon.setOnClickListener {
                 BrowserNavigationHelper.openInnerBrowser(
                     context = this.context,
-                    url = TeadsAdPlacementRecommendations.getOutbrainAboutURL()
+                    url = TeadsAdPlacementRecommendations.getAdChoicesURL()
                 )
             }
             
