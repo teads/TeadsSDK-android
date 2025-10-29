@@ -6,3 +6,9 @@
 /build
 .apk
 app/app.iml
+/app/release/
+
+# IDE specific files
+.vscode/
+.idea/inspectionProfiles/Project_Default.xml
+/.kotlin/sessions/

@@ -11,12 +11,19 @@
     <color name="colorPrimaryTransparency">#CC215798</color>
 
     <color name="titleTextColor">#FFFFFF</color>
+    <color name="textColorBg">@android:color/black</color>
     <color name="textColorNoBg">#FFFFFF</color>
     <color name="basicDayNight">#FFFFFF</color>
 
     <color name="fakeArticle">#52CFCFCF</color>
-    <color name="background">#000000</color>
+    <color name="background">#1E1E1E</color>
 
-    <color name="textTitle">#646464</color>
-    <color name="textBody">#535353</color>
+    <color name="textTitle">#E0E0E0</color>
+    <color name="textBody">#C0C0C0</color>
+    
+    <!-- Compatible with Compose colors -->
+    <color name="compose_primary">#90CAF9</color>
+    <color name="compose_surface_variant">#2B2B2B</color>
+    <color name="compose_on_surface_variant">#E6E1E5</color>
+    <color name="compose_on_background">#FFFFFF</color>
 </resources>

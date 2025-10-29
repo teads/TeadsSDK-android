@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Article Image -->
+        <include layout="@layout/item_article_label" />
+
+        <!-- Article Title -->
+        <include layout="@layout/item_article_title" />
+
+        <!-- First Body Paragraph -->
+        <TextView
+            android:id="@+id/article_body_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/article_small_margin"
+            android:text="@string/article_template_body_a"
+            android:textColor="@color/compose_on_background"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
+
+        <!-- Second Body Paragraph -->
+        <TextView
+            android:id="@+id/article_body_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/article_small_margin"
+            android:text="@string/article_template_body_b"
+            android:textColor="@color/compose_on_background"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
+
+        <!-- Third Body Paragraph -->
+        <TextView
+            android:id="@+id/article_body_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/article_small_margin"
+            android:text="@string/article_template_body_c"
+            android:textColor="@color/compose_on_background"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
+
+        <!-- Fourth Body Paragraph -->
+        <TextView
+            android:id="@+id/article_body_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/article_small_margin"
+            android:text="@string/article_template_body_d"
+            android:textColor="@color/compose_on_background"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:lineSpacingExtra="4dp"
+            android:textAlignment="viewStart"
+            android:justificationMode="inter_word" />
+
+        <!-- Bottom Ad Container -->
+        <include layout="@layout/item_ad_container" />
+
+    </LinearLayout>
+
+</ScrollView>

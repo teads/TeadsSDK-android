@@ -87,4 +87,12 @@
     <string name="smart">Smart</string>
     <string name="prebid">Prebid</string>
 
+    <!-- Article template strings -->
+    <string name="article_template_title">Creative that cuts through the noise…but respects the user.</string>
+    <string name="article_template_body_a">Holding attention in a mobile driven world is no easy challenge. At Teads, we embrace the swipes, the scrolls, the pinches and the taps to build ad experiences that delight the user and deliver business results for brands.</string>
+    <string name="article_template_body_b">This approach requires deep understanding of user behavior and creative innovation. We study how people interact with content, what captures their attention, and what drives meaningful engagement.</string>
+    <string name="article_template_body_c">Our technology adapts to different screen sizes, connection speeds, and user preferences to ensure optimal performance. Every ad placement is carefully crafted to feel native and valuable to the user experience.</string>
+    <string name="article_template_body_d">The result is advertising that doesn\'t interrupt but enhances the content journey. Brands benefit from higher engagement rates, better brand recall, and stronger connections with their target audiences.</string>
+    <string name="article_template_body_e">Looking ahead, we continue to push the boundaries of what\'s possible in mobile advertising, always keeping the user at the center of our innovation.</string>
+
 </resources>
