@@ -14,6 +14,9 @@ import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementMedia
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementMediaConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
+import tv.teads.sdk.framework.FrameworkType
+import tv.teads.sdk.framework.FrameworkVersion
+import tv.teads.sdk.framework.WrapperFrameworkInfo
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 
@@ -39,6 +42,8 @@ class MediaScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
         // 0. Enable more logging visibility for testing purposes
         TeadsSDK.testMode = BuildConfig.DEBUG
+        // todo for testing — remove before merge on master
+        TeadsSDK.wrapperFrameworkInfo = WrapperFrameworkInfo.reactNative("1.0.0")
 
         // 1. Init configuration
         val config = TeadsAdPlacementMediaConfig(
