@@ -193,11 +193,19 @@ class DemoViewModel : ViewModel() {
         IntegrationType.SCROLLVIEW,
     )
 
-    private val fullIntegrationTypes = listOf(
+    private val regularIntegrationTypes = listOf(
         IntegrationType.COLUMN,
         IntegrationType.LAZYCOLUMN,
         IntegrationType.SCROLLVIEW,
         IntegrationType.RECYCLERVIEW
+    )
+
+    private val fullIntegrationTypes = listOf(
+        IntegrationType.COLUMN,
+        IntegrationType.LAZYCOLUMN,
+        IntegrationType.SCROLLVIEW,
+        IntegrationType.RECYCLERVIEW,
+        IntegrationType.WEBVIEW
     )
 
     // Display mode options for Prebid provider
@@ -474,7 +482,11 @@ class DemoViewModel : ViewModel() {
                     || selectedProvider == ProviderType.SMART
                     || selectedProvider == ProviderType.APPLOVIN -> partialIntegrationTypes
 
-            else -> fullIntegrationTypes
+            selectedProvider == ProviderType.DIRECT
+                    && selectedFormat == FormatType.MEDIA
+                    && selectedDisplayMode == DisplayMode.MEDIA_ONLY -> fullIntegrationTypes
+
+            else -> regularIntegrationTypes
         }
     }
 

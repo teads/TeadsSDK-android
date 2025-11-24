@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v6.ui.xml
+package tv.teads.teadssdkdemo.v5
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -26,7 +26,7 @@ import tv.teads.webviewhelper.baseView.ObservableWebView
  * InRead format within a WebView with synchronized scrolling
  * Uses v5.x SDK API (InReadAdPlacement) with WebView helper for ad/content synchronization
  */
-class InReadWebViewScrollFragment : Fragment(), SyncAdWebView.Listener {
+class InReadWebViewFragment : Fragment(), SyncAdWebView.Listener {
 
     private lateinit var webviewHelperSync: SyncAdWebView
     private lateinit var adPlacement: InReadAdPlacement
@@ -37,7 +37,7 @@ class InReadWebViewScrollFragment : Fragment(), SyncAdWebView.Listener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_inread_webview_scroll, container, false)
+        return inflater.inflate(R.layout.fragment_inread_webview, container, false)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -68,7 +68,7 @@ class InReadWebViewScrollFragment : Fragment(), SyncAdWebView.Listener {
         webviewHelperSync = SyncAdWebView(
             requireContext(),
             webView,
-            this@InReadWebViewScrollFragment,
+            this@InReadWebViewFragment,
             "#teads-placement-slot"
         )
 

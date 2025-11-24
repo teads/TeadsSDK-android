@@ -1,6 +1,7 @@
 package tv.teads.teadssdkdemo.v6.ui.base.navigation
 
 import androidx.fragment.app.Fragment
+import tv.teads.teadssdkdemo.v5.InReadWebViewFragment
 import tv.teads.teadssdkdemo.v6.domain.DisplayMode
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
@@ -58,6 +59,7 @@ sealed class Route {
     data object RecommendationsRecyclerView : Route()
     data object RecommendationsColumn : Route()
     data object RecommendationsLazyColumn : Route()
+    data object InReadWebView : Route()
 }
 
 /**
@@ -89,6 +91,7 @@ object RouteFactory {
                     IntegrationType.RECYCLERVIEW -> Route.MediaRecyclerView
                     IntegrationType.COLUMN -> Route.MediaColumn
                     IntegrationType.LAZYCOLUMN -> Route.MediaLazyColumn
+                    IntegrationType.WEBVIEW -> Route.InReadWebView
                 }
             }
             format == FormatType.MEDIANATIVE && provider == ProviderType.DIRECT -> {
@@ -97,6 +100,7 @@ object RouteFactory {
                     IntegrationType.RECYCLERVIEW -> Route.MediaNativeRecyclerView
                     IntegrationType.COLUMN -> Route.MediaNativeColumn
                     IntegrationType.LAZYCOLUMN -> Route.MediaNativeLazyColumn
+                    else -> throw IllegalAccessException()
                 }
             }
             format == FormatType.FEED && provider == ProviderType.DIRECT -> {
@@ -105,6 +109,7 @@ object RouteFactory {
                     IntegrationType.RECYCLERVIEW -> Route.FeedRecyclerView
                     IntegrationType.COLUMN -> Route.FeedColumn
                     IntegrationType.LAZYCOLUMN -> Route.FeedLazyColumn
+                    else -> throw IllegalAccessException()
                 }
             }
             format == FormatType.RECOMMENDATIONS && provider == ProviderType.DIRECT -> {
@@ -113,6 +118,7 @@ object RouteFactory {
                     IntegrationType.RECYCLERVIEW -> Route.RecommendationsRecyclerView
                     IntegrationType.COLUMN -> Route.RecommendationsColumn
                     IntegrationType.LAZYCOLUMN -> Route.RecommendationsLazyColumn
+                    else -> throw IllegalAccessException()
                 }
             }
             format == FormatType.MEDIA && provider == ProviderType.ADMOB -> {
@@ -190,6 +196,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
         Route.RecommendationsRecyclerView -> RecommendationsRecyclerViewFragment::class.java
+        Route.InReadWebView -> InReadWebViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
     }
 }
@@ -219,6 +226,7 @@ fun String.getRouteFromTag(): Route {
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
         "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
+        "InReadWebView" -> Route.InReadWebView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
@@ -257,5 +265,6 @@ fun Route.getTitle(): String {
         Route.RecommendationsColumn -> "Recommendations Column"
         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
         Route.MediaAdMobScrollView -> "Media AdMob ScrollView"
+        Route.InReadWebView -> "InRead WebView"
     }
 }
