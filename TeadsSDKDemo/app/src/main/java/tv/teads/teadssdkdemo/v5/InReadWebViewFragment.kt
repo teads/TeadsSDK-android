@@ -75,7 +75,8 @@ class InReadWebViewFragment : Fragment(), SyncAdWebView.Listener {
         // 4. Configure WebView
         with(webView) {
             settings.javaScriptEnabled = true
-            loadUrl(DemoSessionConfiguration.getArticleUrlOrDefault())
+            webViewClient = CustomInReadWebviewClient(webviewHelperSync, "InRead Direct WebView")
+            loadUrl("file:///android_asset/demo.html")
         }
     }
 
