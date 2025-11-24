@@ -18,6 +18,7 @@ import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.renderer.InReadAdView
 import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.teadssdkdemo.R
+import tv.teads.teadssdkdemo.v5.utils.CustomInReadWebviewClient
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.webviewhelper.SyncAdWebView
 import tv.teads.webviewhelper.baseView.ObservableWebView

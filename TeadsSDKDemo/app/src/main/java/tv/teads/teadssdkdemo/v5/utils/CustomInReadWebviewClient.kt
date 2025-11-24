@@ -1,4 +1,4 @@
-package tv.teads.teadssdkdemo.v5
+package tv.teads.teadssdkdemo.v5.utils
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
