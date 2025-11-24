@@ -81,6 +81,9 @@ dependencies {
     implementation(Libs.Teads.smartAdapter(project.versionName))
     implementation(Libs.Teads.prebidAdapter(project.versionName))
 
+    // WebView Helper Module
+    implementation(projects.webviewhelper)
+
     // Third-party SDKs
     implementation(Libs.PLAY_SERVICES_ADS)
     implementation(Libs.APPLOVIN_SDK)

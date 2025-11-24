@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TeadsSDK_Demo"
 include(":app")
+include(":webviewhelper")
