@@ -5,15 +5,11 @@ import android.webkit.WebViewClient
 import tv.teads.webviewhelper.SyncAdWebView
 
 class CustomInReadWebviewClient internal constructor(
-    private val webviewHelperSynch: SyncAdWebView,
-    private val mTitle: String?
+    private val webviewHelperSynch: SyncAdWebView
 ) : WebViewClient() {
 
     override fun onPageFinished(view: WebView, url: String) {
         webviewHelperSynch.injectJS()
-
-        view.evaluateJavascript("setTitle('$mTitle')") {}
-
         super.onPageFinished(view, url)
     }
 }
