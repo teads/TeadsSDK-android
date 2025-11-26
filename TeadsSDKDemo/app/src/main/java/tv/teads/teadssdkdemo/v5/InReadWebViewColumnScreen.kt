@@ -45,6 +45,8 @@ fun InReadWebViewColumnScreen(
     val webView = remember {
         ObservableWebView(context).apply {
             settings.javaScriptEnabled = true
+            // Disable the stretch/bounce effect when scrolling past content boundaries
+            overScrollMode = android.view.View.OVER_SCROLL_NEVER
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT

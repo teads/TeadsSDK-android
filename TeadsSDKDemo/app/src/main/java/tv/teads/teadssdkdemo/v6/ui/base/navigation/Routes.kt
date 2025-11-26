@@ -228,7 +228,7 @@ fun String.getRouteFromTag(): Route {
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
         "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
-        "InReadWebView" -> Route.InReadWebView
+        "InReadWebViewFragment" -> Route.InReadWebView
         "InReadWebViewColumn" -> Route.InReadWebViewColumn
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }

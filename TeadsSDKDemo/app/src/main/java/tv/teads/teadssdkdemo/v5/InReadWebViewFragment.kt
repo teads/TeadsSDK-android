@@ -76,6 +76,8 @@ class InReadWebViewFragment : Fragment(), SyncAdWebView.Listener {
         // 4. Configure WebView
         with(webView) {
             settings.javaScriptEnabled = true
+            // Disable the stretch/bounce effect when scrolling past content boundaries
+            overScrollMode = View.OVER_SCROLL_NEVER
             webViewClient = CustomInReadWebviewClient(webviewHelperSync)
             loadUrl("file:///android_asset/demo.html")
         }
