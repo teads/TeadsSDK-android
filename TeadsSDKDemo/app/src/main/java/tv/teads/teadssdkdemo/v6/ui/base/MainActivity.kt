@@ -46,6 +46,7 @@ import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeSmartColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaSmartColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsLazyColumnScreen
+import tv.teads.teadssdkdemo.v5.InReadWebViewColumnScreen
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -92,6 +93,7 @@ class MainActivity : ComponentActivity() {
                                         Route.FeedLazyColumn -> "Feed LazyColumn"
                                         Route.RecommendationsColumn -> "Recommendations Column"
                                         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
+                                        Route.InReadWebViewColumn -> "InRead WebView Column"
                                         else -> "Teads SDK Demo"
                                     },
                                     style = MaterialTheme.typography.titleLarge.copy(
@@ -113,7 +115,8 @@ class MainActivity : ComponentActivity() {
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
                                     Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
+                                    Route.InReadWebViewColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -140,7 +143,8 @@ class MainActivity : ComponentActivity() {
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
                                     Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
+                                    Route.InReadWebViewColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
@@ -229,6 +233,11 @@ class MainActivity : ComponentActivity() {
                         }
                         Route.MediaNativeSmartColumn -> {
                             MediaNativeSmartColumnScreen(
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.InReadWebViewColumn -> {
+                            InReadWebViewColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

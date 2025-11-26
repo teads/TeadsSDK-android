@@ -60,6 +60,7 @@ sealed class Route {
     data object RecommendationsColumn : Route()
     data object RecommendationsLazyColumn : Route()
     data object InReadWebView : Route()
+    data object InReadWebViewColumn : Route()
 }
 
 /**
@@ -91,7 +92,8 @@ object RouteFactory {
                     IntegrationType.RECYCLERVIEW -> Route.MediaRecyclerView
                     IntegrationType.COLUMN -> Route.MediaColumn
                     IntegrationType.LAZYCOLUMN -> Route.MediaLazyColumn
-                    IntegrationType.WEBVIEW -> Route.InReadWebView
+                    IntegrationType.WEBVIEW_XML -> Route.InReadWebView
+                    IntegrationType.WEBVIEW_COMPOSE -> Route.InReadWebViewColumn
                 }
             }
             format == FormatType.MEDIANATIVE && provider == ProviderType.DIRECT -> {
@@ -227,6 +229,7 @@ fun String.getRouteFromTag(): Route {
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
         "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
         "InReadWebView" -> Route.InReadWebView
+        "InReadWebViewColumn" -> Route.InReadWebViewColumn
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
     }
 }
@@ -265,6 +268,7 @@ fun Route.getTitle(): String {
         Route.RecommendationsColumn -> "Recommendations Column"
         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
         Route.MediaAdMobScrollView -> "Media AdMob ScrollView"
-        Route.InReadWebView -> "InRead WebView"
+        Route.InReadWebView -> "InRead WebView Fragment"
+        Route.InReadWebViewColumn -> "InRead WebView Column"
     }
 }

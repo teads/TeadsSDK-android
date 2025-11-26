@@ -8,5 +8,6 @@ enum class IntegrationType(val displayName: String) {
     LAZYCOLUMN("Lazy Column"),
     SCROLLVIEW("ScrollView"),
     RECYCLERVIEW("RecyclerView"),
-    WEBVIEW("WebView")
+    WEBVIEW_XML("WebView XML"),
+    WEBVIEW_COMPOSE("WebView Compose")
 }

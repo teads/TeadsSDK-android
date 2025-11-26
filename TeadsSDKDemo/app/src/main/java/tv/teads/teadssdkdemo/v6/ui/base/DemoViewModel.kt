@@ -205,7 +205,8 @@ class DemoViewModel : ViewModel() {
         IntegrationType.LAZYCOLUMN,
         IntegrationType.SCROLLVIEW,
         IntegrationType.RECYCLERVIEW,
-        IntegrationType.WEBVIEW
+        IntegrationType.WEBVIEW_XML,
+        IntegrationType.WEBVIEW_COMPOSE
     )
 
     // Display mode options for Prebid provider
