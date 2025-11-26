@@ -103,11 +103,15 @@
   var showPlaceholder = function () {
     tryOrLog(function () {
       opened = true;
-      teadsContainer.style.height = finalSize.height + "px";
+      var heightPx = finalSize.height + "px";
+      teadsContainer.style.height = heightPx;
+      teadsContainer.style.minHeight = heightPx;  // Lock minimum height to prevent collapse during scroll
       // send status on native side
       bridge.callHandler(command.trigger.startShow);
       // start interval position check, if position change, informe native side
       intervalPosition = setInterval(checkPosition, intervalCheckPosition);
+      // Add scroll listener for continuous updates with throttling
+      window.addEventListener('scroll', onScrollEventImmediate, {passive: true});
     }, 'showPlaceholder');
   };
 
@@ -118,8 +122,10 @@
       // set height to active transition
       teadsContainer.style.height = "0.1px";
       // send status on native side
-
       bridge.callHandler(command.trigger.startHide);
+      // Remove scroll listeners when hiding
+      window.removeEventListener('scroll', onScrollEvent);
+      window.removeEventListener('scroll', onScrollEventImmediate);
     }, 'hidePlaceholder');
   };
 
@@ -136,7 +142,10 @@
         };
 
         if(opened) {
-          teadsContainer.style.height = finalSize.height + "px";
+          var heightPx = finalSize.height + "px";
+          teadsContainer.style.height = heightPx;
+          teadsContainer.style.minHeight = heightPx;  // Lock minimum height to prevent collapse
+          teadsContainer.style.maxHeight = heightPx;  // Lock maximum height for stability
         }
 
         //Left margin is equal to the x offset + half of the delta between the
@@ -151,6 +160,11 @@
         };
 
         if (isEqualToLastGeometry(json)) return
+
+        console.log("[JS] Sending geometry - top: " + json.top +
+                    ", window.pageYOffset: " + window.pageYOffset +
+                    ", teadsNativeScrollY: " + window.teadsNativeScrollY +
+                    ", opened: " + opened);
 
         bridge.callHandler(command.trigger.position, json);
       }
@@ -226,11 +240,17 @@
   var createTeadsContainer = function () {
     return tryOrLog(function () {
       var container = document.createElement("center");
+      container.style.display = "block";  // Ensure block-level element that reserves space
       container.style.margin = verticalSpacer + "px auto " + verticalSpacer + "px auto";
       container.style.padding = "0";
       container.style.backgroundColor = "transparent";
       container.style.width = "100%";
       container.style.height = "0px";
+      container.style.overflow = "hidden";  // Prevent content from flowing into ad space
+      container.style.willChange = "height";  // Hint to browser to optimize height changes
+      container.style.transition = "none";  // No animation, instant height changes
+      container.style.boxSizing = "border-box";  // Include padding/border in height calculation
+      container.style.position = "relative";  // Establish positioning context
       return container;
     }, 'createTeadsContainer')
   };
@@ -239,11 +259,12 @@
   var getPageOffset = function (element) {
     return tryOrLog(function () {
       var box = element.getBoundingClientRect();
-      var scrollCoord = getDocumentScroll();
 
+      // Send viewport-relative position - native will calculate absolute position
+      // using its own accurate scroll position
       var pos = {
-        x: box.left + scrollCoord.x,
-        y: box.top + scrollCoord.y,
+        x: box.left,
+        y: box.top,  // Position relative to viewport, not document
         w: box.right - box.left,
         h: box.bottom - box.top
       };
@@ -251,12 +272,22 @@
     }, 'getPageOffset')
   };
 
+  // Initialize native scroll tracking
+  window.teadsNativeScrollY = 0;
+
   // get the scroll of window
   var getDocumentScroll = function () {
     return tryOrLog(function () {
+      // Use native scroll position if available (injected from Android native code)
+      // This is necessary because window.pageYOffset returns 0 in Android WebView
+      // when the native container is scrolling instead of the HTML document
+      var scrollY = (typeof window.teadsNativeScrollY !== 'undefined')
+        ? window.teadsNativeScrollY
+        : window.pageYOffset;
+
       return {
         x: window.pageXOffset,
-        y: window.pageYOffset
+        y: scrollY
       }
     }, 'getDocumentScroll')
   };
@@ -280,6 +311,33 @@
         sendTargetGeometry();
       }
     }, 'checkPosition')
+  };
+
+  var scrollEndTimer;
+  var onScrollEvent = function() {
+    // Send geometry update on scroll end (debounced)
+    clearTimeout(scrollEndTimer);
+    scrollEndTimer = setTimeout(function() {
+      tryOrLog(function() {
+        if (opened && teadsContainer) {
+          sendTargetGeometry();
+        }
+      }, 'onScrollEvent');
+    }, 100);
+  };
+
+  // Throttled scroll updates - send position frequently but not on every single frame
+  var lastScrollUpdate = 0;
+  var SCROLL_THROTTLE = 50; // ms - send updates every 50ms max (20 times per second)
+
+  var onScrollEventImmediate = function() {
+    tryOrLog(function() {
+      var now = Date.now();
+      if (opened && teadsContainer && (now - lastScrollUpdate) >= SCROLL_THROTTLE) {
+        lastScrollUpdate = now;
+        sendTargetGeometry();
+      }
+    }, 'onScrollEventImmediate');
   };
 
   var tryOrLog = function (cbk, fctName) {

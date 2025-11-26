@@ -134,7 +134,7 @@ private constructor(builder: Builder) : JSInterface.Listener {
      * Notify the js to sent us the slot position, as answer it should call [.onSlotUpdated]
      */
     fun askSlotPosition() {
-        mainThreadHandler?.postDelayed(LoadJSRunnable(webview, UPDATE_POSITION_JS), 200)
+        mainThreadHandler?.post(LoadJSRunnable(webview, UPDATE_POSITION_JS))
     }
 
     /*//////////////////////////////////////////////////////////////////////////////////////////////

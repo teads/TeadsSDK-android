@@ -101,12 +101,12 @@ class InReadWebViewFragment : Fragment(), SyncAdWebView.Listener {
 
             override fun onAdReceived(ad: InReadAdView, adRatio: AdRatio) {
                 webviewHelperSync.registerAdView(ad)
-                webviewHelperSync.updateSlot(adRatio.getAdSlotRatio(webView.measuredWidth))
+                webviewHelperSync.setAdRatio(adRatio)
                 Log.d("InReadWebView", "Ad received with ratio: $adRatio")
             }
 
             override fun onAdRatioUpdate(adRatio: AdRatio) {
-                webviewHelperSync.updateSlot(adRatio.getAdSlotRatio(webView.measuredWidth))
+                webviewHelperSync.setAdRatio(adRatio)
                 Log.d("InReadWebView", "Ad ratio updated: $adRatio")
             }
 
