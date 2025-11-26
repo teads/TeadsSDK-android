@@ -33,7 +33,8 @@ object NavigationHandler {
             Route.FeedScrollView,
             Route.FeedRecyclerView,
             Route.RecommendationsScrollView,
-            Route.RecommendationsRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
+            Route.RecommendationsRecyclerView,
+            Route.InReadWebView -> navigateToIntegrationActivity(fromActivity, route)
             else -> throw IllegalAccessException("Impossible route")
         }
     }

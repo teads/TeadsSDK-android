@@ -7,5 +7,6 @@ enum class IntegrationType(val displayName: String) {
     COLUMN("Column"),
     LAZYCOLUMN("Lazy Column"),
     SCROLLVIEW("ScrollView"),
-    RECYCLERVIEW("RecyclerView")
+    RECYCLERVIEW("RecyclerView"),
+    WEBVIEW("WebView")
 }
