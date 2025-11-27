@@ -3,7 +3,7 @@ package tv.teads.webviewhelper;
 import android.os.CountDownTimer;
 
 /**
- * Timeout utility to have a timeout when needed. It managed a {@link #isTimeout()} to check for passed timeout.
+ * Timeout utility to have a timeout when needed. It manages a {@link #isTimeout()} to check for passed timeout.
  */
 public abstract class TimeoutCountdownTimer extends CountDownTimer {
 
@@ -12,6 +12,15 @@ public abstract class TimeoutCountdownTimer extends CountDownTimer {
     TimeoutCountdownTimer(int timeoutDuration) {
         super(timeoutDuration, timeoutDuration);
         mIsTimeout = false;
+    }
+
+    /**
+     * Starts the countdown and resets the timeout flag.
+     * Use this method instead of {@link #start()} to ensure proper timeout state.
+     */
+    public CountDownTimer startCountdown() {
+        mIsTimeout = false;
+        return start();
     }
 
     @Override

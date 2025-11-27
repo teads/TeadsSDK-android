@@ -10,7 +10,6 @@
 
 (function () {
   var verticalSpacer = 10;
-  var showHideTimerDuration = 100;
   var intervalCheckPosition = 500;
   var opened = false;
   var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight;
@@ -353,14 +352,6 @@
       }
     }
   }
-
-    var lastGeometry = {
-      "top": 0,
-      "left": 0,
-      "bottom": 0,
-      "right":  0,
-      "ratio": 0
-    }
 
   var isEqualToLastGeometry = function(geometry) {
     if (lastGeometry.top === geometry.top &&

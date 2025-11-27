@@ -95,7 +95,7 @@ private constructor(builder: Builder) : JSInterface.Listener {
         else
             "'$selector'")
         mainThreadHandler?.post(LoadJSRunnable(webview, command))
-        requestSlotTimeout.start()
+        requestSlotTimeout.startCountdown()
     }
 
     /**
