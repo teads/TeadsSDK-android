@@ -31,7 +31,7 @@ class SyncAdWebView(context: Context,
                     selector: String,
                     private val topOffSet: Int = 0,
                     private val bottomOffSet: Int = 0,
-) : WebViewHelper.Listener, ObservableWebView.OnScrollListener, ObservableContainerAdView.ActionMoveListener {
+) : WebViewHelper.Listener, ObservableWebView.OnScrollListener {
 
 
     private var opened: Boolean = false
@@ -44,53 +44,21 @@ class SyncAdWebView(context: Context,
 
     private val webviewHelper: WebViewHelper = WebViewHelper.Builder(webview, this, selector).build()
 
-    private var initialY = 0
     private var currentAdRatio: AdRatio? = null
 
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    // Store last viewport position from JavaScript and the scroll position when it was calculated
-    private var lastViewportTop = 0
-    private var scrollYWhenJsUpdated = 0
-
-    // Track scroll velocity for adaptive smoothing
-    private var lastScrollY = 0
-    private var lastScrollTime = 0L
-    private var scrollVelocity = 0f // pixels per millisecond
-
-    // Sanity check for edge cases
-    private val SANITY_CHECK_INTERVAL = 1000L // Check every 1 second
-    private val MAX_POSITION_ERROR = 80 // Force resync if off by more than 80px
-
-    private val sanityCheckRunnable = object : Runnable {
-        override fun run() {
-            // Calculate where ad should be vs where it actually is
-            val currentScrollY = webview.scrollY
-            val expectedViewportTop = lastViewportTop + (scrollYWhenJsUpdated - currentScrollY)
-            val actualTranslationY = containerAdView.translationY + topOffSet
-            val positionError = kotlin.math.abs(expectedViewportTop - actualTranslationY)
-
-            // Always log for debugging
-            Log.d(TAG, "[Sanity Check] scrollY: $currentScrollY, expected: $expectedViewportTop, " +
-                    "actual: $actualTranslationY, error: $positionError px, " +
-                    "lastViewportTop: $lastViewportTop, scrollYWhenJsUpdated: $scrollYWhenJsUpdated")
-
-            if (positionError > MAX_POSITION_ERROR && lastViewportTop > 0) {
-                Log.w(TAG, "[Sanity Check] ⚠️ RESYNC TRIGGERED - Position error: $positionError px > $MAX_POSITION_ERROR px")
-                // Force JavaScript to send fresh position
-                webviewHelper.askSlotPosition()
-            }
-
-            // Schedule next check
-            mainHandler.postDelayed(this, SANITY_CHECK_INTERVAL)
-        }
-    }
+    // Document-absolute position tracking (MARKER-BASED):
+    // JS calculates position using a marker at document origin (0,0)
+    // Both getBoundingClientRect() calls happen in same JS frame (atomic)
+    // so scroll cancels out: (documentY - scrollY) - (-scrollY) = documentY
+    // This gives TRUE document-absolute position, completely scroll-independent
+    private var slotDocumentY: Int = 0        // True document-absolute Y position
+    private var isPositionValid: Boolean = false
 
     init {
-        containerAdView.setMoveListener(this)
+        containerAdView.setTouchForwardTarget(webview)
         webview.setOnScrollListener(this)
-        // Start sanity check loop
-        mainHandler.postDelayed(sanityCheckRunnable, SANITY_CHECK_INTERVAL)
     }
 
     /**
@@ -165,8 +133,7 @@ class SyncAdWebView(context: Context,
      * Clean the webview helper and the observable web view
      */
     fun clean() {
-        // Stop sanity check loop
-        mainHandler.removeCallbacks(sanityCheckRunnable)
+        isPositionValid = false
         webview.clean()
         webviewHelper.reset()
     }
@@ -189,6 +156,9 @@ class SyncAdWebView(context: Context,
      * Handles recalculation of slot dimensions for new screen size
      */
     fun onConfigurationChanged() {
+        // Invalidate position - it will change after layout
+        isPositionValid = false
+
         // Wait for WebView to complete layout and have valid dimensions
         webview.viewTreeObserver.addOnGlobalLayoutListener(object : android.view.ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -199,7 +169,7 @@ class SyncAdWebView(context: Context,
                         // Recalculate ratio for new WebView width
                         val ratio = adRatio.getAdSlotRatio(webview.measuredWidth)
                         updateSlot(ratio)
-                        // Force re-open to apply new dimensions
+                        // Force re-open to apply new dimensions and get fresh position
                         webview.post {
                             reopenSlot()
                         }
@@ -223,7 +193,7 @@ class SyncAdWebView(context: Context,
         Log.w(TAG, "No slot found.")
     }
 
-    override fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int) {
+    override fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int, scrollY: Int) {
         // Post to main thread since JS bridge calls from background thread
         mainHandler.post {
             if (containerAdView.parent == null)
@@ -232,37 +202,15 @@ class SyncAdWebView(context: Context,
             val width = right - left
             val height = bottom - top
 
-            val currentScrollY = webview.scrollY
+            // 'top' is now TRUE document-absolute (calculated via MARKER in JS)
+            // Marker-based: both getBoundingClientRect() calls happen in same JS frame
+            // so scroll cancels out mathematically - completely timing-independent!
+            slotDocumentY = top
+            isPositionValid = true
 
-            // Always accept updates, but apply velocity-aware smoothing to prevent jitter
-            if (lastViewportTop == 0) {
-                // First update - accept immediately
-                scrollYWhenJsUpdated = currentScrollY
-                lastViewportTop = top
-                initialY = top + scrollYWhenJsUpdated
-                Log.d(TAG, "[Native] First JS update - viewportTop: $top, scrollY: $scrollYWhenJsUpdated")
-            } else {
-                // Calculate what interpolation expects vs what JS says
-                val interpolatedViewportTop = lastViewportTop + (scrollYWhenJsUpdated - currentScrollY)
-                val delta = top - interpolatedViewportTop
+            Log.d(TAG, "[Native] Marker-based documentY received: $top, currentScrollY: ${webview.scrollY}")
 
-                // Velocity-aware smoothing:
-                // At high velocity, larger deltas are normal (not errors), so smooth more
-                // At low velocity, small deltas are errors, correct them
-                val velocityFactor = kotlin.math.min(kotlin.math.abs(scrollVelocity) / 3f, 1f)
-                val adaptiveThreshold = 30f + (velocityFactor * 70f) // 30-100px based on velocity
-
-                val weight = kotlin.math.min(kotlin.math.abs(delta).toFloat() / adaptiveThreshold, 1f)
-                val smoothedViewportTop = (interpolatedViewportTop * (1f - weight) + top * weight).toInt()
-
-                scrollYWhenJsUpdated = currentScrollY
-                lastViewportTop = smoothedViewportTop
-                initialY = smoothedViewportTop + scrollYWhenJsUpdated
-
-                Log.d(TAG, "[Native] Smoothed update - jsTop: $top, interpolated: $interpolatedViewportTop, delta: $delta, velocity: $scrollVelocity, threshold: $adaptiveThreshold, weight: $weight, result: $smoothedViewportTop")
-            }
-
-            // Always update layout params (width, height, margins)
+            // Update layout params (width, height, margins)
             if (containerAdView.layoutParams != null
                 && containerAdView.layoutParams is ViewGroup.MarginLayoutParams
             ) {
@@ -275,13 +223,15 @@ class SyncAdWebView(context: Context,
             }
             containerAdView.requestLayout()
 
-            // Apply position
-            onScroll(webview.scrollX, webview.scrollY)
+            // Apply position immediately
+            if (isPositionValid) {
+                applyPosition(webview.scrollY)
+            }
         }
     }
 
     override fun onError(error: String) {
-        Log.w(TAG, "An Error occurs during the webview slot managment")
+        Log.w(TAG, "An Error occurs during the webview slot management")
     }
 
     fun updateSlot(ratio: Float?) {
@@ -319,46 +269,28 @@ class SyncAdWebView(context: Context,
      *//////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onScroll(l: Int, t: Int) {
-        // Calculate scroll velocity for adaptive smoothing
-        val currentTime = System.currentTimeMillis()
-        if (lastScrollTime > 0) {
-            val timeDelta = currentTime - lastScrollTime
-            if (timeDelta > 0) {
-                val positionDelta = t - lastScrollY
-                // Smooth velocity using exponential moving average
-                val instantVelocity = kotlin.math.abs(positionDelta.toFloat() / timeDelta.toFloat())
-                scrollVelocity = scrollVelocity * 0.7f + instantVelocity * 0.3f
-            }
-        }
-        lastScrollY = t
-        lastScrollTime = currentTime
-
-        // Smooth interpolation:
-        // JavaScript gave us viewport position at a specific scroll offset
-        // We interpolate smoothly as scroll changes
-        //
-        // Formula: currentViewportPos = lastViewportTop + (scrollYWhenJsUpdated - currentScrollY)
-        // This keeps position perfectly smooth during scroll
-
-        val scrollDelta = scrollYWhenJsUpdated - t
-        val interpolatedViewportTop = lastViewportTop + scrollDelta
-        val newTranslationY = (interpolatedViewportTop - topOffSet).toFloat()
-
-        containerAdView.translationY = newTranslationY
+        // Simply apply position - marker-based documentY is truly stable
+        // No JS communication needed during scroll
+        applyPosition(t)
     }
 
-    /*//////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Apply the ad position using marker-based document-absolute coordinates.
+     * Formula: viewportTop = documentY - scrollY
      *
-     * AdView Move listener
-     *
-     *//////////////////////////////////////////////////////////////////////////////////////////////
+     * This is simple and ALWAYS accurate because:
+     * - documentY is calculated atomically in JS using marker (scroll-independent)
+     * - scrollY is native's own value (always accurate)
+     * - No timing issues possible - the math is deterministic
+     */
+    private fun applyPosition(currentScrollY: Int) {
+        if (!isPositionValid) return
 
-    override fun onActionMove(moveX: Int, moveY: Int) {
-        if (webview.scrollY + moveY < 0) {
-            webview.scrollBy(moveX, -webview.scrollY)
-        } else {
-            webview.scrollBy(moveX, moveY)
-        }
+        // Direct conversion: document-absolute to viewport-relative
+        val viewportTop = slotDocumentY - currentScrollY
+
+        val newTranslationY = (viewportTop - topOffSet).toFloat()
+        containerAdView.translationY = newTranslationY
     }
 
     interface Listener {

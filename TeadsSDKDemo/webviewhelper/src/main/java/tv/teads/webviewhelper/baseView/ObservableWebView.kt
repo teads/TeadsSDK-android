@@ -24,12 +24,10 @@ class ObservableWebView : WebView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context.applicationContext, attrs, defStyle)
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
-        val height = floor(this.contentHeight * this.scale).toInt()
-        val webViewHeight = this.measuredHeight
-
-        if(this.scrollY + webViewHeight < height){
-            onScrollListener?.onScroll(l, t)
-        }
+        // Always notify listener - position calculation needs EVERY scroll event
+        // Previous condition (scrollY + height < contentHeight) prevented events at bottom
+        // which caused the ad to get stuck when scrolling fast to bottom
+        onScrollListener?.onScroll(l, t)
         super.onScrollChanged(l, t, oldl, oldt)
     }
 

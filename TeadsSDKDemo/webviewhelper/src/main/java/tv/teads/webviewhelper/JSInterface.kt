@@ -20,17 +20,19 @@ internal class JSInterface(private val listener: Listener) {
     /**
      * Called when the HTML placeholder has been inserted into the DOM
      *
-     * @param top        pixel value (web)
+     * @param top        pixel value (web) - viewport relative
      * @param left       pixel value (web)
      * @param bottom     pixel value (web)
      * @param right      pixel value (web)
+     * @param scrollY    the native scroll position that JS used for calculation (handshake)
      * @param pixelRatio corresponding to screen ratio
      */
     @JavascriptInterface
     fun onSlotUpdated(top: Int, left: Int,
                       bottom: Int, right: Int,
+                      scrollY: Int,
                       pixelRatio: Float) {
-        listener.onSlotUpdated(top, left, bottom, right, pixelRatio)
+        listener.onSlotUpdated(top, left, bottom, right, scrollY, pixelRatio)
     }
 
     @JavascriptInterface
@@ -57,6 +59,7 @@ internal class JSInterface(private val listener: Listener) {
 
         fun onSlotUpdated(top: Int, left: Int,
                           bottom: Int, right: Int,
+                          scrollY: Int,
                           pixelRatio: Float)
 
         fun handleError(error: String)

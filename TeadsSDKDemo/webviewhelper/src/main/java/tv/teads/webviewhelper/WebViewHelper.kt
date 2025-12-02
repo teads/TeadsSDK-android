@@ -147,7 +147,7 @@ private constructor(builder: Builder) : JSInterface.Listener {
         listener?.onJsReady()
     }
 
-    override fun onSlotUpdated(top: Int, left: Int, bottom: Int, right: Int, pixelRatio: Float) {
+    override fun onSlotUpdated(top: Int, left: Int, bottom: Int, right: Int, scrollY: Int, pixelRatio: Float) {
         if (listener == null) {
             requestSlotTimeout.cancel()
             return
@@ -160,7 +160,8 @@ private constructor(builder: Builder) : JSInterface.Listener {
             val t = (pixelRatio * top).toInt()
             val r = (pixelRatio * right).toInt()
             val b = (pixelRatio * bottom).toInt()
-            listener.onSlotUpdated(l, t, r, b)
+            // scrollY is already in native pixels (injected by native), no scaling needed
+            listener.onSlotUpdated(l, t, r, b, scrollY)
         }
         requestSlotTimeout.cancel()
     }
@@ -205,7 +206,15 @@ private constructor(builder: Builder) : JSInterface.Listener {
 
         fun onSlotNotFound()
 
-        fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int)
+        /**
+         * Called when the slot position is updated
+         * @param left left position in native pixels
+         * @param top top position in native pixels (viewport-relative)
+         * @param right right position in native pixels
+         * @param bottom bottom position in native pixels
+         * @param scrollY the scroll position that was used when JS calculated the position (handshake)
+         */
+        fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int, scrollY: Int)
 
         fun onError(error: String)
     }
