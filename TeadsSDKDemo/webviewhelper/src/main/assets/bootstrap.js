@@ -10,9 +10,10 @@
 
 (function () {
   var verticalSpacer = 10;
-  var intervalCheckPosition = 500;
+  var intervalCheckPosition = 2000; // Only for DOM change detection (position is now stable)
   var opened = false;
   var bridge, teadsContainer, finalSize, intervalPosition, offset, heightSup, ratio, maxHeight;
+
   // command use to communicate with WebViewController JS Bridge
   var command = {
     trigger: {
@@ -39,6 +40,40 @@
     "ratio": 0
   }
 
+  // Document marker for accurate position calculation
+  // The marker stays at document origin (0,0) and allows atomic position calculation
+  var documentMarker = null;
+
+  /**
+   * Creates a marker at document position (0,0) for accurate position calculation.
+   * Using two simultaneous getBoundingClientRect() calls, we can calculate
+   * true document-absolute position regardless of scroll state.
+   */
+  var createDocumentMarker = function() {
+    if (documentMarker && documentMarker.parentNode) return documentMarker;
+
+    // Create a wrapper with position:relative to establish positioning context
+    var wrapper = document.createElement('div');
+    wrapper.id = '__teads_marker_wrapper__';
+    wrapper.style.cssText = 'position:relative;top:0;left:0;margin:0;padding:0;width:0;height:0;overflow:visible';
+
+    // Create the marker inside the wrapper
+    documentMarker = document.createElement('div');
+    documentMarker.id = '__teads_position_marker__';
+    documentMarker.style.cssText = 'position:absolute;top:0;left:0;width:0;height:0;visibility:hidden;pointer-events:none';
+
+    wrapper.appendChild(documentMarker);
+
+    // Insert as first child of body to ensure it's at document origin
+    if (document.body.firstChild) {
+      document.body.insertBefore(wrapper, document.body.firstChild);
+    } else {
+      document.body.appendChild(wrapper);
+    }
+
+    console.log("[JS] Document marker created at origin");
+    return documentMarker;
+  };
 
   // The platform int
   var UNKNOWN_OS = 0;
@@ -92,6 +127,21 @@
   // remove placeholder from document
   var removePlaceholder = function () {
     tryOrLog(function () {
+      // Stop interval position check if still running
+      if (intervalPosition) {
+        clearInterval(intervalPosition);
+        intervalPosition = null;
+      }
+      cleanupLayoutObserver();
+      stopScrollWatcher();
+      // Clean up the document marker
+      if (documentMarker && documentMarker.parentNode) {
+        var wrapper = documentMarker.parentNode;
+        if (wrapper.parentNode) {
+          wrapper.parentNode.removeChild(wrapper);
+        }
+        documentMarker = null;
+      }
       if (teadsContainer && teadsContainer.parentNode) {
         teadsContainer.parentNode.removeChild(teadsContainer);
       }
@@ -107,10 +157,10 @@
       teadsContainer.style.minHeight = heightPx;  // Lock minimum height to prevent collapse during scroll
       // send status on native side
       bridge.callHandler(command.trigger.startShow);
-      // start interval position check, if position change, informe native side
+      // start interval position check for DOM changes
       intervalPosition = setInterval(checkPosition, intervalCheckPosition);
-      // Add scroll listener for continuous updates with throttling
-      window.addEventListener('scroll', onScrollEventImmediate, {passive: true});
+      // Start scroll watcher for fresh position updates during scroll
+      startScrollWatcher();
     }, 'showPlaceholder');
   };
 
@@ -122,9 +172,13 @@
       teadsContainer.style.height = "0.1px";
       // send status on native side
       bridge.callHandler(command.trigger.startHide);
-      // Remove scroll listeners when hiding
-      window.removeEventListener('scroll', onScrollEvent);
-      window.removeEventListener('scroll', onScrollEventImmediate);
+      // Stop interval position check
+      if (intervalPosition) {
+        clearInterval(intervalPosition);
+        intervalPosition = null;
+      }
+      // Stop scroll watcher
+      stopScrollWatcher();
     }, 'hidePlaceholder');
   };
 
@@ -150,19 +204,19 @@
         //Left margin is equal to the x offset + half of the delta between the
         //width offset and the real player width
         var leftMargin = offset.x + (offset.w - finalSize.width) / 2;
+
         var json = {
           "top": parseInt(offset.y),
           "left": parseInt(leftMargin),
           "bottom": parseInt(offset.y + finalSize.height),
           "right": parseInt(leftMargin + finalSize.width),
+          "scrollY": 0,  // Kept for API compatibility, not used in marker-based positioning
           "ratio": parseFloat(window.devicePixelRatio)
         };
 
         if (isEqualToLastGeometry(json)) return
 
-        console.log("[JS] Sending geometry - top: " + json.top +
-                    ", window.pageYOffset: " + window.pageYOffset +
-                    ", teadsNativeScrollY: " + window.teadsNativeScrollY +
+        console.log("[JS] Sending document-absolute geometry - documentY: " + json.top +
                     ", opened: " + opened);
 
         bridge.callHandler(command.trigger.position, json);
@@ -232,6 +286,9 @@
       teadsContainer = createTeadsContainer();
 
       parent.insertBefore(teadsContainer, element);
+
+      // Setup MutationObserver after slot is inserted
+      setupLayoutObserver();
     }, 'setPlaceholderDiv')
   };
 
@@ -255,38 +312,41 @@
   };
 
   // get element position on document (coordinate)
+  // Uses MARKER-BASED calculation for TRUE document-absolute position
+  // Both getBoundingClientRect() calls happen in the same JS frame (atomic)
+  // so scroll cancels out: (documentY - scrollY) - (-scrollY) = documentY
   var getPageOffset = function (element) {
     return tryOrLog(function () {
-      var box = element.getBoundingClientRect();
+      // Ensure marker exists at document origin
+      var marker = createDocumentMarker();
 
-      // Send viewport-relative position - native will calculate absolute position
-      // using its own accurate scroll position
+      // ATOMIC: Both calls happen in the same JS execution frame
+      var markerRect = marker.getBoundingClientRect();
+      var elementRect = element.getBoundingClientRect();
+
+      // markerRect.top = 0 - scrollY = -scrollY (marker is at document top)
+      // elementRect.top = documentY - scrollY (element's viewport position)
+      // Difference = (documentY - scrollY) - (-scrollY) = documentY
+      // The scroll cancels out mathematically!
+      var documentY = elementRect.top - markerRect.top;
+      var documentX = elementRect.left - markerRect.left;
+
       var pos = {
-        x: box.left,
-        y: box.top,  // Position relative to viewport, not document
-        w: box.right - box.left,
-        h: box.bottom - box.top
+        x: documentX,
+        y: documentY,  // TRUE document-absolute (scroll-independent)
+        w: elementRect.width,
+        h: elementRect.height
       };
       return pos;
     }, 'getPageOffset')
   };
 
-  // Initialize native scroll tracking
-  window.teadsNativeScrollY = 0;
-
-  // get the scroll of window
+  // get the scroll of window (used for document-absolute position calculation)
   var getDocumentScroll = function () {
     return tryOrLog(function () {
-      // Use native scroll position if available (injected from Android native code)
-      // This is necessary because window.pageYOffset returns 0 in Android WebView
-      // when the native container is scrolling instead of the HTML document
-      var scrollY = (typeof window.teadsNativeScrollY !== 'undefined')
-        ? window.teadsNativeScrollY
-        : window.pageYOffset;
-
       return {
-        x: window.pageXOffset,
-        y: scrollY
+        x: window.pageXOffset || 0,
+        y: window.pageYOffset || document.documentElement.scrollTop || 0
       }
     }, 'getDocumentScroll')
   };
@@ -312,31 +372,61 @@
     }, 'checkPosition')
   };
 
-  var scrollEndTimer;
-  var onScrollEvent = function() {
-    // Send geometry update on scroll end (debounced)
-    clearTimeout(scrollEndTimer);
-    scrollEndTimer = setTimeout(function() {
-      tryOrLog(function() {
-        if (opened && teadsContainer) {
-          sendTargetGeometry();
-        }
-      }, 'onScrollEvent');
-    }, 100);
+  // With marker-based positioning, scroll tracking is no longer needed
+  // The marker gives TRUE document-absolute position regardless of scroll state
+  // Layout changes are detected by MutationObserver instead
+  var startScrollWatcher = function() {
+    // No-op: marker-based positioning is scroll-independent
   };
 
-  // Throttled scroll updates - send position frequently but not on every single frame
-  var lastScrollUpdate = 0;
-  var SCROLL_THROTTLE = 50; // ms - send updates every 50ms max (20 times per second)
+  var stopScrollWatcher = function() {
+    // No-op: no scroll watcher to stop
+  };
 
-  var onScrollEventImmediate = function() {
-    tryOrLog(function() {
-      var now = Date.now();
-      if (opened && teadsContainer && (now - lastScrollUpdate) >= SCROLL_THROTTLE) {
-        lastScrollUpdate = now;
-        sendTargetGeometry();
-      }
-    }, 'onScrollEventImmediate');
+  // MutationObserver for layout change detection (images loading, DOM changes, etc.)
+  var layoutObserver = null;
+  var lastKnownViewportTop = 0;
+  var layoutCheckTimer;
+
+  var setupLayoutObserver = function() {
+    if (!teadsContainer || layoutObserver) return;
+
+    layoutObserver = new MutationObserver(function(mutations) {
+      // Debounce: only check after mutations settle
+      clearTimeout(layoutCheckTimer);
+      layoutCheckTimer = setTimeout(function() {
+        if (!teadsContainer || !opened) return;
+
+        var box = teadsContainer.getBoundingClientRect();
+        var newViewportTop = box.top;
+
+        // Only notify native if viewport position changed significantly (>5px)
+        // JS sends document-absolute position; native converts to viewport-relative using scrollY
+        if (Math.abs(newViewportTop - lastKnownViewportTop) > 5) {
+          console.log("[JS] Layout change detected - viewportTop changed from " + lastKnownViewportTop +
+                      " to " + newViewportTop);
+          lastKnownViewportTop = newViewportTop;
+          sendTargetGeometry();
+        }
+      }, 100);
+    });
+
+    layoutObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class', 'src'] // Include 'src' for image loading
+    });
+
+    console.log("[JS] MutationObserver setup for layout change detection");
+  };
+
+  var cleanupLayoutObserver = function() {
+    if (layoutObserver) {
+      layoutObserver.disconnect();
+      layoutObserver = null;
+    }
+    clearTimeout(layoutCheckTimer);
   };
 
   var tryOrLog = function (cbk, fctName) {

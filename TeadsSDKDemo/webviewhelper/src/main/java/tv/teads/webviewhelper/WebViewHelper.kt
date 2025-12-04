@@ -209,10 +209,10 @@ private constructor(builder: Builder) : JSInterface.Listener {
         /**
          * Called when the slot position is updated
          * @param left left position in native pixels
-         * @param top top position in native pixels (viewport-relative)
+         * @param top top position in native pixels (document-absolute via marker)
          * @param right right position in native pixels
          * @param bottom bottom position in native pixels
-         * @param scrollY the scroll position that was used when JS calculated the position (handshake)
+         * @param scrollY (unused) kept for API compatibility
          */
         fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int, scrollY: Int)
 

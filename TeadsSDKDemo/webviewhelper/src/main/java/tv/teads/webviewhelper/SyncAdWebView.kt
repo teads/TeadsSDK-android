@@ -146,7 +146,6 @@ class SyncAdWebView(context: Context,
      */
     fun setAdRatio(adRatio: AdRatio) {
         currentAdRatio = adRatio
-        // Calculate ratio for current WebView width and update slot
         val ratio = adRatio.getAdSlotRatio(webview.measuredWidth)
         updateSlot(ratio)
     }
@@ -159,7 +158,7 @@ class SyncAdWebView(context: Context,
         // Invalidate position - it will change after layout
         isPositionValid = false
 
-        // Wait for WebView to complete layout and have valid dimensions
+        // Wait for WebView to complete layout so measuredWidth is correct
         webview.viewTreeObserver.addOnGlobalLayoutListener(object : android.view.ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 if (webview.width > 0 && webview.height > 0) {
@@ -193,6 +192,7 @@ class SyncAdWebView(context: Context,
         Log.w(TAG, "No slot found.")
     }
 
+    @Suppress("UNUSED_PARAMETER") // scrollY kept for API compatibility, not used in marker-based positioning
     override fun onSlotUpdated(left: Int, top: Int, right: Int, bottom: Int, scrollY: Int) {
         // Post to main thread since JS bridge calls from background thread
         mainHandler.post {
@@ -207,8 +207,6 @@ class SyncAdWebView(context: Context,
             // so scroll cancels out mathematically - completely timing-independent!
             slotDocumentY = top
             isPositionValid = true
-
-            Log.d(TAG, "[Native] Marker-based documentY received: $top, currentScrollY: ${webview.scrollY}")
 
             // Update layout params (width, height, margins)
             if (containerAdView.layoutParams != null

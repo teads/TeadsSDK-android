@@ -20,11 +20,11 @@ internal class JSInterface(private val listener: Listener) {
     /**
      * Called when the HTML placeholder has been inserted into the DOM
      *
-     * @param top        pixel value (web) - viewport relative
+     * @param top        pixel value (web) - document-absolute position via marker
      * @param left       pixel value (web)
      * @param bottom     pixel value (web)
      * @param right      pixel value (web)
-     * @param scrollY    the native scroll position that JS used for calculation (handshake)
+     * @param scrollY    (unused) kept for API compatibility
      * @param pixelRatio corresponding to screen ratio
      */
     @JavascriptInterface
