@@ -42,8 +42,6 @@ class MediaScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
         // 0. Enable more logging visibility for testing purposes
         TeadsSDK.testMode = BuildConfig.DEBUG
-        // todo for testing — remove before merge on master
-        TeadsSDK.wrapperFrameworkInfo = WrapperFrameworkInfo.reactNative("1.0.0")
 
         // 1. Init configuration
         val config = TeadsAdPlacementMediaConfig(
