@@ -109,6 +109,14 @@ class MediaPrebidStandaloneFragment : Fragment() {
                 }
             },
             object : VideoPlaybackListener {
+                override fun onAudioStart() {
+                    Log.d("VideoPlaybackListener", "onAudioStart")
+                }
+
+                override fun onAudioStop() {
+                    Log.d("VideoPlaybackListener", "onAudioStop")
+                }
+
                 override fun onVideoComplete() {
                     Log.d("VideoPlaybackListener", "onVideoComplete")
                 }

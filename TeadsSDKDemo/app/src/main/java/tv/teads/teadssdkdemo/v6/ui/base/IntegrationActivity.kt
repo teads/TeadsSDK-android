@@ -109,6 +109,5 @@ class IntegrationActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        recreate()
     }
 }
