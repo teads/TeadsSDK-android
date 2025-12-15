@@ -80,9 +80,9 @@ class RecommendationsAdView @JvmOverloads constructor(
         val disclosureImageView = child.findViewById<ImageView>(R.id.rec_disclosure_image_view)
 
         // 4. Set the RTB disclosure icon image and click handler
-        if (recommendation.isPaid && recommendation.shouldDisplayDisclosureIcon()) {
+        if (recommendation.isPaid() && recommendation.shouldDisplayDisclosureIcon()) {
             disclosureImageView.visibility = View.VISIBLE
-            Picasso.get().load(recommendation.disclosure.iconUrl).into(disclosureImageView)
+            Picasso.get().load(recommendation.getDisclosure()?.iconUrl).into(disclosureImageView)
             disclosureImageView.setOnClickListener {
                 val builder = CustomTabsIntent.Builder()
                 val customTabsIntent = builder.build()
@@ -94,13 +94,13 @@ class RecommendationsAdView @JvmOverloads constructor(
 
         // 5. Add items to container
         val recommendationContainer = child.findViewById<RelativeLayout>(R.id.recommendation_view_container)
-        title.text = recommendation.content
-        desc.text = "By ${recommendation.sourceName}"
+        title.text = recommendation.getContent()
+        desc.text = "By ${recommendation.getSourceName()}"
         addView(child)
         
         // 6. Load media with the image loading library of your preference
         if (imageView != null) {
-            Picasso.get().load(recommendation.thumbnail.url).into(imageView)
+            Picasso.get().load(recommendation.getThumbnail()?.url).into(imageView)
         }
 
         // 7. Implement ad click getting the url using TeadsAdPlacementRecommendations.getUrl(recommendation: OBRecommendation)
