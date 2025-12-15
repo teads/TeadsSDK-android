@@ -30,4 +30,3 @@
 -dontwarn java.lang.invoke.StringConcatFactory
 
 # Use unique package prefix to avoid obfuscation collisions with sdk module
--repackageclasses 'tv.teads.webviewhelper.internal'
