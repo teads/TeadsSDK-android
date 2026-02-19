@@ -43,6 +43,7 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         initTeadsSDK()
 
         // -- FOR TESTING PURPOSES ON RELEASE BUILDS -- SHOULD WORK PROPERLY
+        // -- DO NOT USE THIS IN PRODUCTION
         if (TeadsSDK.isSDKConfigured().not()) {
             throw IllegalStateException()
         }
