@@ -42,11 +42,8 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         // 0. Init SDK
         initTeadsSDK()
 
-        // -- FOR TESTING PURPOSES ON RELEASE BUILDS -- SHOULD WORK PROPERLY
-        // -- DO NOT USE THIS IN PRODUCTION
-        if (TeadsSDK.isSDKConfigured().not()) {
-            throw IllegalStateException()
-        }
+        // TEST: Verify that configure() does not silently fail on release builds
+        check(TeadsSDK.isSDKConfigured()) { "TeadsSDK.configure() should succeed on release builds" }
 
         // 1. Init configuration
         val config = TeadsAdPlacementFeedConfig(
@@ -87,7 +84,7 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
             TeadsSDK.testMode = true // Enable more logging visibility
             TeadsSDK.testLocation = "de" // Emulates location for placements [Feed, Recommendations]
         } else {
-            // -- FOR TESTING PURPOSES ON RELEASE BUILDS -- SHOULD WORK PROPERLY
+            // TEST: Validate that setting test properties works on release builds
             TeadsSDK.testMode = false
             TeadsSDK.testLocation = "de"
         }
