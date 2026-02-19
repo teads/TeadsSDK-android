@@ -42,6 +42,11 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         // 0. Init SDK
         initTeadsSDK()
 
+        // -- FOR TESTING PURPOSES ON RELEASE BUILDS -- SHOULD WORK PROPERLY
+        if (TeadsSDK.isSDKConfigured().not()) {
+            throw IllegalStateException()
+        }
+
         // 1. Init configuration
         val config = TeadsAdPlacementFeedConfig(
             widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique widget id
@@ -81,8 +86,9 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
             TeadsSDK.testMode = true // Enable more logging visibility
             TeadsSDK.testLocation = "de" // Emulates location for placements [Feed, Recommendations]
         } else {
-            TeadsSDK.testMode = false // Enable more logging visibility
-            TeadsSDK.testLocation = "de" // Emulates location for placements [Feed, Recommendations]
+            // -- FOR TESTING PURPOSES ON RELEASE BUILDS -- SHOULD WORK PROPERLY
+            TeadsSDK.testMode = false
+            TeadsSDK.testLocation = "de"
         }
     }
 
