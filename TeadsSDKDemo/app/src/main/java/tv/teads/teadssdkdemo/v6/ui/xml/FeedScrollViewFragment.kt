@@ -79,7 +79,10 @@ class FeedScrollViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
         // For testing purposes
         if (BuildConfig.DEBUG) {
             TeadsSDK.testMode = true // Enable more logging visibility
-            TeadsSDK.testLocation = "us" // Emulates location for placements [Feed, Recommendations]
+            TeadsSDK.testLocation = "de" // Emulates location for placements [Feed, Recommendations]
+        } else {
+            TeadsSDK.testMode = false // Enable more logging visibility
+            TeadsSDK.testLocation = "de" // Emulates location for placements [Feed, Recommendations]
         }
     }
 
