@@ -188,6 +188,10 @@ class DemoViewModel : ViewModel() {
         IntegrationType.SCROLLVIEW
     )
 
+    private val singleRecyclerViewIntegrationType = listOf(
+        IntegrationType.RECYCLERVIEW
+    )
+
     private val partialIntegrationTypes = listOf(
         IntegrationType.COLUMN,
         IntegrationType.SCROLLVIEW,
@@ -215,7 +219,8 @@ class DemoViewModel : ViewModel() {
     // Display mode options for Feed provider
     private val feedDisplayModes = listOf(
         DisplayMode.FEED_ONLY,
-        DisplayMode.FEED_WITH_MEDIA
+        DisplayMode.FEED_WITH_MEDIA,
+        DisplayMode.TWO_WIDGETS
     )
 
     // Get providers based on selected format
@@ -467,6 +472,10 @@ class DemoViewModel : ViewModel() {
             selectedProvider == ProviderType.DIRECT
                     && selectedFormat in listOf(FormatType.FEED, FormatType.MEDIA)
                     && selectedDisplayMode in listOf(DisplayMode.FEED_WITH_MEDIA, DisplayMode.MEDIA_WITH_FEED) -> singleColumnIntegrationType
+
+            selectedProvider == ProviderType.DIRECT
+                    && selectedFormat == FormatType.FEED
+                    && selectedDisplayMode == DisplayMode.TWO_WIDGETS -> singleRecyclerViewIntegrationType
 
             selectedProvider == ProviderType.PREBID -> singleScrollViewIntegrationType
 

@@ -9,5 +9,6 @@ enum class DisplayMode(val displayName: String) {
     MEDIA_ONLY("Media Only"),
     FEED_ONLY("Feed Only"),
     MEDIA_WITH_FEED("Media + Feed"),
-    FEED_WITH_MEDIA("Feed + Media")
+    FEED_WITH_MEDIA("Feed + Media"),
+    TWO_WIDGETS("2 Widgets")
 }
