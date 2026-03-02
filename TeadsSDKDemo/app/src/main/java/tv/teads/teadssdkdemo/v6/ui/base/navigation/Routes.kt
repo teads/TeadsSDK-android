@@ -5,6 +5,7 @@ import tv.teads.teadssdkdemo.v6.domain.DisplayMode
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
+import tv.teads.teadssdkdemo.v6.ui.xml.Feed2WidgetsRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.FeedScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaAdmobScrollViewFragment
@@ -54,6 +55,7 @@ sealed class Route {
     data object FeedRecyclerView : Route()
     data object FeedColumn : Route()
     data object FeedLazyColumn : Route()
+    data object Feed2WidgetsRecyclerView : Route()
     data object RecommendationsScrollView : Route()
     data object RecommendationsRecyclerView : Route()
     data object RecommendationsColumn : Route()
@@ -97,6 +99,12 @@ object RouteFactory {
                     IntegrationType.RECYCLERVIEW -> Route.MediaNativeRecyclerView
                     IntegrationType.COLUMN -> Route.MediaNativeColumn
                     IntegrationType.LAZYCOLUMN -> Route.MediaNativeLazyColumn
+                }
+            }
+            format == FormatType.FEED && provider == ProviderType.DIRECT && displayMode == DisplayMode.TWO_WIDGETS -> {
+                when (integration) {
+                    IntegrationType.RECYCLERVIEW -> Route.Feed2WidgetsRecyclerView
+                    else -> throw IllegalAccessException("Impossible route")
                 }
             }
             format == FormatType.FEED && provider == ProviderType.DIRECT -> {
@@ -188,6 +196,7 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaPrebidStandaloneScrollView -> MediaPrebidStandaloneFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
         Route.FeedRecyclerView -> FeedRecyclerViewFragment::class.java
+        Route.Feed2WidgetsRecyclerView -> Feed2WidgetsRecyclerViewFragment::class.java
         Route.RecommendationsScrollView -> RecommendationsScrollViewFragment::class.java
         Route.RecommendationsRecyclerView -> RecommendationsRecyclerViewFragment::class.java
         else -> throw IllegalArgumentException("No fragment defined for route: $this")
@@ -217,6 +226,7 @@ fun String.getRouteFromTag(): Route {
         "MediaNativeSmartColumn" -> Route.MediaNativeSmartColumn
         "FeedScrollView" -> Route.FeedScrollView
         "FeedRecyclerView" -> Route.FeedRecyclerView
+        "Feed2WidgetsRecyclerView" -> Route.Feed2WidgetsRecyclerView
         "RecommendationsScrollView" -> Route.RecommendationsScrollView
         "RecommendationsRecyclerView" -> Route.RecommendationsRecyclerView
         else -> throw IllegalArgumentException("No fragment found for tag: $this")
@@ -250,6 +260,7 @@ fun Route.getTitle(): String {
         Route.MediaPrebidStandaloneScrollView -> "Media Prebid Standalone ScrollView"
         Route.FeedScrollView -> "Feed ScrollView"
         Route.FeedRecyclerView -> "Feed RecyclerView"
+        Route.Feed2WidgetsRecyclerView -> "Feed 2 Widgets RecyclerView"
         Route.FeedColumn -> "Feed Column"
         Route.FeedLazyColumn -> "Feed LazyColumn"
         Route.RecommendationsScrollView -> "Recommendations ScrollView"

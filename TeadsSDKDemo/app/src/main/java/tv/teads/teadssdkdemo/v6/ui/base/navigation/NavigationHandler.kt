@@ -32,6 +32,7 @@ object NavigationHandler {
             Route.MediaPrebidStandaloneScrollView,
             Route.FeedScrollView,
             Route.FeedRecyclerView,
+            Route.Feed2WidgetsRecyclerView,
             Route.RecommendationsScrollView,
             Route.RecommendationsRecyclerView -> navigateToIntegrationActivity(fromActivity, route)
             else -> throw IllegalAccessException("Impossible route")
