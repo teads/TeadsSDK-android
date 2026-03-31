@@ -52,7 +52,7 @@ class DemoViewModel : ViewModel() {
     private val _articleUrl = MutableStateFlow("")
     val articleUrl: StateFlow<String> = _articleUrl.asStateFlow()
 
-    var isPlacementConfigurationExpanded: Boolean by mutableStateOf(false)
+    var isPlacementConfigurationExpanded: Boolean by mutableStateOf(true)
         private set
 
     init {
@@ -93,7 +93,8 @@ class DemoViewModel : ViewModel() {
         FormatType.MEDIA,
         FormatType.MEDIANATIVE,
         FormatType.FEED,
-        FormatType.RECOMMENDATIONS
+        FormatType.RECOMMENDATIONS,
+        FormatType.INTERSTITIAL
     )
 
     // Provider types available for Media format
@@ -116,6 +117,11 @@ class DemoViewModel : ViewModel() {
     // Provider types available for Feed/Recommendations formats
     private val feedRecommendationsProviders = listOf(
         ProviderType.DIRECT
+    )
+
+    // Provider types available for Interstitial format
+    private val interstitialProviders = listOf(
+        ProviderType.ADMOB
     )
 
     // PID presets for Media format
@@ -152,6 +158,12 @@ class DemoViewModel : ViewModel() {
 
     private val mediaNativeApplovinPids = listOf(
         "Image" to "a416d5d67e65ddcd"
+    )
+
+    // PID presets for Interstitial AdMob format
+    private val interstitialAdmobPids = listOf(
+        "Teads Ad" to DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_PID,
+        "Google Test Ad" to DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_TESTING_PID
     )
 
     // Widget ID presets for Feed format
@@ -229,6 +241,7 @@ class DemoViewModel : ViewModel() {
             FormatType.MEDIA -> mediaProviders
             FormatType.MEDIANATIVE -> mediaNativeProviders
             FormatType.FEED, FormatType.RECOMMENDATIONS -> feedRecommendationsProviders
+            FormatType.INTERSTITIAL -> interstitialProviders
             else -> throw IllegalAccessException("Impossible format")
         }
     }
@@ -297,6 +310,9 @@ class DemoViewModel : ViewModel() {
 
             ProviderType.DIRECT to FormatType.RECOMMENDATIONS ->
                 updateWidgetId(DemoSessionConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID)
+
+            ProviderType.ADMOB to FormatType.INTERSTITIAL ->
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_PID)
         }
     }
 
@@ -372,8 +388,9 @@ class DemoViewModel : ViewModel() {
     }
 
     fun hasPlacementId(): Boolean {
-        return listOf(ProviderType.DIRECT, ProviderType.ADMOB, ProviderType.APPLOVIN).contains(selectedProvider)
-                && listOf(FormatType.MEDIA, FormatType.MEDIANATIVE).contains(selectedFormat)
+        return (listOf(ProviderType.DIRECT, ProviderType.ADMOB, ProviderType.APPLOVIN).contains(selectedProvider)
+                && listOf(FormatType.MEDIA, FormatType.MEDIANATIVE).contains(selectedFormat))
+                || (selectedProvider == ProviderType.ADMOB && selectedFormat == FormatType.INTERSTITIAL)
     }
 
     fun hasWidgetId(): Boolean {
@@ -393,6 +410,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.ADMOB to FormatType.MEDIANATIVE -> getMediaNativeAdmobPidChips()
         ProviderType.APPLOVIN to FormatType.MEDIA -> getMediaApplovinPidChips()
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> getMediaNativeApplovinPidChips()
+        ProviderType.ADMOB to FormatType.INTERSTITIAL -> getInterstitialAdmobPidChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -450,6 +468,14 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    private fun getInterstitialAdmobPidChips(): List<ChipData> = interstitialAdmobPids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == interstitialAdmobPids[index].second
+        )
+    }
+
     fun getIntegrationChips(): List<ChipData> {
         val integrationList = getFilteredIntegrationList()
 
@@ -469,6 +495,8 @@ class DemoViewModel : ViewModel() {
 
     private fun getFilteredIntegrationList(): List<IntegrationType> {
         return when {
+            selectedFormat == FormatType.INTERSTITIAL -> singleColumnIntegrationType
+
             selectedProvider == ProviderType.DIRECT
                     && selectedFormat in listOf(FormatType.FEED, FormatType.MEDIA)
                     && selectedDisplayMode in listOf(DisplayMode.FEED_WITH_MEDIA, DisplayMode.MEDIA_WITH_FEED) -> singleColumnIntegrationType
@@ -557,6 +585,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.ADMOB to FormatType.MEDIANATIVE -> onMediaNativeAdmobPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
+        ProviderType.ADMOB to FormatType.INTERSTITIAL -> onInterstitialAdmobPidChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -605,6 +634,13 @@ class DemoViewModel : ViewModel() {
     private fun onMediaNativeApplovinPidChipClick(index: Int) {
         if (index in mediaNativeApplovinPids.indices) {
             val pid = mediaNativeApplovinPids[index].second
+            updatePlacementId(pid)
+        }
+    }
+
+    private fun onInterstitialAdmobPidChipClick(index: Int) {
+        if (index in interstitialAdmobPids.indices) {
+            val pid = interstitialAdmobPids[index].second
             updatePlacementId(pid)
         }
     }

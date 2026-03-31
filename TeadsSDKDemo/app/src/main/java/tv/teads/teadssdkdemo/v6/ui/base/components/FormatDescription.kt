@@ -24,6 +24,7 @@ fun FormatDescription(
         FormatType.MEDIANATIVE -> "— Ads appear natively inside editorial or social feeds, matching the look and feel of surrounding content."
         FormatType.FEED -> "— Content Discovery Feed — A recommendation grid of articles or videos (\"You might also like\"). Drives engagement via contextual relevance."
         FormatType.RECOMMENDATIONS -> "— A native grid of sponsored and organic stories (\"You might also like\") that blends with the publisher's content layout. Drives engagement by fitting contextually and visually into the reading experience."
+        FormatType.INTERSTITIAL -> "— Full-screen ad that covers the host app interface. Shown at natural transition points to unlock premium content."
         null -> ""
     }
 

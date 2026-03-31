@@ -60,6 +60,7 @@ sealed class Route {
     data object RecommendationsRecyclerView : Route()
     data object RecommendationsColumn : Route()
     data object RecommendationsLazyColumn : Route()
+    data object InterstitialAdMobColumn : Route()
 }
 
 /**
@@ -172,6 +173,12 @@ object RouteFactory {
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
+            format == FormatType.INTERSTITIAL && provider == ProviderType.ADMOB -> {
+                when (integration) {
+                    IntegrationType.COLUMN -> Route.InterstitialAdMobColumn
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
             else -> throw IllegalAccessException("Impossible route")
         }
     }
@@ -268,5 +275,6 @@ fun Route.getTitle(): String {
         Route.RecommendationsColumn -> "Recommendations Column"
         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
         Route.MediaAdMobScrollView -> "Media AdMob ScrollView"
+        Route.InterstitialAdMobColumn -> "Interstitial AdMob Column"
     }
 }

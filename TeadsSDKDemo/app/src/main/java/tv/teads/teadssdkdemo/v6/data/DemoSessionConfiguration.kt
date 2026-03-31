@@ -34,6 +34,9 @@ object DemoSessionConfiguration {
     const val DEFAULT_ARTICLE_URL = "https://mobile-demo.outbrain.com/"
     const val DEFAULT_INSTALLATION_KEY = "NANOWDGT01"
 
+    const val DEFAULT_INTERSTITIAL_ADMOB_PID = "ca-app-pub-3068786746829754/1230437446"
+    const val DEFAULT_INTERSTITIAL_ADMOB_TESTING_PID = "ca-app-pub-3940256099942544/1033173712"
+
     const val FAKE_TEADS_PREBID_TEST_SERVER =
         "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
     const val PREBID_AD_CONFIG_ID = "imp-video-300x250"
@@ -94,6 +97,7 @@ object DemoSessionConfiguration {
             ProviderType.ADMOB  to FormatType.MEDIANATIVE -> DEFAULT_MEDIANATIVE_ADMOB_PID
             ProviderType.APPLOVIN  to FormatType.MEDIA -> DEFAULT_MEDIA_APPLOVIN_PID
             ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> DEFAULT_MEDIANATIVE_APPLOVIN_PID
+            ProviderType.ADMOB to FormatType.INTERSTITIAL -> DEFAULT_INTERSTITIAL_ADMOB_PID
             else -> ""
         }
     }

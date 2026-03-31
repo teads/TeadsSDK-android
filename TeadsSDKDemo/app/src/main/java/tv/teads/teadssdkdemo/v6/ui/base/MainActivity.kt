@@ -31,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
+import tv.teads.teadssdkdemo.v6.ui.compose.InterstitialAdmobColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.FeedColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.FeedLazyColumnScreen
 import tv.teads.teadssdkdemo.v6.ui.compose.MediaAdmobColumnScreen
@@ -92,6 +93,7 @@ class MainActivity : ComponentActivity() {
                                         Route.FeedLazyColumn -> "Feed LazyColumn"
                                         Route.RecommendationsColumn -> "Recommendations Column"
                                         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
+                                        Route.InterstitialAdMobColumn -> "Interstitial AdMob Column"
                                         else -> "Teads SDK Demo"
                                     },
                                     style = MaterialTheme.typography.titleLarge.copy(
@@ -113,7 +115,8 @@ class MainActivity : ComponentActivity() {
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
                                     Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
+                                    Route.InterstitialAdMobColumn -> {
                                         IconButton(onClick = { currentRoute = Route.Demo }) {
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -140,7 +143,8 @@ class MainActivity : ComponentActivity() {
                                     Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
                                     Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
                                     Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn -> {
+                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
+                                    Route.InterstitialAdMobColumn -> {
                                         currentRoute = navRoute
                                     }
                                     else -> {
@@ -230,6 +234,12 @@ class MainActivity : ComponentActivity() {
                         Route.MediaNativeSmartColumn -> {
                             MediaNativeSmartColumnScreen(
                                 modifier = Modifier.padding(paddingValues)
+                            )
+                        }
+                        Route.InterstitialAdMobColumn -> {
+                            InterstitialAdmobColumnScreen(
+                                modifier = Modifier.padding(paddingValues),
+                                activity = this@MainActivity
                             )
                         }
                         else -> {}
