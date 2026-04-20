@@ -121,6 +121,7 @@ class DemoViewModel : ViewModel() {
 
     // Provider types available for Interstitial format
     private val interstitialProviders = listOf(
+        ProviderType.DIRECT,
         ProviderType.ADMOB
     )
 
@@ -313,6 +314,12 @@ class DemoViewModel : ViewModel() {
 
             ProviderType.ADMOB to FormatType.INTERSTITIAL ->
                 updatePlacementId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_PID)
+
+            ProviderType.DIRECT to FormatType.INTERSTITIAL -> {
+                updateWidgetId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID)
+                updateInstallationKey(DemoSessionConfiguration.DEFAULT_INSTALLATION_KEY)
+                updateArticleUrl(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_DIRECT_ARTICLE_URL)
+            }
         }
     }
 
@@ -394,8 +401,8 @@ class DemoViewModel : ViewModel() {
     }
 
     fun hasWidgetId(): Boolean {
-        return listOf(ProviderType.DIRECT).contains(selectedProvider)
-                && listOf(FormatType.FEED, FormatType.RECOMMENDATIONS).contains(selectedFormat)
+        return selectedProvider == ProviderType.DIRECT
+                && selectedFormat in listOf(FormatType.FEED, FormatType.RECOMMENDATIONS, FormatType.INTERSTITIAL)
     }
 
     fun getInputMethod(): KeyboardType = when (selectedProvider to selectedFormat) {
@@ -417,6 +424,7 @@ class DemoViewModel : ViewModel() {
     fun getWidgetChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.FEED -> getFeedWidgetIdChips()
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsWidgetIdChips()
+        ProviderType.DIRECT to FormatType.INTERSTITIAL -> emptyList()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -534,6 +542,7 @@ class DemoViewModel : ViewModel() {
     fun getInstallationKeyChips(): List<ChipData> = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.FEED -> getFeedInstallationKeyChips()
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsInstallationKeyChips()
+        ProviderType.DIRECT to FormatType.INTERSTITIAL -> emptyList()
         else -> throw IllegalAccessException("Impossible combination")
     }
 

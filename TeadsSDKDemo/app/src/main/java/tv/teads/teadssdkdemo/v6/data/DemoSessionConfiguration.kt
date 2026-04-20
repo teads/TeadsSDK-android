@@ -37,6 +37,9 @@ object DemoSessionConfiguration {
     const val DEFAULT_INTERSTITIAL_ADMOB_PID = "ca-app-pub-3068786746829754/1230437446"
     const val DEFAULT_INTERSTITIAL_ADMOB_TESTING_PID = "ca-app-pub-3940256099942544/1033173712"
 
+    const val DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID = "INT_MW_1"
+    const val DEFAULT_INTERSTITIAL_DIRECT_ARTICLE_URL = "https://example.com/article"
+
     const val FAKE_TEADS_PREBID_TEST_SERVER =
         "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
     const val PREBID_AD_CONFIG_ID = "imp-video-300x250"
@@ -113,6 +116,7 @@ object DemoSessionConfiguration {
         return when (getFormatOrDefault()) {
             FormatType.FEED -> DEFAULT_FEED_WIDGET_ID
             FormatType.RECOMMENDATIONS -> DEFAULT_RECOMMENDATIONS_WIDGET_ID
+            FormatType.INTERSTITIAL -> DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID
             else -> ""
         }
     }
