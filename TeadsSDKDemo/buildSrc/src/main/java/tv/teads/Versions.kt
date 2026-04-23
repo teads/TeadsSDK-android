@@ -11,8 +11,14 @@ object Versions {
     const val targetSdk = 35
     
     // Kotlin and Compose
-    const val kotlin = "2.1.21"
-    const val composeBom = "2025.09.01"
+    // NOTE: Pinned to 1.9.24 to simulate a publisher stuck on that compiler.
+    // The Teads SDK still pulls kotlin-stdlib:2.1.21 transitively, which is
+    // fine because Kotlin's compatibility rule is stdlib >= compiler version.
+    const val kotlin = "1.9.24"
+    // Compose BOM compatible with compose-compiler 1.5.14 (last version built for Kotlin 1.9.24).
+    const val composeBom = "2024.06.00"
+    // Compose compiler extension version — must match the Kotlin compiler version.
+    const val composeCompiler = "1.5.14"
     
     // AndroidX Core
     const val appcompat = "1.3.0"

@@ -1,12 +1,14 @@
 import tv.teads.AndroidLibConfig
 import tv.teads.Libs
+import tv.teads.Versions
 import tv.teads.versionCode
 import tv.teads.versionName
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    // NOTE: org.jetbrains.kotlin.plugin.compose is Kotlin 2.0+ only.
+    // On Kotlin 1.9.24 we use the legacy composeOptions block below.
 }
 
 android {
@@ -50,6 +52,31 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+
+    // Kotlin 1.9.24 uses the legacy Compose compiler extension path.
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Publisher-on-Kotlin-1.9.24 workaround
+// ---------------------------------------------------------------------------
+// The Teads SDK is compiled with Kotlin 2.1.21 and its class files carry
+// Kotlin metadata version 2.1.0. Compiler 1.9.x can only read up to metadata
+// 2.0 by default and will fail with:
+//   "Class '...' was compiled with an incompatible version of Kotlin.
+//    The actual metadata version is 2.1.0, but the compiler version 1.9.0
+//    can read versions up to 2.0.0."
+// This flag tells the 1.9 compiler to trust and read the newer metadata.
+// Safe because the SDK's public API does not expose any Kotlin 2.x-only
+// language feature.
+// ---------------------------------------------------------------------------
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xskip-metadata-version-check"
     }
 }
 
