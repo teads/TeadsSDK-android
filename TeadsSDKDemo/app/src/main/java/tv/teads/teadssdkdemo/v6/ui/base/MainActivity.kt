@@ -258,12 +258,12 @@ class MainActivity : ComponentActivity() {
                         }
                         Route.BannerDirectColumn -> {
                             BannerDirectColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
+                                contentPadding = paddingValues
                             )
                         }
                         Route.BannerAdMobColumn -> {
                             BannerAdmobColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
+                                contentPadding = paddingValues
                             )
                         }
                         else -> {}

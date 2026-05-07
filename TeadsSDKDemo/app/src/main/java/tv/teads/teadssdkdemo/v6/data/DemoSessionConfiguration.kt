@@ -41,7 +41,8 @@ object DemoSessionConfiguration {
     const val DEFAULT_INTERSTITIAL_DIRECT_ARTICLE_URL = "https://example.com/article"
 
     // Banner uses Feed as its base (same Outbrain SFWebView engine + widget/installation/articleUrl shape)
-    const val DEFAULT_BANNER_DIRECT_WIDGET_ID = DEFAULT_FEED_WIDGET_ID
+    // Widget id is banner-specific (matches DEFAULT_BANNER_WIDGET_ID in the internal combinedsdk-demo)
+    const val DEFAULT_BANNER_DIRECT_WIDGET_ID = "MB_10"
     const val DEFAULT_BANNER_ADMOB_PID = "ca-app-pub-3068786746829754/5448863490"
     const val DEFAULT_BANNER_ADMOB_TESTING_PID = "ca-app-pub-3940256099942544/9214589741"
 

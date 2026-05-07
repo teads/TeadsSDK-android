@@ -187,6 +187,11 @@ class DemoViewModel : ViewModel() {
         "TEST_FEED" to "TEST_FEED"
     )
 
+    // Widget ID presets for Banner format
+    private val bannerWidgetIds = listOf(
+        "MB_10" to "MB_10"
+    )
+
     // Widget ID presets for Recommendations format
     private val recommendationsWidgetIds = listOf(
         "SDK_1" to "SDK_1",
@@ -198,6 +203,11 @@ class DemoViewModel : ViewModel() {
     private val feedInstallationKeys = listOf(
         "NANOWDGT01" to "NANOWDGT01",
         "TESTKEY01" to "TESTKEY01"
+    )
+
+    // Installation Key presets for Banner format
+    private val bannerInstallationKeys = listOf(
+        "NANOWDGT01" to "NANOWDGT01"
     )
 
     // Installation Key presets for Recommendations format
@@ -450,7 +460,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.DIRECT to FormatType.FEED -> getFeedWidgetIdChips()
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsWidgetIdChips()
         ProviderType.DIRECT to FormatType.INTERSTITIAL -> emptyList()
-        ProviderType.DIRECT to FormatType.BANNER -> getFeedWidgetIdChips()
+        ProviderType.DIRECT to FormatType.BANNER -> getBannerWidgetIdChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -567,6 +577,14 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    private fun getBannerWidgetIdChips(): List<ChipData> = bannerWidgetIds.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _widgetId.value == bannerWidgetIds[index].second
+        )
+    }
+
     private fun getRecommendationsWidgetIdChips(): List<ChipData> = recommendationsWidgetIds.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
@@ -579,7 +597,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.DIRECT to FormatType.FEED -> getFeedInstallationKeyChips()
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsInstallationKeyChips()
         ProviderType.DIRECT to FormatType.INTERSTITIAL -> emptyList()
-        ProviderType.DIRECT to FormatType.BANNER -> getFeedInstallationKeyChips()
+        ProviderType.DIRECT to FormatType.BANNER -> getBannerInstallationKeyChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -588,6 +606,14 @@ class DemoViewModel : ViewModel() {
             id = index,
             text = label,
             isSelected = _installationKey.value == feedInstallationKeys[index].second
+        )
+    }
+
+    private fun getBannerInstallationKeyChips(): List<ChipData> = bannerInstallationKeys.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _installationKey.value == bannerInstallationKeys[index].second
         )
     }
 
@@ -639,7 +665,7 @@ class DemoViewModel : ViewModel() {
     fun onWidgetChipClick(index: Int) = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.FEED -> onFeedWidgetIdChipClick(index)
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> onRecommendationsWidgetIdChipClick(index)
-        ProviderType.DIRECT to FormatType.BANNER -> onFeedWidgetIdChipClick(index)
+        ProviderType.DIRECT to FormatType.BANNER -> onBannerWidgetIdChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -707,6 +733,13 @@ class DemoViewModel : ViewModel() {
         }
     }
 
+    private fun onBannerWidgetIdChipClick(index: Int) {
+        if (index in bannerWidgetIds.indices) {
+            val widgetId = bannerWidgetIds[index].second
+            updateWidgetId(widgetId)
+        }
+    }
+
     private fun onRecommendationsWidgetIdChipClick(index: Int) {
         if (index in recommendationsWidgetIds.indices) {
             val widgetId = recommendationsWidgetIds[index].second
@@ -717,13 +750,20 @@ class DemoViewModel : ViewModel() {
     fun onInstallationKeyChipClick(index: Int) = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.FEED -> onFeedInstallationKeyChipClick(index)
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> onRecommendationsInstallationKeyChipClick(index)
-        ProviderType.DIRECT to FormatType.BANNER -> onFeedInstallationKeyChipClick(index)
+        ProviderType.DIRECT to FormatType.BANNER -> onBannerInstallationKeyChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
     private fun onFeedInstallationKeyChipClick(index: Int) {
         if (index in feedInstallationKeys.indices) {
             val installationKey = feedInstallationKeys[index].second
+            updateInstallationKey(installationKey)
+        }
+    }
+
+    private fun onBannerInstallationKeyChipClick(index: Int) {
+        if (index in bannerInstallationKeys.indices) {
+            val installationKey = bannerInstallationKeys[index].second
             updateInstallationKey(installationKey)
         }
     }

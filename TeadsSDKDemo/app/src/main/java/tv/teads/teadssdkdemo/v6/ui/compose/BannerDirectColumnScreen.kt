@@ -4,9 +4,13 @@ import android.util.Log
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -16,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
@@ -26,7 +31,6 @@ import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.BuildConfig
 import tv.teads.teadssdkdemo.R
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
-import tv.teads.teadssdkdemo.v6.ui.base.components.AdContainer
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleBody
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleLabel
 import tv.teads.teadssdkdemo.v6.ui.base.components.ArticleSpacing
@@ -37,7 +41,8 @@ private const val TAG = "BannerDirectColumn"
 
 @Composable
 fun BannerDirectColumnScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     val context = LocalContext.current
     var adView by remember { mutableStateOf<ViewGroup?>(null) }
@@ -50,7 +55,7 @@ fun BannerDirectColumnScreen(
         // 1. Init configuration
         val config = TeadsAdPlacementBannerConfig(
             articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri(), // Your article url
-            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique widget id
+            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your unique banner widget id
             installationKey = DemoSessionConfiguration.getInstallationKeyOrDefault(), // Your unique installation key
             widgetIndex = 0 // Position of the ad within your article. Increment by 1 for each additional ad on the same page
         )
@@ -83,28 +88,42 @@ fun BannerDirectColumnScreen(
         adView = bannerAd?.loadAd()
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-    ) {
-        ArticleLabel()
-        ArticleSpacing()
-        ArticleTitle()
-        ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_a))
-        ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_b))
-        ArticleSpacing()
-
-        // 5. Add the anchored banner container
-        AdContainer(adView = adView)
-
-        ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_c))
-        ArticleSpacing()
-        ArticleBody(text = stringResource(R.string.article_template_body_d))
+    // 5. Render the article in a Scaffold whose bottomBar pins the banner to the
+    //    bottom of the screen (mirrors the combinedsdk-demo Column use case).
+    //    No topBar — the parent activity already supplies one.
+    Scaffold(
+        modifier = modifier,
+        bottomBar = {
+            adView?.let { view ->
+                AndroidView(
+                    factory = { view },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+    ) { scaffoldPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = contentPadding.calculateTopPadding())
+                .padding(bottom = scaffoldPadding.calculateBottomPadding())
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top,
+        ) {
+            ArticleLabel()
+            ArticleSpacing()
+            ArticleTitle()
+            ArticleSpacing()
+            ArticleBody(text = stringResource(R.string.article_template_body_a))
+            ArticleSpacing()
+            ArticleBody(text = stringResource(R.string.article_template_body_b))
+            ArticleSpacing()
+            ArticleBody(text = stringResource(R.string.article_template_body_c))
+            ArticleSpacing()
+            ArticleBody(text = stringResource(R.string.article_template_body_d))
+            ArticleSpacing()
+            ArticleBody(text = stringResource(R.string.article_template_body_e))
+        }
     }
 }
 
