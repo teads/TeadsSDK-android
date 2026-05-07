@@ -40,6 +40,11 @@ object DemoSessionConfiguration {
     const val DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID = "INT_MW_1"
     const val DEFAULT_INTERSTITIAL_DIRECT_ARTICLE_URL = "https://example.com/article"
 
+    // Banner uses Feed as its base (same Outbrain SFWebView engine + widget/installation/articleUrl shape)
+    const val DEFAULT_BANNER_DIRECT_WIDGET_ID = DEFAULT_FEED_WIDGET_ID
+    const val DEFAULT_BANNER_ADMOB_PID = "ca-app-pub-3068786746829754/5448863490"
+    const val DEFAULT_BANNER_ADMOB_TESTING_PID = "ca-app-pub-3940256099942544/9214589741"
+
     const val FAKE_TEADS_PREBID_TEST_SERVER =
         "https://tm3zwelt7nhxurh4rgapwm5smm0gywau.lambda-url.eu-west-1.on.aws/openrtb2/auction?verbose=true"
     const val PREBID_AD_CONFIG_ID = "imp-video-300x250"
@@ -101,6 +106,7 @@ object DemoSessionConfiguration {
             ProviderType.APPLOVIN  to FormatType.MEDIA -> DEFAULT_MEDIA_APPLOVIN_PID
             ProviderType.APPLOVIN  to FormatType.MEDIANATIVE -> DEFAULT_MEDIANATIVE_APPLOVIN_PID
             ProviderType.ADMOB to FormatType.INTERSTITIAL -> DEFAULT_INTERSTITIAL_ADMOB_PID
+            ProviderType.ADMOB to FormatType.BANNER -> DEFAULT_BANNER_ADMOB_PID
             else -> ""
         }
     }
@@ -117,6 +123,7 @@ object DemoSessionConfiguration {
             FormatType.FEED -> DEFAULT_FEED_WIDGET_ID
             FormatType.RECOMMENDATIONS -> DEFAULT_RECOMMENDATIONS_WIDGET_ID
             FormatType.INTERSTITIAL -> DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID
+            FormatType.BANNER -> DEFAULT_BANNER_DIRECT_WIDGET_ID
             else -> ""
         }
     }
