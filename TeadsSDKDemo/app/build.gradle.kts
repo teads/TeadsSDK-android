@@ -61,24 +61,9 @@ android {
     }
 }
 
-// ---------------------------------------------------------------------------
-// Publisher-on-Kotlin-1.9.24 workaround
-// ---------------------------------------------------------------------------
-// The Teads SDK is compiled with Kotlin 2.1.21 and its class files carry
-// Kotlin metadata version 2.1.0. Compiler 1.9.x can only read up to metadata
-// 2.0 by default and will fail with:
-//   "Class '...' was compiled with an incompatible version of Kotlin.
-//    The actual metadata version is 2.1.0, but the compiler version 1.9.0
-//    can read versions up to 2.0.0."
-// This flag tells the 1.9 compiler to trust and read the newer metadata.
-// Safe because the SDK's public API does not expose any Kotlin 2.x-only
-// language feature.
-// ---------------------------------------------------------------------------
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-Xskip-metadata-version-check"
-    }
-}
+// NOTE: the Kotlin-1.9.24 metadata-compat flag is applied project-wide from
+// the root build.gradle.kts via `subprojects { }`, so no per-module override
+// is needed here.
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
@@ -131,6 +116,9 @@ dependencies {
     // ViewModel for Compose
     implementation(Libs.Compose.LIFECYCLE_VIEWMODEL_COMPOSE)
     implementation(Libs.Compose.LIFECYCLE_RUNTIME_COMPOSE)
+
+    // Multi-module repro: a sibling library module that also consumes the Teads SDK.
+    implementation(project(":feature-foo"))
 
     // Testing
     testImplementation(Libs.Test.JUNIT)
