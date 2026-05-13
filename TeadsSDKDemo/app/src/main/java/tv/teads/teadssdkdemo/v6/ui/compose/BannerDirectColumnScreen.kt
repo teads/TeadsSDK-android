@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -93,11 +94,14 @@ fun BannerDirectColumnScreen(
     //    No topBar — the parent activity already supplies one.
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets(0),
         bottomBar = {
             adView?.let { view ->
                 AndroidView(
                     factory = { view },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = contentPadding.calculateBottomPadding())
                 )
             }
         }
