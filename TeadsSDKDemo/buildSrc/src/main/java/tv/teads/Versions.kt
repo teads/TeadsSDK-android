@@ -24,7 +24,7 @@ object Versions {
     const val material = "1.4.0"
     
     // Google Play Services
-    const val playServicesAds = "23.0.0"
+    const val playServicesAds = "25.2.0"
     
     // Coroutines
     const val coroutines = "1.5.2"
