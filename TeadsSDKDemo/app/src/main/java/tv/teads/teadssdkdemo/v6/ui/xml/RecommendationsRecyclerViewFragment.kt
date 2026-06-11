@@ -1,5 +1,6 @@
 package tv.teads.teadssdkdemo.v6.ui.xml
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementRecommendations
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementRecommendationsConfig
+import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementRecommendationsURLConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.BuildConfig
@@ -30,6 +32,8 @@ import tv.teads.teadssdkdemo.v6.ui.base.recommendations.RecommendationsAdView
 class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDelegate {
 
     private lateinit var recommendationsAd: TeadsAdPlacementRecommendations
+    private lateinit var articleUrl: Uri
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +49,10 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
         initTeadsSDK()
 
         // 1. Init configuration
+        articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url
         val config = TeadsAdPlacementRecommendationsConfig(
-            articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri(), // Your article url
-            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault() // Your widget id
+            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your widget id
+            urlConfig = TeadsAdPlacementRecommendationsURLConfig(articleUrl = articleUrl)
         )
 
         // 2. Create placement
@@ -62,7 +67,7 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
     private fun setupRecyclerViewContent(view: View) {
         val recyclerView = RecyclerView(requireContext()).apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ArticleRecyclerViewAdapter(recommendationsAd)
+            adapter = ArticleRecyclerViewAdapter(recommendationsAd, articleUrl)
         }
 
         view.findViewById<LinearLayout>(R.id.content_container)?.apply {
@@ -98,6 +103,7 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
 
     class ArticleRecyclerViewAdapter(
         private val recommendationsAd: TeadsAdPlacementRecommendations,
+        private val articleUrl: Uri,
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         // ViewHolder for article image
@@ -191,7 +197,7 @@ class RecommendationsRecyclerViewFragment : Fragment(), TeadsAdPlacementEventsDe
                     val response = recommendationsAd.loadAdSuspend()
                     recommendationsAdView.bind(
                         recommendations = response,
-                        articleUrl = recommendationsAd.config.articleUrl
+                        articleUrl = articleUrl
                     )
                 } catch (e: Exception) {
                     Log.e("RecommendationsRecyclerViewFragment", "Recommendations failed to load", e)
