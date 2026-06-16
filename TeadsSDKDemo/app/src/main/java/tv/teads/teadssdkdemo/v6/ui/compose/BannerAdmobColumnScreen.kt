@@ -51,17 +51,12 @@ fun BannerAdmobColumnScreen(
         //    so the publisher integration is just a bare AdView)
         MobileAds.initialize(context)
 
-        // 2. Create AdMob view and configure it as an anchored adaptive banner
+        // 2. Create AdMob view and configure it with a fixed banner size
         val admobAdView = AdView(context)
         admobAdView.adUnitId = DemoSessionConfiguration.getPlacementIdOrDefault() // Your unique ad unit id
 
-        // Use anchored adaptive banner sizing — the Teads JS engine reports its
-        // own dynamic height via HEIGHT_UPDATED, so the host container view should
-        // be wrap_content to accommodate the reported size.
-        val widthDp = context.resources.configuration.screenWidthDp
-        admobAdView.setAdSize(
-            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, widthDp)
-        )
+        // Request a fixed AdSize.BANNER (320x50dp) from the AdMob waterfall.
+        admobAdView.setAdSize(AdSize.BANNER)
 
         // 3. Listen to lifecycle events
         admobAdView.adListener = object : AdListener() {
