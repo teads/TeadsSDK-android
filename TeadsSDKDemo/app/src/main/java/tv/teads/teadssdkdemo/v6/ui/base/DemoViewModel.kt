@@ -330,11 +330,15 @@ class DemoViewModel : ViewModel() {
             ProviderType.APPLOVIN to FormatType.MEDIANATIVE ->
                 updatePlacementId(DemoSessionConfiguration.DEFAULT_MEDIANATIVE_APPLOVIN_PID)
 
-            ProviderType.DIRECT to FormatType.FEED ->
+            ProviderType.DIRECT to FormatType.FEED -> {
                 updateWidgetId(DemoSessionConfiguration.DEFAULT_FEED_WIDGET_ID)
+                updateArticleUrl(DemoSessionConfiguration.DEFAULT_ARTICLE_URL)
+            }
 
-            ProviderType.DIRECT to FormatType.RECOMMENDATIONS ->
+            ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> {
                 updateWidgetId(DemoSessionConfiguration.DEFAULT_RECOMMENDATIONS_WIDGET_ID)
+                updateArticleUrl(DemoSessionConfiguration.DEFAULT_ARTICLE_URL)
+            }
 
             ProviderType.ADMOB to FormatType.INTERSTITIAL ->
                 updatePlacementId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_PID)
