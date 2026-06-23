@@ -94,7 +94,8 @@ class DemoViewModel : ViewModel() {
         FormatType.MEDIANATIVE,
         FormatType.FEED,
         FormatType.RECOMMENDATIONS,
-        FormatType.INTERSTITIAL
+        FormatType.INTERSTITIAL,
+        FormatType.BANNER
     )
 
     // Provider types available for Media format
@@ -121,6 +122,12 @@ class DemoViewModel : ViewModel() {
 
     // Provider types available for Interstitial format
     private val interstitialProviders = listOf(
+        ProviderType.DIRECT,
+        ProviderType.ADMOB
+    )
+
+    // Provider types available for Banner format
+    private val bannerProviders = listOf(
         ProviderType.DIRECT,
         ProviderType.ADMOB
     )
@@ -167,11 +174,22 @@ class DemoViewModel : ViewModel() {
         "Google Test Ad" to DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_TESTING_PID
     )
 
+    // PID presets for Banner AdMob format
+    private val bannerAdmobPids = listOf(
+        "Banner" to DemoSessionConfiguration.DEFAULT_BANNER_ADMOB_PID,
+        "Google Test Banner" to DemoSessionConfiguration.DEFAULT_BANNER_ADMOB_TESTING_PID
+    )
+
     // Widget ID presets for Feed format
     private val feedWidgetIds = listOf(
         "MB_1" to "MB_1",
         "MB_2" to "MB_2",
         "TEST_FEED" to "TEST_FEED"
+    )
+
+    // Widget ID presets for Banner format
+    private val bannerWidgetIds = listOf(
+        "MB_10" to "MB_10"
     )
 
     // Widget ID presets for Recommendations format
@@ -185,6 +203,11 @@ class DemoViewModel : ViewModel() {
     private val feedInstallationKeys = listOf(
         "NANOWDGT01" to "NANOWDGT01",
         "TESTKEY01" to "TESTKEY01"
+    )
+
+    // Installation Key presets for Banner format
+    private val bannerInstallationKeys = listOf(
+        "NANOWDGT01" to "NANOWDGT01"
     )
 
     // Installation Key presets for Recommendations format
@@ -243,6 +266,7 @@ class DemoViewModel : ViewModel() {
             FormatType.MEDIANATIVE -> mediaNativeProviders
             FormatType.FEED, FormatType.RECOMMENDATIONS -> feedRecommendationsProviders
             FormatType.INTERSTITIAL -> interstitialProviders
+            FormatType.BANNER -> bannerProviders
             else -> throw IllegalAccessException("Impossible format")
         }
     }
@@ -319,6 +343,15 @@ class DemoViewModel : ViewModel() {
                 updateWidgetId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID)
                 updateInstallationKey(DemoSessionConfiguration.DEFAULT_INSTALLATION_KEY)
                 updateArticleUrl(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_DIRECT_ARTICLE_URL)
+            }
+
+            ProviderType.ADMOB to FormatType.BANNER ->
+                updatePlacementId(DemoSessionConfiguration.DEFAULT_BANNER_ADMOB_PID)
+
+            ProviderType.DIRECT to FormatType.BANNER -> {
+                updateWidgetId(DemoSessionConfiguration.DEFAULT_BANNER_DIRECT_WIDGET_ID)
+                updateInstallationKey(DemoSessionConfiguration.DEFAULT_INSTALLATION_KEY)
+                updateArticleUrl(DemoSessionConfiguration.DEFAULT_ARTICLE_URL)
             }
         }
     }
@@ -398,11 +431,12 @@ class DemoViewModel : ViewModel() {
         return (listOf(ProviderType.DIRECT, ProviderType.ADMOB, ProviderType.APPLOVIN).contains(selectedProvider)
                 && listOf(FormatType.MEDIA, FormatType.MEDIANATIVE).contains(selectedFormat))
                 || (selectedProvider == ProviderType.ADMOB && selectedFormat == FormatType.INTERSTITIAL)
+                || (selectedProvider == ProviderType.ADMOB && selectedFormat == FormatType.BANNER)
     }
 
     fun hasWidgetId(): Boolean {
         return selectedProvider == ProviderType.DIRECT
-                && selectedFormat in listOf(FormatType.FEED, FormatType.RECOMMENDATIONS, FormatType.INTERSTITIAL)
+                && selectedFormat in listOf(FormatType.FEED, FormatType.RECOMMENDATIONS, FormatType.INTERSTITIAL, FormatType.BANNER)
     }
 
     fun getInputMethod(): KeyboardType = when (selectedProvider to selectedFormat) {
@@ -418,6 +452,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.APPLOVIN to FormatType.MEDIA -> getMediaApplovinPidChips()
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> getMediaNativeApplovinPidChips()
         ProviderType.ADMOB to FormatType.INTERSTITIAL -> getInterstitialAdmobPidChips()
+        ProviderType.ADMOB to FormatType.BANNER -> getBannerAdmobPidChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -425,6 +460,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.DIRECT to FormatType.FEED -> getFeedWidgetIdChips()
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsWidgetIdChips()
         ProviderType.DIRECT to FormatType.INTERSTITIAL -> emptyList()
+        ProviderType.DIRECT to FormatType.BANNER -> getBannerWidgetIdChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -484,6 +520,14 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    private fun getBannerAdmobPidChips(): List<ChipData> = bannerAdmobPids.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _placementId.value == bannerAdmobPids[index].second
+        )
+    }
+
     fun getIntegrationChips(): List<ChipData> {
         val integrationList = getFilteredIntegrationList()
 
@@ -504,6 +548,8 @@ class DemoViewModel : ViewModel() {
     private fun getFilteredIntegrationList(): List<IntegrationType> {
         return when {
             selectedFormat == FormatType.INTERSTITIAL -> singleColumnIntegrationType
+
+            selectedFormat == FormatType.BANNER -> singleColumnIntegrationType
 
             selectedProvider == ProviderType.DIRECT
                     && selectedFormat in listOf(FormatType.FEED, FormatType.MEDIA)
@@ -531,6 +577,14 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    private fun getBannerWidgetIdChips(): List<ChipData> = bannerWidgetIds.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _widgetId.value == bannerWidgetIds[index].second
+        )
+    }
+
     private fun getRecommendationsWidgetIdChips(): List<ChipData> = recommendationsWidgetIds.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
@@ -543,6 +597,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.DIRECT to FormatType.FEED -> getFeedInstallationKeyChips()
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> getRecommendationsInstallationKeyChips()
         ProviderType.DIRECT to FormatType.INTERSTITIAL -> emptyList()
+        ProviderType.DIRECT to FormatType.BANNER -> getBannerInstallationKeyChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -551,6 +606,14 @@ class DemoViewModel : ViewModel() {
             id = index,
             text = label,
             isSelected = _installationKey.value == feedInstallationKeys[index].second
+        )
+    }
+
+    private fun getBannerInstallationKeyChips(): List<ChipData> = bannerInstallationKeys.mapIndexed { index, (label, _) ->
+        ChipData(
+            id = index,
+            text = label,
+            isSelected = _installationKey.value == bannerInstallationKeys[index].second
         )
     }
 
@@ -595,12 +658,14 @@ class DemoViewModel : ViewModel() {
         ProviderType.APPLOVIN to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
         ProviderType.ADMOB to FormatType.INTERSTITIAL -> onInterstitialAdmobPidChipClick(index)
+        ProviderType.ADMOB to FormatType.BANNER -> onBannerAdmobPidChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
     fun onWidgetChipClick(index: Int) = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.FEED -> onFeedWidgetIdChipClick(index)
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> onRecommendationsWidgetIdChipClick(index)
+        ProviderType.DIRECT to FormatType.BANNER -> onBannerWidgetIdChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
@@ -654,9 +719,23 @@ class DemoViewModel : ViewModel() {
         }
     }
 
+    private fun onBannerAdmobPidChipClick(index: Int) {
+        if (index in bannerAdmobPids.indices) {
+            val pid = bannerAdmobPids[index].second
+            updatePlacementId(pid)
+        }
+    }
+
     private fun onFeedWidgetIdChipClick(index: Int) {
         if (index in feedWidgetIds.indices) {
             val widgetId = feedWidgetIds[index].second
+            updateWidgetId(widgetId)
+        }
+    }
+
+    private fun onBannerWidgetIdChipClick(index: Int) {
+        if (index in bannerWidgetIds.indices) {
+            val widgetId = bannerWidgetIds[index].second
             updateWidgetId(widgetId)
         }
     }
@@ -671,12 +750,20 @@ class DemoViewModel : ViewModel() {
     fun onInstallationKeyChipClick(index: Int) = when (selectedProvider to selectedFormat) {
         ProviderType.DIRECT to FormatType.FEED -> onFeedInstallationKeyChipClick(index)
         ProviderType.DIRECT to FormatType.RECOMMENDATIONS -> onRecommendationsInstallationKeyChipClick(index)
+        ProviderType.DIRECT to FormatType.BANNER -> onBannerInstallationKeyChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
 
     private fun onFeedInstallationKeyChipClick(index: Int) {
         if (index in feedInstallationKeys.indices) {
             val installationKey = feedInstallationKeys[index].second
+            updateInstallationKey(installationKey)
+        }
+    }
+
+    private fun onBannerInstallationKeyChipClick(index: Int) {
+        if (index in bannerInstallationKeys.indices) {
+            val installationKey = bannerInstallationKeys[index].second
             updateInstallationKey(installationKey)
         }
     }

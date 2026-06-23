@@ -17,6 +17,7 @@ import tv.teads.sdk.TeadsSDK
 import tv.teads.sdk.combinedsdk.TeadsAdPlacementEventName
 import tv.teads.sdk.combinedsdk.adplacement.TeadsAdPlacementRecommendations
 import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementRecommendationsConfig
+import tv.teads.sdk.combinedsdk.adplacement.config.TeadsAdPlacementRecommendationsURLConfig
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.TeadsAdPlacementEventsDelegate
 import tv.teads.sdk.combinedsdk.adplacement.interfaces.core.TeadsAdPlacement
 import tv.teads.teadssdkdemo.BuildConfig
@@ -42,9 +43,10 @@ fun RecommendationsLazyColumnScreen(
         initTeadsSDK(context)
         
         // 1. Init configuration
+        val articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri() // Your article url
         val config = TeadsAdPlacementRecommendationsConfig(
-            articleUrl = DemoSessionConfiguration.getArticleUrlOrDefault().toUri(), // Your article url
-            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault() // Your widget id
+            widgetId = DemoSessionConfiguration.getWidgetIdOrDefault(), // Your widget id
+            urlConfig = TeadsAdPlacementRecommendationsURLConfig(articleUrl = articleUrl)
         )
 
         // 2. Create placement
@@ -70,7 +72,7 @@ fun RecommendationsLazyColumnScreen(
             val response = recommendationsAd!!.loadAdSuspend()
             recommendationsAdView!!.bind(
                 recommendations = response,
-                articleUrl = config.articleUrl
+                articleUrl = articleUrl
             )
         } catch (e: Exception) {
             Log.e("RecommendationsLazyColumnScreen", "Recommendations failed to load", e)

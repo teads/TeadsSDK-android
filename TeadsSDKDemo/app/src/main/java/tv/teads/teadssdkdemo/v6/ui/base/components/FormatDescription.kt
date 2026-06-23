@@ -25,6 +25,7 @@ fun FormatDescription(
         FormatType.FEED -> "— Content Discovery Feed — A recommendation grid of articles or videos (\"You might also like\"). Drives engagement via contextual relevance."
         FormatType.RECOMMENDATIONS -> "— A native grid of sponsored and organic stories (\"You might also like\") that blends with the publisher's content layout. Drives engagement by fitting contextually and visually into the reading experience."
         FormatType.INTERSTITIAL -> "— Full-screen ad that covers the host app interface. Shown at natural transition points to unlock premium content."
+        FormatType.BANNER -> "— Anchored adaptive banner pinned to the top or bottom of the screen. Sizing is owned by the SDK; the host container should be wrap_content."
         null -> ""
     }
 

@@ -8,5 +8,6 @@ enum class FormatType(val displayName: String) {
     MEDIANATIVE("Media Native"),
     FEED("Feed"),
     RECOMMENDATIONS("Recommendations"),
-    INTERSTITIAL("Interstitial")
+    INTERSTITIAL("Interstitial"),
+    BANNER("Anchored Banner")
 }
