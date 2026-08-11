@@ -41,9 +41,8 @@ class MediaAdmobScrollViewFragment : Fragment() {
     private fun setupContent() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
-        // 1. Initialize AdMob and Teads Helper
+        // 1. Initialize AdMob
         MobileAds.initialize(requireContext())
-        TeadsHelper.initialize()
 
         // For testing purposes - using a test device configuration
         MobileAds.setRequestConfiguration(

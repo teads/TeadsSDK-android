@@ -43,8 +43,7 @@ class MediaSmartScrollViewFragment : Fragment() {
     private fun setupContent() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
-        // 1. Initialize Teads Helper and Smart SDK
-        TeadsHelper.initialize()
+        // 1. Initialize Smart SDK
         SASConfiguration.getSharedInstance().configure(requireContext(), SITE_ID.toInt())
         SASConfiguration.getSharedInstance().isLoggingEnabled = true // Enable more logging visibility
 

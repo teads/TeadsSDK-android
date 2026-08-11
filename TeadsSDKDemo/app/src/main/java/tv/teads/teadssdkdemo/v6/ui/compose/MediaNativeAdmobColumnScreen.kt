@@ -48,9 +48,8 @@ fun MediaNativeAdmobColumnScreen(
     var nativeAdView by remember { mutableStateOf<NativeAdView?>(null) }
 
     LaunchedEffect(Unit) {
-        // 1. Initialize AdMob and Teads Helper
+        // 1. Initialize AdMob
         MobileAds.initialize(context)
-        TeadsHelper.initialize()
 
         // For testing purposes - using a test device configuration
         MobileAds.setRequestConfiguration(

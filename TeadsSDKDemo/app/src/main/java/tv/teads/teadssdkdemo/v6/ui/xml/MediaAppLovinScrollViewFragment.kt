@@ -41,10 +41,9 @@ class MediaAppLovinScrollViewFragment : Fragment() {
     private fun setupContent() {
         val adContainer = requireView().findViewById<ViewGroup>(R.id.ad_container)
 
-        // 1. Initialize Teads Helper and AppLovin SDK (can be init once on the start of the app)
+        // 1. Initialize AppLovin SDK (can be init once on the start of the app)
         AppLovinSdk.getInstance(requireContext().applicationContext).mediationProvider = "max"
         AppLovinSdk.getInstance(requireContext()).initializeSdk { }
-        TeadsHelper.initialize()
 
         // 2. Create MaxAdView view and add it to view hierarchy
         maxAdView = MaxAdView(DemoSessionConfiguration.getPlacementIdOrDefault(), MaxAdFormat.MREC, requireContext())

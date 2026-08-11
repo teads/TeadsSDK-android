@@ -44,10 +44,9 @@ fun MediaAppLovinColumnScreen(
     var maxAdView by remember { mutableStateOf<MaxAdView?>(null) }
 
     LaunchedEffect(Unit) {
-        // 1. Initialize Teads Helper and AppLovin SDK (can be init once on the start of the app)
+        // 1. Initialize AppLovin SDK (can be init once on the start of the app)
         AppLovinSdk.getInstance(context.applicationContext).mediationProvider = "max"
         AppLovinSdk.getInstance(context).initializeSdk { }
-        TeadsHelper.initialize()
 
         // 2. Create MaxAdView view and add it to view hierarchy
         maxAdView = MaxAdView(DemoSessionConfiguration.getPlacementIdOrDefault(), MaxAdFormat.MREC, context)

@@ -44,8 +44,7 @@ fun MediaSmartColumnScreen(
     var smartAdView by remember { mutableStateOf<SASBannerView?>(null) }
 
     LaunchedEffect(Unit) {
-        // 1. Initialize Teads Helper and Smart SDK
-        TeadsHelper.initialize()
+        // 1. Initialize Smart SDK
         SASConfiguration.getSharedInstance().configure(context, siteId)
         SASConfiguration.getSharedInstance().isLoggingEnabled = true // Enable more logging visibility
 
