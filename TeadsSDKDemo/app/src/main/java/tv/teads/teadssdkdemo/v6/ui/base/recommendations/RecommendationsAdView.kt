@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.browser.customtabs.CustomTabsIntent
 import com.outbrain.OBSDK.Entities.OBRecommendation
 import com.outbrain.OBSDK.Entities.OBRecommendationsResponse
 import com.outbrain.OBSDK.Viewability.OBFrameLayout
@@ -84,9 +83,10 @@ class RecommendationsAdView @JvmOverloads constructor(
             disclosureImageView.visibility = View.VISIBLE
             Picasso.get().load(recommendation.getDisclosure()?.iconUrl).into(disclosureImageView)
             disclosureImageView.setOnClickListener {
-                val builder = CustomTabsIntent.Builder()
-                val customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context, articleUrl)
+                BrowserNavigationHelper.openInnerBrowser(
+                    context = this.context,
+                    url = articleUrl.toString()
+                )
             }
         } else {
             disclosureImageView.visibility = View.GONE
