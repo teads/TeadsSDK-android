@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import tv.teads.teadssdkdemo.v6.data.DemoSessionConfiguration
 import tv.teads.teadssdkdemo.v6.domain.DisplayMode
+import tv.teads.teadssdkdemo.v6.domain.EquativInterstitialPreset
 import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
@@ -38,6 +39,10 @@ class DemoViewModel : ViewModel() {
     private var selectedDisplayMode: DisplayMode? by mutableStateOf(null)
 
     private var selectedIntegration: IntegrationType? by mutableStateOf(null)
+
+    private var selectedEquativInterstitialPreset by mutableStateOf(
+        DemoSessionConfiguration.getEquativInterstitialPreset()
+    )
 
     // Text fields for placement configuration
     private val _placementId = MutableStateFlow("")
@@ -103,7 +108,6 @@ class DemoViewModel : ViewModel() {
         ProviderType.DIRECT,
         ProviderType.ADMOB,
         ProviderType.APPLOVIN,
-        ProviderType.SMART,
         ProviderType.PREBID
     )
 
@@ -111,8 +115,7 @@ class DemoViewModel : ViewModel() {
     private val mediaNativeProviders = listOf(
         ProviderType.DIRECT,
         ProviderType.ADMOB,
-        ProviderType.APPLOVIN,
-        ProviderType.SMART
+        ProviderType.APPLOVIN
     )
 
     // Provider types available for Feed/Recommendations formats
@@ -123,7 +126,8 @@ class DemoViewModel : ViewModel() {
     // Provider types available for Interstitial format
     private val interstitialProviders = listOf(
         ProviderType.DIRECT,
-        ProviderType.ADMOB
+        ProviderType.ADMOB,
+        ProviderType.EQUATIV
     )
 
     // Provider types available for Banner format
@@ -173,6 +177,8 @@ class DemoViewModel : ViewModel() {
         "Teads Ad" to DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_PID,
         "Google Test Ad" to DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_TESTING_PID
     )
+
+    private val interstitialEquativPresets = EquativInterstitialPreset.entries
 
     // PID presets for Banner AdMob format
     private val bannerAdmobPids = listOf(
@@ -343,6 +349,9 @@ class DemoViewModel : ViewModel() {
             ProviderType.ADMOB to FormatType.INTERSTITIAL ->
                 updatePlacementId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_ADMOB_PID)
 
+            ProviderType.EQUATIV to FormatType.INTERSTITIAL ->
+                updateEquativInterstitialPreset(EquativInterstitialPreset.TEADS)
+
             ProviderType.DIRECT to FormatType.INTERSTITIAL -> {
                 updateWidgetId(DemoSessionConfiguration.DEFAULT_INTERSTITIAL_DIRECT_WIDGET_ID)
                 updateInstallationKey(DemoSessionConfiguration.DEFAULT_INSTALLATION_KEY)
@@ -385,6 +394,11 @@ class DemoViewModel : ViewModel() {
     fun updatePlacementId(pid: String) {
         _placementId.value = pid
         DemoSessionConfiguration.setPlacementId(pid)
+    }
+
+    private fun updateEquativInterstitialPreset(preset: EquativInterstitialPreset) {
+        selectedEquativInterstitialPreset = preset
+        DemoSessionConfiguration.setEquativInterstitialPreset(preset)
     }
 
     fun updateWidgetId(widgetId: String) {
@@ -435,8 +449,12 @@ class DemoViewModel : ViewModel() {
         return (listOf(ProviderType.DIRECT, ProviderType.ADMOB, ProviderType.APPLOVIN).contains(selectedProvider)
                 && listOf(FormatType.MEDIA, FormatType.MEDIANATIVE).contains(selectedFormat))
                 || (selectedProvider == ProviderType.ADMOB && selectedFormat == FormatType.INTERSTITIAL)
+                || (selectedProvider == ProviderType.EQUATIV && selectedFormat == FormatType.INTERSTITIAL)
                 || (selectedProvider == ProviderType.ADMOB && selectedFormat == FormatType.BANNER)
     }
+
+    fun hasPlacementIdInput(): Boolean =
+        selectedProvider != ProviderType.EQUATIV || selectedFormat != FormatType.INTERSTITIAL
 
     fun hasWidgetId(): Boolean {
         return selectedProvider == ProviderType.DIRECT
@@ -456,6 +474,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.APPLOVIN to FormatType.MEDIA -> getMediaApplovinPidChips()
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> getMediaNativeApplovinPidChips()
         ProviderType.ADMOB to FormatType.INTERSTITIAL -> getInterstitialAdmobPidChips()
+        ProviderType.EQUATIV to FormatType.INTERSTITIAL -> getInterstitialEquativPidChips()
         ProviderType.ADMOB to FormatType.BANNER -> getBannerAdmobPidChips()
         else -> throw IllegalAccessException("Impossible combination")
     }
@@ -524,6 +543,14 @@ class DemoViewModel : ViewModel() {
         )
     }
 
+    private fun getInterstitialEquativPidChips(): List<ChipData> = interstitialEquativPresets.mapIndexed { index, preset ->
+        ChipData(
+            id = index,
+            text = preset.displayName,
+            isSelected = selectedEquativInterstitialPreset == preset
+        )
+    }
+
     private fun getBannerAdmobPidChips(): List<ChipData> = bannerAdmobPids.mapIndexed { index, (label, _) ->
         ChipData(
             id = index,
@@ -566,7 +593,6 @@ class DemoViewModel : ViewModel() {
             selectedProvider == ProviderType.PREBID -> singleScrollViewIntegrationType
 
             selectedProvider == ProviderType.ADMOB
-                    || selectedProvider == ProviderType.SMART
                     || selectedProvider == ProviderType.APPLOVIN -> partialIntegrationTypes
 
             else -> fullIntegrationTypes
@@ -662,6 +688,7 @@ class DemoViewModel : ViewModel() {
         ProviderType.APPLOVIN to FormatType.MEDIA -> onMediaApplovinPidChipClick(index)
         ProviderType.APPLOVIN to FormatType.MEDIANATIVE -> onMediaNativeApplovinPidChipClick(index)
         ProviderType.ADMOB to FormatType.INTERSTITIAL -> onInterstitialAdmobPidChipClick(index)
+        ProviderType.EQUATIV to FormatType.INTERSTITIAL -> onInterstitialEquativPidChipClick(index)
         ProviderType.ADMOB to FormatType.BANNER -> onBannerAdmobPidChipClick(index)
         else -> throw IllegalAccessException("Impossible combination")
     }
@@ -720,6 +747,12 @@ class DemoViewModel : ViewModel() {
         if (index in interstitialAdmobPids.indices) {
             val pid = interstitialAdmobPids[index].second
             updatePlacementId(pid)
+        }
+    }
+
+    private fun onInterstitialEquativPidChipClick(index: Int) {
+        if (index in interstitialEquativPresets.indices) {
+            updateEquativInterstitialPreset(interstitialEquativPresets[index])
         }
     }
 
@@ -792,4 +825,3 @@ class DemoViewModel : ViewModel() {
         }
     }
 }
-

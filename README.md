@@ -8,7 +8,7 @@ Teads allows you to integrate a single SDK into your app, and serve premium bran
 * AndroidX support ([Migrate to AndroidX](https://developer.android.com/jetpack/androidx/migrate))
 
 ## Run the sample app and discover how we integrate our SDK
-The best way to see the working integration is to clone this repository, open it with Android Studio. The sample contains multiples kinds of integrations from direct integration to integrations using mediations partners such as Admob and AppLovin MAX.
+The best way to see the working integration is to clone this repository, open it with Android Studio. The sample contains multiples kinds of integrations from direct integration to integrations using mediation partners such as AdMob, Equativ, and AppLovin MAX.
 
 ## Download the Teads SDK Android library
 

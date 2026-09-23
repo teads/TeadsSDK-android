@@ -22,8 +22,8 @@ fun ProviderDescription(
     val description = when (selectedProvider) {
         ProviderType.DIRECT -> "— Serve ads directly from Teads without mediation or bidding layers."
         ProviderType.ADMOB -> "— Google's mediation platform connecting multiple networks. Integrate via adapters to maximize fill and yield."
+        ProviderType.EQUATIV -> "— Equativ's mediation platform serves Teads interstitials through the Equativ Display SDK."
         ProviderType.APPLOVIN -> "— Monetization and user acquisition platform with powerful mediation and A/B optimization."
-        ProviderType.SMART -> "— Full-stack SSP offering header bidding and programmatic integrations. Ideal for premium publishers."
         ProviderType.PREBID -> "— Open-source header bidding solution giving transparency and unified auctions across demand partners."
         null -> ""
     }

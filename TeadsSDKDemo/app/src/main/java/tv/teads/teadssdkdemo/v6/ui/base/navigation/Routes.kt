@@ -14,12 +14,10 @@ import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAdmobScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeAppLovinScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeScrollViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaNativeSmartScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaPrebidStandaloneFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaPrebidStandardFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.MediaScrollViewFragment
-import tv.teads.teadssdkdemo.v6.ui.xml.MediaSmartScrollViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsRecyclerViewFragment
 import tv.teads.teadssdkdemo.v6.ui.xml.RecommendationsScrollViewFragment
 
@@ -45,10 +43,6 @@ sealed class Route {
     data object MediaNativeAppLovinScrollView : Route()
     data object MediaAppLovinColumn : Route()
     data object MediaNativeAppLovinColumn : Route()
-    data object MediaSmartScrollView : Route()
-    data object MediaNativeSmartScrollView : Route()
-    data object MediaSmartColumn : Route()
-    data object MediaNativeSmartColumn : Route()
     data object MediaPrebidStandardScrollView : Route()
     data object MediaPrebidStandaloneScrollView : Route()
     data object FeedScrollView : Route()
@@ -61,6 +55,7 @@ sealed class Route {
     data object RecommendationsColumn : Route()
     data object RecommendationsLazyColumn : Route()
     data object InterstitialAdMobColumn : Route()
+    data object InterstitialEquativColumn : Route()
     data object InterstitialDirectColumn : Route()
     data object BannerDirectColumn : Route()
     data object BannerAdMobColumn : Route()
@@ -155,20 +150,6 @@ object RouteFactory {
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
-            format == FormatType.MEDIA && provider == ProviderType.SMART -> {
-                when (integration) {
-                    IntegrationType.SCROLLVIEW -> Route.MediaSmartScrollView
-                    IntegrationType.COLUMN -> Route.MediaSmartColumn
-                    else -> throw IllegalAccessException("Impossible route")
-                }
-            }
-            format == FormatType.MEDIANATIVE && provider == ProviderType.SMART -> {
-                when (integration) {
-                    IntegrationType.SCROLLVIEW -> Route.MediaNativeSmartScrollView
-                    IntegrationType.COLUMN -> Route.MediaNativeSmartColumn
-                    else -> throw IllegalAccessException("Impossible route")
-                }
-            }
             format == FormatType.MEDIA && provider == ProviderType.PREBID -> {
                 when (integration to displayMode) {
                     IntegrationType.SCROLLVIEW to DisplayMode.STANDARD -> Route.MediaPrebidStandardScrollView
@@ -179,6 +160,12 @@ object RouteFactory {
             format == FormatType.INTERSTITIAL && provider == ProviderType.ADMOB -> {
                 when (integration) {
                     IntegrationType.COLUMN -> Route.InterstitialAdMobColumn
+                    else -> throw IllegalAccessException("Impossible route")
+                }
+            }
+            format == FormatType.INTERSTITIAL && provider == ProviderType.EQUATIV -> {
+                when (integration) {
+                    IntegrationType.COLUMN -> Route.InterstitialEquativColumn
                     else -> throw IllegalAccessException("Impossible route")
                 }
             }
@@ -218,8 +205,6 @@ fun Route.getFragmentClass(): Class<out Fragment> {
         Route.MediaNativeAdMobScrollView -> MediaNativeAdmobScrollViewFragment::class.java
         Route.MediaAppLovinScrollView -> MediaAppLovinScrollViewFragment::class.java
         Route.MediaNativeAppLovinScrollView -> MediaNativeAppLovinScrollViewFragment::class.java
-        Route.MediaSmartScrollView -> MediaSmartScrollViewFragment::class.java
-        Route.MediaNativeSmartScrollView -> MediaNativeSmartScrollViewFragment::class.java
         Route.MediaPrebidStandardScrollView -> MediaPrebidStandardFragment::class.java
         Route.MediaPrebidStandaloneScrollView -> MediaPrebidStandaloneFragment::class.java
         Route.FeedScrollView -> FeedScrollViewFragment::class.java
@@ -246,12 +231,8 @@ fun String.getRouteFromTag(): Route {
         "MediaNativeAppLovinScrollView" -> Route.MediaNativeAppLovinScrollView
         "MediaAppLovinColumn" -> Route.MediaAppLovinColumn
         "MediaNativeAppLovinColumn" -> Route.MediaNativeAppLovinColumn
-        "MediaSmartScrollView" -> Route.MediaSmartScrollView
-        "MediaNativeSmartScrollView" -> Route.MediaNativeSmartScrollView
         "MediaPrebidStandardScrollView" -> Route.MediaPrebidStandardScrollView
         "MediaPrebidStandaloneScrollView" -> Route.MediaPrebidStandaloneScrollView
-        "MediaSmartColumn" -> Route.MediaSmartColumn
-        "MediaNativeSmartColumn" -> Route.MediaNativeSmartColumn
         "FeedScrollView" -> Route.FeedScrollView
         "FeedRecyclerView" -> Route.FeedRecyclerView
         "Feed2WidgetsRecyclerView" -> Route.Feed2WidgetsRecyclerView
@@ -280,10 +261,6 @@ fun Route.getTitle(): String {
         Route.MediaNativeAppLovinScrollView -> "Media Native AppLovin ScrollView"
         Route.MediaAppLovinColumn -> "Media AppLovin Column"
         Route.MediaNativeAppLovinColumn -> "Media Native AppLovin Column"
-        Route.MediaSmartScrollView -> "Media Smart ScrollView"
-        Route.MediaNativeSmartScrollView -> "Media Native Smart ScrollView"
-        Route.MediaSmartColumn -> "Media Smart Column"
-        Route.MediaNativeSmartColumn -> "Media Native Smart Column"
         Route.MediaPrebidStandardScrollView -> "Media Prebid Standard ScrollView"
         Route.MediaPrebidStandaloneScrollView -> "Media Prebid Standalone ScrollView"
         Route.FeedScrollView -> "Feed ScrollView"
@@ -297,6 +274,7 @@ fun Route.getTitle(): String {
         Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
         Route.MediaAdMobScrollView -> "Media AdMob ScrollView"
         Route.InterstitialAdMobColumn -> "Interstitial AdMob Column"
+        Route.InterstitialEquativColumn -> "Interstitial Equativ Column"
         Route.InterstitialDirectColumn -> "Interstitial Direct Column"
         Route.BannerDirectColumn -> "Banner Direct Column"
         Route.BannerAdMobColumn -> "Banner AdMob Column"
