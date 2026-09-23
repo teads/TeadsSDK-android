@@ -31,7 +31,7 @@ object Versions {
     
     // Third-party SDKs
     const val applovinSdk = "11.3.0"
-    const val smartVersion = "7.14.0"
+    const val equativSdk = "8.6.1"
     const val prebidSdk = "2.2.1"
     const val huaweiIdentifier = "3.4.28.313"
     

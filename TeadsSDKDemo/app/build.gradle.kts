@@ -53,6 +53,19 @@ android {
     }
 }
 
+// Equativ v8 pulls AndroidX releases requiring compileSdk 36 / newer AGP. Keep this sample on its
+// current toolchain while matching the dependency set validated by the internal combined-SDK app.
+configurations.configureEach {
+    resolutionStrategy {
+        force("androidx.core:core:1.13.1", "androidx.core:core-ktx:1.13.1")
+        force("androidx.browser:browser:1.8.0")
+        force("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+        eachDependency {
+            if (requested.group == "androidx.media3") useVersion("1.4.1")
+        }
+    }
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     
@@ -77,17 +90,14 @@ dependencies {
     }
     // Teads Adapters
     implementation(Libs.Teads.admobAdapter(project.versionName))
+    implementation(Libs.Teads.equativAdapter(project.versionName))
     implementation(Libs.Teads.applovinAdapter(project.versionName))
-    implementation(Libs.Teads.smartAdapter(project.versionName))
     implementation(Libs.Teads.prebidAdapter(project.versionName))
 
     // Third-party SDKs
     implementation(Libs.PLAY_SERVICES_ADS)
+    implementation(Libs.EQUATIV_DISPLAY_SDK)
     implementation(Libs.APPLOVIN_SDK)
-    implementation(Libs.SMART_CORE_SDK)
-    implementation(Libs.SMART_DISPLAY_SDK) {
-        isTransitive = true
-    }
     implementation(Libs.PREBID_SDK)
     implementation(Libs.HUAWEI_IDENTIFIER)
 

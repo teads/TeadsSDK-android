@@ -4,6 +4,7 @@ import tv.teads.teadssdkdemo.v6.domain.FormatType
 import tv.teads.teadssdkdemo.v6.domain.IntegrationType
 import tv.teads.teadssdkdemo.v6.domain.ProviderType
 import tv.teads.teadssdkdemo.v6.domain.DisplayMode
+import tv.teads.teadssdkdemo.v6.domain.EquativInterstitialPreset
 
 /**
  * Configuration object that holds default values and current session values
@@ -19,6 +20,7 @@ object DemoSessionConfiguration {
     private var currentArticleUrl: String = ""
     private var currentIntegration: IntegrationType? = null
     private var currentDisplayMode: DisplayMode? = null
+    private var currentEquativInterstitialPreset = EquativInterstitialPreset.TEADS
 
     val DEFAULT_FORMAT = FormatType.MEDIA
     val DEFAULT_PROVIDER = ProviderType.DIRECT
@@ -142,6 +144,10 @@ object DemoSessionConfiguration {
     fun getInstallationKeyOrDefault(): String {
         return currentInstallationKey.ifBlank { DEFAULT_INSTALLATION_KEY }
     }
+
+    fun getEquativInterstitialPreset(): EquativInterstitialPreset {
+        return currentEquativInterstitialPreset
+    }
     
     // Setter functions
     fun setFormat(format: FormatType?) {
@@ -174,5 +180,9 @@ object DemoSessionConfiguration {
     
     fun setDisplayMode(displayMode: DisplayMode?) {
         currentDisplayMode = displayMode
+    }
+
+    fun setEquativInterstitialPreset(preset: EquativInterstitialPreset) {
+        currentEquativInterstitialPreset = preset
     }
 }

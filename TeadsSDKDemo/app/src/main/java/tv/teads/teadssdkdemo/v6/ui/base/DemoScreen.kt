@@ -100,14 +100,15 @@ fun DemoScreen(
                 )
 
                 if (viewModel.hasPlacementId()) {
-                    // Placement ID Text Field
-                    DemoTextField(
-                        value = placementId,
-                        onValueChange = viewModel::updatePlacementId,
-                        label = "Placement ID",
-                        keyboardType = viewModel.getInputMethod(),
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    if (viewModel.hasPlacementIdInput()) {
+                        DemoTextField(
+                            value = placementId,
+                            onValueChange = viewModel::updatePlacementId,
+                            label = "Placement ID",
+                            keyboardType = viewModel.getInputMethod(),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
 
                     // PID Chips
                     ChipGroup(
