@@ -61,6 +61,7 @@ dependencies {
     implementation(Libs.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Libs.AndroidX.CARDVIEW)
     implementation(Libs.AndroidX.WEBKIT)
+    implementation(Libs.AndroidX.BROWSER)
     
     // Coroutines
     implementation(Libs.COROUTINES_CORE)
