@@ -39,6 +39,13 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         </activity>
 
+        <activity
+            android:exported="false"
+            android:name=".v6.ui.base.recommendations.ArticleActivity"
+            android:label="Article"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        </activity>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3068786746829754~3613028870" />

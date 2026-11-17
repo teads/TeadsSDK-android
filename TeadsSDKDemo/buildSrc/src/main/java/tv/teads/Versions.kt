@@ -19,6 +19,7 @@ object Versions {
     const val constraintLayout = "2.0.4"
     const val cardview = "1.0.0"
     const val webkit = "1.4.0"
+    const val browser = "1.8.0"
     
     // Material Design
     const val material = "1.4.0"

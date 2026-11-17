@@ -41,6 +41,7 @@ object Libs {
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val CARDVIEW = "androidx.cardview:cardview:${Versions.cardview}"
         const val WEBKIT = "androidx.webkit:webkit:${Versions.webkit}"
+        const val BROWSER = "androidx.browser:browser:${Versions.browser}"
     }
 
     /**

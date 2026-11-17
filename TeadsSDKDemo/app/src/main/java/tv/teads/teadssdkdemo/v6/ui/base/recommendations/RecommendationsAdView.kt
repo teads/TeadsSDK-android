@@ -1,14 +1,17 @@
 package tv.teads.teadssdkdemo.v6.ui.base.recommendations
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabsIntent
 import com.outbrain.OBSDK.Entities.OBRecommendation
 import com.outbrain.OBSDK.Entities.OBRecommendationsResponse
 import com.outbrain.OBSDK.Viewability.OBFrameLayout
@@ -105,13 +108,33 @@ class RecommendationsAdView @JvmOverloads constructor(
 
         // 7. Implement ad click getting the url using TeadsAdPlacementRecommendations.getUrl(recommendation: OBRecommendation)
         recommendationContainer.setOnClickListener {
-            TeadsAdPlacementRecommendations.getUrl(recommendation)?.let { url ->
-                BrowserNavigationHelper.openInnerBrowser(this.context, url)
-            }
+            handleClick(recommendation)
         }
 
         // 8. Setup the viewability for each recommendation using
         // TeadsAdPlacementRecommendations.configureViewabilityPerListingFor(viewContainer: OBFrameLayout, rec: OBRecommendation)
         TeadsAdPlacementRecommendations.configureViewabilityPerListingFor(recContainer, recommendation)
+    }
+
+    private fun handleClick(recommendation: OBRecommendation) {
+        // For organic links getUrl reports the click, so only call it after the tap
+        val url = TeadsAdPlacementRecommendations.getUrl(recommendation) ?: return
+
+        if (recommendation.isPaid()) {
+            // Paid: open in Chrome Custom Tabs
+            try {
+                CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(url))
+            } catch (e: ActivityNotFoundException) {
+                // No browser on the device (kiosk, work profile, Android TV)
+                Log.w(TAG, "No browser to open paid recommendation", e)
+            }
+        } else {
+            // Organic: open in the app
+            context.startActivity(ArticleActivity.newIntent(context, url))
+        }
+    }
+
+    private companion object {
+        const val TAG = "RecommendationsAdView"
     }
 }
