@@ -1,8 +1,10 @@
 package tv.teads.teadssdkdemo.v6.ui.base.recommendations
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -120,10 +122,19 @@ class RecommendationsAdView @JvmOverloads constructor(
 
         if (recommendation.isPaid()) {
             // Paid: open in Chrome Custom Tabs
-            CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(url))
+            try {
+                CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(url))
+            } catch (e: ActivityNotFoundException) {
+                // No browser on the device (kiosk, work profile, Android TV)
+                Log.w(TAG, "No browser to open paid recommendation", e)
+            }
         } else {
             // Organic: open in the app
             context.startActivity(ArticleActivity.newIntent(context, url))
         }
+    }
+
+    private companion object {
+        const val TAG = "RecommendationsAdView"
     }
 }
