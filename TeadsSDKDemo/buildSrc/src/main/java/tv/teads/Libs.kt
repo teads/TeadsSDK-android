@@ -10,8 +10,7 @@ object Libs {
 
     // Third-party SDKs
     const val APPLOVIN_SDK = "com.applovin:applovin-sdk:${Versions.applovinSdk}"
-    const val SMART_CORE_SDK = "com.smartadserver.android:smart-core-sdk:${Versions.smartVersion}@aar"
-    const val SMART_DISPLAY_SDK = "com.smartadserver.android:smart-display-sdk:${Versions.smartVersion}@aar"
+    const val EQUATIV_DISPLAY_SDK = "com.equativ.android:equativ-display-sdk:${Versions.equativSdk}"
     const val PREBID_SDK = "org.prebid:prebid-mobile-sdk:${Versions.prebidSdk}"
     const val HUAWEI_IDENTIFIER = "com.huawei.hms:ads-identifier:${Versions.huaweiIdentifier}"
 
@@ -28,8 +27,8 @@ object Libs {
     object Teads {
         fun sdk(version: String) = "tv.teads.sdk.android:sdk:$version@aar"
         fun admobAdapter(version: String) = "tv.teads.sdk.android:admobadapter:$version@aar"
+        fun equativAdapter(version: String) = "tv.teads.sdk.android:equativadapter:$version@aar"
         fun applovinAdapter(version: String) = "tv.teads.sdk.android:applovinadapter:$version@aar"
-        fun smartAdapter(version: String) = "tv.teads.sdk.android:smartadapter:$version@aar"
         fun prebidAdapter(version: String) = "tv.teads.sdk.android:prebidadapter:$version@aar"
     }
 
